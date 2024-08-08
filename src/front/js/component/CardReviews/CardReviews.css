@@ -1,0 +1,8 @@
+.fa-star{
+    color: #F8AE29;
+}
+
+.card{
+    border: none;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.538));
+}

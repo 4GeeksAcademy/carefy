@@ -10,7 +10,7 @@ export const Buscador = () => {
           <p className="col fs-4 text-center">¿Buscas acompañante? ¿Buscas cuidar a alguien? En Carefy podrás encontrar la mejor opción.</p>
         </div>
         <div className="pb-5">
-          <div className="buscador container rounded p-2 d-flex gap-2 align-items-center">
+          <div className="buscador container rounded p-2 d-flex gap-2 align-items-center flex-wrap">
             <div className="btn-group">
               <button type="button" className="btn btn-secondary btn-lg dropdown-toggle fs-4" data-bs-toggle="dropdown" aria-expanded="false">
                 Ubicación

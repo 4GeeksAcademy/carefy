@@ -25,7 +25,7 @@ export const Footer = () => {
     
         <div class="col mb-3 d-flex flex-column align-items-center">
           <h5 className="mb-3">Síguenos</h5>
-          <ul class="nav gap-3">
+          <ul class="nav footer-icons">
             <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light fs-3"><span class="fa-brands fa-instagram"></span></a></li>
             <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light fs-3"><span class="fa-brands fa-square-facebook"></span></a></li>
             <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light fs-3"><span class="fa-brands fa-linkedin"></span></a></li>

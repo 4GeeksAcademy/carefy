@@ -1,4 +1,19 @@
 .bd-placeholder-img{
-    background-image: url("https://plus.unsplash.com/premium_photo-1681882016173-9880e424b75e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjF8fGN1aWRhZG9yJTIwYW5jaWFub3N8ZW58MHx8MHx8fDA%3D");
     background-size: cover;
+    height: 30vw;
+    background-position: center;
 }
+
+.bg-slider-1{
+    background-image: url("https://images.pexels.com/photos/3768146/pexels-photo-3768146.jpeg");
+}
+
+.bg-slider-2{
+    background-image: url("https://images.pexels.com/photos/10432232/pexels-photo-10432232.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+}
+
+
+.bg-slider-3{
+    background-image: url("https://images.pexels.com/photos/3823542/pexels-photo-3823542.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+}
+

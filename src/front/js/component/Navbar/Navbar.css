@@ -3,10 +3,19 @@
 }
 
 .nabvar-bg{
-    background-color: #1E1E1E;
+    background-color: #FFC9B3;
 }
 
 .login-button{
     background-color: #5C7728;
     border-color: #5C7728;
+}
+
+.login-button:hover{
+    background-color: #3d4f1b;
+    border-color: #3d4f1b;
+}
+
+.nav-link:hover {
+    color: #B76C49 !important;
 }
