@@ -3,7 +3,7 @@ import "./Footer.css"
 
 export const Footer = () => {
     return(
-        <footer class="row py-5 my-5 border-top text-light text-center bg-dark">    
+        <footer class="row py-5 mb-5 text-light text-center bg-dark">    
         <div class="col mb-3 text-light">
           <h5 className="mb-3">Carefy</h5>
           <ul class="nav flex-column">

@@ -1,3 +1,7 @@
+.logo{
+    margin-right: 10px;
+}
+
 .navbar-left{
     margin-left: auto;
 }
@@ -58,50 +62,23 @@
     width: 80% !important;
 }
 
-.navbar.shrink {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    background-color: #002231; /* Cambiar el color de fondo si es necesario */
-    filter: drop-shadow(0 0 25px #000000);
-}
-
-.navbar .logo {
-    max-width: 8rem;
-    transition: max-width 0.5s ease-in-out;
-
-}
-
-.navbar.shrink .logo {
-    max-width: 3rem;
-}
-
-
-.navbar p {
-    font-size: 2.6rem !important; /* Ajusta según el tamaño inicial */
-    transition: font-size 0.5s ease-in-out;
-    font-style: italic;
-}
-
-.navbar.shrink p {
-    font-size: 2rem !important; /* Ajusta según el tamaño deseado al hacer scroll */
-}
-
 
 @media screen and (max-width: 575px){
     .logo{
-        width: 2.5rem;
-    }
-    .navbar p {
-        font-size: 1.7rem !important; /* Ajusta según el tamaño inicial */
-    }
-    .navbar.shrink p {
-        font-size: 1.7rem !important; /* Ajusta según el tamaño deseado al hacer scroll */
-    }
-    
+        width: 3rem;
+    }  
 }
 
-@media screen and (min-width: 1208px){
+@media screen and (min-width: 1053px){
     .navbar-mobile{
         display:none !important; 
     }
+
+}
+
+@media screen and (max-width: 1053px){
+    .nav-desktop{
+        display:none !important; 
+    }
+
 }
