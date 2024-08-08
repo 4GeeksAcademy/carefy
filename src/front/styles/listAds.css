@@ -16,8 +16,9 @@
 .imagen-encabezado {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    /* No distorsionar imagen */
+    object-fit: cover; /* No distorsionar imagen */
+    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538))
+
 }
 
 .boton-ubicacion,
@@ -30,16 +31,22 @@
     font-weight: 600;
 }
 
+
+
+.filtrado-contenedor
+ {
+    margin-top: 50px;
+}
+
+.tarjeta-contenedor{
+    margin-top: 25px;
+}
+
 .icon-buscar {
     font-size: 30px;
     color: #B76C49;
     margin: 5px;
 
-}
-
-.filtrado-contenedor,
-.tarjeta-contenedor {
-    margin-top: 70px;
 }
 
 .lista-anuncios {
