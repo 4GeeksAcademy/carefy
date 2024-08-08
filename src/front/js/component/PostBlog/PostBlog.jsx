@@ -3,7 +3,7 @@ import './PostBlog.css'
 
 export const PostBlog = ({ title, body, img }) => {
     return (
-        <div className="bg-light rounded post-blog p-5">
+        <div className="bg-light rounded post-blog p-5 mb-5">
             <h1 className="mb-4">Título del artículo sobre adultos mayores</h1>
             <div className="post-body">
                 <p>Lorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit ametLorem ipsum sit amet</p>
