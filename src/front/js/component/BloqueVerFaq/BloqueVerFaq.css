@@ -1,0 +1,13 @@
+.bloque-ver-faq{
+    background-color: #B76C49;
+}
+
+.btn-ver-faq{
+    background-color: #FFC9B3;
+    border-color: #FFC9B3;
+}
+
+.btn-ver-faq:hover{
+    background-color: #e2ad97;
+    border-color: #e2ad97;
+}

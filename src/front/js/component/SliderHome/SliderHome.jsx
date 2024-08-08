@@ -25,13 +25,12 @@ export const SliderHome = () => {
                         <div className="carousel-caption text-start">
                             <p className="fs-1 fw-bold">Atención de Calidad para tus seres queridos</p>
                             <p className="fs-4">Brindamos soluciones de cuidado personalizadas y seguras. Desde asistencia diaria hasta cuidados médicos especializados, estamos aquí para facilitarte el proceso y asegurar el bienestar de tus seres queridos.</p>
-                            <p><a className="btn btn-lg btn-success" href="#">Regístrate</a></p>
                         </div>
                     </div>
                 </div>
                 <div className="carousel-item">
                     <svg className="bd-placeholder-img bg-slider-3" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect></svg>
-                    <div className="container">
+                    <div className="container ">
                         <div className="carousel-caption text-start">
                         <p className="fs-1 fw-bold">Fácil y seguro</p>
                             <p className="fs-4">Facilita la contratación y la comunicación a través de nuestra plataforma segura. Con reseñas y calificaciones de otros usuarios, toma decisiones informadas y con total tranquilidad..</p>

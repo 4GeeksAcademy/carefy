@@ -1,6 +1,5 @@
 .bd-placeholder-img{
     background-size: cover;
-    height: 30vw;
     background-position: center;
 }
 
@@ -17,3 +16,24 @@
     background-image: url("https://images.pexels.com/photos/3823542/pexels-photo-3823542.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
 }
 
+.carousel-item {
+    height: 50vh; /* Deja que el elemento se ajuste al contenido */
+}
+
+.carousel-caption {
+    padding-bottom: 2rem;
+    position: absolute;
+    top: 30%;
+}
+
+@media screen and (max-width: 500px){
+    .carousel-caption {
+        padding-bottom: 2rem;
+        position: absolute;
+        top: 5%;
+    }
+    .carousel-item{
+        height: 85vh;
+    }
+    
+}

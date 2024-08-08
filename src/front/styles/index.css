@@ -1,5 +1,6 @@
 body,html{
     background-color: rgb(41, 41, 41);
+    box-sizing: border-box;
     overflow-x: hidden;
     margin: 0;
 }

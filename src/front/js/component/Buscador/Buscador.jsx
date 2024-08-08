@@ -12,19 +12,19 @@ export const Buscador = () => {
         <div className="pb-5">
           <div className="buscador container rounded p-2 d-flex gap-2 align-items-center flex-wrap">
             <div className="btn-group">
-              <button type="button" className="btn btn-secondary btn-lg dropdown-toggle fs-4" data-bs-toggle="dropdown" aria-expanded="false">
+              <button type="button" className="btn btn-buscador btn-lg dropdown-toggle fs-4" data-bs-toggle="dropdown" aria-expanded="false">
                 Ubicación
               </button>
               <ul className="dropdown-menu">
                 <li><a className="dropdown-item" href="#">Action</a></li>
                 <li><a className="dropdown-item" href="#">Another action</a></li>
                 <li><a className="dropdown-item" href="#">Something else here</a></li>
-                <li><hr className="dropdown-divider"/></li>
+                <li><hr className="dropdown-divider" /></li>
                 <li><a className="dropdown-item" href="#">Separated link</a></li>
               </ul>
             </div>
             <div className="btn-group">
-              <button type="button" className="btn btn-secondary btn-lg fs-4 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <button type="button" className="btn btn-buscador btn-lg fs-4 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 Disponibilidad
               </button>
               <ul className="dropdown-menu">
@@ -35,7 +35,7 @@ export const Buscador = () => {
               </ul>
             </div>
             <div className="btn-group">
-              <button type="button" className="btn btn-secondary btn-lg fs-4 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <button type="button" className="btn btn-buscador btn-lg fs-4 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 ¿Qué buscas?
               </button>
               <ul className="dropdown-menu">
@@ -44,7 +44,9 @@ export const Buscador = () => {
               </ul>
             </div>
             <div>
-            <span class="fa-solid fa-magnifying-glass fs-2 text-dark"></span>
+              <button className="btn">
+                <span class="fa-solid fa-magnifying-glass fs-2 text-dark"></span>
+              </button>
             </div>
           </div>
         </div>

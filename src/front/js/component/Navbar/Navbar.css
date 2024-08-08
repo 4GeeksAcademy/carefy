@@ -19,3 +19,89 @@
 .nav-link:hover {
     color: #B76C49 !important;
 }
+
+.btn-signup{
+    background-color: #B76C49;
+    color: white;
+}
+
+.btn-signup:hover{
+    background-color: #9a593c;
+    color: white;
+}
+
+
+.logo {
+    width: clamp(3rem, 75%, 4.5rem);
+    filter: drop-shadow(0 0 8px #ffffff96);
+}
+
+.custom-toggler .navbar-toggler-icon {
+    filter: brightness(1) invert(0);
+}
+.navbar-toggler{
+    border-color: #525252;
+    padding: 3px 5px;
+
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.navbar{
+    transition: padding 0.3s ease-in-out, background-color 0.3s ease-in-out, max-width 0.3s ease-in-out;
+}
+
+.offcanvas{
+    background-color: #FFC9B3;
+    width: 80% !important;
+}
+
+.navbar.shrink {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    background-color: #002231; /* Cambiar el color de fondo si es necesario */
+    filter: drop-shadow(0 0 25px #000000);
+}
+
+.navbar .logo {
+    max-width: 8rem;
+    transition: max-width 0.5s ease-in-out;
+
+}
+
+.navbar.shrink .logo {
+    max-width: 3rem;
+}
+
+
+.navbar p {
+    font-size: 2.6rem !important; /* Ajusta según el tamaño inicial */
+    transition: font-size 0.5s ease-in-out;
+    font-style: italic;
+}
+
+.navbar.shrink p {
+    font-size: 2rem !important; /* Ajusta según el tamaño deseado al hacer scroll */
+}
+
+
+@media screen and (max-width: 575px){
+    .logo{
+        width: 2.5rem;
+    }
+    .navbar p {
+        font-size: 1.7rem !important; /* Ajusta según el tamaño inicial */
+    }
+    .navbar.shrink p {
+        font-size: 1.7rem !important; /* Ajusta según el tamaño deseado al hacer scroll */
+    }
+    
+}
+
+@media screen and (min-width: 1208px){
+    .navbar-mobile{
+        display:none !important; 
+    }
+}

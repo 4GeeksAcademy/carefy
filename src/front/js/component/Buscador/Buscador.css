@@ -27,6 +27,27 @@
 
 
 .buscador{
-    background-color: rgb(210, 210, 210);
+    background-color: #FFC9B3;
     width: fit-content;
+}
+
+.btn-buscador{
+    background-color: #B76C49;
+    border-color: #B76C49;
+    color: white;
+}
+
+.btn-buscador:hover{
+    background-color: #B76C49;
+    border-color: #B76C49;
+}
+
+.btn-buscador:active{
+    background-color: #B76C49;
+    border-color: #B76C49;
+}
+
+.btn-buscador:focus{
+    background-color: #B76C49;
+    border-color: #B76C49;
 }
