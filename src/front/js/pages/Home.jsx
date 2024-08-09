@@ -19,8 +19,6 @@ export const Home = () => {
 			<p className="display-4 container text-center pt-5">Reseñas verificadas de nuestros usuarios</p>
 				<div className="container d-flex justify-content-between flex-wrap">	
 					<CardReviews />
-					<CardReviews />
-					<CardReviews />
 				</div>
 			</div>
 			<BloqueVerFaq/>

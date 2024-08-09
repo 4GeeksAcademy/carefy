@@ -1,8 +1,8 @@
-.fa-star{
+.fa_star_edit{
     color: #F8AE29;
 }
 
-.card{
+.card_edit{
     border: none;
     filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.538));
 }

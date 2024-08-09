@@ -1,9 +1,10 @@
 import React from "react";
-import "./BloqueInformativo.css"
+import styles from "./BloqueInformativo.module.css"
+import detailed from "../../../img/detailed.jpeg"
 
 export const BloqueInformativo = () => {
     return (
-        <div className="bloque-informativo">
+        <div className={styles.bloque_informativo}>
             <div class="p-5 text-center container">
                 <div class="row align-items-center py-5">
                     <div className="col-12 col-sm-6">
@@ -12,12 +13,12 @@ export const BloqueInformativo = () => {
                             Somos una plataforma que tiene como objetivo unir a acompañantes con adultos mayores que necesitan de cuidado y compañía.
                         </p>
                         <div className="text-start">
-                        <button className="btn btn-signup fs-5" type="submit">Registrarse</button>
+                        <button className={`btn ${styles.btn_signup} fs-5`} type="submit">Registrarse</button>
                         </div>
                     </div>
                     
                     <div className="col-12 col-sm-6">
-                        <img className="rounded img-bloque-informativo img-fluid" src="https://res-console.cloudinary.com/proyectocarefy/media_explorer_thumbnails/95d0a33f5cfb971b21af372fa7566e2a/detailed" />
+                        <img className={`rounded ${styles.img_bloque_informativo} img-fluid`} src={detailed} />
                     </div>
                 </div>
             </div>

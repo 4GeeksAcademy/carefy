@@ -1,18 +1,18 @@
 import React from "react";
-import "./Buscador.css"
+import styles from "./Buscador.module.css"
 
-export const Buscador = () => {
+export const Buscador = ({location, availability, serviceType}) => {
   return (
-    <div className="p-5 bg-body-tertiary text-center jumbotron">
-      <div className="jumbotron-content">
+    <div className={`p-5 bg-body-tertiary text-center ${styles.jumbotron}`}>
+      <div className={styles.jumbotron_content_edit}>
         <div className="container py-5">
           <h1 className="display-5 fw-bold">Nos preocupamos de verdad por el cuidado de tu familia</h1>
           <p className="col fs-4 text-center">¿Buscas acompañante? ¿Buscas cuidar a alguien? En Carefy podrás encontrar la mejor opción.</p>
         </div>
         <div className="pb-5">
-          <div className="buscador container rounded p-2 d-flex gap-2 align-items-center flex-wrap">
+          <div className={`${styles.buscador} container rounded p-2 d-flex gap-2 align-items-center flex-wrap`}>
             <div className="btn-group">
-              <button type="button" className="btn btn-buscador btn-lg dropdown-toggle fs-4" data-bs-toggle="dropdown" aria-expanded="false">
+              <button type="button" className={`btn ${styles.btn_buscador} btn-lg fs-4 dropdown-toggle`} data-bs-toggle="dropdown" aria-expanded="false">
                 Ubicación
               </button>
               <ul className="dropdown-menu">
@@ -24,7 +24,7 @@ export const Buscador = () => {
               </ul>
             </div>
             <div className="btn-group">
-              <button type="button" className="btn btn-buscador btn-lg fs-4 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <button type="button" className={`btn ${styles.btn_buscador} btn-lg fs-4 dropdown-toggle`} data-bs-toggle="dropdown" aria-expanded="false">
                 Disponibilidad
               </button>
               <ul className="dropdown-menu">
@@ -35,7 +35,7 @@ export const Buscador = () => {
               </ul>
             </div>
             <div className="btn-group">
-              <button type="button" className="btn btn-buscador btn-lg fs-4 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <button type="button" className={`btn ${styles.btn_buscador} btn-lg fs-4 dropdown-toggle`} data-bs-toggle="dropdown" aria-expanded="false">
                 ¿Qué buscas?
               </button>
               <ul className="dropdown-menu">

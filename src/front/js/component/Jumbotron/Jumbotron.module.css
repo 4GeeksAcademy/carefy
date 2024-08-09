@@ -1,13 +1,12 @@
-.jumbotron-blog {
+.jumbotron_edit {
     position: relative;
-    background-image: url("https://images.pexels.com/photos/7551606/pexels-photo-7551606.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     color: white;
 }
 
-.jumbotron-blog::before {
+.jumbotron_edit::before {
     content: "";
     position: absolute;
     top: 0;
@@ -18,7 +17,7 @@
     z-index: 1;
 }
 
-.jumbotron-content {
+.jumbotron_content_edit {
     position: relative;
     z-index: 2; /* Asegura que el contenido esté por encima de la capa de color */
     text-align: center; /* Centra el texto */

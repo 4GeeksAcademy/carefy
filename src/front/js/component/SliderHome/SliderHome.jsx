@@ -1,5 +1,5 @@
 import React from "react";
-import "./SliderHome.css"
+import styles from "./SliderHome.module.css"
 
 export const SliderHome = () => {
     return (
@@ -10,28 +10,28 @@ export const SliderHome = () => {
                 <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3" className=""></button>
             </div>
             <div className="carousel-inner">
-                <div className="carousel-item">
-                    <svg className="bd-placeholder-img bg-slider-1" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect></svg>
+                <div className={`carousel-item ${styles.carousel_item_edit}`}>
+                    <svg className={`bd-placeholder-img ${styles.bd_placeholder_img_edit} ${styles.bg_slider_1}`} width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect></svg>
                     <div className="container">
-                        <div className="carousel-caption text-start">
+                        <div className={`carousel-caption text-start ${styles.carousel_caption_edit}`}>
                         <p className="fs-1 fw-bold">Compañía y cuidado, nuestros pilares</p>
                             <p className="fs-4">Descubre cuidadores de ancianos altamente calificados y verificados. Nuestra plataforma conecta a familias con cuidadores confiables y experimentados que se adaptan a tus necesidades específicas.</p>
                         </div>
                     </div>
                 </div>
-                <div className="carousel-item active">
-                    <svg className="bd-placeholder-img bg-slider-2" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect></svg>
+                <div className={`carousel-item active ${styles.carousel_item_edit}`}>
+                    <svg className={`bd-placeholder-img ${styles.bd_placeholder_img_edit} ${styles.bg_slider_2}`} width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect></svg>
                     <div className="container">
-                        <div className="carousel-caption text-start">
+                        <div className={`carousel-caption text-start ${styles.carousel_caption_edit}`}>
                             <p className="fs-1 fw-bold">Atención de Calidad para tus seres queridos</p>
                             <p className="fs-4">Brindamos soluciones de cuidado personalizadas y seguras. Desde asistencia diaria hasta cuidados médicos especializados, estamos aquí para facilitarte el proceso y asegurar el bienestar de tus seres queridos.</p>
                         </div>
                     </div>
                 </div>
-                <div className="carousel-item">
-                    <svg className="bd-placeholder-img bg-slider-3" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect></svg>
+                <div className={`carousel-item ${styles.carousel_item_edit}`}>
+                    <svg className={`bd-placeholder-img ${styles.bd_placeholder_img_edit} ${styles.bg_slider_3}`} width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect></svg>
                     <div className="container ">
-                        <div className="carousel-caption text-start">
+                        <div className={`carousel-caption text-start ${styles.carousel_caption_edit}`}>
                         <p className="fs-1 fw-bold">Fácil y seguro</p>
                             <p className="fs-4">Facilita la contratación y la comunicación a través de nuestra plataforma segura. Con reseñas y calificaciones de otros usuarios, toma decisiones informadas y con total tranquilidad..</p>
                         </div>
