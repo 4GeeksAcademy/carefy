@@ -1,0 +1,73 @@
+.main_container{
+  background: linear-gradient( #FFC9B3,#fbfcff);
+}
+
+.title_aboutUs {
+    color:rgb(58, 58, 58);
+    font-weight: 500;
+    margin-bottom: 35px;
+  }
+  
+  .container_aboutUs {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient( #FFC9B3,#fbfcff);
+    
+  }
+  
+  .image_lady_armchair,
+  .image_girl_lady {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538));
+  }
+  
+  .paragraphs {
+    text-align: justify;
+    font-weight: 500;
+  }
+  
+  .row_1 {
+    height: 300px;
+  }
+  
+  .row_2 {
+    height: 250px;
+  }
+  .text_who {
+    background-color: #E4E8F4;;
+    color: rgb(58, 58, 58);
+  }
+  
+  .text_what {
+    background-color: #E4E8F4;;
+    color: rgb(58, 58, 58);
+  }
+  
+  .text_why {
+    background-color: #E4E8F4;
+    color: rgb(58, 58, 58);
+  }
+  
+  .text_who:hover,
+  .text_what:hover,
+  .text_why:hover {
+    transform: translateY(
+      -10px
+    ); /* para hacer efecto de elevación del contenedor al pasar el ratón */
+    box-shadow: 0px 8px 10px rgba(71, 70, 70, 0.2);
+  }
+  
+  .text_who,
+  .text_what,
+  .text_why {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+  
