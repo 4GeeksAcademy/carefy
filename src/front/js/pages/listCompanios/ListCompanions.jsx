@@ -1,8 +1,8 @@
 import React from 'react'
-import HeaderListCompanions from '../component/HeaderListCompanions.jsx'
-import "../../styles/listCompanions.css";
-import CardsCompanions from '../component/CardsCompanions.jsx';
-import FilterCompanions from '../component/FilterCompanions.jsx';
+import HeaderListCompanions from '../../component/headerCompanions/HeaderListCompanions.jsx'
+import CardsCompanions from '../../component/cardsCompanions/CardsCompanions.jsx'
+import FilterCompanions from '../../component/filterCompanions/FilterCompanions.jsx';
+import styles from './listCompanions.module.css'
 
 const companions = [
     {
@@ -51,11 +51,12 @@ const companions = [
 
 const ListCompanions = () => {
   return (
-    <>
+    
+    <div className={styles.container_main_profile}>
       <HeaderListCompanions/>
       <FilterCompanions />
-      <div className="container tarjeta-contenedor">
-        <div className="lista-acompanantes">
+      <div className={`container ${styles.card_container}`}>
+        <div className={styles.list_companions}>
           {companions.map((element, index) => (
             <div key={index}>
               <CardsCompanions
@@ -71,7 +72,8 @@ const ListCompanions = () => {
           ))}
         </div>
         </div>
-    </>
+        </div>
+    
   )
 }
 

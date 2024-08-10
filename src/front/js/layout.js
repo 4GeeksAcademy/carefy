@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { BackendURL } from "./component/backendURL";
 import injectContext from "./store/appContext";
-import ListCompanions from "./pages/ListCompanions.jsx";
+import ListCompanions from "./pages/listCompanios/ListCompanions.jsx";
 
 //create your first component
 const Layout = () => {
@@ -18,6 +18,7 @@ const Layout = () => {
               
                     
                     <ListCompanions/>
+
                 
             
             </BrowserRouter>
