@@ -3,21 +3,7 @@
     margin-top: 50px;
 }
 
-.bton_location,
-.bton_availability,
-.bton_start_date, .filters {
-    background-color: #B76C49;
-    color: #eeeceb;
-    width: 150px;
-    margin: 5px;
-    font-weight: 600;
-    border: 0px;
-}
 
-input::placeholder{
- color:#fffdfc;
- opacity: 1;
-}
 
 .icon_search {
     font-size: 30px;
@@ -29,6 +15,7 @@ input::placeholder{
 .btn_filters{
     display:flex;
     justify-content: center;
+    margin-top: 60px;
 }
 .location, .availability, .date{
     width: 150px;
@@ -39,6 +26,7 @@ input::placeholder{
     color: rgb(245, 242, 242);
     text-align: center;
     font-weight: 600;
+    cursor: pointer;
 } 
 
 option{
