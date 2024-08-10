@@ -9,11 +9,11 @@ export const Anuncio = ({ title, userName, age, location, state, description, av
 
     return (
         <div className={`container bg-light p-4 my-5 rounded position-relative ${styles.block_anuncio}`}>
-            {/* <span className={`fa-regular fa-heart position-absolute ${styles.fav_icon}`}></span> */}
-            <div className={`position-absolute ${styles.fav_icon}`}>
+            <span className={`fa-regular fa-heart position-absolute ${styles.fav_icon}`}></span>
+            {/* <div className={`position-absolute ${styles.fav_icon}`}>
                 <span className="fa-solid fa-pencil pe-3"></span>
                 <span class="fa-regular fa-trash-can"></span>
-            </div>
+            </div> */}
             <h1 className="mb-5 pe-5 me-3">Necesito acompañante para mujer de 83 años para cuidarla los fines de semana</h1>
             <div className="d-flex align-items-start justify-content-between flex-wrap">
                 <div className="d-flex align-items-center flex-wrap">
@@ -27,7 +27,8 @@ export const Anuncio = ({ title, userName, age, location, state, description, av
                     </div>
                 </div>
                 {/* <button className={`btn ${styles.btn_postularse} fs-4 fw-bold`}>POSTULARSE</button> */}
-                <p className="fs-4"><span className="fw-bold">Estado</span>: <span className="text-secondary">pendiente de moderación</span></p>
+                <button className={`btn ${styles.btn__cancel_postularse} fs-4 fw-bold`}>CANCELAR POSTULACIÓN</button>
+                {/* <p className="fs-4"><span className="fw-bold">Estado</span>: <span className="text-secondary">pendiente de moderación</span></p> */}
             </div>
             <div className="pt-4">
                 <p className="fs-5">Busco cuidadora para cuidar de persona mayor en su casa. Preferiblemente de nacionalidad española. Se busca persona seria, para mucho tiempo. Abstenerse personas que vayan a estar poco tiempo. Es en Sevilla capital. Llamen y les atenderá su hija Remedios. Busco cuidadora para cuidar de persona mayor en su casa. Preferiblemente de nacionalidad española. Se busca persona seria, para mucho tiempo. Abstenerse personas que vayan a estar poco tiempo. Es en Sevilla capital. Llamen y les atenderá su hija Remedios.</p>

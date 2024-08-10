@@ -25,3 +25,13 @@
     border-color: #3d4f1b;
     color:white;
 }
+
+.btn__cancel_postularse{
+    background-color: #B76C49;
+    color: white;
+}
+
+.btn__cancel_postularse:hover{
+    background-color: #9a593c;
+    color: white;
+}
