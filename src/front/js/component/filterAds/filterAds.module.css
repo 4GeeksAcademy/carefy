@@ -1,0 +1,49 @@
+.filter_container
+ {
+    margin-top: 50px;
+}
+
+.bton_location,
+.bton_availability,
+.bton_start_date, .filters {
+    background-color: #B76C49;
+    color: #eeeceb;
+    width: 150px;
+    margin: 5px;
+    font-weight: 600;
+    border: 0px;
+}
+
+input::placeholder{
+ color:#fffdfc;
+ opacity: 1;
+}
+
+.icon_search {
+    font-size: 30px;
+    color: #B76C49;
+    margin: 5px;
+
+}
+
+.btn_filters{
+    display:flex;
+    justify-content: center;
+}
+.location, .availability, .date{
+    width: 150px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 0px;
+    background-color: #B76C49;
+    color: rgb(245, 242, 242);
+    text-align: center;
+    font-weight: 600;
+} 
+
+option{
+    text-align: left;   
+}
+
+
+

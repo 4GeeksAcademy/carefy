@@ -5,8 +5,8 @@ import { BackendURL } from "./component/backendURL";
 
 
 import injectContext from "./store/appContext";
-import ListAds from "./pages/ListAds.jsx";
 
+import ListAds from "./pages/listAds/ListAds.jsx"
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 
@@ -23,7 +23,7 @@ const Layout = () => {
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
                     <Navbar />
-                    <ListAds />
+                   
                     <Footer />
                 </ScrollToTop>
             </BrowserRouter>

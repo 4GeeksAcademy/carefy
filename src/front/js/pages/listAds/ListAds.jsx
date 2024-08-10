@@ -1,8 +1,9 @@
 import React from 'react';
-import "../../styles/listAds.css";
-import HeaderListAds from '../component/HeaderListAds.jsx';
-import Filtrado from '../component/FilterAds.jsx';
-import TarjetasAnuncios from '../component/CardsAds.jsx';
+
+import HeaderListAds from '../../component/headerListAds/HeaderListAds.jsx';
+import styles from "./listAds.module.css"
+import CardsAds from '../../component/cardsAds/CardsAds.jsx';
+import FilterAds from '../../component/filterAds/FilterAds.jsx';
 
 const anuncios = [
   {
@@ -39,14 +40,14 @@ const anuncios = [
 
 const ListAds = () => {
   return (
-    <>
+    <div className={styles.container_main_ads}>
       <HeaderListAds />
-      <Filtrado />
-      <div className="container tarjeta-contenedor">
-        <div className="lista-anuncios">
+      <FilterAds/>
+      <div className={`container ${styles.card_container}`}>
+        <div className={styles.list_ads}>
           {anuncios.map((element, index) => (
             <div key={index}>
-              <TarjetasAnuncios
+              <CardsAds
                 title={element.title}
                 date={element.date}
                 location={element.location}
@@ -56,7 +57,7 @@ const ListAds = () => {
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
