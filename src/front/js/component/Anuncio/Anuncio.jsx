@@ -62,7 +62,7 @@ export const Anuncio = ({ title, userName, age, location, state, description, av
                     </div>
                 </div>
                 <div className="col-12 col-sm-5">
-                    <p className="fs-4 fw-bold"><span class="fa-solid fa-wheelchair pe-3"></span>Nivel de depencia</p>
+                    <p className="fs-4 fw-bold"><span class="fa-solid fa-wheelchair pe-3"></span>Nivel de dependencia</p>
                     <p className="fs-4 ps-4 ms-3">5<span className="text-secondary italic fst-italic fs-5 ps-2">(alto)</span></p>
                     <p className="fs-5 ps-4 ms-3"><span className="fst-italic">Observaciones</span>: requiere ayuda para el aseo y comer.</p>
                 </div>
