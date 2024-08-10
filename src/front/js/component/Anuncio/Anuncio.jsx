@@ -3,7 +3,7 @@ import styles from "./Anuncio.module.css"
 import { Jumbotron } from "../Jumbotron/Jumbotron.jsx";
 
 
-export const Anuncio = ({ title, userName }) => {
+export const Anuncio = ({ title, userName, age, location, state, description, availability, startDate, endDate, price, medicine, dependency, observations}) => {
 
 
 
