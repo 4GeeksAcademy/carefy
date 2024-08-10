@@ -4,6 +4,7 @@ import style from "../PerfilUsuario/perfilusuario.module.css";
 import nietaabuela from "../../../img/nietaabuela.jpg"
 import { FormularioFamiliar } from "../../component/FormularioFamiliar/FormularioFamiliar.jsx";
 import { AgregarFamiliar } from "../../component/AgregarFamiliar/AgregarFamiliar.jsx";
+import { TarjetaFamiliar } from "../../component/TarjetaFamiliar/TarjetaFamiliar.jsx";
 
 export const PerfilUsuario = () => {
 
@@ -51,6 +52,15 @@ export const PerfilUsuario = () => {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col">
+                        <TarjetaFamiliar />
+                    </div>
+                    <div className="col">
+                        <TarjetaFamiliar />
                     </div>
                 </div>
 
