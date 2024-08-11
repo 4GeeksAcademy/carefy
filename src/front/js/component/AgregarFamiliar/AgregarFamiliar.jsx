@@ -84,56 +84,131 @@ export const AgregarFamiliar = () => {
 
                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
                     <label class="form-check-label" for="flexCheckDefault">
-                        Supervisión y control de medicinas
+                        Higiene personal
                     </label>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
                     <label class="form-check-label" for="flexCheckChecked">
-                        Ayuda con comidas
+                        Vestimenta
                     </label>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
                     <label class="form-check-label" for="flexCheckDefault">
-                        Ayuda con aseo
+                        Movilidad
                     </label>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
                     <label class="form-check-label" for="flexCheckChecked">
-                        Ayuda con movilidad "leve"
+                        Alimentación
                     </label>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
                     <label class="form-check-label" for="flexCheckDefault">
-                        Ayuda con movilidad moderada y severa
+                        Gestión de medicamentos
                     </label>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
                     <label class="form-check-label" for="flexCheckChecked">
-                        Acompañamiento y entretenimiento
+                        Citas médicas
                     </label>
                 </div>
+
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
                     <label class="form-check-label" for="flexCheckChecked">
-                        Paseos
+                        Control de la salud
                     </label>
                 </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                    <label class="form-check-label" for="flexCheckChecked">
+                        Compañía                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                    <label class="form-check-label" for="flexCheckChecked">
+                        Apoyo emocional
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                    <label class="form-check-label" for="flexCheckChecked">
+                        Actividades recreativas
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                    <label class="form-check-label" for="flexCheckChecked">
+                        Conexión con la comunidad
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                    <label class="form-check-label" for="flexCheckChecked">
+                        Limpieza del hogar
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                    <label class="form-check-label" for="flexCheckChecked">
+                        Lavandería
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                    <label class="form-check-label" for="flexCheckChecked">
+                        Compras y recados
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                    <label class="form-check-label" for="flexCheckChecked">
+                        Gestión de documentos
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                    <label class="form-check-label" for="flexCheckChecked">
+                        Pago de facturas
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                    <label class="form-check-label" for="flexCheckChecked">
+                        Uso de nuevas tecnologías
+                    </label>
+                </div>
+
+            </div>
+            <div>
+
+
             </div>
 
 
             <div class="mb-3">
-            <label htmlFor="provincia" className="form-label">Provincia</label>
-            <select class="form-select" aria-label="Default select example">
-                <option selected>Selecciona la provincia</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
+                <label htmlFor="provincia" className="form-label">Provincia</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Selecciona la provincia</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
             </div>
 
 
@@ -149,7 +224,7 @@ export const AgregarFamiliar = () => {
 
 
             <button type="submit" claclassNamess="btn btn-primary">Guardar usuario</button>
-        </form>
+        </form >
 
     )
 }
