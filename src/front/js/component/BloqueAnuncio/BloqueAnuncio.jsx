@@ -1,8 +1,8 @@
 import React from "react";
-import styles from "./Anuncio.module.css"
+import styles from "./BloqueAnuncio.module.css"
 
 
-export const Anuncio = ({ title, userName, age, location, state, description, availability, startDate, endDate, price, medicine, dependency, observations}) => {
+export const BloqueAnuncio = ({ title, userName, age, location, state, description, availability, startDate, endDate, price, medicine, dependency, observations}) => {
 
 
 

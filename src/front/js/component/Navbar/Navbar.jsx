@@ -38,8 +38,8 @@ export const Navbar = ({username}) => {
                                     </button>
                                     <ul className="dropdown-menu dropdown-menu-end">
                                         <li><a className={`dropdown-item ${styles.dropdown_item_edit}`} href="#">Mi perfil</a></li>
-                                        <li><a className={`dropdown-item ${styles.dropdown_item_edit}`} href="#">Mis postulaciones</a></li>
-                                        <li><a className={`dropdown-item ${styles.dropdown_item_edit}`} href="#">Mis anuncios</a></li>
+                                        <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-postulaciones">Mis postulaciones</Link></li>
+                                        <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-anuncios">Mis anuncios</Link></li>
                                         <li><hr className="dropdown-divider"/></li>
                                         <li><button className="btn dropdown-item text-danger fw-bold" href="#"><span class="fa-solid fa-power-off pe-2"></span>Cerrar sesión</button></li>
                                     </ul>
