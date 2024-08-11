@@ -25,6 +25,10 @@
     padding: 2rem;
 }
 
+.dropdown_item_edit:active{
+    background-color: #3d4f1b;
+}
+
 
 .buscador{
     background-color: #FFC9B3;

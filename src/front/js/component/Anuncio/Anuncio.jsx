@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./Anuncio.module.css"
-import { Jumbotron } from "../Jumbotron/Jumbotron.jsx";
 
 
 export const Anuncio = ({ title, userName, age, location, state, description, availability, startDate, endDate, price, medicine, dependency, observations}) => {
@@ -12,7 +11,7 @@ export const Anuncio = ({ title, userName, age, location, state, description, av
             <span className={`fa-regular fa-heart position-absolute ${styles.fav_icon}`}></span>
             {/* <div className={`position-absolute ${styles.fav_icon}`}>
                 <span className="fa-solid fa-pencil pe-3"></span>
-                <span class="fa-regular fa-trash-can"></span>
+                <span className="fa-regular fa-trash-can"></span>
             </div> */}
             <h1 className="mb-5 pe-5 me-3">Necesito acompañante para mujer de 83 años para cuidarla los fines de semana</h1>
             <div className="d-flex align-items-start justify-content-between flex-wrap">
@@ -21,9 +20,9 @@ export const Anuncio = ({ title, userName, age, location, state, description, av
                         <img src="https://images.unsplash.com/photo-1442458370899-ae20e367c5d8?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" className={`img-fluid`} />
                     </div>
                     <div className="ms-3 fs-4 mt-3">
-                        <p className=""><i class="fa-solid fa-user pe-3"></i>María Rosa Gutierrez</p>
-                        <p><i class="fa-solid fa-id-card pe-3"></i>83 años</p>
-                        <p><span class="fa-solid fa-location-dot pe-1"></span> Valencia</p>
+                        <p className=""><span className="fa-solid fa-user pe-3"></span>María Rosa Gutierrez</p>
+                        <p><span className="fa-solid fa-id-card pe-3"></span>83 años</p>
+                        <p><span className="fa-solid fa-location-dot pe-1"></span> Valencia</p>
                     </div>
                 </div>
                 {/* <button className={`btn ${styles.btn_postularse} fs-4 fw-bold`}>POSTULARSE</button> */}
@@ -35,7 +34,7 @@ export const Anuncio = ({ title, userName, age, location, state, description, av
             </div>
             <div className="pt-3 row">
                 <div className="col-12 col-sm-7">
-                    <p className="fs-4 fw-bold"><span class="fa-solid fa-calendar-days pe-3"></span>Disponibilidad</p>
+                    <p className="fs-4 fw-bold"><span className="fa-solid fa-calendar-days pe-3"></span>Disponibilidad</p>
                     <div className="d-flex fs-5 gap-5 align-items-baseline">
                         <div>
                             <p className="ps-4 ms-3 fs-4">Por horas</p>
@@ -47,23 +46,24 @@ export const Anuncio = ({ title, userName, age, location, state, description, av
                     </div>
                 </div>
                 <div className="col-12 col-sm-5">
-                    <p className="fs-4 fw-bold"><span class="fa-solid fa-coins pe-3"></span>Precio (hora)</p>
+                    <p className="fs-4 fw-bold"><span className="fa-solid fa-coins pe-3"></span>Precio (hora)</p>
                     <p className="fs-4 ps-4 ms-3">10 €</p>
                 </div>
             </div>
             <div className="pt-4 row">
                 <div className="col-12 col-sm-7">
-                    <p className="fs-4 fw-bold"><span class="fa-solid fa-pills pe-3"></span>Medicinas</p>
+                    <p className="fs-4 fw-bold"><span className="fa-solid fa-list-check pe-3"></span>Tareas principales</p>
                     <div className="d-flex fs-5">
                         <div className="ps-4 ms-3 pb-3">
-                            <li>Ibuprofeno</li>
-                            <li>Aspirina</li>
-                            <li>Melatol</li>
+                            <li>Salir a caminar</li>
+                            <li>Higiene personal</li>
+                            <li>Vestimenta</li>
+                            <li>Gestión de medicamentos</li>
                         </div>
                     </div>
                 </div>
                 <div className="col-12 col-sm-5">
-                    <p className="fs-4 fw-bold"><span class="fa-solid fa-wheelchair pe-3"></span>Nivel de dependencia</p>
+                    <p className="fs-4 fw-bold"><span className="fa-solid fa-wheelchair pe-3"></span>Nivel de dependencia</p>
                     <p className="fs-4 ps-4 ms-3">5<span className="text-secondary italic fst-italic fs-5 ps-2">(alto)</span></p>
                     <p className="fs-5 ps-4 ms-3"><span className="fst-italic">Observaciones</span>: requiere ayuda para el aseo y comer.</p>
                 </div>

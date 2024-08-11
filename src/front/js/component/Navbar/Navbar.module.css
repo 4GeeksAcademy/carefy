@@ -1,7 +1,6 @@
 .logo{
     margin-right: 10px;
     width: clamp(3rem, 75%, 4.5rem);
-    filter: drop-shadow(0 0 8px #ffffff96);
 }
 
 .navbar_left{
@@ -18,6 +17,16 @@
 }
 
 .login_button:hover{
+    background-color: #3d4f1b;
+    border-color: #3d4f1b;
+}
+
+.login_button:focus{
+    background-color: #3d4f1b;
+    border-color: #3d4f1b;
+}
+
+.login_button:active{
     background-color: #3d4f1b;
     border-color: #3d4f1b;
 }
@@ -59,6 +68,9 @@
     width: 80% !important;
 }
 
+.dropdown_item_edit:active{
+    background-color: #3d4f1b;
+}
 
 @media screen and (max-width: 575px){
     .logo{

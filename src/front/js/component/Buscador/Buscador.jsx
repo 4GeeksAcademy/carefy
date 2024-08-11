@@ -16,11 +16,7 @@ export const Buscador = ({location, availability, serviceType}) => {
                 Ubicación
               </button>
               <ul className="dropdown-menu">
-                <li><a className="dropdown-item" href="#">Action</a></li>
-                <li><a className="dropdown-item" href="#">Another action</a></li>
-                <li><a className="dropdown-item" href="#">Something else here</a></li>
-                <li><hr className="dropdown-divider" /></li>
-                <li><a className="dropdown-item" href="#">Separated link</a></li>
+                <li><a className={`dropdown-item ${styles.dropdown_item_edit}`} href="#">{location}</a></li>
               </ul>
             </div>
             <div className="btn-group">
@@ -28,10 +24,7 @@ export const Buscador = ({location, availability, serviceType}) => {
                 Disponibilidad
               </button>
               <ul className="dropdown-menu">
-                <li><a className="dropdown-item" href="#">Por horas</a></li>
-                <li><a className="dropdown-item" href="#">Interno</a></li>
-                <li><a className="dropdown-item" href="#">Diurno</a></li>
-                <li><a className="dropdown-item" href="#">Nocturno</a></li>
+                <li><a className={`dropdown-item ${styles.dropdown_item_edit}`} href="#">{availability}</a></li>
               </ul>
             </div>
             <div className="btn-group">
@@ -39,8 +32,7 @@ export const Buscador = ({location, availability, serviceType}) => {
                 ¿Qué buscas?
               </button>
               <ul className="dropdown-menu">
-                <li><a className="dropdown-item" href="#">Acompañante</a></li>
-                <li><a className="dropdown-item" href="#">Acompañar a alguien</a></li>
+                <li><a className={`dropdown-item ${styles.dropdown_item_edit}`} href="#">{serviceType}</a></li>
               </ul>
             </div>
             <div>
@@ -51,7 +43,6 @@ export const Buscador = ({location, availability, serviceType}) => {
           </div>
         </div>
       </div>
-
     </div>
   )
 }
