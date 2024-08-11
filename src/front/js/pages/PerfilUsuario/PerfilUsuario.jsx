@@ -33,21 +33,25 @@ export const PerfilUsuario = () => {
                 </div>
 
                 <div className="row">
-                    <p>aqui podrás añadir a usuarios</p>
+
+                    <div className="mt-4 text-center">
+                        <h4>Aqui podrás añadir a usuarios</h4>
+                    </div>
+
                     {/* <!-- Button trigger modal --> */}
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        Launch demo modal
+                    <button type="button" className={`btn btn-primary ${style.botonAgregarUsuario}`} data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Agregar un usuario
                     </button>
 
                     {/* <!-- Modal --> */}
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-scrollable">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar un familiar</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div className="modal-dialog modal-dialog-scrollable">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h1 className="modal-title fs-5" id="exampleModalLabel">Agregar un familiar</h1>
+                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <div class="modal-body">
+                                <div className="modal-body">
                                     <AgregarFamiliar />
                                 </div>
                             </div>
@@ -56,12 +60,17 @@ export const PerfilUsuario = () => {
                 </div>
 
                 <div className="row">
-                    <div className="col">
+                    <div className="col-3 d-flex justify-content-start">
                         <TarjetaFamiliar />
                     </div>
-                    <div className="col">
+                    <div className="col-3 d-flex justify-content-start">
                         <TarjetaFamiliar />
                     </div>
+                </div>
+
+
+                <div className="row text-center d-flex justify-content-center">
+                    <button type="button" className= {`btn btn-primary mt-5 mb-4 ${style.botonPubAnuncio}`} >Publicar un anuncio</button>
                 </div>
 
             </div>

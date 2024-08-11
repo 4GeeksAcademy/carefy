@@ -14,3 +14,20 @@
     flex-direction: column;
     filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538))
 }
+
+.botonAgregarUsuario{
+    margin-bottom: 2%;
+    background-color: #5C7728;
+}
+.botonAgregarUsuario:hover{
+    background-color: #B76C49;
+}
+
+.botonPubAnuncio{
+    width: 40%;
+    background-color: #B76C49 ;
+}
+
+.botonPubAnuncio:hover{
+    background-color: #5C7728;
+}

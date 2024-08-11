@@ -69,130 +69,135 @@ export const AgregarFamiliar = () => {
             </div>
 
 
-            {/* <div className="mb-3">
-                <label htmlFor="telefono" className="form-label">¿Toma medicinas?</label>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Selecciona una opción:</option>
-                    <option value="1">Si</option>
-                    <option value="2">No</option>
-                </select>
-            </div> */}
-
             <div className="mb-3">
-                <label htmlFor="necesita" className="form-label">Selecciona las necesidades</label>
-                <div class="form-check">
 
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Higiene personal
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                    <label class="form-check-label" for="flexCheckChecked">
-                        Vestimenta
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Movilidad
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                    <label class="form-check-label" for="flexCheckChecked">
-                        Alimentación
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Gestión de medicamentos
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                    <label class="form-check-label" for="flexCheckChecked">
-                        Citas médicas
-                    </label>
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Selecciona las necesidades:
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+
+                                <div class="form-check">
+
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        Higiene personal
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Vestimenta
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        Movilidad
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Alimentación
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        Gestión de medicamentos
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Citas médicas
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Control de la salud
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Compañía                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Apoyo emocional
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Actividades recreativas
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Conexión con la comunidad
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Limpieza del hogar
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Lavandería
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Compras y recados
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Gestión de documentos
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Pago de facturas
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Uso de nuevas tecnologías
+                                    </label>
+                                </div>                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                    <label class="form-check-label" for="flexCheckChecked">
-                        Control de la salud
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                    <label class="form-check-label" for="flexCheckChecked">
-                        Compañía                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                    <label class="form-check-label" for="flexCheckChecked">
-                        Apoyo emocional
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                    <label class="form-check-label" for="flexCheckChecked">
-                        Actividades recreativas
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                    <label class="form-check-label" for="flexCheckChecked">
-                        Conexión con la comunidad
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                    <label class="form-check-label" for="flexCheckChecked">
-                        Limpieza del hogar
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                    <label class="form-check-label" for="flexCheckChecked">
-                        Lavandería
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                    <label class="form-check-label" for="flexCheckChecked">
-                        Compras y recados
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                    <label class="form-check-label" for="flexCheckChecked">
-                        Gestión de documentos
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                    <label class="form-check-label" for="flexCheckChecked">
-                        Pago de facturas
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                    <label class="form-check-label" for="flexCheckChecked">
-                        Uso de nuevas tecnologías
-                    </label>
-                </div>
 
             </div>
             <div>
