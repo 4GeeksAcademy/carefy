@@ -1,0 +1,23 @@
+.rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 24px;
+}
+
+.heart {
+  cursor: pointer;
+  font-size: 40px;
+  color: white !important; 
+  transition: color 0.2s ease-in-out;
+}
+
+.heart.pulsado {
+  color: black;
+}
+
+p {
+  margin-top: 10px;
+  font-size: 18px;
+}
