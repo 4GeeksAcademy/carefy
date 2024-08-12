@@ -13,6 +13,7 @@ import { Post } from "./pages/Post.jsx";
 import { Anuncio } from "./pages/Anuncio.jsx";
 import { MisPostulaciones } from "./pages/MisPostulaciones.jsx";
 import { MisAnuncios } from "./pages/MisAnuncios.jsx";
+import { Login } from "./pages/Login.jsx"
 
 
 //create your first component
@@ -35,6 +36,7 @@ const Layout = () => {
                         <Route element={<Anuncio />} path="/anuncio" />
                         <Route element={<MisAnuncios />} path="/mis-anuncios" />
                         <Route element={<MisPostulaciones />} path="/mis-postulaciones" />
+                        <Route element={<Login />} path="/login" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
