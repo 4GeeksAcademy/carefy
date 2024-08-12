@@ -1,0 +1,38 @@
+.paginaFaqs{
+    background-color: #FFC9B3 ;
+    min-height: 80vh; /* Ocupa al menos la altura de la pantalla */
+
+}
+
+.cajonAcordeon{
+    padding-top: 2%;
+}
+
+.containerfaqs {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.titulo {
+    height: 80px;
+    align-content: center;
+    margin-bottom: 30px;
+}
+
+.propAcordeon{
+    background-color: white !important;
+    margin-bottom: 5px;
+    color: black !important;
+}
+
+.propAcordeon:focus {
+    box-shadow: none !important;
+}
+
+.accordion-body {
+    background-color: #F7F7F9;
+}
