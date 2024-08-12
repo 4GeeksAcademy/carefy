@@ -8,10 +8,10 @@ import { Jumbotron } from "../../component/Jumbotron/Jumbotron.jsx";
 
 export const Registro = () => {
 
-
+    
     return (
         <>
-        <Jumbotron bgImg={ {backgroundImage: "url('https://images.pexels.com/photos/7551606/pexels-photo-7551606.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')" }} title={"Empieza a ser parte de la comunidad Carefy"} subtitle={"El registro es gratuito y podrás buscar o encontrar un puesto como acompañante."} />
+        <Jumbotron bgImg={ {backgroundImage: "url('https://images.pexels.com/photos/339620/pexels-photo-339620.jpeg')" }} title={"Empieza a ser parte de la comunidad Carefy"} subtitle={"El registro es gratuito y podrás buscar o encontrar un puesto como acompañante."} />
 
         <div className={`${style.pagina}`}>
             <div className="container">
