@@ -1,11 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import style from "../Faqs/faqs.module.css";
+import { Jumbotron } from "../../component/Jumbotron/Jumbotron.jsx";
 
 
 export const Faqs = () => {
 
     return (
+        <>
+        <Jumbotron bgImg={ {backgroundImage: "url('https://images.unsplash.com/photo-1603129473525-4cd6f36fe057?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" }} title={"Estamos aquí para ayudarte"} subtitle={"Resolvemos cualquier duda que pueda surgirte con respecto al funcionamiento de Carefy"} />
         <div className={`${style.paginaFaqs}`}>
             <div className="container containerfaqs">
 
@@ -123,6 +126,7 @@ export const Faqs = () => {
 
             </div>
         </div>
+        </>
 
     )
 }

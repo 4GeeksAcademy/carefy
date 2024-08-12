@@ -17,6 +17,7 @@ import { Login } from "./pages/Login/Login.jsx"
 
 
 import { Registro } from "./pages/Registro/Registro.jsx"
+import { Faqs } from "./pages/Faqs/Faqs.jsx";
 //create your first component
 const Layout = () => {
     //the basename is used when your project is published in a subdirectory and not in the root of the domain
