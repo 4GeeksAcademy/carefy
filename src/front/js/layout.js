@@ -7,8 +7,14 @@ import { Home } from "./pages/Home.jsx";
 import { Blog } from "./pages/Blog.jsx";
 import injectContext from "./store/appContext";
 
-import { Navbar } from "./component/navbar";
-import { Footer } from "./component/footer";
+import { Navbar } from "./component/Navbar/Navbar.jsx"
+import { Footer } from "./component/Footer/Footer.jsx"
+import { Post } from "./pages/Post.jsx";
+import { Anuncio } from "./pages/Anuncio.jsx";
+import { MisPostulaciones } from "./pages/MisPostulaciones.jsx";
+import { MisAnuncios } from "./pages/MisAnuncios.jsx";
+import { Login } from "./pages/Login.jsx"
+
 
 //create your first component
 const Layout = () => {
@@ -30,8 +36,8 @@ const Layout = () => {
                         <Route element={<Anuncio />} path="/anuncio" />
                         <Route element={<MisAnuncios />} path="/mis-anuncios" />
                         <Route element={<MisPostulaciones />} path="/mis-postulaciones" />
-                        <Route element={<h1>Not found!</h1>} />
                         <Route element={<Login />} path="/login" />
+                        <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
                 </ScrollToTop>
