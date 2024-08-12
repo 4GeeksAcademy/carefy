@@ -10,7 +10,7 @@ import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
-import ProfileCompanion from "./pages/profileCompanion/ProfileCompanion.jsx";
+
 
 //create your first component
 const Layout = () => {
