@@ -1,0 +1,15 @@
+.bg_comment_box {
+    background-color: #E4E8F4;
+}
+
+.btn_comment {
+    background-color: #B76C49;
+    border-color: #B76C49;
+    color: white;
+}
+
+.btn_comment:hover {
+    background-color: #9a593c;
+    border-color: #9a593c;
+    color: white;
+}
