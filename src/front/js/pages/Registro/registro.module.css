@@ -41,7 +41,8 @@
     background-color: white;
     flex-wrap: nowrap;
     flex-direction: column;
-    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538))
+    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538));
+    margin-top: 2%;
 }
 
 .imagen2 {

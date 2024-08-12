@@ -4,18 +4,18 @@ import manosUnidas from "../../../img/manosUnidas.jpg";
 import ayudahombre from "../../../img/ayudahombre.jpg";
 import style from "../Registro/registro.module.css"
 import { FormularioRegistro } from "../../component/FormularioRegistro/FormularioRegistro.jsx"
+import { Jumbotron } from "../../component/Jumbotron/Jumbotron.jsx"; 
 
 export const Registro = () => {
 
 
     return (
+        <>
+        <Jumbotron bgImg={ {backgroundImage: "url('https://images.pexels.com/photos/7551606/pexels-photo-7551606.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')" }} title={"Empieza a ser parte de la comunidad Carefy"} subtitle={"El registro es gratuito y podrás buscar o encontrar un puesto como acompañante."} />
+
         <div className={`${style.pagina}`}>
             <div className="container">
-                <div className="row">
-                    
-                    <div className= {`col ${style.contenedorTitulo}`}><h1 className= {`${style.titulo} text-center`} >Espacio para el Jumbotrón de Registro</h1></div>  
-                    {/* quitar de la 22 a la 28 para meter jumbotron */}
-                </div>
+         
 
                 <div className= {`${style.cuerpoSignUp} row mb-4`} >
                     <div className="col">
@@ -40,5 +40,6 @@ export const Registro = () => {
                 </div>
             </div>
         </div>
+        </>
     )
 }
