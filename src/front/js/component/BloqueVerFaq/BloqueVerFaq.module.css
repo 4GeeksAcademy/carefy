@@ -11,3 +11,13 @@
     background-color: #e2ad97;
     border-color: #e2ad97;
 }
+
+.btn_ver_faq:focus{
+    background-color: #e2ad97 !important;
+    border-color: #e2ad97 !important;
+}
+
+.btn_ver_faq:active{
+    background-color: #e2ad97 !important;
+    border-color: #e2ad97 !important;
+}

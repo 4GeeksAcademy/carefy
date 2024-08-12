@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "./CajaComentarios.module.css"
+import styles from "./EscribirComentario.module.css"
 
-export const CajaComentarios = () => {
+export const EscribirComentario = () => {
     return (
         <div className={`${styles.bg_comment_box} p-4 rounded mb-5`}>
             <p className="fs-4">Escribe un comentario</p>

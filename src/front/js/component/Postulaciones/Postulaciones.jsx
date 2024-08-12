@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Postulaciones.module.css"
 
-export const Postulaciones = ({ }) => {
+export const Postulaciones = ({ countAds, title, location, date, countFav, favTitle, favLocation, favDate }) => {
     return (
         <>
             <div className={`container bg-light p-4 my-5 rounded ${styles.block_postulaciones}`}>
@@ -28,60 +28,10 @@ export const Postulaciones = ({ }) => {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <th scope="row">1</th>
-                                    <td>Se necesita cuidadora para hombre de 91 años</td>
-                                    <td>Madrid</td>
-                                    <td>01/05/2024</td>
-                                    <td className="">
-                                        <span class="fa-solid fa-eye pe-3"></span>
-                                        <span class="fa-solid fa-trash-can pb-2"></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Busco acompañanate para mi abuela zona Nervión, Sevilla</td>
-                                    <td>Sevilla</td>
-                                    <td>30/08/2024</td>
-                                    <td className="">
-                                        <span class="fa-solid fa-eye pe-3"></span>
-                                        <span class="fa-solid fa-trash-can pb-2"></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Se busca cuidador para hombre de 88 años para fines de semana</td>
-                                    <td>Velencia</td>
-                                    <td>21/12/2024</td>
-                                    <td className="">
-                                        <span class="fa-solid fa-eye pe-3"></span>
-                                        <span class="fa-solid fa-trash-can pb-2"></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">4</th>
-                                    <td>Se necesita cuidadora para hombre de 91 años</td>
-                                    <td>Madrid</td>
-                                    <td>01/05/2024</td>
-                                    <td className="">
-                                        <span class="fa-solid fa-eye pe-3"></span>
-                                        <span class="fa-solid fa-trash-can pb-2"></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">5</th>
-                                    <td>Busco acompañanate para mi abuela zona Nervión, Sevilla</td>
-                                    <td>Sevilla</td>
-                                    <td>30/08/2024</td>
-                                    <td className="">
-                                        <span class="fa-solid fa-eye pe-3"></span>
-                                        <span class="fa-solid fa-trash-can pb-2"></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">6</th>
-                                    <td>Se busca cuidador para hombre de 88 años para fines de semana</td>
-                                    <td>Velencia</td>
-                                    <td>21/12/2024</td>
+                                    <th scope="row">{countAds}</th>
+                                    <td>{title}</td>
+                                    <td>{location}</td>
+                                    <td>{date}</td>
                                     <td className="">
                                         <span class="fa-solid fa-eye pe-3"></span>
                                         <span class="fa-solid fa-trash-can pb-2"></span>
@@ -92,7 +42,7 @@ export const Postulaciones = ({ }) => {
 
                     </div>
                     <div className="tab-pane fade table-responsive" id="pills-fav" role="tabpanel" aria-labelledby="pills-fav-tab" tabindex="0">
-                    <table class="table table-light table-hover">
+                        <table class="table table-light table-hover">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -104,40 +54,10 @@ export const Postulaciones = ({ }) => {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <th scope="row">1</th>
-                                    <td>Se necesita cuidadora para hombre de 91 años</td>
-                                    <td>Madrid</td>
-                                    <td>01/05/2024</td>
-                                    <td className="">
-                                        <span class="fa-solid fa-eye pe-3"></span>
-                                        <span class="fa-solid fa-trash-can pb-2"></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Busco acompañanate para mi abuela zona Nervión, Sevilla</td>
-                                    <td>Sevilla</td>
-                                    <td>30/08/2024</td>
-                                    <td className="">
-                                        <span class="fa-solid fa-eye pe-3"></span>
-                                        <span class="fa-solid fa-trash-can pb-2"></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Se busca cuidador para hombre de 88 años para fines de semana</td>
-                                    <td>Velencia</td>
-                                    <td>21/12/2024</td>
-                                    <td className="">
-                                        <span class="fa-solid fa-eye pe-3"></span>
-                                        <span class="fa-solid fa-trash-can pb-2"></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">4</th>
-                                    <td>Se necesita cuidadora para hombre de 91 años</td>
-                                    <td>Madrid</td>
-                                    <td>01/05/2024</td>
+                                    <th scope="row">{countFav}</th>
+                                    <td>{favTitle}</td>
+                                    <td>{favLocation}</td>
+                                    <td>{favDate}</td>
                                     <td className="">
                                         <span class="fa-solid fa-eye pe-3"></span>
                                         <span class="fa-solid fa-trash-can pb-2"></span>

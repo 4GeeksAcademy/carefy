@@ -4,8 +4,8 @@
 }
 
 .fa_brands_edit:hover {
-    transform: scale(1.1); /* Escala el icono un 10% más grande */
-    color: #F8AE29;
+    transform: scale(1.2); /* Escala el icono un 20% más grande */
+    color: #FFC9B3;
 }
 
 @media screen and (max-width: 500px){

@@ -3,7 +3,7 @@ import styles from "./Navbar.module.css"
 import { Link } from "react-router-dom";
 import logo from '../../../img/logo.png'
 
-export const Navbar = ({username}) => {
+export const Navbar = ({ username }) => {
     return (
         <>
             <nav className={`navbar navbar-expand-lg ${styles.nabvar_bg}`}>
@@ -16,31 +16,39 @@ export const Navbar = ({username}) => {
                                     <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/">Inicio</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <a className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" href="#">Nosotros</a>
+                                    <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/aboutus">Nosotros</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <a className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" href="#">FAQ</a>
+                                    <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/faq">FAQ</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/blog">Blog</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <a className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" href="#">Contacto</a>
+                                    <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/contact">Contacto</Link>
                                 </li>
                             </ul>
                             <form className="d-flex gap-2 ms-3">
+
+                                {/* BOTONES QUE SE VEN SI EL USUARIO NO ESTÁ LOGUEADO */}
+
                                 {/* <button className={`btn btn-success fs-5 ${styles.login_button}`} type="submit">Iniciar sesión</button>
                                 <button className={`btn fs-5 ${styles.btn_signup}`} type="submit">Registrarse</button> */}
-                           
+
                                 <div className="btn-group">
+                                    {/* BOTONES QUE SE VEN SI EL USUARIO ESTÁ LOGUEADO */}
                                     <button type="button" className={`btn text-light ${styles.login_button} dropdown-toggle fs-5`} data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="fa-solid fa-user pe-2"></span>{username}
+                                        <span class="fa-solid fa-user pe-2"></span>{username}
                                     </button>
                                     <ul className="dropdown-menu dropdown-menu-end">
                                         <li><a className={`dropdown-item ${styles.dropdown_item_edit}`} href="#">Mi perfil</a></li>
+                                        {/* MENU QUE SE VE SI EL USUARIO ES ACOMPAÑANTE */}
                                         <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-postulaciones">Mis postulaciones</Link></li>
+
+                                        {/* MENU QUE SE VE SI EL USUARIO ES FAMILIAR */}
                                         <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-anuncios">Mis anuncios</Link></li>
-                                        <li><hr className="dropdown-divider"/></li>
+
+                                        <li><hr className="dropdown-divider" /></li>
                                         <li><button className="btn dropdown-item text-danger fw-bold" href="#"><span class="fa-solid fa-power-off pe-2"></span>Cerrar sesión</button></li>
                                     </ul>
                                 </div>
@@ -81,8 +89,29 @@ export const Navbar = ({username}) => {
                             </ul>
 
                             <form className="d-flex flex-column gap-2 align-items-start">
-                                <button className={`btn btn-success fs-5 ${styles.login_button}`} type="submit">Iniciar sesión</button>
-                                <button className={`btn fs-5 ${styles.btn_signup}`} type="submit">Registrarse</button>
+
+                                {/* BOTONES QUE SE VEN SI EL USUARIO NO ESTÁ LOGUEADO */}
+
+                                {/* <button className={`btn btn-success fs-5 ${styles.login_button}`} type="submit">Iniciar sesión</button>
+                                    <button className={`btn fs-5 ${styles.btn_signup}`} type="submit">Registrarse</button> */}
+
+                                <div className="btn-group">
+                                    {/* BOTONES QUE SE VEN SI EL USUARIO ESTÁ LOGUEADO */}
+                                    <button type="button" className={`btn text-light ${styles.login_button} dropdown-toggle fs-5`} data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="fa-solid fa-user pe-2"></span>{username}
+                                    </button>
+                                    <ul className="dropdown-menu">
+                                        <li><a className={`dropdown-item ${styles.dropdown_item_edit}`} href="#">Mi perfil</a></li>
+                                        {/* MENU QUE SE VE SI EL USUARIO ES ACOMPAÑANTE */}
+                                        <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-postulaciones">Mis postulaciones</Link></li>
+
+                                        {/* MENU QUE SE VE SI EL USUARIO ES FAMILIAR */}
+                                        <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-anuncios">Mis anuncios</Link></li>
+
+                                        <li><hr className="dropdown-divider" /></li>
+                                        <li><button className="btn dropdown-item text-danger fw-bold" href="#"><span class="fa-solid fa-power-off pe-2"></span>Cerrar sesión</button></li>
+                                    </ul>
+                                </div>
                             </form>
                         </div>
                     </div>

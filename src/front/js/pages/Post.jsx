@@ -2,7 +2,7 @@ import React from "react";
 import { PostBlog } from "../component/PostBlog/PostBlog.jsx";
 import { OtrosPost } from "../component/OtrosPost/OtrosPost.jsx";
 import { Comentarios } from "../component/Comentarios/Comentarios.jsx";
-import { CajaComentarios } from "../component/CajaComentarios/CajaComentarios.jsx";
+import { EscribirComentario } from "../component/EscribirComentario/EscribirComentario.jsx";
 
 
 export const Post = () => {
@@ -11,7 +11,7 @@ export const Post = () => {
             <div className="row container-fluid justify-content-center mt-5">
                 <div className="col-12 col-sm-7 mb-5">
                     <PostBlog />
-                    <CajaComentarios/>
+                    <EscribirComentario/>
                     <p className="display-5">Comentarios</p>
                     <Comentarios />
                 </div>
