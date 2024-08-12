@@ -20,6 +20,7 @@ import { Registro } from "./pages/Registro/Registro.jsx"
 import { Faqs } from "./pages/Faqs/Faqs.jsx";
 import {PerfilUsuario} from "./pages/PerfilUsuario/PerfilUsuario.jsx"
 import {Contacto} from "../../front/js/pages/Contacto/Contacto.jsx"
+import {PublicarResena} from "../js/pages/PublicarResena/PublicarResena.jsx"
 //create your first component
 const Layout = () => {
     //the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -47,6 +48,7 @@ const Layout = () => {
                         <Route element={<Registro />} path="/registro" />
                         <Route element={<PerfilUsuario />} path="/perfilusuario" />
                         <Route element={<Contacto />} path="/contacto" />
+                        <Route element={<PublicarResena />} path="/publicarresena" />
                     </Routes>
                     <Footer />
                 </ScrollToTop>
