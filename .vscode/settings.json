@@ -6,5 +6,11 @@
     },
     "[javascriptreact]": {
         "editor.defaultFormatter": "vscode.typescript-language-features"
+<<<<<<< HEAD
+=======
+    },
+    "[css]": {
+        "editor.defaultFormatter": "vscode.css-language-features"
+>>>>>>> 363f9c6b93afdee1f435aa574dbc9551e61a6aba
     }
 }

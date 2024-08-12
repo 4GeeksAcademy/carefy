@@ -1,0 +1,64 @@
+
+.pagina{
+    background-color: #FFC9B3;
+}
+.cuerpoSignUp{
+    min-height: 60vh;
+    display: flex;    
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+@media (max-width: 576px) {
+    .cuerpoSignUp{
+        flex-direction: column; /* Ajusta para pantallas más pequeñas si es necesario */
+  }
+  }
+
+.contenedorTitulo{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.titulo{
+    background-color: #B76C49;
+    margin-bottom: 50px;
+    color:white
+
+}
+
+
+
+
+.imagen1 {
+    width: 420px;
+    margin-top: 8%;
+    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538)); 
+}
+
+.formulario {
+    background-color: white;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538));
+    margin-top: 2%;
+}
+
+.imagen2 {
+    width: 420px;
+    height: 322px;
+    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538)); 
+    margin-top: 8%;
+
+
+}
+
+.texto {
+    font-family: "Edu AU VIC WA NT Hand", cursive;
+    font-optical-sizing: auto;
+    font-weight: 100px;
+    font-style: normal;
+    font-size: 22px;
+    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538)); 
+}

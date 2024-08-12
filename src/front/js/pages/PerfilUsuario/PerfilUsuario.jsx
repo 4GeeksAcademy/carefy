@@ -5,22 +5,17 @@ import nietaabuela from "../../../img/nietaabuela.jpg"
 import { FormularioFamiliar } from "../../component/FormularioFamiliar/FormularioFamiliar.jsx";
 import { AgregarFamiliar } from "../../component/AgregarFamiliar/AgregarFamiliar.jsx";
 import { TarjetaFamiliar } from "../../component/TarjetaFamiliar/TarjetaFamiliar.jsx";
+import { Jumbotron} from "../../component/Jumbotron/Jumbotron.jsx"
+
 
 export const PerfilUsuario = () => {
 
     return (
+        <>
+        <Jumbotron bgImg={ {backgroundImage: "url('https://images.pexels.com/photos/3791664/pexels-photo-3791664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')" }} title={"Este es tu perfil de usuario"} subtitle={"Aquí puedes modificar tus datos y los de tus familiares que requieren acompañamiento."} />
         <div className={`${style.paginaContacto}`}>
             <div className="container ">
-                <div className="row tituloContacto text-center">
-                    <div className="row">
-                        <h1>Este es tu perfil como usuario</h1>
-                    </div>
-                    <div className="row subtituloContacto">
-                        <h4>A continuación debes completar unos datos obligatorios </h4>
-                    </div>
-                    {/* eliminar de la 13 a la 18 para el jumbotron */}
-                </div>
-
+                
                 <div className="row">
                     <div className={`col ${style.formulario} ${style.contenedorForm} rounded align-content-center`}>
                         <FormularioFamiliar />
@@ -77,5 +72,6 @@ export const PerfilUsuario = () => {
 
 
         </div >
+        </>
     )
 }
