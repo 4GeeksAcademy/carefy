@@ -3,13 +3,17 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 
-import { Home } from "./pages/home";
-import { Demo } from "./pages/demo";
-import { Single } from "./pages/single";
+import { Home } from "./pages/Home.jsx";
+import { Blog } from "./pages/Blog.jsx";
 import injectContext from "./store/appContext";
 
-import { Navbar } from "./component/navbar";
-import { Footer } from "./component/footer";
+import { Navbar } from "./component/Navbar/Navbar.jsx"
+import { Footer } from "./component/Footer/Footer.jsx"
+import { Post } from "./pages/Post.jsx";
+import { Anuncio } from "./pages/Anuncio.jsx";
+import { MisPostulaciones } from "./pages/MisPostulaciones.jsx";
+import { MisAnuncios } from "./pages/MisAnuncios.jsx";
+
 
 //create your first component
 const Layout = () => {
@@ -23,11 +27,14 @@ const Layout = () => {
         <div>
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
-                    <Navbar />
+                    <Navbar/>
                     <Routes>
                         <Route element={<Home />} path="/" />
-                        <Route element={<Demo />} path="/demo" />
-                        <Route element={<Single />} path="/single/:theid" />
+                        <Route element={<Blog />} path="/blog" />
+                        <Route element={<Post />} path="/post-blog/:id" />
+                        <Route element={<Anuncio />} path="/anuncio" />
+                        <Route element={<MisAnuncios />} path="/mis-anuncios" />
+                        <Route element={<MisPostulaciones />} path="/mis-postulaciones" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />

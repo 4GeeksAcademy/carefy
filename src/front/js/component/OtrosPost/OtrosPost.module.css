@@ -1,0 +1,9 @@
+.btn_read_more{
+    background-color: #B76C49;
+    color: white;
+}
+
+.btn_read_more:hover{
+    background-color: #9a593c;
+    color: white;
+}
