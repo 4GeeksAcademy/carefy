@@ -1,0 +1,18 @@
+.colorletraFL {
+    color: black;
+}
+
+.cajonFormulario {
+    padding-bottom: 10%;
+    padding-top: 10%;
+    
+}
+
+.botonInicio{
+    background-color: #B76C49 ;
+    filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.538));
+}
+
+.botonInicio:hover{
+    background-color: #5C7728;
+}
