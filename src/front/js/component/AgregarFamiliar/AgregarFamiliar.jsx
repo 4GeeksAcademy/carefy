@@ -39,7 +39,7 @@ export const AgregarFamiliar = () => {
         <form>
             <div className="mb-3">
                 <label htmlFor="alias" className="form-label">Alias</label>
-                <input type="text" class="form-control" id="alias" placeholder="Ejemplo: mi padre" />
+                <input type="text" className="form-control" id="alias" placeholder="Ejemplo: mi padre" />
 
             </div>
 
@@ -68,132 +68,199 @@ export const AgregarFamiliar = () => {
 
             </div>
 
-
+            {/* Selección de necesidades */}
             <div className="mb-3">
-
-                <div class="accordion" id="accordionExample">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <label htmlFor="necesidades" className="form-label">Necesidades</label>
+                <div className="accordion" id="necesidades">
+                    <div className="accordion-item">
+                        <h2 className="accordion-header">
+                            <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                 Selecciona las necesidades:
                             </button>
                         </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
+                        <div id="collapseOne" className="accordion-collapse collapse" data-bs-parent="#necesidades">
+                            <div className="accordion-body">
 
-                                <div class="form-check">
+                                <div className="form-check">
 
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                                    <label class="form-check-label" for="flexCheckDefault">
+                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                                    <label className="form-check-label" for="flexCheckDefault">
                                         Higiene personal
                                     </label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                    <label class="form-check-label" for="flexCheckChecked">
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label className="form-check-label" for="flexCheckChecked">
                                         Vestimenta
                                     </label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                                    <label class="form-check-label" for="flexCheckDefault">
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                                    <label className="form-check-label" for="flexCheckDefault">
                                         Movilidad
                                     </label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                    <label class="form-check-label" for="flexCheckChecked">
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label className="form-check-label" for="flexCheckChecked">
                                         Alimentación
                                     </label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                                    <label class="form-check-label" for="flexCheckDefault">
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                                    <label className="form-check-label" for="flexCheckDefault">
                                         Gestión de medicamentos
                                     </label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                    <label class="form-check-label" for="flexCheckChecked">
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label className="form-check-label" for="flexCheckChecked">
                                         Citas médicas
                                     </label>
                                 </div>
 
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                    <label class="form-check-label" for="flexCheckChecked">
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label className="form-check-label" for="flexCheckChecked">
                                         Control de la salud
                                     </label>
                                 </div>
 
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                    <label class="form-check-label" for="flexCheckChecked">
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label className="form-check-label" for="flexCheckChecked">
                                         Compañía                    </label>
                                 </div>
 
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                    <label class="form-check-label" for="flexCheckChecked">
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label className="form-check-label" for="flexCheckChecked">
                                         Apoyo emocional
                                     </label>
                                 </div>
 
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                    <label class="form-check-label" for="flexCheckChecked">
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label className="form-check-label" for="flexCheckChecked">
                                         Actividades recreativas
                                     </label>
                                 </div>
 
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                    <label class="form-check-label" for="flexCheckChecked">
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label className="form-check-label" for="flexCheckChecked">
                                         Conexión con la comunidad
                                     </label>
                                 </div>
 
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                    <label class="form-check-label" for="flexCheckChecked">
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label className="form-check-label" for="flexCheckChecked">
                                         Limpieza del hogar
                                     </label>
                                 </div>
 
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                    <label class="form-check-label" for="flexCheckChecked">
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label className="form-check-label" for="flexCheckChecked">
                                         Lavandería
                                     </label>
                                 </div>
 
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                    <label class="form-check-label" for="flexCheckChecked">
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label className="form-check-label" for="flexCheckChecked">
                                         Compras y recados
                                     </label>
                                 </div>
 
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                    <label class="form-check-label" for="flexCheckChecked">
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label className="form-check-label" for="flexCheckChecked">
                                         Gestión de documentos
                                     </label>
                                 </div>
 
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                    <label class="form-check-label" for="flexCheckChecked">
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label className="form-check-label" for="flexCheckChecked">
                                         Pago de facturas
                                     </label>
                                 </div>
 
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                                    <label class="form-check-label" for="flexCheckChecked">
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                                    <label className="form-check-label" for="flexCheckChecked">
                                         Uso de nuevas tecnologías
                                     </label>
-                                </div>                            </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            {/* Selección de grado de dependencia */}
+            <div className="mb-3">
+                <label htmlFor="dependencia" className="form-label">Grado de dependencia </label>
+                <div className="accordion" id="dependencia">
+                    <div className="accordion-item">
+                        <h2 className="accordion-header">
+                            <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#dependOne" aria-expanded="true" aria-controls="dependOne">
+                                Selecciona el grado de dependencia:
+                            </button>
+                        </h2>
+                        <div id="dependOne" className="accordion-collapse collapse" data-bs-parent="#dependencia">
+                            <div className="accordion-body">
+                                <p>Deja el cursor sobre el nivel para obtener más información</p>
+
+                                <div className="form-check">
+                                    <input className="form-check-input" type="radio" name="gradodependencia" id="nivel" />
+                                    <label
+                                        className="form-check-label"
+                                        htmlFor="nivel"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="right"
+                                        title="Acompañamiento. Es independiente en tareas diarias y personales">
+                                        Nivel 1
+                                    </label>
+                                </div>
+                                <div className="form-check">
+                                    <input className="form-check-input" type="radio" name="gradodependencia" id="nivel2" />
+                                    <label
+                                        className="form-check-label"
+                                        htmlFor="nivel2"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="right"
+                                        title="Dependencia leve. Requiere ayuda para cosas puntuales en algún momento del día para la rutina o autonomía personal">
+                                        Nivel 2
+                                    </label>
+                                </div>
+                                <div className="form-check">
+                                    <input className="form-check-input" type="radio" name="gradodependencia" id="nivel3" />
+                                    <label
+                                        className="form-check-label"
+                                        htmlFor="nivel3"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="right"
+                                        title="Dependencia moderada. Requiere ayuda para actividades básicas, dos o tres veces al día">
+                                        Nivel 3
+                                    </label>
+                                </div>
+                                <div className="form-check">
+                                    <input className="form-check-input" type="radio" name="gradodependencia" id="nivel4" />
+                                    <label
+                                        className="form-check-label"
+                                        htmlFor="nivel4"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="right"
+                                        title="Dependencia severa. Necesita el apoyo indispensable de otra persona por pérdida de autonómia física, mental o intelectual">
+                                        Nivel 4
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -201,25 +268,81 @@ export const AgregarFamiliar = () => {
 
             </div>
             <div>
-
-
             </div>
 
 
-            <div class="mb-3">
-                <label htmlFor="provincia" className="form-label">Provincia</label>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Selecciona la provincia</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
+
+
+
+
+
+
+            <div className="row">
+                <div className="col">
+                    <label htmlFor="provincia" className="form-label">Provincia</label>
+                    <select className="form-select" id="provincia" aria-label="Selecciona la provincia">
+                        <option selected>Selecciona la provincia</option>
+                        <option value="A Coruna">A Coruña</option>
+                        <option value="Alava">Álava</option>
+                        <option value="Albacete">Albacete</option>
+                        <option value="Alicante">Alicante</option>
+                        <option value="Almeria">Almería</option>
+                        <option value="Asturias">Asturias</option>
+                        <option value="Avila">Ávila</option>
+                        <option value="Badajoz">Badajoz</option>
+                        <option value="Baleares">Baleares</option>
+                        <option value="Barcelona">Barcelona</option>
+                        <option value="Burgos">Burgos</option>
+                        <option value="Caceres">Cáceres</option>
+                        <option value="Cadiz">Cádiz</option>
+                        <option value="Cantabria">Cantabria</option>
+                        <option value="Castellon">Castellón</option>
+                        <option value="Ciudad Real">Ciudad Real</option>
+                        <option value="Cordoba">Córdoba</option>
+                        <option value="Cuenca">Cuenca</option>
+                        <option value="Girona">Girona</option>
+                        <option value="Granada">Granada</option>
+                        <option value="Guadalajara">Guadalajara</option>
+                        <option value="Guipuzcoa">Guipúzcoa</option>
+                        <option value="Huelva">Huelva</option>
+                        <option value="Huesca">Huesca</option>
+                        <option value="Jaen">Jaén</option>
+                        <option value="La Rioja">La Rioja</option>
+                        <option value="Las Palmas">Las Palmas</option>
+                        <option value="Leon">León</option>
+                        <option value="Lleida">Lleida</option>
+                        <option value="Lugo">Lugo</option>
+                        <option value="Madrid">Madrid</option>
+                        <option value="Malaga">Málaga</option>
+                        <option value="Murcia">Murcia</option>
+                        <option value="Navarra">Navarra</option>
+                        <option value="Ourense">Ourense</option>
+                        <option value="Palencia">Palencia</option>
+                        <option value="Pontevedra">Pontevedra</option>
+                        <option value="Salamanca">Salamanca</option>
+                        <option value="Segovia">Segovia</option>
+                        <option value="Sevilla">Sevilla</option>
+                        <option value="Soria">Soria</option>
+                        <option value="Tarragona">Tarragona</option>
+                        <option value="Santa Cruz de Tenerife">Santa Cruz de Tenerife</option>
+                        <option value="Teruel">Teruel</option>
+                        <option value="Toledo">Toledo</option>
+                        <option value="Valencia">Valencia</option>
+                        <option value="Valladolid">Valladolid</option>
+                        <option value="Vizcaya">Vizcaya</option>
+                        <option value="Zamora">Zamora</option>
+                        <option value="Zaragoza">Zaragoza</option>
+                        <option value="Ceuta">Ceuta</option>
+                        <option value="Melilla">Melilla</option>
+                    </select>
+                </div>
             </div>
 
 
-            <div class="mb-3">
-                <label for="formFile" class="form-label">Puedes subir una foto</label>
-                <input class="form-control" type="file" id="formFile" />
+
+            <div className="mb-3">
+                <label for="formFile" className="form-label">Puedes subir una foto</label>
+                <input className="form-control" type="file" id="formFile" />
             </div>
 
             <div className="mb-3">
@@ -227,8 +350,9 @@ export const AgregarFamiliar = () => {
                 <textarea className="form-control" id="observaciones" placeholder="Puedes añadir cualquier información / necesidad relevante para el acompañante" />
             </div>
 
-
-            <button type="submit" claclassNamess="btn btn-primary">Guardar usuario</button>
+            <div className="d-flex justify-content-center">
+                <button type="submit" className={`btn ${style.botonGuardar}`} >Guardar usuario</button>
+            </div>
         </form >
 
     )
