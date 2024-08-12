@@ -4,17 +4,16 @@ import style from "../Login/login.module.css"
 import ancianafeliz from "../../../img/ancianafeliz.jpg";
 import manosanciana from "../../../img/manosanciana.jpg";
 import { FormularioLogin } from "../../component/FormularioLogin/FormularioLogin.jsx";
+import { Jumbotron } from "../../component/Jumbotron/Jumbotron.jsx";
 
 export const Login = () => {
 
     return (
+        <>
+        <Jumbotron bgImg={ {backgroundImage: "url('https://images.pexels.com/photos/3768131/pexels-photo-3768131.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')" }} title={"Accede a la comunidad Carefy"} subtitle={"Recuerda que el acceso y los servicios son totalmente gratuitos."} />
         <div className={`${style.paginaLogin}`}>
-            <div className="container">
-                <div className="row">
-                    
-                    <div className="col contenedorTitulo"><h1 className="titulo text-center ">Espacio para el jumbotron Login</h1></div>
-                </div>
-                {/* eliminar de la 21 a la 27 para jumbotron */}
+
+            <div className="container">               
 
                 <div className={`row mb-4 ${style.cuerpo} ${style.cuerpoLogin}`}>
                     <div className="col me-2">
@@ -39,5 +38,6 @@ export const Login = () => {
                 </div>
             </div>
         </div>
+        </>
     )
 }
