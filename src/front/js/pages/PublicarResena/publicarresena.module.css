@@ -1,3 +1,21 @@
 .paginaLogin{
     background-color: #FFC9B3;
 }
+
+.observaciones{
+    width: 80%;
+    margin-bottom: 2%;
+
+}
+
+.texto{
+    margin-left: 10%;
+}
+
+.boton{
+    background-color: #B76C49;
+}
+
+.boton:hover{
+    background-color: #5C7728 ;
+}

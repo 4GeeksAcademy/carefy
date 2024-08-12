@@ -9,12 +9,19 @@
 .heart {
   cursor: pointer;
   font-size: 40px;
-  color: white !important; 
+  color: rgb(10, 0, 0) !important; 
+  transition: color 0.2s ease-in-out;
+}
+
+.heartgreen {
+  cursor: pointer;
+  font-size: 40px;
+  color: #5C7728 !important; 
   transition: color 0.2s ease-in-out;
 }
 
 .heart.pulsado {
-  color: black;
+  color: rgb(196, 34, 34);
 }
 
 p {
