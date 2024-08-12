@@ -13,7 +13,7 @@ import { Post } from "./pages/Post.jsx";
 import { Anuncio } from "./pages/Anuncio.jsx";
 import { MisPostulaciones } from "./pages/MisPostulaciones.jsx";
 import { MisAnuncios } from "./pages/MisAnuncios.jsx";
-import { Login } from "./pages/Login.jsx"
+import { Login } from "./pages/Login/Login.jsx"
 
 
 import { Registro } from "./pages/Registro/Registro.jsx"
