@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { Context } from "../store/appContext.js";
-import { Jumbotron } from "../component/Jumbotron/Jumbotron.jsx";
-import { Postulaciones } from "../component/Postulaciones/Postulaciones.jsx";
+import { Context } from "../../store/appContext.js";
+import { Jumbotron } from "../../component/Jumbotron/Jumbotron.jsx";
+import { Postulaciones } from "../../component/Postulaciones/Postulaciones.jsx";
 
 
 export const MisPostulaciones = () => {

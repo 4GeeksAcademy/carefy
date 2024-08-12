@@ -5,28 +5,27 @@ import style from "../../component/FormularioLogin/formulariologin.module.css"
 export const FormularioLogin = () => {
 
     return (
-        <form className={`form ${style.cajonFormulario}`}>
+        <form className="form p-4">
             <div className="mb-3">
-                <label htmlFor="email" className={`form-label ${style.colorletraFL}`}>Correo</label>
-                <input type="email" className="form-control" id="email" placeholder="Introduce tu correo"></input>
+                <label htmlFor="email" className="form-label fs-5">Email</label>
+                <input type="email" className="form-control" id="email" placeholder="Introduce tu correo electrónico"></input>
             </div>
 
 
 
             <div className="mb-3">
-                <label htmlFor="password" className={`form-label ${style.colorletraFL}`}>Contraseña</label>
-                <input type="password" className="form-control" id="password" />
+                <label htmlFor="password" className="form-label fs-5">Contraseña</label>
+                <input type="password" className="form-control" id="password" placeholder="Introduce tu contraseña" />
             </div>
 
 
-            <div class="mb-3 form-check">
-                <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
-                <label className={`form-check-label ${style.colorletraFL} `}for="exampleCheck1">Recuérdame</label>
+            <div className="mb-3">
+                <p className="text-secondary fst-italic">¿Has olvidado la contraseña? <button className="btn text-primary fw-bold">Resturar</button></p>
             </div>
 
 
             <div className="text-center">
-                <button type="submit" className={`${style.botonInicio} submit btn btn-primary mb-3`} >Iniciar sesión</button>
+                <button type="submit" className={`${style.botonInicio} fs-5 submit btn btn-primary mb-3`} >Iniciar sesión</button>
             </div>
         </form>
 

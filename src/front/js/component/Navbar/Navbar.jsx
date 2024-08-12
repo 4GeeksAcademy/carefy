@@ -32,14 +32,14 @@ export const Navbar = ({ username }) => {
 
                                 {/* BOTONES QUE SE VEN SI EL USUARIO NO ESTÁ LOGUEADO */}
 
-                                {/* <button className={`btn btn-success fs-5 ${styles.login_button}`} type="submit">Iniciar sesión</button>
-                                <button className={`btn fs-5 ${styles.btn_signup}`} type="submit">Registrarse</button> */}
+                                <Link to="/login"><button className={`btn btn-success fs-5 ${styles.login_button}`} type="submit">Iniciar sesión</button></Link>
+                                <Link to="/registro"><button className={`btn fs-5 ${styles.btn_signup}`} type="submit">Registrarse</button></Link>
 
                                 <div className="btn-group">
                                     {/* BOTONES QUE SE VEN SI EL USUARIO ESTÁ LOGUEADO */}
-                                    <button type="button" className={`btn text-light ${styles.login_button} dropdown-toggle fs-5`} data-bs-toggle="dropdown" aria-expanded="false">
-                                        <span class="fa-solid fa-user pe-2"></span>{username}
-                                    </button>
+                                    {/* <button type="button" className={`btn text-light ${styles.login_button} dropdown-toggle fs-5`} data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span className="fa-solid fa-user pe-2"></span>{username}
+                                    </button> */}
                                     <ul className="dropdown-menu dropdown-menu-end">
                                         <li><a className={`dropdown-item ${styles.dropdown_item_edit}`} href="#">Mi perfil</a></li>
                                         {/* MENU QUE SE VE SI EL USUARIO ES ACOMPAÑANTE */}
@@ -49,7 +49,7 @@ export const Navbar = ({ username }) => {
                                         <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-anuncios">Mis anuncios</Link></li>
 
                                         <li><hr className="dropdown-divider" /></li>
-                                        <li><button className="btn dropdown-item text-danger fw-bold" href="#"><span class="fa-solid fa-power-off pe-2"></span>Cerrar sesión</button></li>
+                                        <li><button className="btn dropdown-item text-danger fw-bold" href="#"><span className="fa-solid fa-power-off pe-2"></span>Cerrar sesión</button></li>
                                     </ul>
                                 </div>
                             </form>
@@ -92,14 +92,14 @@ export const Navbar = ({ username }) => {
 
                                 {/* BOTONES QUE SE VEN SI EL USUARIO NO ESTÁ LOGUEADO */}
 
-                                {/* <button className={`btn btn-success fs-5 ${styles.login_button}`} type="submit">Iniciar sesión</button>
-                                    <button className={`btn fs-5 ${styles.btn_signup}`} type="submit">Registrarse</button> */}
+                                <button className={`btn btn-success fs-5 ${styles.login_button}`} type="submit">Iniciar sesión</button>
+                                    <button className={`btn fs-5 ${styles.btn_signup}`} type="submit">Registrarse</button>
 
                                 <div className="btn-group">
                                     {/* BOTONES QUE SE VEN SI EL USUARIO ESTÁ LOGUEADO */}
-                                    <button type="button" className={`btn text-light ${styles.login_button} dropdown-toggle fs-5`} data-bs-toggle="dropdown" aria-expanded="false">
-                                        <span class="fa-solid fa-user pe-2"></span>{username}
-                                    </button>
+                                    {/* <button type="button" className={`btn text-light ${styles.login_button} dropdown-toggle fs-5`} data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span className="fa-solid fa-user pe-2"></span>{username}
+                                    </button> */}
                                     <ul className="dropdown-menu">
                                         <li><a className={`dropdown-item ${styles.dropdown_item_edit}`} href="#">Mi perfil</a></li>
                                         {/* MENU QUE SE VE SI EL USUARIO ES ACOMPAÑANTE */}
@@ -109,7 +109,7 @@ export const Navbar = ({ username }) => {
                                         <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-anuncios">Mis anuncios</Link></li>
 
                                         <li><hr className="dropdown-divider" /></li>
-                                        <li><button className="btn dropdown-item text-danger fw-bold" href="#"><span class="fa-solid fa-power-off pe-2"></span>Cerrar sesión</button></li>
+                                        <li><button className="btn dropdown-item text-danger fw-bold" href="#"><span className="fa-solid fa-power-off pe-2"></span>Cerrar sesión</button></li>
                                     </ul>
                                 </div>
                             </form>
