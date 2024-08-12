@@ -3,21 +3,16 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import style from "../Contacto/contacto.module.css";
 import dudas from "../../../img/dudas.jpg"
 import { FormularioContacto } from "../../component/FormularioContacto/FormularioContacto.jsx";
+import {Jumbotron} from "../../component/Jumbotron/Jumbotron.jsx"
 
 export const Contacto = () => {
 
     return (
+        <>
+        <Jumbotron bgImg={ {backgroundImage: "url('https://images.pexels.com/photos/7329664/pexels-photo-7329664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')" }} title={"¿Tienes alguna duda"} subtitle={"No dudes en escribirnos. Te responderemos lo antes posible."} />
         <div className={`${style.paginaContacto}`}>
         <div className="container ">
-            <div className="row tituloContacto text-center">
-                <div className="row">
-                    <h1>¿Te queda alguna duda?</h1>
-                </div>
-                <div className="row subtituloContacto">
-                    <h4>No dudes en escribirnos. Estaremos encantados de ayudarte. </h4>
-                </div>
-                {/* eliminar de la 13 a la 18 para el jumbotron */}
-            </div>
+           
 
             <div className={`row ${style.contenedorForm}`}>
                 <div className={`col mb-5 ${style.formulario} rounded`}>
@@ -30,5 +25,6 @@ export const Contacto = () => {
             </div>
         </div>
         </div >
+        </>
     )
 }
