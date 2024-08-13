@@ -1,10 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import style from "../FormularioFamiliar/formulariofamiliar.module.css"
-
-
+import { Context } from "../../store/appContext.js";
 
 export const FormularioFamiliar = () => {
+
+
+    const { store, actions } = useContext(Context);
+	const navigate = useNavigate();
+
     return (
 
         <form className={`mt-1 ${style.cajonFormulario} rounded p-3`}>
@@ -13,13 +17,13 @@ export const FormularioFamiliar = () => {
                 <div className="col">
                     <div class="mb-3">
                         <label htmlFor="nombre" className="form-label fs-5">Nombre</label>
-                        <input type="text" className="form-control" id="nombre" placeholder="Escribe tu nombre"/>
+                        <input type="text" className="form-control" id="nombre" placeholder="Escribe tu nombre" value={store.name}/>
                     </div>
                 </div>
                 <div className="col">
                     <div class="mb-3">
                         <label htmlFor="apellidos" className="form-label fs-5">Apellidos</label>
-                        <input type="text" className="form-control" id="apellidos" aria-describedby="emailHelp" placeholder="Escribe tu apellido" />
+                        <input type="text" className="form-control" id="apellidos" aria-describedby="emailHelp" placeholder="Escribe tu apellido" value={store.lastname}/>
                     </div>
                 </div>
             </div>
@@ -28,13 +32,13 @@ export const FormularioFamiliar = () => {
                 <div className="col">
                     <div class="mb-3">
                         <label htmlFor="email" className="form-label fs-5">Email</label>
-                        <input type="email" className="form-control" id="email" placeholder="nombre@email.com" />
+                        <input type="email" className="form-control" id="email" placeholder="nombre@email.com" value={store.email}/>
                     </div>
                 </div>
                 <div className="col">
                     <div class="mb-3">
                         <label htmlFor="telefono" className="form-label fs-5">Teléfono de contacto</label>
-                        <input type="tel" className="form-control" id="telefono" placeholder="+34 6 123 456 78"/>
+                        <input type="tel" className="form-control" id="telefono" placeholder="+34 6 123 456 78" value={store.phone}/>
                     </div>
                 </div>
             </div>
@@ -44,7 +48,7 @@ export const FormularioFamiliar = () => {
             <div className="row">
                 <div className="col">
                     <label htmlFor="provincia" className="form-label fs-5">Provincia</label>
-                    <select className="form-select" id="provincia" aria-label="Selecciona la provincia">
+                    <select className="form-select" id="provincia" aria-label="Selecciona la provincia" value={store.location}>
                         <option selected>Selecciona la provincia</option>
                         <option value="A Coruna">A Coruña</option>
                         <option value="Alava">Álava</option>
