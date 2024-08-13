@@ -88,6 +88,7 @@ class Companion(db.Model):
     linkedin = db.Column(db.String(250))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
+
 class Inscriptions(db.Model): 
     __tablename__ ="Inscriptions"
     id = db.Column(db.Integer, primary_key=True)
@@ -100,6 +101,19 @@ class Inscriptions(db.Model):
     patients = db.relationship ("Patients",  back_populates = "inscriptions")
     ad = db.relationship ("Ads", back_populates = "inscriptions")
 
+    def serialize(self):
+        return {
+            "id": self.id,
+            "patient_id": self.patient_id,
+            "companion_id": self.companion_id,
+            "ad_id": self.ad_id,
+            "is_active": self.is_active
+        }
+    
+
+
+
+
 
 class Favourite_companions(db.Model):
     __tablename__ ="Favourite_companions"
@@ -109,6 +123,15 @@ class Favourite_companions(db.Model):
 
     patient = db.relationship ("Patients", back_populates="favourite_companions")
     companion = db.relationship ("Companions", back_populate = "favourite_companions")
+
+    def serialize(self):
+        return{
+            "id": self.id,
+            "patient_id": self.patient_id,
+            "companion_id": self.companion_id
+        }
+        
+
 
 class Ads (db.Model):
     __tablename__ ="Ads"
@@ -124,6 +147,21 @@ class Ads (db.Model):
     status = db.Column(db.Enum, unique=False, nullable=False)
 
     patient = db.relationship ("Patients", back_populates="ads")
+
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "patient_id": self.patient_id,
+            "title": self.title,
+            "description": self.description,
+            "active": self.active,
+            "created_at": self.created_at,
+            "start_date": self.start_date,
+            "end_date": self.end_date,
+            "max_cost": self.max_cost,
+            "status": self.status
+        }
 
 
 
