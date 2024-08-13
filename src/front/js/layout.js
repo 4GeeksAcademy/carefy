@@ -15,8 +15,11 @@ import { MisPostulaciones } from "./pages/MisPostulaciones/MisPostulaciones.jsx"
 import { MisAnuncios } from "./pages/MisAnuncios/MisAnuncios.jsx";
 import { Login } from "./pages/Login/Login.jsx"
 
-
 import { Registro } from "./pages/Registro/Registro.jsx"
+import { Faqs } from "./pages/Faqs/Faqs.jsx";
+import {PerfilUsuario} from "./pages/PerfilUsuario/PerfilUsuario.jsx"
+import {Contacto} from "../../front/js/pages/Contacto/Contacto.jsx"
+import {PublicarResena} from "../js/pages/PublicarResena/PublicarResena.jsx"
 //create your first component
 const Layout = () => {
     //the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -39,8 +42,11 @@ const Layout = () => {
                         <Route element={<MisPostulaciones />} path="/mis-postulaciones" />
                         <Route element={<Login />} path="/login" />
                         <Route element={<h1>Not found!</h1>} />
-
+                        <Route element={<Faqs />} path="/faq" />
                         <Route element={<Registro />} path="/registro" />
+                        <Route element={<PerfilUsuario />} path="/perfilusuario" />
+                        <Route element={<Contacto />} path="/contacto" />
+                        <Route element={<PublicarResena />} path="/publicar-resena" />
                     </Routes>
                     <Footer />
                 </ScrollToTop>

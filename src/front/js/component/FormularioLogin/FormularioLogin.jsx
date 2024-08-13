@@ -24,7 +24,7 @@ export const FormularioLogin = () => {
             navigate('/mis-postulaciones')
         }
         else {
-            navigate('/mis-anuncios')
+            navigate('/perfilusuario')
         }
     }
 
