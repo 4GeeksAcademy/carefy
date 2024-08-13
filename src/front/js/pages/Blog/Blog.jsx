@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import { Context } from "../store/appContext.js";
-import { Jumbotron } from "../component/Jumbotron/Jumbotron.jsx";
-import { CardPostBlog } from "../component/CardPostBlog/CardPostBlog.jsx";
-import { ListadoCategoríasPost } from "../component/ListadoCategoríasPost/ListadoCategoríasPost.jsx";
+import { Context } from "../../store/appContext.js";
+import { Jumbotron } from "../../component/Jumbotron/Jumbotron.jsx";
+import { CardPostBlog } from "../../component/CardPostBlog/CardPostBlog.jsx";
+import { ListadoCategoríasPost } from "../../component/ListadoCategoríasPost/ListadoCategoríasPost.jsx";
 
 
 export const Blog = () => {

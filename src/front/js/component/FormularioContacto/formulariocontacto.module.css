@@ -1,23 +1,19 @@
-.tituloFormulario{
-    text-align: center;
-}
-
-.cajonFormulario{
-    padding-bottom: 3%;
-    padding-top: 1%;
-}
-
-.tituloFormulario{
-    color: black;
-}
-
 .botonEnviar{
-    filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.538)); 
     background-color: #B76C49 ;
-    color: black;
-    
+    color: white
 }
 
 .botonEnviar:hover{
-    background-color: #5C7728;
+    background-color: #9a593c;
+    color: white;
+}
+
+.botonEnviar:active{
+    background-color: #9a593c;
+    color: white;
+}
+
+.botonEnviar:focus{
+    background-color: #9a593c;
+    color: white;
 }

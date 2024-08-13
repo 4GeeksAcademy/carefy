@@ -1,21 +1,9 @@
-.cajonFormulario{
-    padding-bottom: 10%;
-    padding-top: 10%;
-    
-}
-
-.colorLetra{
-    color: black;
-}
-
-
 .botonInicio{
-    background-color: #E4E8F4 ;
-    filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.538));
-    color: black;
-    background-color: #B76C49;
+    background-color: #B76C49 ;
+    border: none;
 }
 
 .botonInicio:hover{
-    background-color: #5C7728;
+    background-color: #9a593c;
+    color: white;
 }

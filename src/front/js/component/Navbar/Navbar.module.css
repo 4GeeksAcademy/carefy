@@ -14,21 +14,25 @@
 .login_button{
     background-color: #5C7728;
     border-color: #5C7728;
+    color: white;
 }
 
 .login_button:hover{
     background-color: #3d4f1b;
     border-color: #3d4f1b;
+    color: white;
 }
 
 .login_button:focus{
     background-color: #3d4f1b;
     border-color: #3d4f1b;
+    color: white;
 }
 
 .login_button:active{
     background-color: #3d4f1b;
     border-color: #3d4f1b;
+    color: white;
 }
 
 .nav_link_edit:hover {

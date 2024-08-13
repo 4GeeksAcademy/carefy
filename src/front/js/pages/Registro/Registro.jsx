@@ -1,10 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import manosUnidas from "../../../img/manosUnidas.jpg";
 import ayudahombre from "../../../img/ayudahombre.jpg";
 import style from "../Registro/registro.module.css"
 import { FormularioRegistro } from "../../component/FormularioRegistro/FormularioRegistro.jsx"
-import { Jumbotron } from "../../component/Jumbotron/Jumbotron.jsx"; 
+import { Jumbotron } from "../../component/Jumbotron/Jumbotron.jsx";
 
 export const Registro = () => {
 
@@ -15,28 +14,27 @@ export const Registro = () => {
 
         <div className={`${style.pagina}`}>
             <div className="container">
-         
 
-                <div className= {`${style.cuerpoSignUp} row mb-4`} >
+                <div className= {`${style.cuerpoSignUp} row`} >
                     <div className="col">
                         <div className= {`${style.contenedorImagen1}`}>
-                            <img className= {`${style.imagen1} img-fluid rounded`}  src={manosUnidas}></img>
+                            <img className= {`${style.imagen1} img-fluid rounded`}  src="https://plus.unsplash.com/premium_photo-1663126593953-20b26e1b235d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></img>
                         </div>
                     </div>
 
-                    <div className={`col ${style.formulario} rounded d-flex align-items-center justify-content-center}`}>
+                    <div className={`col ${style.formulario} rounded d-flex mx-4 mt-5`}>
                         <FormularioRegistro />
                     </div>
 
                     <div className="col">
                         <div>
-                            <img className={`${style.imagen2} img-fluid rounded`} src={ayudahombre}></img>
+                            <img className={`${style.imagen2} img-fluid rounded`} src="https://plus.unsplash.com/premium_photo-1663036775946-7d38a3b94955?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></img>
                         </div>
                     </div>
                 </div>
-                <div className={`row ${style.texto}`} >
-                    <p className="text-center">“Envejecer es como escalar una montaña; mientras se sube las fuerzas disminuyen, pero la mirada es más libre, la vista más amplia y serena.”</p>
-                    <p className="text-center">Ingmar Bergman</p>
+                <div className="row py-4" >
+                    <p className="text-center fs-3">“Envejecer es como escalar una montaña; mientras se sube las fuerzas disminuyen, pero la mirada es más libre, la vista más amplia y serena.”</p>
+                    <p className="text-center fs-5 fst-italic">Ingmar Bergman</p>
                 </div>
             </div>
         </div>

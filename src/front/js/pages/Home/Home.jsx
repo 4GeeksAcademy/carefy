@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
-import { Context } from "../store/appContext.js";
-import "../../styles/home.css";
-import { Buscador } from "../component/Buscador/Buscador.jsx";
-import { BloqueInformativo } from "../component/BloqueInformativo/BloqueInformativo.jsx";
-import { SliderHome } from "../component/SliderHome/SliderHome.jsx";
-import { CardReviews } from "../component/CardReviews/CardReviews.jsx";
-import { BloqueVerFaq } from "../component/BloqueVerFaq/BloqueVerFaq.jsx";
+import { Context } from "../../store/appContext.js";
+import { Buscador } from "../../component/Buscador/Buscador.jsx";
+import { BloqueInformativo } from "../../component/BloqueInformativo/BloqueInformativo.jsx";
+import { SliderHome } from "../../component/SliderHome/SliderHome.jsx";
+import { CardReviews } from "../../component/CardReviews/CardReviews.jsx";
+import { BloqueVerFaq } from "../../component/BloqueVerFaq/BloqueVerFaq.jsx";
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);

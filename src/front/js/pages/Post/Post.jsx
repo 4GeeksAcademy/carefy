@@ -1,8 +1,8 @@
 import React from "react";
-import { PostBlog } from "../component/PostBlog/PostBlog.jsx";
-import { OtrosPost } from "../component/OtrosPost/OtrosPost.jsx";
-import { Comentarios } from "../component/Comentarios/Comentarios.jsx";
-import { EscribirComentario } from "../component/EscribirComentario/EscribirComentario.jsx";
+import { PostBlog } from "../../component/PostBlog/PostBlog.jsx";
+import { OtrosPost } from "../../component/OtrosPost/OtrosPost.jsx";
+import { Comentarios } from "../../component/Comentarios/Comentarios.jsx";
+import { EscribirComentario } from "../../component/EscribirComentario/EscribirComentario.jsx";
 
 
 export const Post = () => {

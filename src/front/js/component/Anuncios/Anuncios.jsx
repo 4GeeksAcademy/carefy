@@ -16,7 +16,7 @@ export const Anuncios = ({ countAds, title, requests, date, countFav, companionN
                 <div className="tab-content" id="pills-tabContent">
                     <div className="tab-pane fade show active table-responsive" id="pills-postulaciones" role="tabpanel" aria-labelledby="pills-postulaciones-tab" tabindex="0">
 
-                        <table class="table table-light table-hover">
+                        <table className="table table-light table-hover">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -33,8 +33,8 @@ export const Anuncios = ({ countAds, title, requests, date, countFav, companionN
                                     <td>{requests}</td>
                                     <td>{date}</td>
                                     <td className="">
-                                        <span class="fa-solid fa-eye pe-3"></span>
-                                        <span class="fa-solid fa-trash-can pb-2"></span>
+                                        <span className="fa-solid fa-eye pe-3"></span>
+                                        <span className="fa-solid fa-trash-can pb-2"></span>
                                     </td>
                                 </tr>
 
@@ -43,7 +43,7 @@ export const Anuncios = ({ countAds, title, requests, date, countFav, companionN
 
                     </div>
                     <div className="tab-pane fade table-responsive" id="pills-fav" role="tabpanel" aria-labelledby="pills-fav-tab" tabindex="0">
-                    <table class="table table-light table-hover">
+                    <table className="table table-light table-hover">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -56,8 +56,8 @@ export const Anuncios = ({ countAds, title, requests, date, countFav, companionN
                                     <th scope="row">{countFav}</th>
                                     <td>{companionName}</td>
                                     <td className="text-end">
-                                        <span class="fa-solid fa-eye pe-3"></span>
-                                        <span class="fa-solid fa-trash-can pb-2"></span>
+                                        <span className="fa-solid fa-eye pe-3"></span>
+                                        <span className="fa-solid fa-trash-can pb-2"></span>
                                     </td>
                                 </tr>
                             </tbody>

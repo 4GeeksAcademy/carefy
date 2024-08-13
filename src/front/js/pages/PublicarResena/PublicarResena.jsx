@@ -17,17 +17,17 @@ export const PublicarResena = () => {
                     </div>
 
                     <div className="row justify-content-center d-flex">
-                        <div className="container text-center ">
-                            <p className={`text-start ${style.texto}`}>Observaciones</p>
-                            <textarea name="comentarios" cols={12} rows={8} className={`${style.observaciones}`} placeholder="Haznos saber cualquier cosa sobre el acompañante">
+                        <div className="container col-12">
+                            <p className={`text-start fs-4`}>Reseña sobre el Acompañante</p>
+                            <textarea name="comentarios" rows={8} className="w-100 fs-5 rounded p-2" placeholder="Haznos saber cualquier cosa sobre el acompañante">
 
                             </textarea >
                         </div>
                     </div>
 
-                    <div className="row">
-                        <div className="container mb-4 justify-content-center d-flex ">
-                            <button type="button" className={`btn btn-primary ${style.boton}`} >Enviar reseña</button>
+                    <div className="row mt-4">
+                        <div className="container mb-4">
+                            <button type="button" className={`btn btn-primary fs-5 ${style.boton}`} >Enviar reseña</button>
                         </div>
                     </div>
 
