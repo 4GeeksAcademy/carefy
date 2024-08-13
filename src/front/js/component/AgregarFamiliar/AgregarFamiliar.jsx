@@ -38,54 +38,53 @@ export const AgregarFamiliar = () => {
     return (
         <form>
             <div className="mb-3">
-                <label htmlFor="alias" className="form-label">Alias</label>
+                <label htmlFor="alias" className="form-label fs-5">Alias</label>
                 <input type="text" className="form-control" id="alias" placeholder="Ejemplo: mi padre" />
 
             </div>
 
             <div className="mb-3">
-                <label htmlFor="apellidos" className="form-label">Apellidos</label>
+                <label htmlFor="nombre" className="form-label fs-5">Nombre</label>
+                <input type="text" className="form-control" id="nombre" />
+            </div>
+
+            <div className="mb-3">
+                <label htmlFor="apellidos" className="form-label fs-5">Apellidos</label>
                 <input type="text" className="form-control" id="apellidos" />
             </div>
 
             <div className="mb-3">
-                <label htmlFor="telefono" className="form-label">Telefono</label>
+                <label htmlFor="telefono" className="form-label fs-5">Telefono</label>
                 <input type="tel" className="form-control" id="telefono" />
             </div>
 
             <div className="mb-3">
                 <div className="row">
                     <div className="col-8">
-                        <label for="nacimiento">Fecha nacimiento:</label><br></br>
+                        <label for="nacimiento" className="fs-5">Fecha de nacimiento</label><br></br>
                         <input onChange={handleBirthdayChange} type="date" id="nacimiento" name="nacimiento" value={nacimiento} />
                     </div>
                     <div className="col">
-                        <label for="birthday">Edad: </label><br></br>
-                        <label for="birthday">{edad} </label>
+                        <label for="birthday" className="fs-5">Edad: </label><br></br>
+                        <label for="birthday" className="fs-5">{edad} </label>
 
                     </div>
                 </div>
             </div>
 
-            {/* Selección de necesidades */}
-            <div className="mb-3">
-                <label htmlFor="necesidades" className="form-label">Otra información importante</label>
-                <textarea className="form-control" id="necesidades" placeholder="Incluye aquí las actividades para las que requiere acompañamiento (aseo, movilidad, pasear, alimentación.. etc)" />
-            </div> 
-
             {/* Selección de grado de dependencia */}
             <div className="mb-3">
-                <label htmlFor="dependencia" className="form-label">Grado de dependencia </label>
+                <label htmlFor="dependencia" className="form-label fs-5">Grado de dependencia </label>
                 <div className="accordion" id="dependencia">
                     <div className="accordion-item">
                         <h2 className="accordion-header">
                             <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#dependOne" aria-expanded="true" aria-controls="dependOne">
-                                Selecciona el grado de dependencia:
+                                Selecciona el grado de dependencia
                             </button>
                         </h2>
                         <div id="dependOne" className="accordion-collapse collapse" data-bs-parent="#dependencia">
                             <div className="accordion-body">
-                                <p>Deja el cursor sobre el nivel para obtener más información</p>
+                                <p className={`text-secondary ${style.title_grado_dep}`}>Deja el cursor sobre el nivel para obtener más información</p>
 
                                 <div className="form-check">
                                     <input className="form-check-input" type="radio" name="gradodependencia" id="nivel" />
@@ -144,9 +143,9 @@ export const AgregarFamiliar = () => {
 
 
             {/* Select provincias */}
-            <div className="row">
+            <div className="row mb-3">
                 <div className="col">
-                    <label htmlFor="provincia" className="form-label">Provincia</label>
+                    <label htmlFor="provincia" className="form-label fs-5">Provincia</label>
                     <select className="form-select" id="provincia" aria-label="Selecciona la provincia">
                         <option selected>Selecciona la provincia</option>
                         <option value="A Coruna">A Coruña</option>
@@ -208,17 +207,17 @@ export const AgregarFamiliar = () => {
 
 
             <div className="mb-3">
-                <label for="formFile" className="form-label">Puedes subir una foto</label>
+                <label for="formFile" className="form-label fs-5">Foto</label>
                 <input className="form-control" type="file" id="formFile" />
             </div>
 
             <div className="mb-3">
-                <label htmlFor="observaciones" className="form-label">Otra información importante</label>
-                <textarea className="form-control" id="observaciones" placeholder="Puedes añadir cualquier información / necesidad relevante para el acompañante" />
+                <label htmlFor="observaciones" className="form-label fs-5">Otra información importante</label>
+                <textarea className="form-control" rows={10} cols={40} id="observaciones" placeholder="Puedes añadir cualquier información / necesidad relevante para el acompañante" />
             </div>
 
-            <div className="d-flex justify-content-center">
-                <button type="submit" className={`btn ${style.botonGuardar}`} >Guardar usuario</button>
+            <div>
+                <button type="submit" className={`btn fs-5 ${style.botonGuardar}`} >Guardar usuario</button>
             </div>
         </form >
 

@@ -1,8 +1,4 @@
-.paginaLogin {
-    background-color: #FFC9B3;
-}
-
-.cuerpoLogin {    
+.cuerpoLogin {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,51 +11,20 @@
     }
 }
 
-.contenedorTitulo {
-    padding-left: 0;
-    padding-right: 0;
-}
-
-.titulo {
-    background-color: #B76C49;
-    margin-bottom: 0px;
-    color: white
-}
-
-.cuerpo {
-    background-color: #FFc9B3;
-    padding-top: 3%;
-}
 
 .imagen1 {
-    width: 420px;
-    height: 340px;
-    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538));
+    width: 400px;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538));
 }
 
 .formulario {
     background-color: white;
     flex-wrap: nowrap;
     flex-direction: column;
-    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538))
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538))
 }
 
 .imagen2 {
     width: 400px;
-    height: 340px;
-    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538));
-    margin-top: 0;
-}
-
-.texto {
-    font-family: "Edu AU VIC WA NT Hand", cursive;
-    font-optical-sizing: auto;
-    font-weight: 100px;
-    font-style: normal;
-    font-size: 22px;
-    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538));
-}
-
-.paginaLogin {
-    background-color: #FFC9B3;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538));
 }

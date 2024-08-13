@@ -1,7 +1,3 @@
-.colorletraFL {
-    color: black;
-}
-
 .cajonFormulario {
     padding-bottom: 10%;
     padding-top: 10%;
@@ -10,9 +6,20 @@
 
 .botonInicio{
     background-color: #B76C49 ;
-    filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.538));
+    border: none;
 }
 
 .botonInicio:hover{
-    background-color: #5C7728;
+    background-color: #9a593c;
+    color: white;
+}
+
+.botonInicio:focus{
+    background-color: #9a593c;
+    color: white;
+}
+
+.botonInicio:active{
+    background-color: #9a593c;
+    color: white;
 }

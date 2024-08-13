@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./Navbar.module.css"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from '../../../img/logo.png'
+import { Context } from "../../store/appContext";
 
 export const Navbar = ({ username }) => {
+
+    const { store, actions } = useContext(Context);
+    const navigate = useNavigate();
+
+    const handleLogOut = () => {
+        actions.logOut();
+        navigate('/')
+    }
+
     return (
         <>
             <nav className={`navbar navbar-expand-lg ${styles.nabvar_bg}`}>
@@ -25,31 +35,47 @@ export const Navbar = ({ username }) => {
                                     <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/blog">Blog</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/contact">Contacto</Link>
+                                    <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/contacto">Contacto</Link>
                                 </li>
                             </ul>
                             <form className="d-flex gap-2 ms-3">
 
                                 {/* BOTONES QUE SE VEN SI EL USUARIO NO ESTÁ LOGUEADO */}
 
-                                {/* <button className={`btn btn-success fs-5 ${styles.login_button}`} type="submit">Iniciar sesión</button>
-                                <button className={`btn fs-5 ${styles.btn_signup}`} type="submit">Registrarse</button> */}
-
                                 <div className="btn-group">
                                     {/* BOTONES QUE SE VEN SI EL USUARIO ESTÁ LOGUEADO */}
-                                    <button type="button" className={`btn text-light ${styles.login_button} dropdown-toggle fs-5`} data-bs-toggle="dropdown" aria-expanded="false">
-                                        <span class="fa-solid fa-user pe-2"></span>{username}
-                                    </button>
-                                    <ul className="dropdown-menu dropdown-menu-end">
-                                        <li><a className={`dropdown-item ${styles.dropdown_item_edit}`} href="#">Mi perfil</a></li>
-                                        {/* MENU QUE SE VE SI EL USUARIO ES ACOMPAÑANTE */}
-                                        <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-postulaciones">Mis postulaciones</Link></li>
+                                    {store.token ? <button type="button" className={`btn text-light ${styles.login_button} dropdown-toggle fs-5`} data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span className="fa-solid fa-user pe-2"></span>{store.username}
+                                    </button> :
+                                        <>
+                                            <Link to="/login">
+                                                <button className={`btn fs-5 me-2 ${styles.login_button}`} type="submit">Iniciar sesión</button>
+                                            </Link>
+                                            <Link to="/registro"><button className={`btn fs-5 ${styles.btn_signup}`} type="submit">Registrarse</button>
+                                            </Link>
+                                        </>
+                                    }
 
-                                        {/* MENU QUE SE VE SI EL USUARIO ES FAMILIAR */}
-                                        <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-anuncios">Mis anuncios</Link></li>
+                                    <ul className="dropdown-menu dropdown-menu-end">
+                                        {store.role == "companion" ?
+                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-acompanante">Mi perfil</Link></li>
+                                            :
+                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfilusuario">Mi perfil</Link></li>
+                                        }
+
+
+                                        {/* MENU QUE SE VE SI EL USUARIO ES ACOMPAÑANTE o USER */}
+                                        {store.role == "companion" ?
+                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-postulaciones">Mis postulaciones</Link></li>
+                                            :
+                                            <>
+                                                <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/publicar-anuncios">Publicar anuncio</Link></li>
+                                                <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-anuncios">Mis anuncios</Link></li>
+                                            </>
+                                        }
 
                                         <li><hr className="dropdown-divider" /></li>
-                                        <li><button className="btn dropdown-item text-danger fw-bold" href="#"><span class="fa-solid fa-power-off pe-2"></span>Cerrar sesión</button></li>
+                                        <li><button className="btn dropdown-item text-danger fw-bold" onClick={handleLogOut}><span className="fa-solid fa-power-off pe-2"></span>Cerrar sesión</button></li>
                                     </ul>
                                 </div>
                             </form>
@@ -84,32 +110,47 @@ export const Navbar = ({ username }) => {
                                     <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/blog">Blog</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link text-dark fs-3 fw-bold" aria-current="page" href="#">Contacto</a>
+                                    <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/contacto">Contacto</Link>
                                 </li>
                             </ul>
 
                             <form className="d-flex flex-column gap-2 align-items-start">
 
                                 {/* BOTONES QUE SE VEN SI EL USUARIO NO ESTÁ LOGUEADO */}
-
-                                {/* <button className={`btn btn-success fs-5 ${styles.login_button}`} type="submit">Iniciar sesión</button>
-                                    <button className={`btn fs-5 ${styles.btn_signup}`} type="submit">Registrarse</button> */}
-
                                 <div className="btn-group">
                                     {/* BOTONES QUE SE VEN SI EL USUARIO ESTÁ LOGUEADO */}
-                                    <button type="button" className={`btn text-light ${styles.login_button} dropdown-toggle fs-5`} data-bs-toggle="dropdown" aria-expanded="false">
-                                        <span class="fa-solid fa-user pe-2"></span>{username}
-                                    </button>
-                                    <ul className="dropdown-menu">
-                                        <li><a className={`dropdown-item ${styles.dropdown_item_edit}`} href="#">Mi perfil</a></li>
-                                        {/* MENU QUE SE VE SI EL USUARIO ES ACOMPAÑANTE */}
-                                        <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-postulaciones">Mis postulaciones</Link></li>
+                                    {store.token ? <button type="button" className={`btn text-light ${styles.login_button} dropdown-toggle fs-5`} data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span className="fa-solid fa-user pe-2"></span>{store.username}
+                                    </button> :
+                                        <>
+                                            <Link to="/login">
+                                                <button className={`btn fs-5 me-2 ${styles.login_button}`} type="submit">Iniciar sesión</button>
+                                            </Link>
+                                            <Link to="/registro"><button className={`btn fs-5 ${styles.btn_signup}`} type="submit">Registrarse</button>
+                                            </Link>
+                                        </>
+                                    }
 
-                                        {/* MENU QUE SE VE SI EL USUARIO ES FAMILIAR */}
-                                        <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-anuncios">Mis anuncios</Link></li>
+                                    <ul className="dropdown-menu">
+                                        {store.role == "companion" ?
+                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-acompanante">Mi perfil</Link></li>
+                                            :
+                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfilusuario">Mi perfil</Link></li>
+                                        }
+
+
+                                        {/* MENU QUE SE VE SI EL USUARIO ES ACOMPAÑANTE o USER */}
+                                        {store.role == "companion" ?
+                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-postulaciones">Mis postulaciones</Link></li>
+                                            :
+                                            <>
+                                                <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/publicar-anuncios">Publicar anuncio</Link></li>
+                                                <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-anuncios">Mis anuncios</Link></li>
+                                            </>
+                                        }
 
                                         <li><hr className="dropdown-divider" /></li>
-                                        <li><button className="btn dropdown-item text-danger fw-bold" href="#"><span class="fa-solid fa-power-off pe-2"></span>Cerrar sesión</button></li>
+                                        <li><button className="btn dropdown-item text-danger fw-bold" onClick={handleLogOut}><span className="fa-solid fa-power-off pe-2"></span>Cerrar sesión</button></li>
                                     </ul>
                                 </div>
                             </form>

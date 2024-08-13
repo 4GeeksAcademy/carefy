@@ -1,17 +1,17 @@
-.card_post{
-    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538));
+.card_post {
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538));
 }
 
-.card_text_edit{
+.card_text_edit {
     font-size: 1.2rem;
 }
 
-.btn_read_more{
+.btn_read_more {
     background-color: #B76C49;
     color: white;
 }
 
-.btn_read_more:hover{
+.btn_read_more:hover {
     background-color: #9a593c;
     color: white;
 }

@@ -1,36 +1,9 @@
-.paginaContacto{
-    background-color: #FFC9B3;
-}
-
 .formulario {
-    background-color: white;
-    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538));
-    padding-bottom: 3%;
-}
-
-
-
-.contenedorForm{
-    min-height: 100vh;
-		display: flex;
-		justify-content: center;
-		align-items: center;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538));
 }
 
 @media (max-width: 576px) {
     .contenedorForm {
-      flex-direction: column;
-  }
+        flex-direction: column;
+    }
 }
-
-
-
-.imagenDudas {
-    height: 380px;
-    width: 540px;
-    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538));
-    margin-left: 8%;
-}
-
-
-

@@ -8,20 +8,16 @@
 
 .heart {
   cursor: pointer;
-  font-size: 40px;
+  font-size: 2.5rem;
   color: rgb(10, 0, 0) !important; 
   transition: color 0.2s ease-in-out;
 }
 
 .heartgreen {
   cursor: pointer;
-  font-size: 40px;
+  font-size: 2.9rem;
   color: #5C7728 !important; 
   transition: color 0.2s ease-in-out;
-}
-
-.heart.pulsado {
-  color: rgb(196, 34, 34);
 }
 
 p {
