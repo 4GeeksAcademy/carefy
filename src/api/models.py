@@ -18,8 +18,6 @@ class User(db.Model):
     patients = db.relationship('Patient', backref='user')
     companions = db.relationship('Companion', backref='user')
 
-
-
     def __repr__(self):
         return f'<User {self.username}>'
 

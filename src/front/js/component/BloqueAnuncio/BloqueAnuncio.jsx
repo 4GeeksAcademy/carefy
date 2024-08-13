@@ -1,15 +1,30 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import styles from "./BloqueAnuncio.module.css"
+import { Context } from "../../store/appContext";
 
 
-export const BloqueAnuncio = ({ title, avatar, userName, age, location, state, description, availability, startDate, endDate, price, task, dependency, observations}) => {
+export const BloqueAnuncio = ({ title, avatar, userName, age, location, state, description, availability, startDate, endDate, price, task, dependency, observations }) => {
 
+    const { store, actions } = useContext(Context);
 
+    const [PostularseVisible, setPostularseVisible] = useState(true);
+
+    const handlePostularseClick = () => {
+        setPostularseVisible(false); // Oculta "POSTULARSE"
+    };
+
+    const handleCancelarClick = () => {
+        setPostularseVisible(true); // Oculta "CANCELAR POSTULACIÓN"
+    };
 
     return (
         <div className={`container bg-light p-4 my-5 rounded position-relative ${styles.block_anuncio}`}>
             {/* ICONO PARA EL ACOMPAÑANTE */}
-            <span className={`fa-regular fa-heart position-absolute ${styles.fav_icon}`}></span>
+            {store.role == "companion" ?
+                <span className={`fa-regular fa-heart position-absolute ${styles.fav_icon}`}></span>
+                :
+                ''
+            }
 
             {/* ICONOS PARA EL USUARIO (FAMILIAR) */}
             {/* <div className={`position-absolute ${styles.fav_icon}`}>
@@ -30,11 +45,21 @@ export const BloqueAnuncio = ({ title, avatar, userName, age, location, state, d
                     </div>
                 </div>
                 {/* BOTON POSTULARSE/CANCELAR POSTULACION PARA ACOMPAÑANTES */}
-                {/* <button className={`btn ${styles.btn_postularse} fs-4 fw-bold`}>POSTULARSE</button> */}
-                <button className={`btn ${styles.btn__cancel_postularse} fs-4 fw-bold`}>CANCELAR POSTULACIÓN</button>
-
-                {/* ESTADO DEL ANUNCIO PARA EL USUARIO */}
-                {/* <p className="fs-4"><span className="fw-bold">Estado</span>: <span className="text-secondary">{state}</span></p> */}
+                {PostularseVisible ? (
+                    <button
+                        className={`btn ${styles.btn_postularse} fs-4 fw-bold`}
+                        onClick={handlePostularseClick}
+                    >
+                        POSTULARSE
+                    </button>
+                ) : (
+                    <button
+                        className={`btn ${styles.btn_cancel_postularse} fs-4 fw-bold`}
+                        onClick={handleCancelarClick}
+                    >
+                        CANCELAR POSTULACIÓN
+                    </button>
+                )}
             </div>
             <div className="pt-4">
                 <p className="fs-5">{description}</p>

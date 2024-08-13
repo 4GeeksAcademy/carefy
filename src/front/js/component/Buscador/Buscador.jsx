@@ -37,7 +37,7 @@ export const Buscador = ({location, availability, serviceType}) => {
             </div>
             <div>
               <button className="btn">
-                <span class="fa-solid fa-magnifying-glass fs-2 text-dark"></span>
+                <span className="fa-solid fa-magnifying-glass fs-2 text-dark"></span>
               </button>
             </div>
           </div>

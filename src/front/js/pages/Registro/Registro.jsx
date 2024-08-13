@@ -24,7 +24,7 @@ export const Registro = () => {
                         </div>
                     </div>
 
-                    <div className={`col ${style.formulario} rounded d-flex mx-4`}>
+                    <div className={`col ${style.formulario} rounded d-flex mx-4 mt-5`}>
                         <FormularioRegistro />
                     </div>
 

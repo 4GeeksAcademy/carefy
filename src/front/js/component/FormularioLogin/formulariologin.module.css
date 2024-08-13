@@ -13,3 +13,13 @@
     background-color: #9a593c;
     color: white;
 }
+
+.botonInicio:focus{
+    background-color: #9a593c;
+    color: white;
+}
+
+.botonInicio:active{
+    background-color: #9a593c;
+    color: white;
+}

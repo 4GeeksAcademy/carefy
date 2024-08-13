@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext.js";
 import { Jumbotron } from "../../component/Jumbotron/Jumbotron.jsx";
 import { Postulaciones } from "../../component/Postulaciones/Postulaciones.jsx";
@@ -7,6 +8,13 @@ import { Anuncios } from "../../component/Anuncios/Anuncios.jsx";
 
 export const MisAnuncios = () => {
 	const { store, actions } = useContext(Context);
+	const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!store.token) {
+            navigate('/login');
+        }
+    }, [store.token, navigate])
 
 	return (
 		<>
