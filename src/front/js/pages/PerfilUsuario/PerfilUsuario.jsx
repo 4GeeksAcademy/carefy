@@ -6,9 +6,19 @@ import { FormularioFamiliar } from "../../component/FormularioFamiliar/Formulari
 import { AgregarFamiliar } from "../../component/AgregarFamiliar/AgregarFamiliar.jsx";
 import { TarjetaFamiliar } from "../../component/TarjetaFamiliar/TarjetaFamiliar.jsx";
 import { Jumbotron } from "../../component/Jumbotron/Jumbotron.jsx"
+import { Context } from "../../store/appContext.js";
 
 
 export const PerfilUsuario = () => {
+
+    const { store, actions } = useContext(Context);
+	const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!store.token) {
+            navigate('/login');
+        }
+    }, [store.token, navigate])
 
     return (
         <>
