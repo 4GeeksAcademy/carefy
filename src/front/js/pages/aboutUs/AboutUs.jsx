@@ -1,13 +1,15 @@
 import React from "react";
 import styles from "./aboutUs.module.css"
+import { Jumbotron } from "../../component/Jumbotron/Jumbotron.jsx";
 
 const AboutUs = () => {
   return (
+    <>
+    			<Jumbotron bgImg={ {backgroundImage: "url('https://media.istockphoto.com/id/1512266456/es/foto/una-anciana-con-la-enfermera-paseando-por-el-jard%C3%ADn-de-una-residencia-de-ancianos-en-silla-de.jpg?s=612x612&w=0&k=20&c=_7ABNTghwi1gB1IxvlLXSW0QcZofNSg88yo4bEK1pxM=')" }} title={"Sobre nosotros"} subtitle={"Tres cosas que debes saber..."} />
+
     <div className={styles.main_container}>
     <div className={`container ${styles.container_aboutUs}`}>
-      <h3 className={styles.title_aboutUs}>
-        Tres cosas que debes saber sobre nosotros
-      </h3>
+     
       <div className="row mb-4">
         <div className="col-12 col-md-4 ho">
           <div className={`p-3 ${styles.text_who} ${styles.row_1} rounded`}>
@@ -74,6 +76,7 @@ const AboutUs = () => {
       </div>
     </div>
     </div>
+    </>
   );
 };
 

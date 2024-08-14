@@ -2,12 +2,6 @@
   background-color:  #FFC9B3;
 }
 
-.title_aboutUs {
-    color:rgb(58, 58, 58);
-    font-weight: 500;
-    margin-bottom: 35px;
-  }
-  
   .container_aboutUs {
     min-height: 100vh;
     display: flex;
