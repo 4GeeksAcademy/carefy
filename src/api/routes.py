@@ -46,7 +46,6 @@ def add_user():
     hashed_password = generate_password_hash(data['password'])  # Hash the password
 
     new_user = User(
-        id=data['id'],
         username=data['username'],
         email=data['email'],
         role=data['role'],
