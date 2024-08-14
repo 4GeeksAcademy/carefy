@@ -161,9 +161,3 @@ class Ad (db.Model):
             "max_cost": self.max_cost,
             "status": self.status
         }
-
-
-
-
-
-
