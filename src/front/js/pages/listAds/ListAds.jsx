@@ -1,9 +1,8 @@
 import React from 'react';
-
-import HeaderListAds from '../../component/headerListAds/HeaderListAds.jsx';
 import styles from "./listAds.module.css"
 import CardsAds from '../../component/cardsAds/CardsAds.jsx';
 import FilterAds from '../../component/filterAds/FilterAds.jsx';
+import { Jumbotron } from '../../component/Jumbotron/Jumbotron.jsx';
 
 const anuncios = [
   {
@@ -40,8 +39,11 @@ const anuncios = [
 
 const ListAds = () => {
   return (
+    <>
+    <Jumbotron bgImg={{ backgroundImage: "url('https://plus.unsplash.com/premium_photo-1681911657230-320f780ac474?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGhvbWJyZSUyMG1heW9yJTIwYW1pc3RhZHxlbnwwfHwwfHx8MA%3D%3D')" }} title={"Conoce cómo puedes acompañar y apoyar a personas mayores"} subtitle={"Navega entre nuestros anuncios y encuentra el perfil que mejor se ajusta a la compañía y asistencia que puedes brindar."} />
+          
     <div className={styles.container_main_ads}>
-      <HeaderListAds />
+
       <FilterAds/>
       <div className={`container ${styles.card_container}`}>
         <div className={styles.list_ads}>
@@ -58,6 +60,7 @@ const ListAds = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
