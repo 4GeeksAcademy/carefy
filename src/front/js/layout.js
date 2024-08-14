@@ -37,6 +37,23 @@ const Layout = () => {
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
                     <Navbar />
+                    <Routes>
+                    <Route element={<Home />} path="/" />
+                        <Route element={<Blog />} path="/blog" />
+                        <Route element={<Post />} path="/post-blog/:id" />
+                        <Route element={<Anuncio />} path="/anuncio" />
+                        <Route element={<MisAnuncios />} path="/mis-anuncios" />
+                        <Route element={<MisPostulaciones />} path="/mis-postulaciones" />
+                        <Route element={<Login />} path="/login" /> 
+                        <Route element={<Faqs />} path="/faq" />
+                        <Route element={<Registro />} path="/registro" />
+                        <Route element={<PerfilUsuario />} path="/perfilusuario" />
+                        <Route element={<Contacto />} path="/contacto" />
+                        <Route element={<PublicarResena />} path="/publicar-resena" />
+                        <Route element={<CreateAds />} path="/crear-anuncio" />
+                        <Route element={<h1>Not found!</h1>} />
+
+                    </Routes>
                    
                     <Footer />
                 </ScrollToTop>
