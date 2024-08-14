@@ -41,8 +41,7 @@ const DataAds = () => {
 
   return (
     <div className={`container my-5 p-4 rounded ${styles.container_form}`}>
-      <h2 className={styles.title_form}> Publicar un anuncio</h2>
-      <p className={styles.title_form}>Selecciona el paciente a cuidar:</p>
+      
 
       <PatientSelector
         patients={patients}
