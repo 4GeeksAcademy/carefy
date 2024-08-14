@@ -1,0 +1,23 @@
+.botonGuardar{
+    background-color: #B76C49;
+    color: white;
+}
+
+.botonGuardar:hover{
+    background-color: #9a593c;
+    color: white;
+}
+
+.botonGuardar:focus{
+    background-color: #9a593c;
+    color: white;
+}
+
+.botonGuardar:active{
+    background-color: #9a593c;
+    color: white;
+}
+
+.title_grado_dep{
+    font-size: 1rem;
+}

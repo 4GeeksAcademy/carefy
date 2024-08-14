@@ -1,0 +1,97 @@
+.logo{
+    margin-right: 10px;
+    width: clamp(3rem, 75%, 4.5rem);
+}
+
+.navbar_left{
+    margin-left: auto;
+}
+
+.nabvar_bg{
+    background-color: #FFC9B3;
+}
+
+.login_button{
+    background-color: #5C7728;
+    border-color: #5C7728;
+    color: white;
+}
+
+.login_button:hover{
+    background-color: #3d4f1b;
+    border-color: #3d4f1b;
+    color: white;
+}
+
+.login_button:focus{
+    background-color: #3d4f1b;
+    border-color: #3d4f1b;
+    color: white;
+}
+
+.login_button:active{
+    background-color: #3d4f1b;
+    border-color: #3d4f1b;
+    color: white;
+}
+
+.nav_link_edit:hover {
+    color: #B76C49 !important;
+}
+
+.btn_signup{
+    background-color: #B76C49;
+    color: white;
+}
+
+.btn_signup:hover{
+    background-color: #9a593c;
+    color: white;
+}
+
+
+.custom_toggler_edit .navbar_toggler_icon {
+    filter: brightness(1) invert(0);
+}
+.navbar_toggler_edit{
+    border-color: #525252;
+    padding: 3px 5px;
+
+}
+
+.navbar_toggler_edit:focus {
+    box-shadow: none;
+}
+
+.navbar_edit{
+    transition: padding 0.3s ease-in-out, background-color 0.3s ease-in-out, max-width 0.3s ease-in-out;
+}
+
+.offcanvas_edit{
+    background-color: #FFC9B3;
+    width: 80% !important;
+}
+
+.dropdown_item_edit:active{
+    background-color: #3d4f1b;
+}
+
+@media screen and (max-width: 575px){
+    .logo{
+        width: 3rem;
+    }  
+}
+
+@media screen and (min-width: 1053px){
+    .navbar_mobile{
+        display:none !important; 
+    }
+
+}
+
+@media screen and (max-width: 1053px){
+    .nav_desktop{
+        display:none !important; 
+    }
+
+}

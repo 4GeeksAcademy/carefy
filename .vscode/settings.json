@@ -3,5 +3,20 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "workbench.editorAssociations": {   
         "*.md": "vscode.markdown.preview.editor"
+    },
+    "[javascriptreact]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+    },
+    "[css]": {
+        "editor.defaultFormatter": "vscode.css-language-features"
+>>>>>>> 363f9c6b93afdee1f435aa574dbc9551e61a6aba
+>>>>>>> d4fb5ab5bf25491de3aac7beb18279c1de94b620
+>>>>>>> 967813ec5e96dd841ddf8a49a03adc1d5c8a3a83
     }
 }
