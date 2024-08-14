@@ -30,9 +30,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 						sessionStorage.setItem('token', data.token);
 						sessionStorage.setItem('username', data.username);
 						sessionStorage.setItem('email', data.email);
-						sessionStorage.setItem('userId', data.userId);
+						sessionStorage.setItem('userId', data.id);
 						sessionStorage.setItem('role', data.role);
-						setStore({ ...store, token: data.token, email: data.email, userId: data.userId, username: data.username, role: data.role });
+						setStore({ ...store, token: data.token, email: data.email, userId: data.id, username: data.username, role: data.role });
 						console.log("Success:", data);
 					} else {
 						console.error("Token no recibido:", data);
@@ -65,9 +65,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 						sessionStorage.setItem('token', data.access_token);
 						sessionStorage.setItem('username', data.username);
 						sessionStorage.setItem('email', data.email);
-						sessionStorage.setItem('userId', data.userId);
+						sessionStorage.setItem('userId', data.id);
 						sessionStorage.setItem('role', data.role);
-						setStore({ ...store, token: data.access_token, email: data.email, userId: data.userId, username: data.username, role: data.role });
+						setStore({ ...store, token: data.access_token, email: data.email, userId: data.id, username: data.username, role: data.role });
 						console.log("Success:", data);
 					} else {
 						console.error("Token no recibido:", data);
