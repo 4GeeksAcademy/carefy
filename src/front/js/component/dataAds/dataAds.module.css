@@ -1,0 +1,33 @@
+.container_form{
+    background-color: rgb(253, 253, 253);
+    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538))
+}
+
+
+.title_form{
+    color: #B76C49
+}
+
+
+.btn_send {
+    background-color:#f8ae29;
+    border: none;
+    color: rgb(243, 243, 243);
+}
+
+.btn_cancel{
+    background-color:#B76C49;
+    border: none;
+    color: rgb(243, 243, 243);
+ }
+
+ .btn_cancel:hover{
+    background-color:#85533b;
+
+ }
+
+ .btn_send:hover{
+   
+    background-color:#cf9222;
+
+ }
