@@ -90,7 +90,7 @@ class Companion(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 
-class Inscriptions(db.Model): 
+class Inscription(db.Model): 
     __tablename__ ="inscriptions"
     id = db.Column(db.Integer, primary_key=True)
     patient_id =db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
@@ -112,7 +112,7 @@ class Inscriptions(db.Model):
         }
     
 
-class Favourite_companions(db.Model):
+class Favourite_companion(db.Model):
     __tablename__ ="favourite_companions"
     id = db.Column(db.Integer, primary_key=True)
     patient_id =db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
