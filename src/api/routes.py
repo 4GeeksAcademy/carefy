@@ -13,6 +13,30 @@ api = Blueprint('api', __name__)
 # Allow CORS requests to this API
 CORS(api)
 
+# Traer todos los usuarios
+@api.route('/users', methods=['GET'])
+def get_users():
+    users = User.query.all()
+    return jsonify([user.serialize() for user in users])
+
+#Traer data de un solo usuario
+@api.route('/user/<int:user_id>', methods=['GET'])
+def get_users_details(user_id):
+    user = User.query.get(user_id)
+    if user is None:
+        return jsonify({'error': 'User not found'}), 404
+
+    usuario = {
+        'id': user.id,
+        'name': user.name,
+        'lastname': user.lastname,
+        'email': user.email,
+        'phone': user.phone,
+        'location': user.location
+    }
+    return jsonify(usuario)
+
+#Crear nuevo usuario
 @api.route("/signup", methods=['POST'])
 def add_user():
     data = request.json
@@ -22,6 +46,7 @@ def add_user():
     hashed_password = generate_password_hash(data['password'])  # Hash the password
 
     new_user = User(
+        id=data['id'],
         username=data['username'],
         email=data['email'],
         role=data['role'],
@@ -41,7 +66,42 @@ def add_user():
         'email': new_user.email,
         'role': new_user.role}), 201
 
+#Editar usuario existente
+@api.route('/users/edit/<int:user_id>', methods=['PUT'])
+def edit_user(user_id):
+    user = User.query.get(user_id)
+    # Verificar si el usuario existe
+    if user is None:
+        return jsonify({"message": "User not found"}), 404
 
+    data = request.json  # Obtén los datos del cuerpo de la solicitud
+
+    # Verificar si se enviaron datos
+    if not data:
+        return jsonify({"message": "No data provided"}), 400
+
+ # Actualizar el usuario con los nuevos datos
+    try:
+        if 'name' in data:
+            user.name = data['name'] 
+        if 'lastname' in data:
+            user.lastname = data['lastname'] 
+        if 'email' in data:
+            user.email = data['email']
+        if 'phone' in data:
+            user.phone = data['phone']
+        if 'location' in data:
+            user.location = data['location']
+
+        db.session.commit()  # Guarda los cambios en la base de datos
+
+        return jsonify({"message": "User updated successfully"}), 200
+
+    except Exception as e:
+        db.session.rollback()  # Revierte los cambios en caso de error
+        return jsonify({"error": str(e)}), 500
+
+#Logearte y crear token de acceso
 @api.route("/login", methods=["POST", "GET"])
 def create_token():
     email = request.json.get("email", None)
@@ -62,6 +122,7 @@ def create_token():
     access_token = create_access_token(identity=user.id)
     return jsonify({ "token": access_token, "user_id": user.id, "email":user.email, "username": user.username, 'userId': user.id, 'role': user.role  })
 
+#Página privada/protegida, solo accesible con token
 @api.route("/protected", methods=["GET"])
 @jwt_required()
 def protected():

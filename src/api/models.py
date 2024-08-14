@@ -10,9 +10,9 @@ class User(db.Model):
     username = db.Column(db.String(120), unique=True, nullable=False)
     is_active = db.Column(db.Boolean(), default=True)
     name = db.Column(db.String(250))
-    last_name = db.Column(db.String(250)) 
+    lastname = db.Column(db.String(250)) 
     phone = db.Column(db.String(250)) 
-    birthdate = db.Column(db.String(250)) 
+    location = db.Column(db.String(250))
     role = db.Column(db.String(250), nullable=False)
     
     patients = db.relationship('Patient', backref='user')
@@ -28,7 +28,7 @@ class User(db.Model):
             "username": self.username,
             "is_active": self.is_active,
             "name": self.name,
-            "last_name": self.last_name,
+            "lastname": self.lastname,
             "phone": self.phone
         }
     
@@ -36,7 +36,7 @@ class Patient(db.Model):
     __tablename__ = 'patients'
     id = db.Column(db.Integer, primary_key=True)
     name =  db.Column(db.String(250), nullable=False)
-    last_name = db.Column(db.String(250), nullable=False)
+    lastname = db.Column(db.String(250), nullable=False)
     phone = db.Column(db.String(250), nullable=False)
     photo = db.Column(db.String(250), nullable=False)
     description =db.Column(db.String(250), nullable=False)
@@ -49,14 +49,14 @@ class Patient(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
     def __repr__(self):
-        return f'<Patient {self.name} {self.last_name}>'
+        return f'<Patient {self.name} {self.lastname}>'
 
     def serialize(self):
         return {
             "id": self.id,
             "email": self.email,
             "name": self.name,
-            "last_name": self.last_name,
+            "lastname": self.lastname,
             "phone": self.phone,
             "photo": self.photo,
             "description": self.description,
