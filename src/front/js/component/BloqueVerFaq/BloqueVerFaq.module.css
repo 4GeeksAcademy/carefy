@@ -1,0 +1,23 @@
+.bloque_ver_faq{
+    background-color: #B76C49;
+}
+
+.btn_ver_faq{
+    background-color: #FFC9B3;
+    border-color: #FFC9B3;
+}
+
+.btn_ver_faq:hover{
+    background-color: #e2ad97;
+    border-color: #e2ad97;
+}
+
+.btn_ver_faq:focus{
+    background-color: #e2ad97 !important;
+    border-color: #e2ad97 !important;
+}
+
+.btn_ver_faq:active{
+    background-color: #e2ad97 !important;
+    border-color: #e2ad97 !important;
+}

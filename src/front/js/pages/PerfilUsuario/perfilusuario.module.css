@@ -1,0 +1,78 @@
+.formulario {
+    background-color: white;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538))
+}
+
+.botonAgregarUsuario{
+    background-color: #B76C49;
+    color: white;
+    border: none;
+}
+
+.botonAgregarUsuario:hover{
+    background-color: #9a593c;
+    color: white;
+    border: none;
+}
+
+.botonAgregarUsuario:active{
+    background-color: #9a593c;
+    color: white;
+    border: none;
+}
+
+.botonAgregarUsuario:focus{
+    background-color: #9a593c;
+    color: white;
+    border: none;
+}
+
+.botonPubAnuncio{
+    background-color: #5C7728 ;
+    border: none;
+}
+
+.botonPubAnuncio:hover{
+    background-color: #3d4f1b;
+    border-color: #3d4f1b;
+    color: white;
+}
+
+.botonPubAnuncio:active{
+    background-color: #3d4f1b;
+    border-color: #3d4f1b;
+    color: white;
+}
+
+.botonPubAnuncio:focus{
+    background-color: #3d4f1b;
+    border-color: #3d4f1b;
+    color: white;
+}
+
+.bg_publicar_anuncio{
+    background-color: #B76C49;
+}
+
+.btn_publicar_anuncio{
+    background-color: #FFC9B3;
+    border:none;
+}
+
+.btn_publicar_anuncio:hover{
+    background-color: #d0a391;
+    border:none;
+}
+
+.imagenDudas{
+    height: 460px;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538))
+}
+
+@media screen and (max-width: 500px){
+.imagenDudas{
+    display: none;
+}
+}

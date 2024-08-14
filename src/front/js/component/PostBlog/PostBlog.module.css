@@ -1,0 +1,7 @@
+.post_blog {
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538));
+}
+
+.post_body {
+    font-size: clamp(0.8rem, 4vw, 1.2rem);
+}

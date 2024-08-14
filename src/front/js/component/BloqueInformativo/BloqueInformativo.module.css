@@ -1,0 +1,17 @@
+.bloque_informativo {
+    background-color: #FFC9B3;
+}
+
+.img_bloque_informativo {
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538));
+}
+
+.btn_signup {
+    background-color: #B76C49;
+    color: white;
+}
+
+.btn_signup:hover {
+    background-color: #9a593c;
+    color: white;
+}
