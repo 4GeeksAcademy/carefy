@@ -1,0 +1,36 @@
+.cuerpoSignUp {
+    min-height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 576px) {
+    .cuerpoSignUp {
+        flex-direction: column;
+        /* Ajusta para pantallas más pequeñas si es necesario */
+    }
+}
+
+.contenedorTitulo {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+
+.imagen1 {
+    width: 420px;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538));
+}
+
+.formulario {
+    background-color: white;
+    flex-direction: column;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538));
+    margin-top: 2%;
+}
+
+.imagen2 {
+    width: 420px;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538));
+}

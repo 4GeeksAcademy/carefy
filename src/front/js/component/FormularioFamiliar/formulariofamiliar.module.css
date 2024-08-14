@@ -1,0 +1,15 @@
+.cajonFormulario {
+    padding-bottom: 2%;
+    /* padding-top: 10%; */
+    
+}
+
+.botonGuardar{
+    background-color: #B76C49;
+    color: white;
+}
+
+.botonGuardar:hover{
+    background-color: #9a593c;
+    color: white;
+}
