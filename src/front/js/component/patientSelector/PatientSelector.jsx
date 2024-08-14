@@ -1,7 +1,13 @@
 import React from "react";
 import styles from './patientSelector.module.css';
+import { useState } from "react";
 
-const PatientSelector = ({ patients, selectedPatient, onSelect }) => {
+const PatientSelector = ({ alias, photo, description, age, dependency, province, phone, location}) => {
+
+    const [selectedPatient, setSelectedPatient] = useState("");
+
+    const patients = [];
+    
     return (
         <>
             {/* Radio buttons para seleccionar el paciente */}
@@ -22,11 +28,11 @@ const PatientSelector = ({ patients, selectedPatient, onSelect }) => {
                                 /* verificamos si el paciente actualmente seleccionado es igual al alias del paciente, si es así, se marcará como seleccionado que es un checked. Es para asegurar que visualmente se vea marcado*/
                                 checked={selectedPatient === changeSpaces}
                                 /* con el evento que se ejecuta al hacer clic en el input estamos cambiando el contenido del useState selectedPatient pasandole como argumento el alias del paciente  */
-                                onChange={() => onSelect(changeSpaces)}
+                                onChange={() => setSelectedPatient(changeSpaces)}
                                 className="form-check-input"
                             />
                             <label htmlFor={`patient-${changeSpaces}`} className="form-check-label">
-                                {patient.alias}
+                                {alias}
                             </label>
                         </div>
                     );
@@ -39,7 +45,7 @@ const PatientSelector = ({ patients, selectedPatient, onSelect }) => {
                         name="patient"
                         value="all"
                         checked={selectedPatient === "all"}
-                        onChange={() => onSelect("all")}
+                        onChange={() => setSelectedPatient("all")}
                         className="form-check-input"
                     />
                     <label htmlFor="patient-all" className="form-check-label">
@@ -67,7 +73,7 @@ const PatientSelector = ({ patients, selectedPatient, onSelect }) => {
                                             aria-expanded="false"
                                             aria-controls={`collapse-${changeSpaces}`}
                                         >
-                                            {patient.alias}
+                                            {alias}
                                         </button>
                                     </h2>
                                     <div
@@ -80,25 +86,25 @@ const PatientSelector = ({ patients, selectedPatient, onSelect }) => {
                                                 {/* si el usuario NO aporta foto del paciente asignamos una foto avatar generica */}
                                                 {patient.photo ? (
                                                     <img
-                                                        src={patient.photo}
-                                                        alt={`Foto de ${patient.alias}`}
+                                                        src={photo}
+                                                        alt={`Foto de ${alias}`}
                                                         className={`img-fluid mb-3 ${styles.image}`}
                                                     />
                                                 ) : (
                                                     <img
                                                         src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"
-                                                        alt={`Foto de ${patient.alias}`}
+                                                        alt={`Foto de ${alias}`}
                                                         className={`img-fluid mb-3 ${styles.image}`}
                                                     />
                                                 )}
                                             </div>
                                             <h5>{patient.name} {patient.lastName}</h5>
-                                            <p><span className={styles.content_accordion}>Descripción:</span> {patient.description}</p>
-                                            <p><span className={styles.content_accordion}>Edad:</span> {patient.age}</p>
-                                            <p><span className={styles.content_accordion}>Dependencia:</span> {patient.dependency}</p>
-                                            <p><span className={styles.content_accordion}>Localidad:</span> {patient.location}</p>
-                                            <p><span className={styles.content_accordion}>Provincia:</span> {patient.province}</p>
-                                            <p><span className={styles.content_accordion}>Teléfono:</span> {patient.phone}</p>
+                                            <p><span className={styles.content_accordion}>Descripción:</span> {description}</p>
+                                            <p><span className={styles.content_accordion}>Edad:</span> {age}</p>
+                                            <p><span className={styles.content_accordion}>Dependencia:</span> {dependency}</p>
+                                            <p><span className={styles.content_accordion}>Localidad:</span> {location}</p>
+                                            <p><span className={styles.content_accordion}>Provincia:</span> {province}</p>
+                                            <p><span className={styles.content_accordion}>Teléfono:</span> {phone}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -123,7 +129,7 @@ const PatientSelector = ({ patients, selectedPatient, onSelect }) => {
                                                 aria-expanded="true"
                                                 aria-controls={`collapse-${changeSpaces}`}
                                             >
-                                                {patient.alias}
+                                                {alias}
                                             </button>
                                         </h2>
                                         <div
@@ -135,20 +141,20 @@ const PatientSelector = ({ patients, selectedPatient, onSelect }) => {
                                                 <div className={styles.container_img}>
                                                     {patient.photo ? (
                                                         <img
-                                                            src={patient.photo}
-                                                            alt={`Foto de ${patient.alias}`}
+                                                            src={photo}
+                                                            alt={`Foto de ${alias}`}
                                                             className={`img-fluid mb-3 ${styles.image}`}
                                                         />
                                                     ) : (
                                                         <img
                                                             src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"
-                                                            alt={`Foto de ${patient.alias}`}
+                                                            alt={`Foto de ${alias}`}
                                                             className={`img-fluid mb-3 ${styles.image}`}
                                                         />
                                                     )}
                                                 </div>
                                                 <h5>{patient.name} {patient.lastName}</h5>
-                                                <p><span className={styles.content_accordion}>Descripción:</span> {patient.description}</p>
+                                                <p><span className={styles.content_accordion}>Descripción:</span> {description}</p>
                                                 <p><span className={styles.content_accordion}>Edad:</span> {patient.age}</p>
                                                 <p><span className={styles.content_accordion}>Dependencia:</span> {patient.dependency}</p>
                                                 <p><span className={styles.content_accordion}>Localidad:</span> {patient.location}</p>
