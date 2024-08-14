@@ -11,9 +11,7 @@ const DataAds = () => {
  
 
   return (
-    <div className={`container my-5 p-4 rounded ${styles.container_form}`}>
-      
-
+    <div className={`container my-5 p-4 rounded`}>
       
 
       <div className="row mt-4">

@@ -6,34 +6,9 @@ import RadioButton from '../../component/radioButton/RadioButton.jsx';
 import { Jumbotron } from '../../component/Jumbotron/Jumbotron.jsx';
 
 const CreateAds = () => {
+    const [patients, setPatients] = useState([]);
     const [selectedPatient, setSelectedPatient] = useState('');
 
-    const patients = [
-        {
-            alias: "Papá verano",
-            name: "Juan",
-            lastName: "Pérez",
-            photo: "https://randomuser.me/api/portraits/men/75.jpg",
-            description: "Descripción del paciente 1",
-            age: 30,
-            dependency: "Dependencia alta",
-            location: "Madrid",
-            province: "Madrid",
-            phone: "123456789"
-        },
-        {
-            alias: "Mama",
-            name: "Andrea",
-            lastName: "Pérez",
-            photo: null,
-            description: "Descripción del paciente 2",
-            age: 65,
-            dependency: "Dependencia media",
-            location: "Madrid",
-            province: "Madrid",
-            phone: "987654321"
-        }
-    ];
 
     return (
         <>
@@ -42,10 +17,10 @@ const CreateAds = () => {
                 title={"Publicar un anuncio"} 
                 subtitle={"Selecciona el paciente a cuidar:"} 
             />
-            <div className={styles.main_container}>
+            <div className={`container my-5 p-4 rounded ${styles.main_container}`}>
               <div className={styles.container_form}>
                 <div className={`container my-5 p-4 rounded ${styles.container_form}`}>
-                    <div className="mb-3">
+                    <div className="mb-3 container-fluid">
                         {/* RadioButton para la opción "Todos" */}
                         <RadioButton
                             alias="Todos"
@@ -54,7 +29,7 @@ const CreateAds = () => {
                             onChange={() => setSelectedPatient("all")}
                         />
 
-                        {/* Mapear los pacientes */}
+                        {/* Mapea los pacientes */}
                         {patients.map((patient, index) => (
                             <RadioButton
                                 key={index}
