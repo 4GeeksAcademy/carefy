@@ -14,6 +14,8 @@ export const PerfilUsuario = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
 
+
+
     useEffect(() => {
         if (!store.userData.token) {
             navigate('/login');
@@ -43,7 +45,7 @@ export const PerfilUsuario = () => {
                         </button>
 
                         {/* <!-- Modal --> */}
-                        <div className={`modal fade`} id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div className={`modal fade`} id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
                             <div className="modal-dialog modal-dialog-scrollable modal-lg">
                                 <div className="modal-content">
                                     <div className="modal-header">
