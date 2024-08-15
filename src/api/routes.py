@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User
+from api.models import db, User, Patient
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -131,4 +131,44 @@ def protected():
 
     return jsonify({"id": user.id }), 200
 
+
+# 15/08/24 - TOM #
+@api.route("/anadir_familiar", methods=["POST"])
+def anadir_familiar():
+    data = request.json
+
+    campos_requeridos = ['name', 'lastname', 'description', 'birthdate', 'dependency', 'location', 'province', 'availability']
+
+    for campos in campos_requeridos:
+        if campos not in data:
+            return jsonify ({'ERROR' : "falta el campo requerido: {campos}"}), 400        
+        elif (data):
+            nuevo_familiar = Patient(
+                name = data ['name'],
+                lastname = data ['lastname'],
+                phone = data ['phone'],
+                description = data ['description'],
+                birthdate = data ['birthday'],
+                dependency = data ['dependency'],
+                province = data ['province'],
+                photo = data ['photo']
+            )
+
+            db.session.add(nuevo_familiar)
+            db.session.commit()
+
+            return jsonify({
+                "msg": "Familiar creado exitosamente",
+                'id': nuevo_familiar.id,
+                "name" : nuevo_familiar.name,
+                "lastname" : nuevo_familiar.lastname,
+                "phone": nuevo_familiar.phone,
+                "description": nuevo_familiar.description,
+                "birthdate" : nuevo_familiar.birthdate,
+                "dependency": nuevo_familiar.dependency,
+                "province" : nuevo_familiar.province, 
+                "photo" : nuevo_familiar.photo
+            }), 200
+        return jsonify ({'Error' : 'error al anadir nuevo familiar'}), 400
+    
 

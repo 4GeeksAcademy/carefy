@@ -141,6 +141,31 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} catch (error) {
 					console.error('There was an error updating the user:', error);
 				}
+			},
+
+
+			anadir_familiar: async (name, lastname, phone, description, birthdate, dependency, province, photo) => {
+				try {
+					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/anadir_familiar`,{
+						method: 'POST',
+						body: JSON.stringify({name, lastname, phone, description, birthdate, dependency, province, photo}),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					});
+
+					if (!resp.ok) {
+						const errorData = await resp.json();
+						console.error("Error:", errorData);
+						return errorData;
+					}
+
+				}
+				catch (error) {
+					// Manejo de errores de red u otros errores
+					console.error("Network error:", error);
+				}
+
 			}
 
 		}
