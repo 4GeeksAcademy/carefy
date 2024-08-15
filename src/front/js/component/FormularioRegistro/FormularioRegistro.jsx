@@ -28,7 +28,7 @@ export const FormularioRegistro = () => {
             navigate('/mis-postulaciones')
         }
         else {
-            navigate('/perfilusuario')
+            navigate('/perfil-usuario')
         }
     }
 

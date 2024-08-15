@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Context } from "../../store/appContext.js";;
 import styles from './createAds.module.css';
 import DataAds from '../../component/dataAds/DataAds.jsx';
 import Carrousel from '../../component/carrousel/Carrousel.jsx';
@@ -14,12 +16,11 @@ const CreateAds = () => {
         <>
             <Jumbotron
                 bgImg={{ backgroundImage: "url('https://cdn.pixabay.com/photo/2024/03/22/13/15/holding-hands-8649669_640.jpg')" }}
-                title={"Publicar un anuncio"}
-                subtitle={"Selecciona el paciente a cuidar:"}
+                title={"¿Buscas un acompañante para un familiar?"}
+                subtitle={"Publica un anuncio y encuentra el acompañante ideal para tu familiar."}
             />
-            <div className={`container my-5 p-4 rounded ${styles.main_container}`}>
-                <div className={styles.container_form}>
-                    <div className={`container my-5 p-4 rounded ${styles.container_form}`}>
+            <div className={`container p-4 ${styles.main_container}`}>
+                    <div className={`container my-4 p-4 rounded ${styles.container_form}`}>
                         <div className="mb-3 container-fluid">
                             {/* RadioButton para la opción "Todos" */}
                             <RadioButton
@@ -61,7 +62,6 @@ const CreateAds = () => {
 
                         <DataAds />
                     </div>
-                </div>
             </div>
         </>
     );

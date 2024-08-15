@@ -7,3 +7,8 @@
     background-color: #9a593c;
     color: white;
 }
+
+.botonInicio:active{
+    background-color: #9a593c !important;
+    color: white !important;
+}

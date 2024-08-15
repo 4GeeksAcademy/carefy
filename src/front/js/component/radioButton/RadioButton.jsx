@@ -4,20 +4,25 @@ const RadioButton = ({ alias, value, checked, onChange }) => {
     const changeSpaces = alias.replace(/\s+/g, '_');
 
     return (
-        <div className="form-check">
-            <input
-                type="radio"
-                id={`patient-${changeSpaces}`}
-                name="patient"
-                value={value}
-                checked={checked}
-                onChange={onChange}
-                className="form-check-input"
-            />
-            <label htmlFor={`patient-${changeSpaces}`} className="form-check-label">
-                {alias}
-            </label>
-        </div>
+        <>
+            <div>
+                <p className='fs-5 fw-bold'>Selecciona el usuario al que deseas buscar un acompañante</p>
+            </div>
+            <div className="form-check d-flex align-items-start fs-5 gap-2">
+                <input
+                    type="radio"
+                    id={`patient-${changeSpaces}`}
+                    name="patient"
+                    value={value}
+                    checked={checked}
+                    onChange={onChange}
+                    className="form-check-input border border-secondary"
+                />
+                <label htmlFor={`patient-${changeSpaces}`} className="form-check-label fs-5">
+                    {alias}
+                </label>
+            </div>
+        </>
     );
 };
 

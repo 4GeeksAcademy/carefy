@@ -20,6 +20,6 @@
 }
 
 .botonInicio:active{
-    background-color: #9a593c;
+    background-color: #9a593c !important;
     color: white;
 }

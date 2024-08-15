@@ -101,7 +101,7 @@ def edit_user(user_id):
         return jsonify({"error": str(e)}), 500
 
 #Logearte y crear token de acceso
-@api.route("/login", methods=["POST", "GET"])
+@api.route("/login", methods=["POST"])
 def create_token():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
