@@ -31,23 +31,26 @@ class User(db.Model):
             "is_active": self.is_active,
             "name": self.name,
             "lastname": self.lastname,
-            "phone": self.phone
+            "phone": self.phone,
+            "location": self.location,
+            "role": self.role
         }
     
 class Patient(db.Model):
     __tablename__ = 'patients'
     id = db.Column(db.Integer, primary_key=True)
+    alias = db.Column(db.String(50), nullable=False)
     name =  db.Column(db.String(250), nullable=False)
     lastname = db.Column(db.String(250), nullable=False)
     phone = db.Column(db.String(250), nullable=False)
-    photo = db.Column(db.String(250), nullable=False)
+    photo = db.Column(db.String(250))
     description =db.Column(db.String(250), nullable=False)
     birthdate = db.Column(db.String(250), nullable=False)
     dependency = db.Column(db.String(250), nullable=False)
     location =  db.Column(db.String(250), nullable=False)
-    province = db.Column(db.String(250), nullable=False)
-    availability = db.Column(db.String(250), nullable=False) 
-    tags = db.Column(db.String(250), nullable=False)
+    province = db.Column(db.String(250))
+    availability = db.Column(db.String(250)) 
+    tags = db.Column(db.String(250))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
     def __repr__(self):

@@ -2,20 +2,24 @@ import React, { useContext, useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import style from "../AgregarFamiliar/agregarfamiliar.module.css"
 import { GrAction } from "react-icons/gr";
+import { Context } from "../../store/appContext";
+
 
 export const AgregarFamiliar = () => {
+    const navigate = useNavigate(); 
     const { store, actions } = useContext(Context);
-    const [nacimiento, setNacimiento] = useState("");
     const [edad, setEdad] = useState(0);
     const [name, setName] = useState('');
+    const [alias, setAlias] = useState('');
     const [lastname, setLastname] = useState('');
     const [phone, setPhone] = useState(0);
     const [description, setDescription] = useState('');
-    const [birthdate, setBirthdate] = useState (null);
+    const [birthdate, setBirthdate] = useState ('');
     const [dependency, setDependency] = useState ('');
     const [province, setProvince] = useState ('');
-    const [photo, setPhoto] = useState (null)
-    const [error, setError] = useState (null)
+    const [location, setLocation] = useState ('');
+    const [photo, setPhoto] = useState ('')
+    const [error, setError] = useState ('')
 
     // Función para calcular la edad a partir de la fecha de nacimiento
     const calcularEdad = (fechaNacimiento) => {
@@ -30,13 +34,34 @@ export const AgregarFamiliar = () => {
         return edadCalculada
     }
 
-    const anadir_familiar = async (event,name, lastname, phone, description, birthdate, dependency, province, photo ) => {
+    const anadir_familiar = async (event, name, alias, lastname, phone, description, birthdate, dependency, province, location, photo ) => {
         event.preventDefault();
-        if (!name || !lastname || !phone || !description || !birthdate || !dependency || !province || !photo ){
+        const user_id = store.userData.userId
+        if (!name || !alias || !lastname || !phone || !description || !birthdate || !dependency || !province || !location ){
             setError("Por favor, complete todos los campos.");
-                return;            
+                return;             
         }
-        await actions.anadir_familiar(name, lastname, phone, description, birthdate, dependency, province, photo )
+        
+        await actions.anadir_familiar(name, alias, lastname, phone, description, birthdate, dependency, province,location, photo, user_id)
+
+        // Se resetean campos
+        setName("");
+        setAlias("");
+        setLastname("");
+        setPhone("");
+        setDescription("");
+        setBirthdate("");
+        setDependency("");
+        setProvince("");
+        setLocation("")
+        setLastname("");
+        setEdad(0)
+        setPhoto("")
+
+        
+        window.location.reload()
+
+
     }
 
 
@@ -56,10 +81,10 @@ export const AgregarFamiliar = () => {
     };
 
     return (
-        <form className="form p-4" onSubmit={(event) => anadir_familiar(event, name, lastname, phone, description, birthdate, dependency, province, photo)}>
+        <form className="form p-4" onSubmit={(event) => anadir_familiar(event, name, alias, lastname, phone, description, birthdate, dependency, province, location,  photo)}>
             <div className="mb-3">
                 <label htmlFor="alias" className="form-label fs-5">Alias</label>
-                <input type="text" className="form-control" id="alias" placeholder="Ejemplo: mi padre" />
+                <input type="text" className="form-control" id="alias" placeholder="Ejemplo: mi padre" onChange={(e) =>setAlias(e.target.value)} value={alias} />
 
             </div>
 
@@ -81,12 +106,12 @@ export const AgregarFamiliar = () => {
             <div className="mb-3">
                 <div className="row">
                     <div className="col-8">
-                        <label for="birthdate" className="fs-5">Fecha de nacimiento</label><br></br>
+                        <label htmlFor="birthdate" className="fs-5">Fecha de nacimiento</label><br></br>
                         <input onChange={handleBirthdayChange} type="date" id="birthdate" name="nacimiento" value={birthdate} />
                     </div>
                     <div className="col">
-                        <label for="birthday" className="fs-5">Edad: </label><br></br>
-                        <label for="birthday" className="fs-5">{edad} </label>
+                        <label htmlFor="birthdate" className="fs-5">Edad: </label><br></br>
+                        <label htmlFor="birthdate" className="fs-5">{edad} </label>
 
                     </div>
                 </div>
@@ -167,7 +192,7 @@ export const AgregarFamiliar = () => {
                 <div className="col">
                     <label htmlFor="province" className="form-label fs-5">Provincia</label>
                     <select className="form-select" id="province" aria-label="Selecciona la provincia" onChange={(e) =>setProvince(e.target.value)} value={province}>
-                        <option selected>Selecciona la provincia</option>
+                        <option value="" disabled>Selecciona la provincia</option>
                         <option value="A Coruna">A Coruña</option>
                         <option value="Alava">Álava</option>
                         <option value="Albacete">Albacete</option>
@@ -224,10 +249,15 @@ export const AgregarFamiliar = () => {
                 </div>
             </div>
 
+            <div className="mb-3">
+                <label htmlFor="location" className="form-label fs-5">Localidad</label>
+                <input type="text" className="form-control" id="location" onChange={(e) =>setLocation(e.target.value)} value={location} />
+            </div>
+
 
 
             <div className="mb-3">
-                <label for="photo" className="form-label fs-5">Foto</label>
+                <label htmlFor="photo" className="form-label fs-5">Foto</label>
                 <input className="form-control" type="file" id="photo"  onChange={(e) =>setPhoto(e.target.value)} value={photo}/>
             </div>
 

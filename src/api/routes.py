@@ -13,6 +13,8 @@ api = Blueprint('api', __name__)
 # Allow CORS requests to this API
 CORS(api)
 
+#### USUARIOS ####
+
 # Traer todos los usuarios
 @api.route('/users', methods=['GET'])
 def get_users():
@@ -26,15 +28,15 @@ def get_users_details(user_id):
     if user is None:
         return jsonify({'error': 'User not found'}), 404
 
-    usuario = {
-        'id': user.id,
-        'name': user.name,
-        'lastname': user.lastname,
-        'email': user.email,
-        'phone': user.phone,
-        'location': user.location
-    }
-    return jsonify(usuario)
+    # usuario = {
+    #     'id': user.id,
+    #     'name': user.name,
+    #     'lastname': user.lastname,
+    #     'email': user.email,
+    #     'phone': user.phone,
+    #     'location': user.location
+    # }
+    return jsonify(user.serialize())
 
 #Crear nuevo usuario
 @api.route("/signup", methods=['POST'])
@@ -60,10 +62,7 @@ def add_user():
     return jsonify({
         "msg": "Usuario creado exitosamente",
         "access_token": access_token,
-        'id': new_user.id,
-        'username': new_user.username,
-        'email': new_user.email,
-        'role': new_user.role}), 201
+        **new_user.serialize()}), 201
 
 #Editar usuario existente
 @api.route('/users/edit/<int:user_id>', methods=['PUT'])
@@ -121,6 +120,13 @@ def create_token():
     access_token = create_access_token(identity=user.id)
     return jsonify({ "token": access_token, "email":user.email, "username": user.username, 'id': user.id, 'role': user.role  })
 
+
+#### ANUNCIOS ####
+
+#Crear anuncio
+
+
+
 #Página privada/protegida, solo accesible con token
 @api.route("/protected", methods=["GET"])
 @jwt_required()
@@ -137,7 +143,7 @@ def protected():
 def anadir_familiar():
     data = request.json
 
-    campos_requeridos = ['name', 'lastname', 'description', 'birthdate', 'dependency', 'location', 'province', 'availability']
+    campos_requeridos = ['name', 'alias', 'lastname', 'phone' , 'description', 'birthdate', 'dependency', 'province', 'location']
 
     for campos in campos_requeridos:
         if campos not in data:
@@ -145,13 +151,16 @@ def anadir_familiar():
         elif (data):
             nuevo_familiar = Patient(
                 name = data ['name'],
+                alias = data ['alias'],
                 lastname = data ['lastname'],
                 phone = data ['phone'],
                 description = data ['description'],
-                birthdate = data ['birthday'],
+                birthdate = data ['birthdate'],
                 dependency = data ['dependency'],
                 province = data ['province'],
-                photo = data ['photo']
+                location = data ['location'],
+                photo = data ['photo'],
+                user_id = data ['user_id']
             )
 
             db.session.add(nuevo_familiar)
@@ -161,13 +170,16 @@ def anadir_familiar():
                 "msg": "Familiar creado exitosamente",
                 'id': nuevo_familiar.id,
                 "name" : nuevo_familiar.name,
+                "alias": nuevo_familiar.alias,
                 "lastname" : nuevo_familiar.lastname,
                 "phone": nuevo_familiar.phone,
                 "description": nuevo_familiar.description,
                 "birthdate" : nuevo_familiar.birthdate,
                 "dependency": nuevo_familiar.dependency,
                 "province" : nuevo_familiar.province, 
-                "photo" : nuevo_familiar.photo
+                "location": nuevo_familiar.location,
+                "photo" : nuevo_familiar.photo,
+                "user_id": nuevo_familiar.user_id
             }), 200
         return jsonify ({'Error' : 'error al anadir nuevo familiar'}), 400
     

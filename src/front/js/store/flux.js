@@ -1,38 +1,56 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			users: localStorage.getItem("users") || null,
-			token: localStorage.getItem("token") || null,
-			userId: localStorage.getItem('userId') || '',
-			email: localStorage.getItem("email") || null,
-			username: localStorage.getItem("username") || null,
-			role: localStorage.getItem("role") || null,
-			name: localStorage.getItem("name") || null,
-			lastname: localStorage.getItem("lastname") || null,
-			phone: localStorage.getItem("phone") || null,
-			location: localStorage.getItem("location") || null,
+			users: JSON.parse(localStorage.getItem("users")) || null,
+			userData: JSON.parse(localStorage.getItem("userData")) || {
+				token: null,
+				userId: null,
+				email: null,
+				username: null,
+				role: null,
+				name: null,
+				lastname: null,
+				phone: null,
+				location: null,
+			}
 		},
 
 		actions: {
 
 			logIn: async (email, password) => {
-				const store = getStore()
+				const store = getStore();
 				try {
 					const resp = await fetch(`${process.env.BACKEND_URL}/api/login`, {
 						method: "POST",
 						body: JSON.stringify({ email, password }),
 						headers: { "Content-Type": "application/json" }
 					});
+			
 					const data = await resp.json();
-
+			
 					if (data.token) {
-
-						localStorage.setItem('token', data.token);
-						localStorage.setItem('username', data.username);
-						localStorage.setItem('email', data.email);
-						localStorage.setItem('userId', data.id);
-						localStorage.setItem('role', data.role);
-						setStore({ ...store, token: data.token, email: data.email, userId: data.id, username: data.username, role: data.role });
+						// Agrupar todos los datos del usuario en un objeto
+						const userData = {
+							token: data.token,
+							username: data.username,
+							email: data.email,
+							userId: data.id,
+							role: data.role,
+							name: data.name || '',
+							lastname: data.lastname || '',
+							phone: data.phone || '',
+							location: data.location || ''
+						};
+			
+						// Guardar el objeto en localStorage
+						localStorage.setItem('userData', JSON.stringify(userData));
+			
+						// Actualizar el store con los datos del usuario
+						setStore({
+							...store,
+							userData: userData
+						});
+			
 						console.log("Success:", data);
 					} else {
 						console.error("Token no recibido:", data);
@@ -41,6 +59,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Network error:", error);
 				}
 			},
+			
 			signUp: async (email, password, username, role) => {
 				const store = getStore();
 				try {
@@ -61,13 +80,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await resp.json();
 
 					if (data.access_token) {
-						// Guardar el token en localStorage
-						localStorage.setItem('token', data.access_token);
-						localStorage.setItem('username', data.username);
-						localStorage.setItem('email', data.email);
-						localStorage.setItem('userId', data.id);
-						localStorage.setItem('role', data.role);
-						setStore({ ...store, token: data.access_token, email: data.email, userId: data.id, username: data.username, role: data.role });
+						// Agrupar todos los datos del usuario en un objeto
+						const userData = {
+							token: data.access_token,
+							username: data.username,
+							email: data.email,
+							userId: data.id,
+							role: data.role
+						};
+
+						// Guardar el objeto en localStorage
+						localStorage.setItem('userData', JSON.stringify(userData));
+
+						// Actualizar el store
+						setStore({
+							...store,
+							userData: userData
+						});
 						console.log("Success:", data);
 					} else {
 						console.error("Token no recibido:", data);
@@ -79,8 +108,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			logOut: () => {
 				const store = getStore();
-				localStorage.removeItem("token");
-				setStore({ ...store, token: '', email: '', userId: '', username: '', role: '' });
+				
+				// Elimina el objeto completo de userData del localStorage
+				localStorage.removeItem("userData");
+				
+				setStore({
+					...store,
+					userData: {
+						token: null,
+						userId: '',
+						email: null,
+						username: null,
+						role: null,
+						name: null,
+						lastname: null,
+						phone: null,
+						location: null,
+					}
+				});
 			},
 			getUsers: async () => {
 				try {
@@ -98,22 +143,38 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore();
 				const actions = getActions();
 
-				if (!store.userId) {
+				if (!store.userData.userId) {
 					console.error('User ID is not available');
 					return;
 				}
 				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/user/${store.userId}`);
+					const response = await fetch(`${process.env.BACKEND_URL}/api/user/${store.userData.userId}`);
 					if (!response.ok) {
 						throw new Error(`HTTP error! status: ${response.status}`);
 					}
 					const data = await response.json();
-					setStore({ ...store, name: data.name, lastname: data.lastname, email: data.email, phone: data.phone, location: data.location });
-					localStorage.setItem('name', data.name);
-					localStorage.setItem('lastname', data.lastname);
-					localStorage.setItem('email', data.email);
-					localStorage.setItem('phone', data.phone);
-					localStorage.setItem('location', data.location);
+					console.log("Datos del usuario recibidos:", data);
+					if (data) {
+						// Agrupar todos los datos del usuario en un objeto
+						const userDataDetails = {
+							...store.userData,
+							email: data.email,
+							name: data.name || '',
+							lastname: data.lastname || '',
+							phone: data.phone || '',
+							location: data.location || ''
+						};
+
+						// Guardar el objeto en localStorage
+						localStorage.setItem('userData', JSON.stringify(userDataDetails));
+
+						// Actualizar el store
+						setStore({
+							...store,
+							userData: userDataDetails
+						});
+						console.log("Store actualizado:", getStore());
+					}
 				} catch (error) {
 					console.error('There was an error fetching the user details!', error);
 				}
@@ -122,7 +183,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore();
 				const actions = getActions();
 				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/users/edit/${store.userId}`, {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/users/edit/${store.userData.userId}`, {
 						method: "PUT",
 						body: JSON.stringify({ name, lastname, email, phone, location }),
 						headers: {
@@ -144,18 +205,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 
-			anadir_familiar: async (name, lastname, phone, description, birthdate, dependency, province, photo) => {
+			anadir_familiar: async (name, alias,  lastname, phone, description, birthdate, dependency, province, location,  photo, user_id) => {
 				try {
 					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/anadir_familiar`,{
 						method: 'POST',
-						body: JSON.stringify({name, lastname, phone, description, birthdate, dependency, province, photo}),
+						body: JSON.stringify({name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, user_id}),
 						headers: {
 							"Content-Type": "application/json"
 						}
 					});
 
-					if (!resp.ok) {
-						const errorData = await resp.json();
+					if (!respuesta.ok) {
+						const errorData = await respuesta.json();
 						console.error("Error:", errorData);
 						return errorData;
 					}
