@@ -1,13 +1,27 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import ayudahombre from "../../../img/ayudahombre.jpg";
+import { Context } from "../../store/appContext.js";
 import style from "../Registro/registro.module.css"
 import { FormularioRegistro } from "../../component/FormularioRegistro/FormularioRegistro.jsx"
 import { Jumbotron } from "../../component/Jumbotron/Jumbotron.jsx";
 
 export const Registro = () => {
 
-    
+    const { store, actions } = useContext(Context);
+	const navigate = useNavigate();
+
+    useEffect(() => {
+		if (store.userData.token && store.userData.role == "companion") {
+			navigate('/perfil-acompanante');
+		}
+        else if(store.userData.token && store.userData.role == "user") {
+			navigate('/perfil-usuario');
+		}
+        else{
+            navigate('/login');
+        }
+	}, [store.userData.token, navigate])
+
     return (
         <>
         <Jumbotron bgImg={ {backgroundImage: "url('https://images.pexels.com/photos/339620/pexels-photo-339620.jpeg')" }} title={"Empieza a ser parte de la comunidad Carefy"} subtitle={"El registro es gratuito y podrás buscar o encontrar un puesto como acompañante."} />

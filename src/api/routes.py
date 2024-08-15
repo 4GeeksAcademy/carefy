@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User
+from api.models import db, User, Ad, Status
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -124,7 +124,32 @@ def create_token():
 #### ANUNCIOS ####
 
 #Crear anuncio
+@api.route("/create_ad/<int:user_id>", methods=['POST'])
+def create_ad(user_id):
+    data = request.json
+    if 'max_cost' not in data or 'title' not in data or 'description' not in data:
+        return jsonify({'error': 'Missing data'}), 400
+    
+    if data['status'] not in [status.value for status in Status]:
+        return jsonify({'error': 'Invalid status value'}), 400
 
+    new_ad = Ad(
+        title=data['title'],
+        description=data['description'],
+        created_at=data['created_at'],
+        start_date=data['start_date'],
+        end_date=data['end_date'],
+        max_cost=data['max_cost'],
+        status=Status(data['status']),
+        user_id=user_id
+    )
+
+    db.session.add(new_ad)
+    db.session.commit()
+    
+    return jsonify({
+        "msg": "Anuncio creado exitosamente",
+        **new_ad.serialize()}), 201
 
 
 #Página privada/protegida, solo accesible con token

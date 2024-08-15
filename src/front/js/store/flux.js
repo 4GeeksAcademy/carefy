@@ -12,6 +12,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 				lastname: null,
 				phone: null,
 				location: null,
+			},
+			adData: JSON.parse(localStorage.getItem("adData")) || {
+				patient_id: null,
+				title: null,
+				description: null,
+				active: null,
+				created_at: null,
+				start_date: null,
+				end_date: null,
+				max_cost: null,
+				status: null
 			}
 		},
 
@@ -202,7 +213,55 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} catch (error) {
 					console.error('There was an error updating the user:', error);
 				}
-			}
+			},
+			createAd: async (startDate, endDate, price, title, description, status = "pending", active) => {
+				const store = getStore();
+				try {
+					const resp = await fetch(`${process.env.BACKEND_URL}/api/create_ad/${store.userData.userId}`, {
+						method: "POST",
+						body: JSON.stringify({
+							start_date: startDate,
+							end_date: endDate,
+							max_cost: price,
+							title: title,
+							description: description,
+							created_at: new Date().toISOString(), // Enviar la fecha actual como ISOString
+							status: status,
+							active: active
+	
+						}),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					});
+
+					if (!resp.ok) {
+						const errorData = await resp.json();
+						console.error("Error:", errorData);
+						return errorData;
+					}
+
+					const data = await resp.json();
+
+					if (data) {
+						// Agrupar todos los datos del usuario en un objeto
+						// Guardar el objeto en localStorage
+						localStorage.setItem('adData', JSON.stringify(data));
+
+						// Actualizar el store
+						setStore({
+							...store,
+							adData: data
+						});
+						console.log("Success:", data);
+					} else {
+						console.error("Datos no recibidos:", data);
+					}
+				} catch (error) {
+					// Manejo de errores de red u otros errores
+					console.error("Network error:", error);
+				}
+			},
 
 		}
 	};

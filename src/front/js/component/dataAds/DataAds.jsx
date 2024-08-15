@@ -1,13 +1,33 @@
-import React, { useState } from "react";
-
-
-
+import React, { useContext, useState, useEffect } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { Context } from "../../store/appContext";
 import styles from './dataAds.module.css';
-
 
 const DataAds = () => {
   
+  const { store, actions } = useContext(Context);
 
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [price, setPrice] = useState('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const navigate = useNavigate();
+
+  const [error, setError] = useState(null);
+
+  const createAd = async (startDate, endDate, price, title, description, status) => {
+
+
+    if (!title || !description) {
+        setError("Por favor, complete título y descripción.");
+        return;
+    }
+
+    await actions.createAd(startDate, endDate, price, title, description, status);
+    navigate(`/crear-anuncio`)
+
+}
  
 
   return (
@@ -21,6 +41,8 @@ const DataAds = () => {
             className="form-control"
             id="fechaInicio"
             name="fechaInicio"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
           />
         </div>
         <div className="col-12 col-md-4">
@@ -30,7 +52,8 @@ const DataAds = () => {
             className="form-control"
             id="fechaFin"
             name="fechaFin"
-            
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
           />
         </div>
         <div className="col-12 col-md-4">
@@ -38,9 +61,11 @@ const DataAds = () => {
           <input
             type="number"
             className="form-control"
-            placeholder="Precio por hora (€)"
+            placeholder="0 €"
             id="precio"
             name="precio"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
           />
         </div>
       </div>
@@ -48,20 +73,19 @@ const DataAds = () => {
       <div className="row mt-4">
         <div className="col-12">
           <label className="form-label fs-5">Título del anuncio</label>
-          <input type="text" className="form-control" />
+          <input type="text" className="form-control" value={title} onChange={(e) => setTitle(e.target.value)} />
         </div>
       </div>
 
       <div className="row mt-4">
         <div className="col-12">
           <label className="form-label fs-5">Descripción del anuncio</label>
-          <textarea className="form-control" rows={4}></textarea>
+          <textarea className="form-control" rows={4} value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
         </div>
       </div>
 
       <div className="d-flex justify-content-end mt-4">
-        <button className={`me-2 fs-5 btn ${styles.btn_send}`}>Publicar</button>
-        <button className={`btn fs-5 ${styles.btn_cancel}`}>Cancelar</button>
+        <button onClick={() => createAd(startDate, endDate, price, title, description)} className={`me-2 fs-5 btn ${styles.btn_send}`}>Publicar</button>
       </div>
     </div>
   );
