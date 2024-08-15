@@ -24,7 +24,7 @@
 }
 
 .login_button:focus{
-    background-color: #3d4f1b;
+    background-color: #3d4f1b !important;
     border:none;
     color: white;
 }
@@ -54,6 +54,10 @@
     color: white !important;
 }
 
+.btn_signup:focus{
+    background-color: #9a593c !important;
+    color: white !important;
+}
 
 .custom_toggler_edit .navbar_toggler_icon {
     filter: brightness(1) invert(0);

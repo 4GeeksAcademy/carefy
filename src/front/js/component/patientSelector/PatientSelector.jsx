@@ -42,7 +42,7 @@ const PatientSelector = ({ patients, selectedPatient, onSelect }) => {
                         onChange={() => onSelect("all")}
                         className="form-check-input"
                     />
-                    <label htmlFor="patient-all" className="form-check-label">
+                    <label htmlFor="patient-all" className="form-check-label fs-5">
                         Todos
                     </label>
                 </div>
