@@ -12,13 +12,13 @@ import { Context } from "../../store/appContext.js";
 export const PerfilUsuario = () => {
 
     const { store, actions } = useContext(Context);
-	const navigate = useNavigate();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        if (!store.token) {
+        if (!store.userData.token) {
             navigate('/login');
         }
-    }, [store.token, navigate])
+    }, [store.userData.token, navigate])
 
     return (
         <>
@@ -43,7 +43,7 @@ export const PerfilUsuario = () => {
                         </button>
 
                         {/* <!-- Modal --> */}
-                        <div className={`modal fade`} id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div className={`modal fade`} id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div className="modal-dialog modal-dialog-scrollable modal-lg">
                                 <div className="modal-content">
                                     <div className="modal-header">

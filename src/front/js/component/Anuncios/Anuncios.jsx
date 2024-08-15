@@ -14,7 +14,7 @@ export const Anuncios = ({ countAds, title, requests, date, countFav, companionN
                     </li>
                 </ul>
                 <div className="tab-content" id="pills-tabContent">
-                    <div className="tab-pane fade show active table-responsive" id="pills-postulaciones" role="tabpanel" aria-labelledby="pills-postulaciones-tab" tabindex="0">
+                    <div className="tab-pane fade show active table-responsive" id="pills-postulaciones" role="tabpanel" aria-labelledby="pills-postulaciones-tab" tabIndex="0">
 
                         <table className="table table-light table-hover">
                             <thead>
@@ -42,8 +42,8 @@ export const Anuncios = ({ countAds, title, requests, date, countFav, companionN
                         </table>
 
                     </div>
-                    <div className="tab-pane fade table-responsive" id="pills-fav" role="tabpanel" aria-labelledby="pills-fav-tab" tabindex="0">
-                    <table className="table table-light table-hover">
+                    <div className="tab-pane fade table-responsive" id="pills-fav" role="tabpanel" aria-labelledby="pills-fav-tab" tabIndex="0">
+                        <table className="table table-light table-hover">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>

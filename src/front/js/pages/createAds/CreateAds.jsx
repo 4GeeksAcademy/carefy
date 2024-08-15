@@ -17,7 +17,7 @@ const CreateAds = () => {
             <Jumbotron
                 bgImg={{ backgroundImage: "url('https://cdn.pixabay.com/photo/2024/03/22/13/15/holding-hands-8649669_640.jpg')" }}
                 title={"¿Buscas un acompañante para un familiar?"}
-                subtitle={"Publica un anuncio y encuentra el acompañante ideal para tu familiar."}
+                subtitle={"Publica un anuncio y encuentra el acompañante ideal."}
             />
             <div className={`container p-4 ${styles.main_container}`}>
                     <div className={`container my-4 p-4 rounded ${styles.container_form}`}>

@@ -14,9 +14,9 @@ export const Postulaciones = ({ countAds, title, location, date, countFav, favTi
                     </li>
                 </ul>
                 <div className="tab-content" id="pills-tabContent">
-                    <div className="tab-pane fade show active table-responsive" id="pills-postulaciones" role="tabpanel" aria-labelledby="pills-postulaciones-tab" tabindex="0">
+                    <div className="tab-pane fade show active table-responsive" id="pills-postulaciones" role="tabpanel" aria-labelledby="pills-postulaciones-tab" tabIndex="0">
 
-                        <table class="table table-light table-hover">
+                        <table className="table table-light table-hover">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -33,16 +33,16 @@ export const Postulaciones = ({ countAds, title, location, date, countFav, favTi
                                     <td>{location}</td>
                                     <td>{date}</td>
                                     <td className="">
-                                        <span class="fa-solid fa-eye pe-3"></span>
-                                        <span class="fa-solid fa-trash-can pb-2"></span>
+                                        <span className="fa-solid fa-eye pe-3"></span>
+                                        <span className="fa-solid fa-trash-can pb-2"></span>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
 
                     </div>
-                    <div className="tab-pane fade table-responsive" id="pills-fav" role="tabpanel" aria-labelledby="pills-fav-tab" tabindex="0">
-                        <table class="table table-light table-hover">
+                    <div className="tab-pane fade table-responsive" id="pills-fav" role="tabpanel" aria-labelledby="pills-fav-tab" tabIndex="0">
+                        <table className="table table-light table-hover">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -59,8 +59,8 @@ export const Postulaciones = ({ countAds, title, location, date, countFav, favTi
                                     <td>{favLocation}</td>
                                     <td>{favDate}</td>
                                     <td className="">
-                                        <span class="fa-solid fa-eye pe-3"></span>
-                                        <span class="fa-solid fa-trash-can pb-2"></span>
+                                        <span className="fa-solid fa-eye pe-3"></span>
+                                        <span className="fa-solid fa-trash-can pb-2"></span>
                                     </td>
                                 </tr>
                             </tbody>
