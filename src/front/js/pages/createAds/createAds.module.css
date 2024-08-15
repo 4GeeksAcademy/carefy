@@ -1,3 +1,8 @@
 .main_container{
     background-color: #FFC9B3;
   }
+
+  .container_form{
+    background-color: rgb(253, 253, 253);
+    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538))
+}

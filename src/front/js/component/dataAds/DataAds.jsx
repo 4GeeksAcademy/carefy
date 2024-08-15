@@ -1,82 +1,47 @@
 import React, { useState } from "react";
 
-import PatientSelector from "../patientSelector/PatientSelector.jsx";
+
 
 import styles from './dataAds.module.css';
 
 
 const DataAds = () => {
-  const [selectedPatient, setSelectedPatient] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [price, setPrice] = useState("");
+  
 
-  // Ejemplo de pacientes
-  const patients = [
-    {
-      alias: "Papá 1",
-      name: "Juan",
-      lastName: "Pérez",
-      photo: "https://randomuser.me/api/portraits/men/75.jpg",
-      description: "Descripción del paciente 1",
-      age: 30,
-      dependency: "Dependencia alta",
-      location: "Madrid",
-      province: "Madrid",
-      phone: "123456789"
-    },
-    {
-      alias: "Mamá",
-      name: "Andrea",
-      lastName: "Pérez",
-      photo: null,
-      description: "Descripción del paciente 2",
-      age: 65,
-      dependency: "Dependencia media",
-      location: "Madrid",
-      province: "Madrid",
-      phone: "987654321"
-    }
-  ];
+ 
 
   return (
-    <div className={`container my-5 p-4 rounded ${styles.container_form}`}>
-      <h2 className={styles.title_form}> Publicar un anuncio</h2>
-      <p className={styles.title_form}>Selecciona el paciente a cuidar:</p>
-
-      <PatientSelector
-        patients={patients}
-        selectedPatient={selectedPatient}
-        onSelect={setSelectedPatient}
-      />
+    <div className={`container my-5 p-4 rounded`}>
+      
 
       <div className="row mt-4">
         <div className="col-12 col-md-4">
-          <label className="form-label">Fecha de inicio</label>
+          <label htmlFor="fechaInico" className="form-label">Fecha de inicio</label>
           <input
             type="date"
             className="form-control"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
+            id="fechaInicio"
+            name="fechaInicio"
           />
         </div>
         <div className="col-12 col-md-4">
-          <label className="form-label">Fecha de fin</label>
+          <label htmlFor="fechaFin" className="form-label">Fecha de fin</label>
           <input
             type="date"
             className="form-control"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
+            id="fechaFin"
+            name="fechaFin"
+            
           />
         </div>
         <div className="col-12 col-md-4">
-          <label className="form-label">Precio por hora</label>
+          <label htmlFor="precio" className="form-label">Precio por hora</label>
           <input
             type="number"
             className="form-control"
             placeholder="Precio por hora (€)"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            id="precio"
+            name="precio"
           />
         </div>
       </div>
