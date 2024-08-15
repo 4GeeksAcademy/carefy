@@ -20,7 +20,7 @@ export const BloqueAnuncio = ({ title, avatar, userName, age, location, state, d
     return (
         <div className={`container bg-light p-4 my-5 rounded position-relative ${styles.block_anuncio}`}>
             {/* ICONO PARA EL ACOMPAÑANTE */}
-            {store.role == "companion" ?
+            {store.userData.role == "companion" ?
                 <span className={`fa-regular fa-heart position-absolute ${styles.fav_icon}`}></span>
                 :
                 ''

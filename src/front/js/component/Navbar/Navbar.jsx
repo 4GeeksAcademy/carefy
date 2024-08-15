@@ -44,8 +44,8 @@ export const Navbar = ({ username }) => {
 
                                 <div className="btn-group">
                                     {/* BOTONES QUE SE VEN SI EL USUARIO ESTÁ LOGUEADO */}
-                                    {store.token ? <button type="button" className={`btn text-light ${styles.login_button} dropdown-toggle fs-5`} data-bs-toggle="dropdown" aria-expanded="false">
-                                        <span className="fa-solid fa-user pe-2"></span>{store.username}
+                                    {store.userData.token ? <button type="button" className={`btn text-light ${styles.login_button} dropdown-toggle fs-5`} data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span className="fa-solid fa-user pe-2"></span>{store.userData.username}
                                     </button> :
                                         <>
                                             <Link to="/login">
@@ -57,7 +57,7 @@ export const Navbar = ({ username }) => {
                                     }
 
                                     <ul className="dropdown-menu dropdown-menu-end">
-                                        {store.role == "companion" ?
+                                        {store.userData.role == "companion" ?
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-acompanante">Mi perfil</Link></li>
                                             :
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-usuario">Mi perfil</Link></li>
@@ -65,7 +65,7 @@ export const Navbar = ({ username }) => {
 
 
                                         {/* MENU QUE SE VE SI EL USUARIO ES ACOMPAÑANTE o USER */}
-                                        {store.role == "companion" ?
+                                        {store.userData.role == "companion" ?
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-postulaciones">Mis postulaciones</Link></li>
                                             :
                                             <>
@@ -119,8 +119,8 @@ export const Navbar = ({ username }) => {
                                 {/* BOTONES QUE SE VEN SI EL USUARIO NO ESTÁ LOGUEADO */}
                                 <div className="btn-group">
                                     {/* BOTONES QUE SE VEN SI EL USUARIO ESTÁ LOGUEADO */}
-                                    {store.token ? <button type="button" className={`btn text-light ${styles.login_button} dropdown-toggle fs-5`} data-bs-toggle="dropdown" aria-expanded="false">
-                                        <span className="fa-solid fa-user pe-2"></span>{store.username}
+                                    {store.userData.token ? <button type="button" className={`btn text-light ${styles.login_button} dropdown-toggle fs-5`} data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span className="fa-solid fa-user pe-2"></span>{store.userData.username}
                                     </button> :
                                         <>
                                             <Link to="/login">
@@ -132,7 +132,7 @@ export const Navbar = ({ username }) => {
                                     }
 
                                     <ul className="dropdown-menu">
-                                        {store.role == "companion" ?
+                                        {store.userData.role == "companion" ?
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-acompanante">Mi perfil</Link></li>
                                             :
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-usuario">Mi perfil</Link></li>
@@ -140,7 +140,7 @@ export const Navbar = ({ username }) => {
 
 
                                         {/* MENU QUE SE VE SI EL USUARIO ES ACOMPAÑANTE o USER */}
-                                        {store.role == "companion" ?
+                                        {store.userData.role == "companion" ?
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-postulaciones">Mis postulaciones</Link></li>
                                             :
                                             <>

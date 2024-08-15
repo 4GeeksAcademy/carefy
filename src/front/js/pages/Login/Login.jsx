@@ -1,11 +1,27 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import { Context } from "../../store/appContext.js";
 import style from "../Login/login.module.css"
 import ancianafeliz from "../../../img/ancianafeliz.jpg";
 import { Jumbotron } from "../../component/Jumbotron/Jumbotron.jsx";
 import { FormularioLogin } from "../../component/FormularioLogin/FormularioLogin.jsx";
 
 export const Login = () => {
+
+    const { store, actions } = useContext(Context);
+	const navigate = useNavigate();
+
+    useEffect(() => {
+		if (store.userData.token && store.userData.role == "companion") {
+			navigate('/perfil-acompanante');
+		}
+        else if(store.userData.token && store.userData.role == "user") {
+			navigate('/perfil-usuario');
+		}
+        else{
+            navigate('/login');
+        }
+	}, [store.userData.token, navigate])
 
     return (
         <>

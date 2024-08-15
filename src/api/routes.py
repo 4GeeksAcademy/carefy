@@ -13,6 +13,8 @@ api = Blueprint('api', __name__)
 # Allow CORS requests to this API
 CORS(api)
 
+#### USUARIOS ####
+
 # Traer todos los usuarios
 @api.route('/users', methods=['GET'])
 def get_users():
@@ -26,15 +28,15 @@ def get_users_details(user_id):
     if user is None:
         return jsonify({'error': 'User not found'}), 404
 
-    usuario = {
-        'id': user.id,
-        'name': user.name,
-        'lastname': user.lastname,
-        'email': user.email,
-        'phone': user.phone,
-        'location': user.location
-    }
-    return jsonify(usuario)
+    # usuario = {
+    #     'id': user.id,
+    #     'name': user.name,
+    #     'lastname': user.lastname,
+    #     'email': user.email,
+    #     'phone': user.phone,
+    #     'location': user.location
+    # }
+    return jsonify(user.serialize())
 
 #Crear nuevo usuario
 @api.route("/signup", methods=['POST'])
@@ -60,10 +62,7 @@ def add_user():
     return jsonify({
         "msg": "Usuario creado exitosamente",
         "access_token": access_token,
-        'id': new_user.id,
-        'username': new_user.username,
-        'email': new_user.email,
-        'role': new_user.role}), 201
+        **new_user.serialize()}), 201
 
 #Editar usuario existente
 @api.route('/users/edit/<int:user_id>', methods=['PUT'])
@@ -120,6 +119,13 @@ def create_token():
     # Crea un nuevo token con el id de usuario dentro
     access_token = create_access_token(identity=user.id)
     return jsonify({ "token": access_token, "email":user.email, "username": user.username, 'id': user.id, 'role': user.role  })
+
+
+#### ANUNCIOS ####
+
+#Crear anuncio
+
+
 
 #Página privada/protegida, solo accesible con token
 @api.route("/protected", methods=["GET"])

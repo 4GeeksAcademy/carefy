@@ -8,7 +8,7 @@ export const TarjetaFamiliar = () => {
 
         <div className="card" style={{ width: '15rem' }}>
             <h5 className="card-title text-center pt-2">Alias: mi padre</h5>
-            <img src={profileImg} class="card-img-top" alt="..." />
+            <img src={profileImg} className="card-img-top" alt="..." />
             <div className="card-body">
                 <div className="row text-center">
 

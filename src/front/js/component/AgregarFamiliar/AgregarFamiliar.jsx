@@ -61,12 +61,12 @@ export const AgregarFamiliar = () => {
             <div className="mb-3">
                 <div className="row">
                     <div className="col-8">
-                        <label for="nacimiento" className="fs-5">Fecha de nacimiento</label><br></br>
+                        <label htmlFor="nacimiento" className="fs-5">Fecha de nacimiento</label><br></br>
                         <input onChange={handleBirthdayChange} type="date" id="nacimiento" name="nacimiento" value={nacimiento} />
                     </div>
                     <div className="col">
-                        <label for="birthday" className="fs-5">Edad: </label><br></br>
-                        <label for="birthday" className="fs-5">{edad} </label>
+                        <label htmlFor="birthday" className="fs-5">Edad: </label><br></br>
+                        <label htmlFor="birthday" className="fs-5">{edad} </label>
 
                     </div>
                 </div>
@@ -146,8 +146,8 @@ export const AgregarFamiliar = () => {
             <div className="row mb-3">
                 <div className="col">
                     <label htmlFor="provincia" className="form-label fs-5">Provincia</label>
-                    <select className="form-select" id="provincia" aria-label="Selecciona la provincia">
-                        <option selected>Selecciona la provincia</option>
+                    <select className="form-select" id="provincia" defaultValue={"Selecciona la provincia"} aria-label="Selecciona la provincia">
+                        <option disabled hidden>Selecciona la provincia</option>
                         <option value="A Coruna">A Coruña</option>
                         <option value="Alava">Álava</option>
                         <option value="Albacete">Albacete</option>
@@ -207,7 +207,7 @@ export const AgregarFamiliar = () => {
 
 
             <div className="mb-3">
-                <label for="formFile" className="form-label fs-5">Foto</label>
+                <label htmlFor="formFile" className="form-label fs-5">Foto</label>
                 <input className="form-control" type="file" id="formFile" />
             </div>
 

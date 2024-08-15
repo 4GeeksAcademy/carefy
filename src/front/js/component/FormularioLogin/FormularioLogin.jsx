@@ -20,7 +20,7 @@ export const FormularioLogin = () => {
         }
 
         await actions.logIn(email, password);
-        if (store.role == "companion") {
+        if (store.userData.role == "companion") {
             navigate('/mis-postulaciones')
         }
         else {

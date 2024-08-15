@@ -31,7 +31,9 @@ class User(db.Model):
             "is_active": self.is_active,
             "name": self.name,
             "lastname": self.lastname,
-            "phone": self.phone
+            "phone": self.phone,
+            "location": self.location,
+            "role": self.role
         }
     
 class Patient(db.Model):
