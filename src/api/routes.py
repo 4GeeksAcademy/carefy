@@ -46,7 +46,6 @@ def add_user():
     hashed_password = generate_password_hash(data['password'])  # Hash the password
 
     new_user = User(
-        id=data['id'],
         username=data['username'],
         email=data['email'],
         role=data['role'],
@@ -102,7 +101,7 @@ def edit_user(user_id):
         return jsonify({"error": str(e)}), 500
 
 #Logearte y crear token de acceso
-@api.route("/login", methods=["POST", "GET"])
+@api.route("/login", methods=["POST"])
 def create_token():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
@@ -120,7 +119,7 @@ def create_token():
 
     # Crea un nuevo token con el id de usuario dentro
     access_token = create_access_token(identity=user.id)
-    return jsonify({ "token": access_token, "user_id": user.id, "email":user.email, "username": user.username, 'userId': user.id, 'role': user.role  })
+    return jsonify({ "token": access_token, "email":user.email, "username": user.username, 'id': user.id, 'role': user.role  })
 
 #Página privada/protegida, solo accesible con token
 @api.route("/protected", methods=["GET"])

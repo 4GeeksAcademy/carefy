@@ -8,23 +8,23 @@ export const FormularioLogin = () => {
     const { store, actions } = useContext(Context);
 
     const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const navigate = useNavigate();
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
     const [error, setError] = useState(null);
 
-	const logIn = async (email, password) => {
+    const logIn = async (email, password) => {
 
         if (!email || !password) {
             setError("Por favor, complete todos los campos.");
             return;
         }
 
-		await actions.logIn(email, password);
+        await actions.logIn(email, password);
         if (store.role == "companion") {
             navigate('/mis-postulaciones')
         }
         else {
-            navigate('/perfilusuario')
+            navigate('/perfil-usuario')
         }
     }
 
@@ -40,7 +40,7 @@ export const FormularioLogin = () => {
 
             <div className="mb-3">
                 <label htmlFor="password" className="form-label fs-5">Contraseña</label>
-                <input type="password" className="form-control" id="password" placeholder="Introduce tu contraseña" onChange={(e) => setPassword(e.target.value)} value={password}/>
+                <input type="password" className="form-control" id="password" placeholder="Introduce tu contraseña" onChange={(e) => setPassword(e.target.value)} value={password} />
             </div>
 
 
@@ -50,11 +50,12 @@ export const FormularioLogin = () => {
 
 
             <div className="">
-                <button onClick={() => logIn(email,password)} className={`${style.botonInicio} fs-5 submit btn btn-primary mb-3`} >Iniciar sesión</button>
+                <button onClick={() => logIn(email, password)} className={`${style.botonInicio} fs-5 submit btn btn-primary mb-3`} >Iniciar sesión</button>
             </div>
             <div className="">
                 <p className="text-secondary fst-italic">¿No tienes una cuenta?<Link to="/registro"><button className="btn text-primary fw-bold">¡Regístrate!</button></Link></p>
             </div>
         </div>
 
-    )}
+    )
+}

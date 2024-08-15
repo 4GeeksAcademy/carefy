@@ -1,16 +1,16 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			users: sessionStorage.getItem("users") || null,
-			token: sessionStorage.getItem("token") || null,
-			userId: sessionStorage.getItem('userId') || '',
-			email: sessionStorage.getItem("email") || null,
-			username: sessionStorage.getItem("username") || null,
-			role: sessionStorage.getItem("role") || null,
-			name: sessionStorage.getItem("name") || null,
-			lastname: sessionStorage.getItem("lastname") || null,
-			phone: sessionStorage.getItem("phone") || null,
-			location: sessionStorage.getItem("location") || null,
+			users: localStorage.getItem("users") || null,
+			token: localStorage.getItem("token") || null,
+			userId: localStorage.getItem('userId') || '',
+			email: localStorage.getItem("email") || null,
+			username: localStorage.getItem("username") || null,
+			role: localStorage.getItem("role") || null,
+			name: localStorage.getItem("name") || null,
+			lastname: localStorage.getItem("lastname") || null,
+			phone: localStorage.getItem("phone") || null,
+			location: localStorage.getItem("location") || null,
 		},
 
 		actions: {
@@ -27,12 +27,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					if (data.token) {
 
-						sessionStorage.setItem('token', data.token);
-						sessionStorage.setItem('username', data.username);
-						sessionStorage.setItem('email', data.email);
-						sessionStorage.setItem('userId', data.userId);
-						sessionStorage.setItem('role', data.role);
-						setStore({ ...store, token: data.token, email: data.email, userId: data.userId, username: data.username, role: data.role });
+						localStorage.setItem('token', data.token);
+						localStorage.setItem('username', data.username);
+						localStorage.setItem('email', data.email);
+						localStorage.setItem('userId', data.id);
+						localStorage.setItem('role', data.role);
+						setStore({ ...store, token: data.token, email: data.email, userId: data.id, username: data.username, role: data.role });
 						console.log("Success:", data);
 					} else {
 						console.error("Token no recibido:", data);
@@ -61,13 +61,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await resp.json();
 
 					if (data.access_token) {
-						// Guardar el token en sessionStorage
-						sessionStorage.setItem('token', data.access_token);
-						sessionStorage.setItem('username', data.username);
-						sessionStorage.setItem('email', data.email);
-						sessionStorage.setItem('userId', data.userId);
-						sessionStorage.setItem('role', data.role);
-						setStore({ ...store, token: data.access_token, email: data.email, userId: data.userId, username: data.username, role: data.role });
+						// Guardar el token en localStorage
+						localStorage.setItem('token', data.access_token);
+						localStorage.setItem('username', data.username);
+						localStorage.setItem('email', data.email);
+						localStorage.setItem('userId', data.id);
+						localStorage.setItem('role', data.role);
+						setStore({ ...store, token: data.access_token, email: data.email, userId: data.id, username: data.username, role: data.role });
 						console.log("Success:", data);
 					} else {
 						console.error("Token no recibido:", data);
@@ -79,7 +79,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			logOut: () => {
 				const store = getStore();
-				sessionStorage.removeItem("token");
+				localStorage.removeItem("token");
 				setStore({ ...store, token: '', email: '', userId: '', username: '', role: '' });
 			},
 			getUsers: async () => {
@@ -109,11 +109,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 					const data = await response.json();
 					setStore({ ...store, name: data.name, lastname: data.lastname, email: data.email, phone: data.phone, location: data.location });
-					sessionStorage.setItem('name', data.name);
-					sessionStorage.setItem('lastname', data.lastname);
-					sessionStorage.setItem('email', data.email);
-					sessionStorage.setItem('phone', data.phone);
-					sessionStorage.setItem('location', data.location);
+					localStorage.setItem('name', data.name);
+					localStorage.setItem('lastname', data.lastname);
+					localStorage.setItem('email', data.email);
+					localStorage.setItem('phone', data.phone);
+					localStorage.setItem('location', data.location);
 				} catch (error) {
 					console.error('There was an error fetching the user details!', error);
 				}
