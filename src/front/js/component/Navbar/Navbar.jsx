@@ -60,7 +60,7 @@ export const Navbar = ({ username }) => {
                                         {store.role == "companion" ?
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-acompanante">Mi perfil</Link></li>
                                             :
-                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfilusuario">Mi perfil</Link></li>
+                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-usuario">Mi perfil</Link></li>
                                         }
 
 
@@ -69,7 +69,7 @@ export const Navbar = ({ username }) => {
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-postulaciones">Mis postulaciones</Link></li>
                                             :
                                             <>
-                                                <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/publicar-anuncios">Publicar anuncio</Link></li>
+                                                <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/crear-anuncio">Publicar anuncio</Link></li>
                                                 <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-anuncios">Mis anuncios</Link></li>
                                             </>
                                         }
@@ -135,7 +135,7 @@ export const Navbar = ({ username }) => {
                                         {store.role == "companion" ?
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-acompanante">Mi perfil</Link></li>
                                             :
-                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfilusuario">Mi perfil</Link></li>
+                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-usuario">Mi perfil</Link></li>
                                         }
 
 
@@ -144,7 +144,7 @@ export const Navbar = ({ username }) => {
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-postulaciones">Mis postulaciones</Link></li>
                                             :
                                             <>
-                                                <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/publicar-anuncios">Publicar anuncio</Link></li>
+                                                <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/crear-anuncio">Publicar anuncio</Link></li>
                                                 <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-anuncios">Mis anuncios</Link></li>
                                             </>
                                         }

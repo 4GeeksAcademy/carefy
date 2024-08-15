@@ -5,7 +5,7 @@ const PatientSelector = ({ patients, selectedPatient, onSelect }) => {
     return (
         <>
             {/* Radio buttons para seleccionar el paciente */}
-            <div className="mb-3">
+            <div className="mb-3 d-flex gap-5 fs-5">
                 {/* Mapeamos los pacientes que el familiar tiene añadidos para generar los inputs tipo radio */}
                 {patients.map((patient, index) => {
                     //si el usuario introduce el alias con espacios los vamos a reemplazar por guiones

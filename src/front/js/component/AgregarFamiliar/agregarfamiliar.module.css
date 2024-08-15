@@ -14,8 +14,8 @@
 }
 
 .botonGuardar:active{
-    background-color: #9a593c;
-    color: white;
+    background-color: #9a593c !important;
+    color: white !important;
 }
 
 .title_grado_dep{

@@ -68,7 +68,7 @@ export const FormularioFamiliar = () => {
 
             setTimeout(() => {
                 setSuccessMessage(null);
-                navigate("/perfilusuario");
+                navigate("/perfil-usuario");
             }, 3500);
 
         } else {
