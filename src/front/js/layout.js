@@ -41,10 +41,8 @@ const Layout = () => {
     return (
         <div>
             <BrowserRouter basename={basename}>
-                <ScrollToTop>
                     <Navbar />
                     <Routes>
-
                         <Route element={<Home />} path="/" />
                         <Route element={<Blog />} path="/blog" />
                         <Route element={<Post />} path="/post-blog/:id" />
@@ -52,7 +50,6 @@ const Layout = () => {
                         <Route element={<MisAnuncios />} path="/mis-anuncios" />
                         <Route element={<MisPostulaciones />} path="/mis-postulaciones" />
                         <Route element={<Login />} path="/login" />
-                        <Route element={<h1>Not found!</h1>} />
                         <Route element={<Faqs />} path="/faq" />
                         <Route element={<Registro />} path="/registro" />
                         <Route element={<PerfilUsuario />} path="/perfil-usuario" />
@@ -65,11 +62,13 @@ const Layout = () => {
                         <Route element={<ProfileCompanion />} path="/perfil-profesional" />
                         <Route element={<ListCompanions />} path="/listado-profesionales" />
                         <Route element={<ListAds />} path="/listado-anuncios" />
-                        <Route element={<h1>Not found!</h1>} />
+
+
+
+                        <Route element={<h1>Not found!</h1>} path="*"/>
 
                     </Routes>
                     <Footer />
-                </ScrollToTop>
             </BrowserRouter>
         </div>
     );
