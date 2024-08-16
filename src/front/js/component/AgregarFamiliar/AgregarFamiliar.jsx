@@ -59,7 +59,7 @@ export const AgregarFamiliar = () => {
         setPhoto("")
 
         
-        window.location.reload()
+        //window.location.reload()
 
 
     }
@@ -184,8 +184,6 @@ export const AgregarFamiliar = () => {
             </div>
             <div>
             </div>
-
-
 
             {/* Select provincias */}
             <div className="row mb-3">

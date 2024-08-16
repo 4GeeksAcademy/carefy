@@ -14,6 +14,29 @@ export const PerfilUsuario = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
 
+    // Declaramos una variable familiares que guarda la lista de familiares
+    const [familiares, setFamiliares] = useState([]);
+
+
+    // useEffect hace que se cargue la lista de familiares una sola vez al recargar o abrir.
+    // Se declara familiaresData que recibe lo que haya guardado en la memoria local del objeto 'userFamily'
+    // Si es variable tiene datos/contenido, se setea la variable Familiares pasando el contenido a formato
+    //json de lo que contenga la variable familiaresData 
+    useEffect(() => {
+        // Obtener datos de localStorage y convertirlos en formato JSON
+        const familiaresData = localStorage.getItem('userFamily');
+        if (familiaresData) {
+            setFamiliares(JSON.parse(familiaresData));
+        }
+
+    }, []);
+
+
+    useEffect(() => {
+        if (store.userData.userId) {
+            actions.getFamiliarDetalles(); // LLama a la función para obtener detalles del familiar si es usuario está logueado. 
+        }
+    }, [store.userData.userId, store.userData.token]);
 
 
     useEffect(() => {
@@ -25,6 +48,8 @@ export const PerfilUsuario = () => {
     return (
         <>
             <Jumbotron bgImg={{ backgroundImage: "url('https://images.pexels.com/photos/3791664/pexels-photo-3791664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')" }} title={"Este es tu perfil de usuario"} subtitle={"Aquí puedes modificar tus datos y los de tus familiares que requieren acompañamiento."} />
+
+
             <div className={`${style.paginaContacto}`}>
                 <div className="container mt-5">
 
@@ -62,7 +87,11 @@ export const PerfilUsuario = () => {
 
                     <div className="row gap-3">
                         <div className="col-12 col-sm-3">
-                            <TarjetaFamiliar />
+                            {familiares && familiares.length > 0 ? (
+                                familiares.map((familiar, index) => (
+                                    <TarjetaFamiliar key={index} familiar={familiar} /> //index para saber por donde está pintando, familiar recibe el dato que lleve el parámetro familiar
+                                ))
+                            ) : (<p>No has agregado aún ningún familiar.</p>)}
                         </div>
                     </div>
                 </div>

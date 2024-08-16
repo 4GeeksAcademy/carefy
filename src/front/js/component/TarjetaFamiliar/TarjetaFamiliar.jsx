@@ -4,6 +4,9 @@ import profileImg from "../../../img/profileImg.png"
 
 export const TarjetaFamiliar = () => {
 
+
+    
+    
     return (
 
         <div className="card" style={{ width: '15rem' }}>

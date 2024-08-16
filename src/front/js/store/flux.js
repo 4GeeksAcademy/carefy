@@ -1,3 +1,4 @@
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
@@ -12,7 +13,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				lastname: null,
 				phone: null,
 				location: null,
-			}
+			},
+
+			familiares: [],
 		},
 
 		actions: {
@@ -25,9 +28,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 						body: JSON.stringify({ email, password }),
 						headers: { "Content-Type": "application/json" }
 					});
-			
+
 					const data = await resp.json();
-			
+
 					if (data.token) {
 						// Agrupar todos los datos del usuario en un objeto
 						const userData = {
@@ -41,16 +44,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 							phone: data.phone || '',
 							location: data.location || ''
 						};
-			
+
 						// Guardar el objeto en localStorage
 						localStorage.setItem('userData', JSON.stringify(userData));
-			
+
 						// Actualizar el store con los datos del usuario
 						setStore({
 							...store,
 							userData: userData
 						});
-			
+
 						console.log("Success:", data);
 					} else {
 						console.error("Token no recibido:", data);
@@ -59,7 +62,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Network error:", error);
 				}
 			},
-			
+
 			signUp: async (email, password, username, role) => {
 				const store = getStore();
 				try {
@@ -108,10 +111,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			logOut: () => {
 				const store = getStore();
-				
+
 				// Elimina el objeto completo de userData del localStorage
 				localStorage.removeItem("userData");
-				
+
 				setStore({
 					...store,
 					userData: {
@@ -205,11 +208,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 
-			anadir_familiar: async (name, alias,  lastname, phone, description, birthdate, dependency, province, location,  photo, user_id) => {
+			anadir_familiar: async (name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, user_id) => {
 				try {
-					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/anadir_familiar`,{
+					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/anadir_familiar`, {
 						method: 'POST',
-						body: JSON.stringify({name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, user_id}),
+						body: JSON.stringify({ name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, user_id }),
 						headers: {
 							"Content-Type": "application/json"
 						}
@@ -221,12 +224,59 @@ const getState = ({ getStore, getActions, setStore }) => {
 						return errorData;
 					}
 
+
 				}
 				catch (error) {
 					// Manejo de errores de red u otros errores
 					console.error("Network error:", error);
 				}
 
+			},
+
+
+
+
+			getFamiliarDetalles: async () => {
+				const store = getStore();
+
+				if (!store.userData.userId) {
+					console.error('User ID is not available');
+					return;
+				}
+
+
+				/**
+				 * 
+				 * 	Se hace la llamada con el fetch a la función que haya en el backend en el @api.route y espera la respuesta. 
+					Si la respuesta NO es ok se lanza error. 
+					Si es correcta, se genera la variable data que recibe la respuesta correcta en formato json. 
+					Si data (es decir, si tiene datos), se crea un objeto familiarDetalles el cual va a guardar en el array
+					familiares que hay en el store  y también los datos (data) recibidos por parte del backend
+				 */
+				try {
+					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/user/${store.userData.userId}/fam_user`);
+					if (!respuesta.ok) {
+						throw new Error(`HTTP error! status: ${respuesta.status}`);
+					}
+					const data = await respuesta.json();
+					console.log("Datos del familiar del usuario recibidos:", data);
+					if (Array.isArray(data)) {
+						// Guardar en localStorage directamente el array de familiares
+						localStorage.setItem('userFamily', JSON.stringify(data));
+
+						// Actualizar el store con el array de familiares
+						setStore({
+							...store,
+							familiares: data
+						});
+						console.log("Store actualizado:", getStore());
+					} else {
+						console.error('Los datos recibidos no son un array:', data);
+					}
+
+				} catch (error) {
+					console.error('There was an error fetching the user details!', error);
+				}
 			}
 
 		}

@@ -184,3 +184,20 @@ def anadir_familiar():
         return jsonify ({'Error' : 'error al anadir nuevo familiar'}), 400
     
 
+# Tenemos que obtener los familiares según el usuario que está logueado.
+# Reibe por parámetro el id del usuario. 
+# Se declara familiares que guarda la busqueda en la clase Patient, que filtra a su 
+# vez los familiares por el user_id (el valor del atributo que recibe tiene que ser
+# igual al que tiene en el endpoint).
+# Tras comprobar se hace un for para serlalizar uno a uno los familiares
+# y los guarda en familiares_serialize. 
+@api.route('/user/<int:user_id>/fam_user', methods=['GET'])
+def get_familiar_detalles(user_id):
+    familiares = Patient.query.filter_by(user_id=user_id).all()
+    if familiares is None:
+        return jsonify({'error': 'Patient not found'}), 404
+    
+    familiares_serialize = [familiar.serialize() for familiar in familiares]
+    
+    return jsonify(familiares_serialize)
+
