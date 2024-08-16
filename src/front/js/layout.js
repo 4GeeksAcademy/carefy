@@ -7,7 +7,7 @@ import { BackendURL } from "./component/backendURL";
 import injectContext from "./store/appContext";
 
 
-import ProfileCompanion from "./pages/profileCompanion/ProfileCompanion";
+import ProfileCompanion from "./pages/profileCompanion/ProfileCompanion.jsx";
 
 
 //create your first component
@@ -21,7 +21,7 @@ const Layout = () => {
     return (
         <div>
             <BrowserRouter basename={basename}>
-                <ScrollToTop>
+                
                
                 
                     <Routes>
@@ -30,7 +30,7 @@ const Layout = () => {
                        
                     </Routes>
                     
-                </ScrollToTop>
+                
             </BrowserRouter>
         </div>
     );
