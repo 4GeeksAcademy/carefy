@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: c232a27a26e0
+Revision ID: 4b1dce9c5056
 Revises: 
-Create Date: 2024-08-14 16:14:13.124079
+Create Date: 2024-08-16 09:04:11.831098
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'c232a27a26e0'
+revision = '4b1dce9c5056'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -55,17 +55,18 @@ def upgrade():
     )
     op.create_table('patients',
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('alias', sa.String(length=50), nullable=False),
     sa.Column('name', sa.String(length=250), nullable=False),
     sa.Column('lastname', sa.String(length=250), nullable=False),
     sa.Column('phone', sa.String(length=250), nullable=False),
-    sa.Column('photo', sa.String(length=250), nullable=False),
+    sa.Column('photo', sa.String(length=250), nullable=True),
     sa.Column('description', sa.String(length=250), nullable=False),
     sa.Column('birthdate', sa.String(length=250), nullable=False),
     sa.Column('dependency', sa.String(length=250), nullable=False),
     sa.Column('location', sa.String(length=250), nullable=False),
-    sa.Column('province', sa.String(length=250), nullable=False),
-    sa.Column('availability', sa.String(length=250), nullable=False),
-    sa.Column('tags', sa.String(length=250), nullable=False),
+    sa.Column('province', sa.String(length=250), nullable=True),
+    sa.Column('availability', sa.String(length=250), nullable=True),
+    sa.Column('tags', sa.String(length=250), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')

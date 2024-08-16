@@ -1,0 +1,37 @@
+
+.container_main_profile{
+  background-color: #FFC9B3;
+}
+
+
+  .card_container {
+    margin-top: 25px;
+    
+
+  }
+
+  .list_companions{
+    display: grid;
+    /*crear un contenedor de cuadrícula para orgenizar elementos en filas y columnas*/
+    gap: 5px;
+    /*define la separacion entre toda las filas y columnas*/
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    /*repite tantas columnas como entren con un minimo 180px y máximo lo que de la página*/
+  }
+
+ 
+
+ 
+  
+
+
+ 
+  
+
+
+
+
+
+
+ 
+  

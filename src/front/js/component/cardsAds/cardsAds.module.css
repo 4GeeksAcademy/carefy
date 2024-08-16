@@ -1,0 +1,89 @@
+.anuncio {
+    box-sizing: border-box;
+    height: 100%;
+    background-color: #f7f7f7;
+    border-color: none;
+
+}
+
+.img_card {
+    width: 100%;
+    vertical-align: top;
+
+}
+
+.card_body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding:10px;
+
+}
+
+.card_title {
+    color: #52504f;
+    font-size: 1em;
+    margin-bottom: 5px;
+    text-align: left;
+    font-weight: 700;
+    width: 100%;
+    white-space: nowrap;
+    /*para gestionar el texto y que muestre todo en una misma fila*/
+    text-overflow: ellipsis;
+    /*Si el texto no cabe aparecen puntos suspensibos*/
+    overflow: hidden;
+    /*el contenido que no cabe en la caja lo esconde*/
+}
+
+.card_location, .card_date{
+    font-weight: 600;
+    color:#5C7728;
+    margin-bottom: 5px;
+}
+
+.card_location{
+    margin-bottom:0px;
+}
+
+.card_description{
+    margin-bottom: 7px;
+}
+
+.card_description {
+    color: #52504f;
+    display: -webkit-box;
+    /* Utiliza un contenedor flexible en WebKit para permitir el recorte de texto */
+    -webkit-line-clamp: 3;
+    /* Limita el texto a dos líneas */
+    -webkit-box-orient: vertical;
+    /* Orienta la caja flexible en vertical para que las líneas se apilen una encima de la otra */
+    overflow: hidden;
+    /* Oculta el contenido que se desborda fuera del contenedor */
+    text-overflow: ellipsis;
+    /* Añade puntos suspensivos (...) al final del texto que se corta */
+    max-height: 4em;
+    /* Ajusta la altura máxima para asegurar que solo dos líneas sean visibles */
+    font-weight: 480;
+    line-height: 1;
+}
+
+.card_buttons,
+.icon_contacto {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    font-size: 50px;
+}
+
+
+.icon_contacto {
+    color: #B76C49;
+}
+
+.boton_ver_mas {
+    background-color:#B76C49 ;
+    color: white;
+    font-weight: 500;
+}
+
