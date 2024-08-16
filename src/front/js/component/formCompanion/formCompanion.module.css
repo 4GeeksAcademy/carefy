@@ -1,0 +1,33 @@
+.container_form_companion{
+    background-color:#FFC9B3;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    min-height: 100vh;
+    padding: 15px;
+}
+
+.title{
+    color:#B76C49;
+}
+
+.form_companion{
+    border: 1px solid rgb(196, 196, 196);
+    position: relative;
+    z-index: 10;
+    background-color: rgb(248, 248, 247);
+    padding: 15px;
+    border-radius: 5px;
+    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538)); 
+}
+
+ .btn_submit{
+    background-color:#f8ae29;
+    border: none;
+ }
+
+ .btn_cancel{
+    background-color:#B76C49;
+    border: none;
+    color: rgb(243, 243, 243);
+ }

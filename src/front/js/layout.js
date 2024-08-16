@@ -23,6 +23,7 @@ import {PublicarResena} from "../js/pages/PublicarResena/PublicarResena.jsx"
 import CreateAds from "./pages/createAds/CreateAds.jsx"
 import AboutUs from "./pages/aboutUs/AboutUs.jsx"
 import ListModerate from "./pages/ListModerate/ListModerate.jsx"
+import RegisterAndEditCompanion from "./pages/registerAndEditCompanion/RegisterAndEditCompanion.jsx"
 
 
 
@@ -55,6 +56,7 @@ const Layout = () => {
                         <Route element={<CreateAds />} path="/crear-anuncio" />
                         <Route element={<AboutUs />} path="/nosotros" />
                         <Route element={<ListModerate />} path="/moderar-anuncios" />
+                        <Route element={<RegisterAndEditCompanion />} path="/formulario-profesional" />
                         <Route element={<h1>Not found!</h1>} />
 
                     </Routes>
