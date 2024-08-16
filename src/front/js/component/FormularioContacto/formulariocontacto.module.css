@@ -1,0 +1,19 @@
+.botonEnviar{
+    background-color: #B76C49 ;
+    color: white
+}
+
+.botonEnviar:hover{
+    background-color: #9a593c;
+    color: white;
+}
+
+.botonEnviar:active{
+    background-color: #9a593c;
+    color: white;
+}
+
+.botonEnviar:focus{
+    background-color: #9a593c;
+    color: white;
+}

@@ -1,0 +1,16 @@
+.fa_brands_edit {
+    transition: transform 0.3s ease; /* Añade una transición suave */
+    padding-right: 10px;
+}
+
+.fa_brands_edit:hover {
+    transform: scale(1.2); /* Escala el icono un 20% más grande */
+    color: #FFC9B3;
+}
+
+@media screen and (max-width: 500px){
+    .footer_icons{
+        display: flex;
+        flex-direction: column;
+    }
+}
