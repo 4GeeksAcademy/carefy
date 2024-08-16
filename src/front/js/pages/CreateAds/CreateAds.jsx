@@ -2,9 +2,9 @@ import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext.js";;
 import styles from './createAds.module.css';
-import DataAds from '../../component/dataAds/DataAds.jsx';
-import Carrousel from '../../component/carrousel/Carrousel.jsx';
-import RadioButton from '../../component/radioButton/RadioButton.jsx';
+import DataAds from '../../component/DataAds/DataAds.jsx';
+import AcordeonPatients from '../../component/AcordeonPatients/AcordeonPatients.jsx';
+import RadioButton from '../../component/RadioButton/RadioButton.jsx';
 import { Jumbotron } from '../../component/Jumbotron/Jumbotron.jsx';
 
 const CreateAds = () => {
@@ -46,7 +46,7 @@ const CreateAds = () => {
                             {patients
                                 .filter(patient => selectedPatient === "all" || patient.alias.replace(/\s+/g, '_') === selectedPatient)
                                 .map((patient, index) => (
-                                    <Carrousel
+                                    <AcordeonPatients
                                         key={index}
                                         alias={patient.alias}
                                         photo={patient.photo}

@@ -13,32 +13,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 				phone: null,
 				location: null,
 			},
-			adData: JSON.parse(localStorage.getItem("adData")) || {
-				patient_id: null,
-				title: null,
-				description: null,
-				active: null,
-				created_at: null,
-				start_date: null,
-				end_date: null,
-				max_cost: null,
-				status: null
-			}
+			adData: JSON.parse(localStorage.getItem("adData")) || [],
 		},
 
 		actions: {
 
 			logIn: async (email, password) => {
 				const store = getStore();
+				localStorage.removeItem('adData');
 				try {
 					const resp = await fetch(`${process.env.BACKEND_URL}/api/login`, {
 						method: "POST",
 						body: JSON.stringify({ email, password }),
 						headers: { "Content-Type": "application/json" }
 					});
-			
+
 					const data = await resp.json();
-			
+
 					if (data.token) {
 						// Agrupar todos los datos del usuario en un objeto
 						const userData = {
@@ -52,16 +43,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 							phone: data.phone || '',
 							location: data.location || ''
 						};
-			
+
 						// Guardar el objeto en localStorage
 						localStorage.setItem('userData', JSON.stringify(userData));
-			
+
 						// Actualizar el store con los datos del usuario
 						setStore({
 							...store,
-							userData: userData
+							userData: userData,
+							adData: []
 						});
-			
+
 						console.log("Success:", data);
 					} else {
 						console.error("Token no recibido:", data);
@@ -70,7 +62,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Network error:", error);
 				}
 			},
-			
+
 			signUp: async (email, password, username, role) => {
 				const store = getStore();
 				try {
@@ -117,12 +109,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Network error:", error);
 				}
 			},
+
 			logOut: () => {
 				const store = getStore();
-				
+
 				// Elimina el objeto completo de userData del localStorage
 				localStorage.removeItem("userData");
-				
+				localStorage.removeItem("adData");
+
 				setStore({
 					...store,
 					userData: {
@@ -135,9 +129,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 						lastname: null,
 						phone: null,
 						location: null,
-					}
+					},
+					adData: []
 				});
 			},
+
 			getUsers: async () => {
 				try {
 					const resp = await fetch(`${process.env.BACKEND_URL}/api/users`, {
@@ -150,6 +146,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log(error);
 				}
 			},
+
 			getUserDetails: async () => {
 				const store = getStore();
 				const actions = getActions();
@@ -190,6 +187,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('There was an error fetching the user details!', error);
 				}
 			},
+
 			editUser: async (name, lastname, email, phone, location) => {
 				const store = getStore();
 				const actions = getActions();
@@ -214,6 +212,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('There was an error updating the user:', error);
 				}
 			},
+
 			createAd: async (startDate, endDate, price, title, description, status = "pending", active) => {
 				const store = getStore();
 				try {
@@ -228,7 +227,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 							created_at: new Date().toISOString(), // Enviar la fecha actual como ISOString
 							status: status,
 							active: active
-	
+
 						}),
 						headers: {
 							"Content-Type": "application/json"
@@ -263,6 +262,89 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			getUserAds: async () => {
+				const store = getStore();
+				const actions = getActions();
+
+				if (!store.userData.userId) {
+					console.error('User ID is not available');
+					return;
+				}
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/ads/${store.userData.userId}`);
+					if (!response.ok) {
+						throw new Error(`HTTP error! status: ${response.status}`);
+					}
+					const data = await response.json();
+					console.log("Datos de los anuncios recibidos:", data);
+					if (Array.isArray(data)) {
+						setStore({
+							...store,
+							adData: data  // Guardamos la lista completa de anuncios en el store
+						});
+
+						localStorage.setItem('adData', JSON.stringify(data));
+
+						console.log("Store actualizado:", store);
+					}
+				} catch (error) {
+					console.error('There was an error fetching the ad details!', error);
+				}
+			},
+
+			deleteAd: async (adId) => {
+				const store = getStore();
+				const actions = getActions();
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/ad/delete/${adId}`, {
+						method: 'DELETE',
+					});
+
+					if (response.ok) {
+						console.log('Anuncio eliminado con éxito');
+						const updatedAds = store.adData.filter(ads => ads.id !== adId);
+						setStore({
+							...store,
+							adData: updatedAds
+						})
+						localStorage.setItem('adData', JSON.stringify(updatedAds));
+					} else {
+						console.error('Error al eliminar el anuncio');
+					}
+				} catch (error) {
+					console.error('Error en la solicitud de eliminación:', error);
+				}
+			},
+
+			getSingleAd: async (adId) => {
+				const store = getStore();
+				const actions = getActions();
+
+				if (!store.userData.userId) {
+					console.error('User ID is not available');
+					return;
+				}
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/ad/user/${adId}`);
+					if (!response.ok) {
+						throw new Error(`HTTP error! status: ${response.status}`);
+					}
+					const data = await response.json();
+					console.log("Datos del anuncio recibidos:", data);
+					if (data) {
+						// Actualizar el store con los datos del anuncio
+						setStore({
+							...store,
+							adData: data
+						});
+
+						// Guardar el anuncio en localStorage
+						localStorage.setItem('adData', JSON.stringify(data));
+					}
+				} catch (error) {
+					console.error('There was an error fetching the ad details!', error);
+				}
+			},
 		}
 	};
 };

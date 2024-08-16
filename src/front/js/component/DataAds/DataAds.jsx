@@ -25,7 +25,7 @@ const DataAds = () => {
     }
 
     await actions.createAd(startDate, endDate, price, title, description, status);
-    navigate(`/crear-anuncio`)
+    navigate('/mis-anuncios')
 
 }
  

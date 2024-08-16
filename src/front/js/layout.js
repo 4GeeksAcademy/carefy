@@ -20,7 +20,7 @@ import { Faqs } from "./pages/Faqs/Faqs.jsx";
 import {PerfilUsuario} from "./pages/PerfilUsuario/PerfilUsuario.jsx"
 import {Contacto} from "../../front/js/pages/Contacto/Contacto.jsx"
 import {PublicarResena} from "../js/pages/PublicarResena/PublicarResena.jsx"
-import CreateAds from "./pages/createAds/CreateAds.jsx"
+import CreateAds from "./pages/CreateAds/CreateAds.jsx"
 
 
 
@@ -38,21 +38,20 @@ const Layout = () => {
                 <ScrollToTop>
                     <Navbar />
                     <Routes>
-                    <Route element={<Home />} path="/" />
+                        <Route element={<Home />} path="/" />
                         <Route element={<Blog />} path="/blog" />
                         <Route element={<Post />} path="/post-blog/:id" />
-                        <Route element={<Anuncio />} path="/anuncio" />
+                        <Route element={<Anuncio />} path="/anuncio/:id" />
                         <Route element={<MisAnuncios />} path="/mis-anuncios" />
                         <Route element={<MisPostulaciones />} path="/mis-postulaciones" />
                         <Route element={<Login />} path="/login" />
-                        <Route element={<h1>Not found!</h1>} />
                         <Route element={<Faqs />} path="/faq" />
                         <Route element={<Registro />} path="/registro" />
                         <Route element={<PerfilUsuario />} path="/perfil-usuario" />
                         <Route element={<Contacto />} path="/contacto" />
                         <Route element={<PublicarResena />} path="/publicar-resena" />
                         <Route element={<CreateAds />} path="/crear-anuncio" />
-
+                        <Route element={<h1>Not found!</h1>} path="*" />
                     </Routes>
                     <Footer />
                 </ScrollToTop>

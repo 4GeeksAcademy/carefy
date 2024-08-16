@@ -28,14 +28,6 @@ def get_users_details(user_id):
     if user is None:
         return jsonify({'error': 'User not found'}), 404
 
-    # usuario = {
-    #     'id': user.id,
-    #     'name': user.name,
-    #     'lastname': user.lastname,
-    #     'email': user.email,
-    #     'phone': user.phone,
-    #     'location': user.location
-    # }
     return jsonify(user.serialize())
 
 #Crear nuevo usuario
@@ -151,6 +143,42 @@ def create_ad(user_id):
         "msg": "Anuncio creado exitosamente",
         **new_ad.serialize()}), 201
 
+#Traer anuncios de un usuario
+@api.route('/ads/<int:user_id>', methods=['GET'])
+def get_users_ads(user_id):
+    ads = Ad.query.filter_by(user_id=user_id).all()
+    
+    if not ads:
+        return jsonify({'error': 'No ads found for this user'}), 404
+
+    ads_serialized = [ad.serialize() for ad in ads]
+    
+    return jsonify(ads_serialized), 200
+
+#Eliminar anuncios
+@api.route('/ad/delete/<int:ad_id>', methods=['DELETE'])
+def delete_user_ad(ad_id):
+    ad = Ad.query.get(ad_id)
+
+    if ad is None:
+        return jsonify({"message": "Ad not found"}), 400
+
+    try:
+        db.session.delete(ad)
+        db.session.commit()
+        return jsonify({"message": "Ad deleted successfully"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
+#Traer data de un solo anuncio
+@api.route('/ad/user/<int:ad_id>', methods=['GET'])
+def get_user_ad(ad_id):
+    ad = Ad.query.get(ad_id)
+    if ad is None:
+        return jsonify({'error': 'Ad not found'}), 404
+
+    return jsonify(ad.serialize())
 
 #Página privada/protegida, solo accesible con token
 @api.route("/protected", methods=["GET"])

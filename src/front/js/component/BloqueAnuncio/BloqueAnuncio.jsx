@@ -1,13 +1,43 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styles from "./BloqueAnuncio.module.css"
 import { Context } from "../../store/appContext";
 
 
-export const BloqueAnuncio = ({ title, avatar, userName, age, location, state, description, availability, startDate, endDate, price, task, dependency, observations }) => {
+export const BloqueAnuncio = ({ adId }) => {
 
     const { store, actions } = useContext(Context);
 
     const [PostularseVisible, setPostularseVisible] = useState(true);
+
+    useEffect(() => {
+        if (adId) {
+            actions.getSingleAd(adId);
+        }
+    }, [adId, actions]);
+
+    // Obtener los datos del anuncio del store
+    const ad = store.adData;
+
+    if (!ad) {
+        return <p>Cargando...</p>; // Mostrar un mensaje de carga si los datos aún no están disponibles
+    }
+
+    // Datos del anuncio
+    const {
+        title,
+        avatar,
+        userName,
+        age,
+        location,
+        description,
+        availability,
+        startDate,
+        endDate,
+        price,
+        task,
+        dependency,
+        observations
+    } = ad;
 
     const handlePostularseClick = () => {
         setPostularseVisible(false); // Oculta "POSTULARSE"
@@ -31,7 +61,6 @@ export const BloqueAnuncio = ({ title, avatar, userName, age, location, state, d
                 <span className="fa-solid fa-pencil pe-3"></span>
                 <span className="fa-regular fa-trash-can"></span>
             </div> */}
-
             <h1 className="mb-5 pe-5 me-3">{title}</h1>
             <div className="d-flex align-items-start justify-content-between flex-wrap">
                 <div className="d-flex align-items-center flex-wrap">
@@ -78,7 +107,7 @@ export const BloqueAnuncio = ({ title, avatar, userName, age, location, state, d
                     </div>
                 </div>
                 <div className="col-12 col-sm-5">
-                    <p className="fs-4 fw-bold"><span className="fa-solid fa-coins pe-3"></span>Precio (hora)</p>
+                    <p className="fs-4 fw-bold"><span className="fa-solid fa-coins pe-3"></span>Pago (hora)</p>
                     <p className="fs-4 ps-4 ms-3">{price}</p>
                 </div>
             </div>
@@ -96,6 +125,31 @@ export const BloqueAnuncio = ({ title, avatar, userName, age, location, state, d
                     <p className="fs-4 ps-4 ms-3">{dependency}<span className="text-secondary italic fst-italic fs-5 ps-2"></span></p>
                     <p className="fs-5 ps-4 ms-3"><span className="fst-italic">Observaciones</span>: {dependency}</p>
                 </div>
+            </div>
+            <p className="fs-4 fw-bold">Solicitudes</p>
+            <div className="table-responsive">
+                <table className="table table-hover table-light">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Edad</th>
+                            <th scope="col">Experiencia</th>
+                            <th scope="col">Costo (hora)</th>
+                            <th scope="col">Valoración</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                            <td>@mdo</td>
+                            <td>@mdo</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     )
