@@ -21,6 +21,7 @@ import {PerfilUsuario} from "./pages/PerfilUsuario/PerfilUsuario.jsx"
 import {Contacto} from "../../front/js/pages/Contacto/Contacto.jsx"
 import {PublicarResena} from "../js/pages/PublicarResena/PublicarResena.jsx"
 import CreateAds from "./pages/createAds/CreateAds.jsx"
+import ListModerate from "./pages/listModerate/ListModerate.jsx";
 
 
 
@@ -52,6 +53,7 @@ const Layout = () => {
                         <Route element={<Contacto />} path="/contacto" />
                         <Route element={<PublicarResena />} path="/publicar-resena" />
                         <Route element={<CreateAds />} path="/crear-anuncio" />
+                        <Route element={<ListModerate />} path="/moderar" />
 
                     </Routes>
                     <Footer />
