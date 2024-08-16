@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import ScrollToTop from "./component/scrollToTop";
+
 import { BackendURL } from "./component/backendURL";
 
 import { Home } from "./pages/Home/Home.jsx";
@@ -24,6 +24,7 @@ import CreateAds from "./pages/createAds/CreateAds.jsx"
 import AboutUs from "./pages/aboutUs/AboutUs.jsx"
 import ListModerate from "./pages/ListModerate/ListModerate.jsx"
 import RegisterAndEditCompanion from "./pages/registerAndEditCompanion/RegisterAndEditCompanion.jsx"
+import ProfileCompanion from "./pages/profileCompanion/ProfileCompanion.jsx";
 
 
 
@@ -38,10 +39,10 @@ const Layout = () => {
     return (
         <div>
             <BrowserRouter basename={basename}>
-                <ScrollToTop>
-                    <Navbar />
-                    <Routes>
-                    <Route element={<Home />} path="/" />
+                <Navbar/>
+                    <Routes>  
+
+                        <Route element={<Home />} path="/" />
                         <Route element={<Blog />} path="/blog" />
                         <Route element={<Post />} path="/post-blog/:id" />
                         <Route element={<Anuncio />} path="/anuncio" />
@@ -57,11 +58,12 @@ const Layout = () => {
                         <Route element={<AboutUs />} path="/nosotros" />
                         <Route element={<ListModerate />} path="/moderar-anuncios" />
                         <Route element={<RegisterAndEditCompanion />} path="/formulario-profesional" />
+                        <Route element={<ProfileCompanion />} path="/perfil-profesional" />
                         <Route element={<h1>Not found!</h1>} />
 
                     </Routes>
-                    <Footer />
-                </ScrollToTop>
+                    
+               <Footer/> 
             </BrowserRouter>
         </div>
     );
