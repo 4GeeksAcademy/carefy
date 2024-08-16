@@ -34,7 +34,7 @@ export const PerfilUsuario = () => {
 
     useEffect(() => {
         if (store.userData.userId) {
-            actions.getFamiliarDetalles(); // LLama a la función para obtener detalles del familiar si es usuario está logueado. 
+            actions.getFamiliarDetalles(); // LLama a la función para obtener detalles del familiar si el usuario está logueado. 
         }
     }, [store.userData.userId, store.userData.token]);
 
@@ -66,7 +66,7 @@ export const PerfilUsuario = () => {
 
                         {/* <!-- Button trigger modal --> */}
                         <button type="button" className={`btn btn-primary fs-4 my-5 ${style.botonAgregarUsuario}`} data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            Agregar persona
+                            Agregar familiar
                         </button>
 
                         {/* <!-- Modal --> */}
@@ -74,7 +74,7 @@ export const PerfilUsuario = () => {
                             <div className="modal-dialog modal-dialog-scrollable modal-lg">
                                 <div className="modal-content">
                                     <div className="modal-header">
-                                        <h1 className="modal-title fs-5" id="exampleModalLabel">Agregar persona</h1>
+                                        <h1 className="modal-title fs-5" id="exampleModalLabel">Agregar familiar</h1>
                                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div className="modal-body">
@@ -86,16 +86,18 @@ export const PerfilUsuario = () => {
                     </div>
 
                     <div className="row gap-3">
-                        <div className="col-12 col-sm-3">
-                            {familiares && familiares.length > 0 ? (
-                                familiares.map((familiar, index) => (
-                                    <TarjetaFamiliar key={index} familiar={familiar} /> //index para saber por donde está pintando, familiar recibe el dato que lleve el parámetro familiar
-                                ))
-                            ) : (<p>No has agregado aún ningún familiar.</p>)}
-                        </div>
+
+                        {familiares && familiares.length > 0 ? (
+                            familiares.map((familiar, index) => (
+                                <div className="col col-sm-3" key={index}>
+                                    <TarjetaFamiliar  familiar={familiar} />
+                                </div>
+                            ))
+                        ) : (<p>No has agregado aún ningún familiar.</p>)}
                     </div>
                 </div>
-            </div >
+            </div>
+      
             <div className={`${style.bg_publicar_anuncio} mt-5`}>
                 <div className="py-5 container">
                     <p className="fs-1 text-light">¿Ya creaste a la persona que necesita acompañamiento?<Link to="/publicar-anuncio"><button className={`btn btn-primary fs-3 ms-3 text-dark ${style.btn_publicar_anuncio}`}>Publica un anuncio</button> </Link></p>
