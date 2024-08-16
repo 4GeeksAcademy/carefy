@@ -1,3 +1,11 @@
-/* 
-    General Styles used on every website (Don't Repeat Yourself)
-*/
+body,html{
+    background-color: #FFC9B3;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    margin: 0;
+}
+
+.btn{
+    outline: none !important;
+    box-shadow: none !important;
+}

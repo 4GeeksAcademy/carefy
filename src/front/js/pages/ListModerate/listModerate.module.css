@@ -1,0 +1,16 @@
+.list_moderate{
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538));  
+}
+
+.button_tab{
+    color: #B76C49;
+}
+
+.btn_more{
+    background-color:#f2b137;
+    border: none;
+}
+
+.btn_more:hover{
+    background-color: #B76C49;
+}

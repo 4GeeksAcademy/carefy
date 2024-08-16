@@ -1,0 +1,23 @@
+.boton{
+    background-color: #B76C49;
+    color: white;
+    border:none;
+}
+
+.boton:hover{
+    background-color: #9a593c;
+    color: white;
+    border:none;
+}
+
+.boton:active{
+    background-color: #9a593c;
+    color: white;
+    border:none;
+}
+
+.boton:focus{
+    background-color: #9a593c;
+    color: white;
+    border:none;
+}

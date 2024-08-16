@@ -1,0 +1,30 @@
+.cuerpoLogin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 576px) {
+    .cuerpoLogin {
+        min-height: 100vh;
+        flex-direction: column;
+    }
+}
+
+
+.imagen1 {
+    width: 400px;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538));
+}
+
+.formulario {
+    background-color: white;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538))
+}
+
+.imagen2 {
+    width: 400px;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538));
+}
