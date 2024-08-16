@@ -5,14 +5,7 @@ const CompanionForm = () => {
   return (
     <div className={styles.container_form_companion}>
       <form className={`m-5 container`}>
-        <div className="row mb-4">
-          <div className="col-md-12 text-center">
-            <h3 className={styles.title}>
-              Forma parte de nuestra comunidad,<br />
-              ¡solo necesitas unos minutos para registrarte!
-            </h3>
-          </div>
-        </div>
+       
     <div className={`container-fluid ${styles.form_companion}`}>
         {/* Fila 1: foto y campos básicos */}
         <div className="row mb-4">
