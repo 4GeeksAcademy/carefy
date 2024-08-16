@@ -17,15 +17,16 @@ import { Login } from "./pages/Login/Login.jsx"
 
 import { Registro } from "./pages/Registro/Registro.jsx"
 import { Faqs } from "./pages/Faqs/Faqs.jsx";
-import {PerfilUsuario} from "./pages/PerfilUsuario/PerfilUsuario.jsx"
-import {Contacto} from "../../front/js/pages/Contacto/Contacto.jsx"
-import {PublicarResena} from "../js/pages/PublicarResena/PublicarResena.jsx"
+import { PerfilUsuario } from "./pages/PerfilUsuario/PerfilUsuario.jsx"
+import { Contacto } from "../../front/js/pages/Contacto/Contacto.jsx"
+import { PublicarResena } from "../js/pages/PublicarResena/PublicarResena.jsx"
 import CreateAds from "./pages/createAds/CreateAds.jsx"
 import AboutUs from "./pages/aboutUs/AboutUs.jsx"
 import ListModerate from "./pages/ListModerate/ListModerate.jsx"
 import RegisterAndEditCompanion from "./pages/registerAndEditCompanion/RegisterAndEditCompanion.jsx"
 import ProfileCompanion from "./pages/profileCompanion/ProfileCompanion.jsx";
 import ListCompanions from "./pages/listCompanios/ListCompanions.jsx";
+import ListAds from "./pages/listAds/ListAds.jsx"
 
 
 
@@ -35,13 +36,14 @@ const Layout = () => {
     // you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
     const basename = process.env.BASENAME || "";
 
-    if(!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL/ >;
+    if (!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL />;
 
     return (
         <div>
             <BrowserRouter basename={basename}>
-                <Navbar/>
-                    <Routes>  
+                <ScrollToTop>
+                    <Navbar />
+                    <Routes>
 
                         <Route element={<Home />} path="/" />
                         <Route element={<Blog />} path="/blog" />
@@ -50,6 +52,7 @@ const Layout = () => {
                         <Route element={<MisAnuncios />} path="/mis-anuncios" />
                         <Route element={<MisPostulaciones />} path="/mis-postulaciones" />
                         <Route element={<Login />} path="/login" />
+                        <Route element={<h1>Not found!</h1>} />
                         <Route element={<Faqs />} path="/faq" />
                         <Route element={<Registro />} path="/registro" />
                         <Route element={<PerfilUsuario />} path="/perfil-usuario" />
@@ -61,11 +64,12 @@ const Layout = () => {
                         <Route element={<RegisterAndEditCompanion />} path="/formulario-profesional" />
                         <Route element={<ProfileCompanion />} path="/perfil-profesional" />
                         <Route element={<ListCompanions />} path="/listado-profesionales" />
+                        <Route element={<ListAds />} path="/listado-anuncios" />
                         <Route element={<h1>Not found!</h1>} />
 
                     </Routes>
-                    
-               <Footer/> 
+                    <Footer />
+                </ScrollToTop>
             </BrowserRouter>
         </div>
     );
