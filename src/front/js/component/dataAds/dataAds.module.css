@@ -1,0 +1,49 @@
+.container_form{
+    background-color: rgb(253, 253, 253);
+    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538))
+}
+
+
+.title_form{
+    color: #B76C49
+}
+
+
+.btn_send {
+    background-color: #5C7728;
+    border: none;
+    color: white;
+}
+
+.btn_send:hover {
+    background-color: #3d4f1b;
+    border-color: #3d4f1b;
+    color: white;
+}
+
+.btn_send:active {
+    background-color: #3d4f1b !important;
+    color: white !important;
+}
+
+
+.btn_cancel{
+    background-color:#B76C49;
+    border: none;
+    color: rgb(243, 243, 243);
+ }
+
+ .btn_cancel:hover{
+    background-color: #9a593c;
+    color: white;
+ }
+
+ .btn_cancel:focus{
+    background-color: #9a593c;
+    color: white;
+ }
+
+ .btn_cancel:active{
+    background-color: #9a593c !important;
+    color: white !important;
+ }

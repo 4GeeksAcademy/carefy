@@ -1,0 +1,9 @@
+.formulario {
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538));
+}
+
+@media (max-width: 576px) {
+    .contenedorForm {
+        flex-direction: column;
+    }
+}

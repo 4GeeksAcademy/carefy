@@ -1,0 +1,45 @@
+.bd_placeholder_img_edit{
+    background-size: cover;
+    background-position: center;
+}
+
+.bg_slider_1{
+    background-image: url("https://images.pexels.com/photos/3768146/pexels-photo-3768146.jpeg");
+    background-size: cover;
+    background-position: center;
+}
+
+.bg_slider_2{
+    background-image: url("https://images.pexels.com/photos/10432232/pexels-photo-10432232.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+    background-size: cover;
+    background-position: center;
+}
+
+
+.bg_slider_3{
+    background-image: url("https://images.pexels.com/photos/3823542/pexels-photo-3823542.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+    background-size: cover;
+    background-position: center;
+}
+
+.carousel_item_edit {
+    height: 50vh; /* Deja que el elemento se ajuste al contenido */
+}
+
+.carousel_caption_edit {
+    padding-bottom: 2rem;
+    position: absolute;
+    top: 30%;
+}
+
+@media screen and (max-width: 500px){
+    .carousel_caption_edit {
+        padding-bottom: 2rem;
+        position: absolute;
+        top: 5%;
+    }
+    .carousel_item_edit{
+        height: 85vh;
+    }
+    
+}
