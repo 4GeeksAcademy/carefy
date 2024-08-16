@@ -14,8 +14,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				phone: null,
 				location: null,
 			},
-
-			familiares: [],
+			familiares: []
 		},
 
 		actions: {
@@ -234,8 +233,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 
-
-
 			getFamiliarDetalles: async () => {
 				const store = getStore();
 
@@ -277,7 +274,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} catch (error) {
 					console.error('There was an error fetching the user details!', error);
 				}
-			}
+			},
+
+
 
 		}
 	};

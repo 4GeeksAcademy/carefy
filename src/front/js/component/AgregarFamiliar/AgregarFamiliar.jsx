@@ -57,11 +57,6 @@ export const AgregarFamiliar = () => {
         setLastname("");
         setEdad(0)
         setPhoto("")
-
-        
-        //window.location.reload()
-
-
     }
 
 
