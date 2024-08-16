@@ -7,38 +7,110 @@ export const FormularioFamiliar = () => {
 
 
     const { store, actions } = useContext(Context);
-	const navigate = useNavigate();
+    const navigate = useNavigate();
+
+    const [formName, setFormName] = useState("")
+    const [formLastName, setFormLastName] = useState("")
+    const [formEmail, setFormEmail] = useState("")
+    const [formPhone, setFormPhone] = useState("")
+    const [formLocation, setFormLocation] = useState("")
+
+    const [error, setError] = useState(null);
+    const [successMessage, setSuccessMessage] = useState(null);
+    const [alertClass, setAlertClass] = useState("");
+
+    const handleChangeName = (e) => setFormName(e.target.value);
+    const handleChangeEmail = (e) => setFormEmail(e.target.value);
+    const handleChangeLastName = (e) => setFormLastName(e.target.value);
+    const handleChangePhone = (e) => setFormPhone(e.target.value);
+    const handleChangeLocation = (e) => setFormLocation(e.target.value);
+
+    useEffect(() => {
+        if (store.userData.userId) {
+            setFormName(store.userData.name || '');
+            setFormLastName(store.userData.lastname || '');
+            setFormEmail(store.userData.email || '');
+            setFormPhone(store.userData.phone || '');
+            setFormLocation(store.userData.location || '');
+        }
+    }, [store.userData]);
+
+    useEffect(() => {
+        if (store.userData.userId) {
+            actions.getUserDetails(); // Fetch user details when userId is available
+        }
+    }, [store.userData.userId, store.userData.token]);
+
+
+    const handleEdit = async (e) => {
+        e.preventDefault();
+
+        if (!formEmail || !formName || !formLastName || !formPhone || !formLocation) {
+            setError("Por favor, complete todos los campos.");
+            return;
+        }
+
+        if (store.userData.userId && store.userData.token) {
+            await actions.editUser(formName, formLastName, formEmail, formPhone, formLocation);
+            setSuccessMessage('Datos actualizados correctamente');
+            setError(null);
+            setAlertClass(style.alert_enter);
+
+            setTimeout(() => {
+                setAlertClass(style.alert_enter_active);
+            }, 50); // Ligeramente retrasado para activar la animación
+
+            setTimeout(() => {
+                setAlertClass(style.alert_exit_active);
+            }, 3000); // Inicia la salida suave después de 3 segundos
+
+            setTimeout(() => {
+                setSuccessMessage(null);
+                navigate("/perfil-usuario");
+            }, 3500);
+
+        } else {
+            console.error('No user ID found');
+        }
+    };
+
 
     return (
 
-        <form className={`mt-1 ${style.cajonFormulario} rounded p-3`}>
+        <form className={`mt-1 ${style.cajonFormulario} rounded p-3`} onSubmit={handleEdit}>
+            {error && <div className="alert alert-danger" role="alert">{error}</div>}
+            {successMessage && (
+                <div className={`alert alert-success ${alertClass}`} role="alert">
+                    {successMessage}
+                </div>
+            )}
             <p className="fs-4 fw-bold">Completa tus datos como responsable del mayor que será acompañado</p>
             <div className="row">
                 <div className="col">
-                    <div class="mb-3">
+                    <div className="mb-3">
                         <label htmlFor="nombre" className="form-label fs-5">Nombre</label>
-                        <input type="text" className="form-control" id="nombre" placeholder="Escribe tu nombre" value={store.name}/>
+                        <input type="text" className="form-control" id="nombre" placeholder="Escribe tu nombre" onChange={handleChangeName} value={formName} />
                     </div>
                 </div>
                 <div className="col">
-                    <div class="mb-3">
+                    <div className="mb-3">
                         <label htmlFor="apellidos" className="form-label fs-5">Apellidos</label>
-                        <input type="text" className="form-control" id="apellidos" aria-describedby="emailHelp" placeholder="Escribe tu apellido" value={store.lastname}/>
+                        <input type="text" className="form-control" id="apellidos" aria-describedby="lastnameHelp" onChange={handleChangeLastName} placeholder="Escribe tu apellido" value={formLastName} />
                     </div>
                 </div>
             </div>
 
             <div className="row">
                 <div className="col">
-                    <div class="mb-3">
+                    <div className="mb-3">
                         <label htmlFor="email" className="form-label fs-5">Email</label>
-                        <input type="email" className="form-control" id="email" placeholder="nombre@email.com" value={store.email}/>
+                        <input type="email" className="form-control" id="email" placeholder="nombre@email.com" onChange={handleChangeEmail} value={formEmail} />
                     </div>
                 </div>
                 <div className="col">
-                    <div class="mb-3">
+                    <div className="mb-3">
                         <label htmlFor="telefono" className="form-label fs-5">Teléfono de contacto</label>
-                        <input type="tel" className="form-control" id="telefono" placeholder="+34 6 123 456 78" value={store.phone}/>
+                        <input type="tel" className="form-control" id="telefono" placeholder="+34 6 123 456 78" onChange={handleChangePhone} value={formPhone} />
                     </div>
                 </div>
             </div>
@@ -48,8 +120,8 @@ export const FormularioFamiliar = () => {
             <div className="row">
                 <div className="col">
                     <label htmlFor="provincia" className="form-label fs-5">Provincia</label>
-                    <select className="form-select" id="provincia" aria-label="Selecciona la provincia" value={store.location}>
-                        <option selected>Selecciona la provincia</option>
+                    <select className="form-select" id="provincia" aria-label="Selecciona la provincia" onChange={handleChangeLocation} value={formLocation}>
+                        <option value="" hidden disabled>Selecciona la provincia</option>
                         <option value="A Coruna">A Coruña</option>
                         <option value="Alava">Álava</option>
                         <option value="Albacete">Albacete</option>

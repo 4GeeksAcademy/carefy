@@ -1,11 +1,27 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import style from "../AgregarFamiliar/agregarfamiliar.module.css"
+import { GrAction } from "react-icons/gr";
+import { Context } from "../../store/appContext";
+
 
 export const AgregarFamiliar = () => {
-    const [nacimiento, setNacimiento] = useState("");
+    const navigate = useNavigate(); 
+    const { store, actions } = useContext(Context);
     const [edad, setEdad] = useState(0);
+    const [name, setName] = useState('');
+    const [alias, setAlias] = useState('');
+    const [lastname, setLastname] = useState('');
+    const [phone, setPhone] = useState(0);
+    const [description, setDescription] = useState('');
+    const [birthdate, setBirthdate] = useState ('');
+    const [dependency, setDependency] = useState ('');
+    const [province, setProvince] = useState ('');
+    const [location, setLocation] = useState ('');
+    const [photo, setPhoto] = useState ('')
+    const [error, setError] = useState ('')
 
+    // Función para calcular la edad a partir de la fecha de nacimiento
     const calcularEdad = (fechaNacimiento) => {
         const hoy = new Date()
         const fechaNac = new Date(fechaNacimiento);
@@ -16,6 +32,36 @@ export const AgregarFamiliar = () => {
             edadCalculada--;
         }
         return edadCalculada
+    }
+
+    const anadir_familiar = async (event, name, alias, lastname, phone, description, birthdate, dependency, province, location, photo ) => {
+        event.preventDefault();
+        const user_id = store.userData.userId
+        if (!name || !alias || !lastname || !phone || !description || !birthdate || !dependency || !province || !location ){
+            setError("Por favor, complete todos los campos.");
+                return;             
+        }
+        
+        await actions.anadir_familiar(name, alias, lastname, phone, description, birthdate, dependency, province,location, photo, user_id)
+
+        // Se resetean campos
+        setName("");
+        setAlias("");
+        setLastname("");
+        setPhone("");
+        setDescription("");
+        setBirthdate("");
+        setDependency("");
+        setProvince("");
+        setLocation("")
+        setLastname("");
+        setEdad(0)
+        setPhoto("")
+
+        
+        window.location.reload()
+
+
     }
 
 
@@ -29,44 +75,43 @@ export const AgregarFamiliar = () => {
      */
     const handleBirthdayChange = (e) => {
         const fechaNacimiento = e.target.value;
-        setNacimiento(fechaNacimiento);
+        // setNacimiento(fechaNacimiento);
+        setBirthdate(fechaNacimiento)
         setEdad(calcularEdad(fechaNacimiento));
     };
 
-
-
     return (
-        <form>
+        <form className="form p-4" onSubmit={(event) => anadir_familiar(event, name, alias, lastname, phone, description, birthdate, dependency, province, location,  photo)}>
             <div className="mb-3">
                 <label htmlFor="alias" className="form-label fs-5">Alias</label>
-                <input type="text" className="form-control" id="alias" placeholder="Ejemplo: mi padre" />
+                <input type="text" className="form-control" id="alias" placeholder="Ejemplo: mi padre" onChange={(e) =>setAlias(e.target.value)} value={alias} />
 
             </div>
 
             <div className="mb-3">
-                <label htmlFor="nombre" className="form-label fs-5">Nombre</label>
-                <input type="text" className="form-control" id="nombre" />
+                <label htmlFor="name" className="form-label fs-5">Nombre</label>
+                <input type="text" className="form-control" id="name" onChange={(e) =>setName(e.target.value)} value={name} />
             </div>
 
             <div className="mb-3">
-                <label htmlFor="apellidos" className="form-label fs-5">Apellidos</label>
-                <input type="text" className="form-control" id="apellidos" />
+                <label htmlFor="lastname" className="form-label fs-5">Apellidos</label>
+                <input type="text" className="form-control" id="lastname" onChange={(e) =>setLastname(e.target.value)} value={lastname} />
             </div>
 
             <div className="mb-3">
-                <label htmlFor="telefono" className="form-label fs-5">Telefono</label>
-                <input type="tel" className="form-control" id="telefono" />
+                <label htmlFor="phone" className="form-label fs-5">Telefono</label>
+                <input type="tel" className="form-control" id="phone"  onChange={(e) =>setPhone(e.target.value)} value={phone}/>
             </div>
 
             <div className="mb-3">
                 <div className="row">
                     <div className="col-8">
-                        <label for="nacimiento" className="fs-5">Fecha de nacimiento</label><br></br>
-                        <input onChange={handleBirthdayChange} type="date" id="nacimiento" name="nacimiento" value={nacimiento} />
+                        <label htmlFor="birthdate" className="fs-5">Fecha de nacimiento</label><br></br>
+                        <input onChange={handleBirthdayChange} type="date" id="birthdate" name="nacimiento" value={birthdate} />
                     </div>
                     <div className="col">
-                        <label for="birthday" className="fs-5">Edad: </label><br></br>
-                        <label for="birthday" className="fs-5">{edad} </label>
+                        <label htmlFor="birthdate" className="fs-5">Edad: </label><br></br>
+                        <label htmlFor="birthdate" className="fs-5">{edad} </label>
 
                     </div>
                 </div>
@@ -87,7 +132,7 @@ export const AgregarFamiliar = () => {
                                 <p className={`text-secondary ${style.title_grado_dep}`}>Deja el cursor sobre el nivel para obtener más información</p>
 
                                 <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="gradodependencia" id="nivel" />
+                                    <input className="form-check-input" type="radio" name="dependency" id="nivel" onChange={(e) =>setDependency(e.target.value)} value= "Nivel1" />
                                     <label
                                         className="form-check-label"
                                         htmlFor="nivel"
@@ -98,7 +143,7 @@ export const AgregarFamiliar = () => {
                                     </label>
                                 </div>
                                 <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="gradodependencia" id="nivel2" />
+                                    <input className="form-check-input" type="radio" name="dependency" id="nivel2" onChange={(e) =>setDependency(e.target.value)} value="Nivel2" />
                                     <label
                                         className="form-check-label"
                                         htmlFor="nivel2"
@@ -109,7 +154,7 @@ export const AgregarFamiliar = () => {
                                     </label>
                                 </div>
                                 <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="gradodependencia" id="nivel3" />
+                                    <input className="form-check-input" type="radio" name="dependency" id="nivel3" onChange={(e) =>setDependency(e.target.value)} value="Nivel3" />
                                     <label
                                         className="form-check-label"
                                         htmlFor="nivel3"
@@ -120,7 +165,7 @@ export const AgregarFamiliar = () => {
                                     </label>
                                 </div>
                                 <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="gradodependencia" id="nivel4" />
+                                    <input className="form-check-input" type="radio" name="dependency" id="nivel4" onChange={(e) =>setDependency(e.target.value)} value="Nivel4"/>
                                     <label
                                         className="form-check-label"
                                         htmlFor="nivel4"
@@ -145,9 +190,9 @@ export const AgregarFamiliar = () => {
             {/* Select provincias */}
             <div className="row mb-3">
                 <div className="col">
-                    <label htmlFor="provincia" className="form-label fs-5">Provincia</label>
-                    <select className="form-select" id="provincia" aria-label="Selecciona la provincia">
-                        <option selected>Selecciona la provincia</option>
+                    <label htmlFor="province" className="form-label fs-5">Provincia</label>
+                    <select className="form-select" id="province" aria-label="Selecciona la provincia" onChange={(e) =>setProvince(e.target.value)} value={province}>
+                        <option value="" disabled>Selecciona la provincia</option>
                         <option value="A Coruna">A Coruña</option>
                         <option value="Alava">Álava</option>
                         <option value="Albacete">Albacete</option>
@@ -204,16 +249,21 @@ export const AgregarFamiliar = () => {
                 </div>
             </div>
 
+            <div className="mb-3">
+                <label htmlFor="location" className="form-label fs-5">Localidad</label>
+                <input type="text" className="form-control" id="location" onChange={(e) =>setLocation(e.target.value)} value={location} />
+            </div>
+
 
 
             <div className="mb-3">
-                <label for="formFile" className="form-label fs-5">Foto</label>
-                <input className="form-control" type="file" id="formFile" />
+                <label htmlFor="photo" className="form-label fs-5">Foto</label>
+                <input className="form-control" type="file" id="photo"  onChange={(e) =>setPhoto(e.target.value)} value={photo}/>
             </div>
 
             <div className="mb-3">
-                <label htmlFor="observaciones" className="form-label fs-5">Otra información importante</label>
-                <textarea className="form-control" rows={10} cols={40} id="observaciones" placeholder="Puedes añadir cualquier información / necesidad relevante para el acompañante" />
+                <label htmlFor="description" className="form-label fs-5">Otra información importante</label>
+                <textarea className="form-control" rows={10} cols={40} id="description" placeholder="Puedes añadir cualquier información / necesidad relevante para el acompañante" onChange={(e) =>setDescription(e.target.value)} value={description}/>
             </div>
 
             <div>

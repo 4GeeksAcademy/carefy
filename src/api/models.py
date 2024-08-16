@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from enum import Enum
 
 
 db = SQLAlchemy()
@@ -11,9 +12,9 @@ class User(db.Model):
     username = db.Column(db.String(120), unique=True, nullable=False)
     is_active = db.Column(db.Boolean(), default=True)
     name = db.Column(db.String(250))
-    last_name = db.Column(db.String(250)) 
+    lastname = db.Column(db.String(250)) 
     phone = db.Column(db.String(250)) 
-    birthdate = db.Column(db.String(250)) 
+    location = db.Column(db.String(250))
     role = db.Column(db.String(250), nullable=False)
     
     patients = db.relationship('Patient', backref='user')
@@ -29,35 +30,38 @@ class User(db.Model):
             "username": self.username,
             "is_active": self.is_active,
             "name": self.name,
-            "last_name": self.last_name,
-            "phone": self.phone
+            "lastname": self.lastname,
+            "phone": self.phone,
+            "location": self.location,
+            "role": self.role
         }
     
 class Patient(db.Model):
     __tablename__ = 'patients'
     id = db.Column(db.Integer, primary_key=True)
+    alias = db.Column(db.String(50), nullable=False)
     name =  db.Column(db.String(250), nullable=False)
-    last_name = db.Column(db.String(250), nullable=False)
+    lastname = db.Column(db.String(250), nullable=False)
     phone = db.Column(db.String(250), nullable=False)
-    photo = db.Column(db.String(250), nullable=False)
+    photo = db.Column(db.String(250))
     description =db.Column(db.String(250), nullable=False)
     birthdate = db.Column(db.String(250), nullable=False)
     dependency = db.Column(db.String(250), nullable=False)
     location =  db.Column(db.String(250), nullable=False)
-    province = db.Column(db.String(250), nullable=False)
-    availability = db.Column(db.String(250), nullable=False) 
-    tags = db.Column(db.String(250), nullable=False)
+    province = db.Column(db.String(250))
+    availability = db.Column(db.String(250)) 
+    tags = db.Column(db.String(250))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
     def __repr__(self):
-        return f'<Patient {self.name} {self.last_name}>'
+        return f'<Patient {self.name} {self.lastname}>'
 
     def serialize(self):
         return {
             "id": self.id,
             "email": self.email,
             "name": self.name,
-            "last_name": self.last_name,
+            "lastname": self.lastname,
             "phone": self.phone,
             "photo": self.photo,
             "description": self.description,
@@ -89,17 +93,17 @@ class Companion(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 
-class Inscriptions(db.Model): 
-    __tablename__ ="Inscriptions"
+class Inscription(db.Model): 
+    __tablename__ ="inscriptions"
     id = db.Column(db.Integer, primary_key=True)
-    patient_id =db.Column(db.Integer, db.ForeignKey('Patients.id'), nullable=True)
-    companion_id =db.Column(db.Integer, db.ForeignKey('Companions.id'), nullable=True)
-    ad_id =db.Column(db.Integer,  db.ForeignKey('Ads.id'), unique=False, nullable=True)
-    is_active =db.Column(db.Boolean(), unique=False, nullable=True) 
+    patient_id =db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
+    companion_id =db.Column(db.Integer, db.ForeignKey('companions.id'), nullable=False)
+    ad_id =db.Column(db.Integer,  db.ForeignKey('ads.id'), nullable=False)
+    is_active =db.Column(db.Boolean(), nullable=False) 
 
-    companions = db.relationship("Companions", back_populates="inscriptions")
-    patients = db.relationship ("Patients",  back_populates = "inscriptions")
-    ad = db.relationship ("Ads", back_populates = "inscriptions")
+    companions = db.relationship("Companion", backref = "inscriptions")
+    patients = db.relationship ("Patient",  backref = "inscriptions")
+    ad = db.relationship ("Ad", backref = "inscriptions")
 
     def serialize(self):
         return {
@@ -111,18 +115,14 @@ class Inscriptions(db.Model):
         }
     
 
-
-
-
-
-class Favourite_companions(db.Model):
-    __tablename__ ="Favourite_companions"
+class Favourite_companion(db.Model):
+    __tablename__ ="favourite_companions"
     id = db.Column(db.Integer, primary_key=True)
-    patient_id =db.Column(db.Integer, db.ForeignKey('Patients.id'), nullable=False)
-    companion_id =db.Column(db.Integer, db.ForeignKey('Companions.id'), nullable=False)
+    patient_id =db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
+    companion_id =db.Column(db.Integer, db.ForeignKey('companions.id'), nullable=False)
 
-    patient = db.relationship ("Patients", back_populates="favourite_companions")
-    companion = db.relationship ("Companions", back_populate = "favourite_companions")
+    patient = db.relationship ("Patient", backref="favourite_companions")
+    companion = db.relationship ("Companion", backref = "favourite_companions")
 
     def serialize(self):
         return{
@@ -131,22 +131,24 @@ class Favourite_companions(db.Model):
             "companion_id": self.companion_id
         }
         
+class Status(Enum):
+    PENDING = "pending"
+    REJECTED = "rejected"
+    OK = "ok"
+    
 
-
-class Ads (db.Model):
-    __tablename__ ="Ads"
+class Ad (db.Model):
+    __tablename__ ="ads"
     id = db.Column(db.Integer, primary_key=True)
-    patient_id =db.Column(db.Integer, db.ForeignKey('Patients.id'), nullable=False)
-    title = db.Column(db.String(120), unique=True, nullable=False)
-    description = db.Column(db.Text(350), unique=True, nullable=False)
-    active =db.Column(db.Boolean(), unique=False, nullable=False) 
-    created_at = db.Column(db.Date, unique=False, nullable=False)
-    start_date = db.Column(db.Date, unique=False, nullable=False)
-    end_date =  db.Column(db.Date, unique=False, nullable=False)
-    max_cost =db.Column(db.Integer, unique=False, nullable=False)
-    status = db.Column(db.Enum, unique=False, nullable=False)
-
-    patient = db.relationship ("Patients", back_populates="ads")
+    patient_id =db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
+    title = db.Column(db.String(120), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    active =db.Column(db.Boolean(), nullable=False) 
+    created_at = db.Column(db.Date, nullable=False)
+    start_date = db.Column(db.Date, nullable=False)
+    end_date =  db.Column(db.Date, nullable=False)
+    max_cost =db.Column(db.Integer, nullable=False)
+    status = db.Column(db.Enum(Status), nullable=False)
 
 
     def serialize(self):
@@ -162,9 +164,3 @@ class Ads (db.Model):
             "max_cost": self.max_cost,
             "status": self.status
         }
-
-
-
-
-
-

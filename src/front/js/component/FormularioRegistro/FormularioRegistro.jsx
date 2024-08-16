@@ -10,7 +10,7 @@ export const FormularioRegistro = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
-    const [role, setRole] = useState('user');
+    const [role, setRole] = useState('');
     const navigate = useNavigate();
 
     const [error, setError] = useState(null);
@@ -24,11 +24,12 @@ export const FormularioRegistro = () => {
         }
 
         await actions.signUp(email, password, username, role);
-        if (role == "companion") {
-            navigate('/mis-postulaciones')
+        console.log("Rol del usuario:", store.userData.role);
+        if(store.userData.role === "user"){
+        navigate('/perfil-usuario')
         }
-        else {
-            navigate('/perfilusuario')
+        else{
+            navigate('/perfil-acompanante')
         }
     }
 

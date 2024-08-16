@@ -22,6 +22,7 @@ import {Contacto} from "../../front/js/pages/Contacto/Contacto.jsx"
 import {PublicarResena} from "../js/pages/PublicarResena/PublicarResena.jsx"
 import CreateAds from "./pages/createAds/CreateAds.jsx"
 import AboutUs from "./pages/aboutUs/AboutUs.jsx"
+import ListModerate from "./pages/ListModerate/ListModerate.jsx"
 
 
 
@@ -48,11 +49,12 @@ const Layout = () => {
                         <Route element={<Login />} path="/login" />
                         <Route element={<Faqs />} path="/faq" />
                         <Route element={<Registro />} path="/registro" />
-                        <Route element={<PerfilUsuario />} path="/perfilusuario" />
+                        <Route element={<PerfilUsuario />} path="/perfil-usuario" />
                         <Route element={<Contacto />} path="/contacto" />
                         <Route element={<PublicarResena />} path="/publicar-resena" />
                         <Route element={<CreateAds />} path="/crear-anuncio" />
                         <Route element={<AboutUs />} path="/nosotros" />
+                        <Route element={<ListModerate />} path="/moderar-anuncios" />
                         <Route element={<h1>Not found!</h1>} />
 
                     </Routes>
