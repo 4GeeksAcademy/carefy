@@ -21,7 +21,8 @@ import {PerfilUsuario} from "./pages/PerfilUsuario/PerfilUsuario.jsx"
 import {Contacto} from "../../front/js/pages/Contacto/Contacto.jsx"
 import {PublicarResena} from "../js/pages/PublicarResena/PublicarResena.jsx"
 import CreateAds from "./pages/createAds/CreateAds.jsx"
-import ListModerate from "./pages/listModerate/ListModerate.jsx";
+import AboutUs from "./pages/aboutUs/AboutUs.jsx"
+import ListModerate from "./pages/ListModerate/ListModerate.jsx"
 
 
 
@@ -46,14 +47,15 @@ const Layout = () => {
                         <Route element={<MisAnuncios />} path="/mis-anuncios" />
                         <Route element={<MisPostulaciones />} path="/mis-postulaciones" />
                         <Route element={<Login />} path="/login" />
-                        <Route element={<h1>Not found!</h1>} />
                         <Route element={<Faqs />} path="/faq" />
                         <Route element={<Registro />} path="/registro" />
                         <Route element={<PerfilUsuario />} path="/perfil-usuario" />
                         <Route element={<Contacto />} path="/contacto" />
                         <Route element={<PublicarResena />} path="/publicar-resena" />
                         <Route element={<CreateAds />} path="/crear-anuncio" />
-                        <Route element={<ListModerate />} path="/moderar" />
+                        <Route element={<AboutUs />} path="/nosotros" />
+                        <Route element={<ListModerate />} path="/moderar-anuncios" />
+                        <Route element={<h1>Not found!</h1>} />
 
                     </Routes>
                     <Footer />

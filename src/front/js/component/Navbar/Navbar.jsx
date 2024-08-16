@@ -26,7 +26,7 @@ export const Navbar = ({ username }) => {
                                     <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/">Inicio</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/aboutus">Nosotros</Link>
+                                    <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/nosotros">Nosotros</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/faq">FAQ</Link>
@@ -101,10 +101,10 @@ export const Navbar = ({ username }) => {
                                     <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/">Inicio</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link text-dark fs-3 fw-bold" aria-current="page" href="#">Nosotros</a>
+                                    <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/nosotros">Nosotros</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link text-dark fs-3 fw-bold" aria-current="page" href="#">FAQ</a>
+                                    <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/faq">FAQ</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/blog">Blog</Link>
