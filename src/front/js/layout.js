@@ -15,9 +15,11 @@ const Layout = () => {
     return (
         <div>
             <BrowserRouter basename={basename}>
-              
+              <Routes>
+              <Route element={<ListCompanions />} path="/listado-profesionales" />
+              </Routes>
                     
-                    <ListCompanions/>
+            
 
                 
             
