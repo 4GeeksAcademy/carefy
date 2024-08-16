@@ -25,6 +25,7 @@ import AboutUs from "./pages/aboutUs/AboutUs.jsx"
 import ListModerate from "./pages/ListModerate/ListModerate.jsx"
 import RegisterAndEditCompanion from "./pages/registerAndEditCompanion/RegisterAndEditCompanion.jsx"
 import ProfileCompanion from "./pages/profileCompanion/ProfileCompanion.jsx";
+import ListCompanions from "./pages/listCompanios/ListCompanions.jsx";
 
 
 
@@ -59,6 +60,7 @@ const Layout = () => {
                         <Route element={<ListModerate />} path="/moderar-anuncios" />
                         <Route element={<RegisterAndEditCompanion />} path="/formulario-profesional" />
                         <Route element={<ProfileCompanion />} path="/perfil-profesional" />
+                        <Route element={<ListCompanions />} path="/listado-profesionales" />
                         <Route element={<h1>Not found!</h1>} />
 
                     </Routes>
