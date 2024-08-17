@@ -4,7 +4,7 @@ import { Context } from "../../store/appContext";
 import styles from './dataAds.module.css';
 
 const DataAds = () => {
-  
+
   const { store, actions } = useContext(Context);
 
   const [startDate, setStartDate] = useState('');
@@ -20,15 +20,15 @@ const DataAds = () => {
 
 
     if (!title || !description) {
-        setError("Por favor, complete título y descripción.");
-        return;
+      setError("Por favor, complete título y descripción.");
+      return;
     }
 
     await actions.createAd(startDate, endDate, price, title, description, status);
-    navigate('/mis-anuncios')
+    navigate(`/anuncio/${store.singleAd.id + 1}`)
 
-}
- 
+  }
+
 
   return (
     <div className={`container p-4 rounded`}>

@@ -10,6 +10,14 @@ import { Jumbotron } from '../../component/Jumbotron/Jumbotron.jsx';
 const CreateAds = () => {
     const [patients, setPatients] = useState([]);
     const [selectedPatient, setSelectedPatient] = useState('');
+    const { store, actions } = useContext(Context);
+	const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!store.userData.token) {
+          navigate('/login');
+        }
+      }, [store.userData.token, navigate])
 
 
     return (

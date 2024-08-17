@@ -3,7 +3,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext";
 import styles from "./Anuncios.module.css"
 
-export const Anuncios = ({ countAds, title, requests, date, countFav, companionName }) => {
+export const Anuncios = ({ countFav, companionName }) => {
 
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
@@ -53,7 +53,7 @@ export const Anuncios = ({ countAds, title, requests, date, countFav, companionN
                                         <tr key={ad.id}>
                                             <th scope="row">{index + 1}</th>
                                             <td>{ad.title}</td>
-                                            <td>{ad.description}</td>
+                                            <td>{ad.id}</td>
                                             <td>{new Date(ad.created_at).toLocaleDateString('es-ES', {
                                                 day: '2-digit',
                                                 month: '2-digit',

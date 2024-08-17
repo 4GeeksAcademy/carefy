@@ -14,6 +14,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				location: null,
 			},
 			adData: JSON.parse(localStorage.getItem("adData")) || [],
+			singleAd: []
 		},
 
 		actions: {
@@ -330,21 +331,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 						throw new Error(`HTTP error! status: ${response.status}`);
 					}
 					const data = await response.json();
-					console.log("Datos del anuncio recibidos:", data);
-					if (data) {
-						// Actualizar el store con los datos del anuncio
-						setStore({
-							...store,
-							adData: data
-						});
-
-						// Guardar el anuncio en localStorage
-						localStorage.setItem('adData', JSON.stringify(data));
-					}
+					console.log("Datos de un anuncio:", data);
+					setStore({ singleAd: data });
+					localStorage.setItem('singleAd', JSON.stringify(data));
 				} catch (error) {
-					console.error('There was an error fetching the ad details!', error);
+					console.log(error);
 				}
 			},
+			
 		}
 	};
 };
