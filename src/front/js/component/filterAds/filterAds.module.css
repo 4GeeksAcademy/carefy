@@ -1,0 +1,37 @@
+.filter_container
+ {
+    margin-top: 50px;
+}
+
+
+
+.icon_search {
+    font-size: 30px;
+    color: #B76C49;
+    margin: 5px;
+
+}
+
+.btn_filters{
+    display:flex;
+    justify-content: center;
+    margin-top: 60px;
+}
+.location, .availability, .date{
+    width: 150px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 0px;
+    background-color: #B76C49;
+    color: rgb(245, 242, 242);
+    text-align: center;
+    font-weight: 600;
+    cursor: pointer;
+} 
+
+option{
+    text-align: left;   
+}
+
+
+

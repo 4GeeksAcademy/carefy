@@ -214,12 +214,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			createAd: async (startDate, endDate, price, title, description, status = "pending", active) => {
+			createAd: async (type, startDate, endDate, price, title, description, status = "pending", active) => {
 				const store = getStore();
 				try {
 					const resp = await fetch(`${process.env.BACKEND_URL}/api/create_ad/${store.userData.userId}`, {
 						method: "POST",
 						body: JSON.stringify({
+							type: type,
 							start_date: startDate,
 							end_date: endDate,
 							max_cost: price,
@@ -339,8 +340,34 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			
+			anadir_familiar: async (name, alias,  lastname, phone, description, birthdate, dependency, province, location,  photo, user_id) => {
+				try {
+					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/anadir_familiar`,{
+						method: 'POST',
+						body: JSON.stringify({name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, user_id}),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					});
+
+					if (!respuesta.ok) {
+						const errorData = await respuesta.json();
+						console.error("Error:", errorData);
+						return errorData;
+					}
+
+				}
+				catch (error) {
+					// Manejo de errores de red u otros errores
+					console.error("Network error:", error);
+				}
+
+			}
+
 		}
 	};
 };
 
 export default getState;
+
+

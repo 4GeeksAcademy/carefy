@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Ad, Status
+from api.models import db, User, Patient, Ad, Status, Type
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -124,11 +124,15 @@ def create_ad(user_id):
     
     if data['status'] not in [status.value for status in Status]:
         return jsonify({'error': 'Invalid status value'}), 400
+    
+    if data['type'] not in [type.value for type in Type]:
+        return jsonify({'error': 'Invalid type value'}), 400
 
     new_ad = Ad(
         title=data['title'],
         description=data['description'],
         created_at=data['created_at'],
+        type=Type(data['type']),
         start_date=data['start_date'],
         end_date=data['end_date'],
         max_cost=data['max_cost'],
@@ -189,4 +193,51 @@ def protected():
     user = User.query.get(current_user_id)
 
     return jsonify({"id": user.id }), 200
+
+
+# 15/08/24 - TOM #
+@api.route("/anadir_familiar", methods=["POST"])
+def anadir_familiar():
+    data = request.json
+
+    campos_requeridos = ['name', 'alias', 'lastname', 'phone' , 'description', 'birthdate', 'dependency', 'province', 'location']
+
+    for campos in campos_requeridos:
+        if campos not in data:
+            return jsonify ({'ERROR' : "falta el campo requerido: {campos}"}), 400        
+        elif (data):
+            nuevo_familiar = Patient(
+                name = data ['name'],
+                alias = data ['alias'],
+                lastname = data ['lastname'],
+                phone = data ['phone'],
+                description = data ['description'],
+                birthdate = data ['birthdate'],
+                dependency = data ['dependency'],
+                province = data ['province'],
+                location = data ['location'],
+                photo = data ['photo'],
+                user_id = data ['user_id']
+            )
+
+            db.session.add(nuevo_familiar)
+            db.session.commit()
+
+            return jsonify({
+                "msg": "Familiar creado exitosamente",
+                'id': nuevo_familiar.id,
+                "name" : nuevo_familiar.name,
+                "alias": nuevo_familiar.alias,
+                "lastname" : nuevo_familiar.lastname,
+                "phone": nuevo_familiar.phone,
+                "description": nuevo_familiar.description,
+                "birthdate" : nuevo_familiar.birthdate,
+                "dependency": nuevo_familiar.dependency,
+                "province" : nuevo_familiar.province, 
+                "location": nuevo_familiar.location,
+                "photo" : nuevo_familiar.photo,
+                "user_id": nuevo_familiar.user_id
+            }), 200
+        return jsonify ({'Error' : 'error al anadir nuevo familiar'}), 400
+    
 

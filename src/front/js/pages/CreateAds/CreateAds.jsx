@@ -28,27 +28,27 @@ const CreateAds = () => {
                 subtitle={"Publica un anuncio y encuentra el acompañante ideal."}
             />
             <div className={`container p-4 ${styles.main_container}`}>
-                    <div className={`container my-4 p-4 rounded ${styles.container_form}`}>
-                        <div className="mb-3 container-fluid">
-                            {/* RadioButton para la opción "Todos" */}
-                            <RadioButton
-                                alias="Todos"
-                                value="all"
-                                checked={selectedPatient === "all"}
-                                onChange={() => setSelectedPatient("all")}
-                            />
+                <div className={`container my-4 p-4 rounded ${styles.container_form}`}>
+                    <div className="mb-3 container-fluid">
+                        {/* RadioButton para la opción "Todos" */}
+                        <RadioButton
+                            alias="Todos"
+                            value="all"
+                            checked={selectedPatient === "all"}
+                            onChange={() => setSelectedPatient("all")}
+                        />
 
-                            {/* Mapea los pacientes que el usuario tenga registrados */}
-                            {patients.map((patient, index) => (
-                                <RadioButton
-                                    key={index}
-                                    alias={patient.alias}
-                                    value={patient.alias.replace(/\s+/g, '_')}
-                                    checked={selectedPatient === patient.alias.replace(/\s+/g, '_')}
-                                    onChange={() => setSelectedPatient(patient.alias.replace(/\s+/g, '_'))}
-                                />
-                            ))}
-                        </div>
+                        {/* Mapea los pacientes que el usuario tenga registrados */}
+                        {patients.map((patient, index) => (
+                            <RadioButton
+                                key={index}
+                                alias={patient.alias}
+                                value={patient.alias.replace(/\s+/g, '_')}
+                                checked={selectedPatient === patient.alias.replace(/\s+/g, '_')}
+                                onChange={() => setSelectedPatient(patient.alias.replace(/\s+/g, '_'))}
+                            />
+                        ))}
+                    </div>
 
                         <div className="accordion mt-4" id="patientAccordion">
                             {patients
@@ -68,8 +68,8 @@ const CreateAds = () => {
                                 ))}
                         </div>
 
-                        <DataAds />
-                    </div>
+                    <DataAds />
+                </div>
             </div>
         </>
     );

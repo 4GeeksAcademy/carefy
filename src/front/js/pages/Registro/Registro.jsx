@@ -18,7 +18,7 @@ export const Registro = () => {
 			navigate('/perfil-usuario');
 		}
         else{
-            navigate('/login');
+            navigate('/registro');
         }
 	}, [store.userData.token, navigate])
 

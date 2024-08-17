@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 219435f558a1
+Revision ID: 9384a269046f
 Revises: 
-Create Date: 2024-08-14 12:56:12.685802
+Create Date: 2024-08-17 14:41:13.021568
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '219435f558a1'
+revision = '9384a269046f'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -55,33 +55,37 @@ def upgrade():
     )
     op.create_table('patients',
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('alias', sa.String(length=50), nullable=False),
     sa.Column('name', sa.String(length=250), nullable=False),
     sa.Column('lastname', sa.String(length=250), nullable=False),
     sa.Column('phone', sa.String(length=250), nullable=False),
-    sa.Column('photo', sa.String(length=250), nullable=False),
+    sa.Column('photo', sa.String(length=250), nullable=True),
     sa.Column('description', sa.String(length=250), nullable=False),
     sa.Column('birthdate', sa.String(length=250), nullable=False),
     sa.Column('dependency', sa.String(length=250), nullable=False),
     sa.Column('location', sa.String(length=250), nullable=False),
-    sa.Column('province', sa.String(length=250), nullable=False),
-    sa.Column('availability', sa.String(length=250), nullable=False),
-    sa.Column('tags', sa.String(length=250), nullable=False),
+    sa.Column('province', sa.String(length=250), nullable=True),
+    sa.Column('availability', sa.String(length=250), nullable=True),
+    sa.Column('tags', sa.String(length=250), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('ads',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('patient_id', sa.Integer(), nullable=False),
-    sa.Column('title', sa.String(length=120), nullable=False),
-    sa.Column('description', sa.Text(), nullable=False),
-    sa.Column('active', sa.Boolean(), nullable=False),
-    sa.Column('created_at', sa.Date(), nullable=False),
-    sa.Column('start_date', sa.Date(), nullable=False),
-    sa.Column('end_date', sa.Date(), nullable=False),
-    sa.Column('max_cost', sa.Integer(), nullable=False),
-    sa.Column('status', sa.Enum('PENDING', 'REJECTED', 'OK', name='status'), nullable=False),
+    sa.Column('patient_id', sa.Integer(), nullable=True),
+    sa.Column('title', sa.String(length=120), nullable=True),
+    sa.Column('description', sa.Text(), nullable=True),
+    sa.Column('active', sa.Boolean(), nullable=True),
+    sa.Column('created_at', sa.Date(), nullable=True),
+    sa.Column('type', sa.Enum('OUT', 'IN', name='type'), nullable=True),
+    sa.Column('start_date', sa.Date(), nullable=True),
+    sa.Column('end_date', sa.Date(), nullable=True),
+    sa.Column('max_cost', sa.Integer(), nullable=True),
+    sa.Column('status', sa.Enum('PENDING', 'REJECTED', 'OK', name='status'), nullable=True),
+    sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['patient_id'], ['patients.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('favourite_companions',

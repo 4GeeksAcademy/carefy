@@ -106,10 +106,8 @@ export const BloqueAnuncio = ({ }) => {
                 <div className="col-12 col-sm-7">
                     <p className="fs-4 fw-bold"><span className="fa-solid fa-calendar-days pe-3"></span>Disponibilidad</p>
                     <div className="d-flex fs-5 gap-5 align-items-baseline">
-                        <div>
-                            <p className="ps-4 ms-3 fs-4">{store.singleAd.availability}</p>
-                        </div>
                         <div className="d-flex gap-4 flex-wrap">
+                            <p className="ps-4 ms-3">Tipo de servicio: <span className="text-secondary">{store.singleAd.type}</span></p>
                             <p>Inicio: <span className="text-secondary">{new Date(store.singleAd.start_date).toLocaleDateString('es-ES', {
                                 day: '2-digit',
                                 month: '2-digit',
