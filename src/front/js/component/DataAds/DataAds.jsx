@@ -25,7 +25,7 @@ const DataAds = () => {
     }
 
     await actions.createAd(startDate, endDate, price, title, description, status);
-    navigate(`/anuncio/${store.singleAd.id + 1}`)
+    navigate(`/anuncio/${store.singleAd.id}`)
 
   }
 
@@ -34,7 +34,14 @@ const DataAds = () => {
     <div className={`container p-4 rounded`}>
 
       <div className="row mt-4">
-        <div className="col-12 col-md-4">
+      <div className="col-12 col-md-3">
+        <label htmlFor="disabledSelect" className="form-label fs-5">Tipo</label>
+                <select id="disabledSelect" className="form-select" onChange={(e) => setRole(e.target.value)} value={""}>
+                    <option value="externo">Externo</option>
+                    <option value="interno">Interno</option>
+                </select>
+        </div>
+        <div className="col-12 col-md-3">
           <label className="form-label fs-5">Fecha de inicio</label>
           <input
             type="date"
@@ -45,7 +52,7 @@ const DataAds = () => {
             onChange={(e) => setStartDate(e.target.value)}
           />
         </div>
-        <div className="col-12 col-md-4">
+        <div className="col-12 col-md-3">
           <label className="form-label fs-5">Fecha de fin</label>
           <input
             type="date"
@@ -56,7 +63,7 @@ const DataAds = () => {
             onChange={(e) => setEndDate(e.target.value)}
           />
         </div>
-        <div className="col-12 col-md-4">
+        <div className="col-12 col-md-3">
           <label className="form-label fs-5">Precio por hora</label>
           <input
             type="number"
