@@ -26,6 +26,12 @@ export const Navbar = ({ username }) => {
                                     <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/">Inicio</Link>
                                 </li>
                                 <li className="nav-item">
+                                    <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/listado-anuncios">Anuncios</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/listado-profesionales">Acompañantes</Link>
+                                </li>
+                                <li className="nav-item">
                                     <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/nosotros">Nosotros</Link>
                                 </li>
                                 <li className="nav-item">
@@ -99,6 +105,12 @@ export const Navbar = ({ username }) => {
                             <ul className="navbar-nav pe-3 pb-3">
                                 <li className="nav-item">
                                     <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/">Inicio</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/listado-anuncios">Anuncios</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/listado-profesionales">Acompañantes</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/nosotros">Nosotros</Link>

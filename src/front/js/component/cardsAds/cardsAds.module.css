@@ -5,10 +5,14 @@
     border-color: none;
 
 }
-
-.img_card {
+.cuadro_imagen{
     width: 100%;
+    height: 200px;
+}
+.img_card {
     vertical-align: top;
+    width: 100%;
+    height: 200px;
 
 }
 
@@ -20,25 +24,9 @@
 
 }
 
-.card_title {
-    color: #52504f;
-    font-size: 1em;
-    margin-bottom: 5px;
-    text-align: left;
-    font-weight: 700;
-    width: 100%;
-    white-space: nowrap;
-    /*para gestionar el texto y que muestre todo en una misma fila*/
-    text-overflow: ellipsis;
-    /*Si el texto no cabe aparecen puntos suspensibos*/
-    overflow: hidden;
-    /*el contenido que no cabe en la caja lo esconde*/
-}
 
-.card_location, .card_date{
-    font-weight: 600;
+.card_location{
     color:#5C7728;
-    margin-bottom: 5px;
 }
 
 .card_location{
@@ -50,7 +38,6 @@
 }
 
 .card_description {
-    color: #52504f;
     display: -webkit-box;
     /* Utiliza un contenedor flexible en WebKit para permitir el recorte de texto */
     -webkit-line-clamp: 3;
@@ -63,27 +50,37 @@
     /* Añade puntos suspensivos (...) al final del texto que se corta */
     max-height: 4em;
     /* Ajusta la altura máxima para asegurar que solo dos líneas sean visibles */
-    font-weight: 480;
-    line-height: 1;
+    line-height: 1.3;
 }
 
 .card_buttons,
 .icon_contacto {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: end;
     margin-top: auto;
     font-size: 50px;
-}
-
-
-.icon_contacto {
-    color: #B76C49;
 }
 
 .boton_ver_mas {
     background-color:#B76C49 ;
     color: white;
     font-weight: 500;
+}
+
+.boton_ver_mas:hover {
+    background-color: #9a593c !important;
+    color: white !important;
+}
+
+.boton_ver_mas:active {
+    background-color: #9a593c !important;
+    color: white !important;
+}
+
+
+.boton_ver_mas:focus {
+    background-color: #9a593c !important;
+    color: white !important;
 }
 
