@@ -36,11 +36,10 @@ export const CompanionProfile = ({
     <div
       className={`container bg-light p-4 my-5 rounded position-relative ${styles.container_profile}`}
     >
-      <FaRegHeart className={`position-absolute ${styles.fav_icon}`} />
-      {/* <div className={`position-absolute ${styles.fav_icon}`}>*/}
-      {/* <GrEdit className={`position-absolute ${styles.edit_icon}`}/>*/}
-      {/* <span className="fa-regular fa-trash-can"></span>
-            </div> */}
+      <div className={`position-absolute ${styles.fav_icon}`}>
+        {/* <span className="fa-solid fa-pencil pe-3"></span> */}
+        <span className="fa-regular fa-heart" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"></span>
+      </div>
       <h1 className="mb-5 pe-5 me-3">Andrés González Iniesta</h1>
       <div className="d-flex align-items-start justify-content-between flex-wrap">
         <div className="d-flex align-items-center flex-wrap">
@@ -52,20 +51,14 @@ export const CompanionProfile = ({
           </div>
           <div className="ms-3 fs-4 mt-3">
             <p>
-              <FaRegStar className="" />
-              <FaRegStar className="" />
-              <FaRegStar className="" />
-              <FaRegStar className="" />
-              <FaRegStar className="" />
+              <FaRegStar className="fs-4" />
+              <FaRegStar className="fs-4" />
+              <FaRegStar className="fs-4" />
+              <FaRegStar className="fs-4" />
+              <FaRegStar className="fs-4" />
             </p>
-            <p>
-              <FaIdCard className="pe-1" />
-              38
-            </p>
-            <p>
-              <FaLocationDot className="pe-1" />
-              Albacete
-            </p>
+            <p className="fs-4"><span className="fa-solid fa-id-card pe-3"></span>38 años</p>
+            <p className="fs-4"><span className="fa-solid fa-location-dot pe-3"></span>Albacete</p>
           </div>
         </div>
         <button className={`btn ${styles.btn_contact} fs-4 fw-bold`}>
@@ -93,75 +86,70 @@ export const CompanionProfile = ({
       </div>
       <div className="pt-3 row">
         <div className="col-12 col-md-4">
-          <p className="fs-4 fw-bold text-center">
-            <FaCalendarAlt className="pe-1" />
-            Disponibilidad
-          </p>
+          <p className="fs-4 fw-bold"><span className="fa-solid fa-calendar-days pe-3"></span>Disponibilidad</p>
           <div className="d-flex fs-5 gap-5 align-items-baseline">
-            <div className="row ">
+            <div className="row">
               <div className=" col-12 col-md-12 ">
-                <p className="ps-5 ms-3 fs-4">
+                <p className="ps-4 ms-3 ms-3 fs-5">
                   <IoIosCheckmarkCircleOutline className={styles.available} />{" "}
                   Por horas
                 </p>
               </div>
               <div className="col-12 col-md-12">
-                <p className="ps-5 ms-3 fs-4">
+                <p className="ps-4 ms-3 ms-3 fs-5">
                   <IoIosCheckmarkCircleOutline className={styles.available} />{" "}
-                  Por Días
+                  Por días
                 </p>
               </div>
               <div className="col-12 col-md-12">
-                <p className="ps-5 ms-3 fs-4">
+                <p className="ps-4 ms-3 ms-3 fs-5">
                   <IoIosCheckmarkCircleOutline className={styles.available} />{" "}
-                  Por Semanas
+                  Por semanas
                 </p>
               </div>
               <div className="col-12 col-md-12">
-                <p className="ps-5 ms-3 fs-4">
+                <p className="ps-4 ms-3 ms-3 fs-5">
                   <MdOutlineCancel className={styles.not_available} />{" "}
-                  Interino/a
+                  Interno/a
                 </p>
               </div>
             </div>
           </div>
         </div>
-        <div className="col-12 col-md-4 text-center">
-          <p className="fs-4 fw-bold text-center">
-            <FaCoins className="pe-1" />
-            Precio desde (hora)
-          </p>
+        <div className="col-12 col-md-4">
+        <p className="fs-4 fw-bold"><span className="fa-solid fa-coins pe-3"></span>Precio (hora)</p>
           <p className="fs-4 ps-4 ms-3">8 €</p>
         </div>
-        <div className="col-12 col-md-4 text-center">
+        <div className="col-12 col-md-4">
+
           <p className="fs-4 fw-bold">
-            <IoIosContacts className="pe-0" />
+            <span class="pe-2 fa-solid fa-users"></span>
             Conoce más de mí
           </p>
           <a
-            className={`fs-4 ms-3 ${styles.social_icons}`}
+            className={`fs-4 ps-4 ms-3 ${styles.social_icons}`}
             href="https://www.instagram.com
 "
           >
-            <AiFillInstagram />
+            <span class="fa-brands fa-square-instagram fs-4"></span>
           </a>
           <a
             className={`fs-4 ms-3 ${styles.social_icons}`}
             href="https://www.facebook.com/"
           >
-            <AiFillFacebook />
+            <span class="fa-brands fa-facebook-square fs-4"></span>
           </a>
           <a
             className={`fs-4 ms-3 ${styles.social_icons}`}
             href="https://x.com/"
           >
-            <FaSquareXTwitter />
+            <span class="fa-brands fa-square-x-twitter fs-4"></span>
           </a>
           <a
             className={`fs-4 ms-3 ${styles.social_icons}`}
             href="https://www.linkedin.com/"
           >
-            <AiFillLinkedin />
+            <span class="fa-brands fa-linkedin fs-4"></span>
           </a>
         </div>
       </div>

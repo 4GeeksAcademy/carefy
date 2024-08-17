@@ -25,11 +25,11 @@ export const FormularioRegistro = () => {
 
         await actions.signUp(email, password, username, role);
         console.log("Rol del usuario:", store.userData.role);
-        if(store.userData.role === "user"){
-        navigate('/perfil-usuario')
+        if (store.userData.role === "user") {
+            navigate('/perfil-usuario')
         }
-        else{
-            navigate('/perfil-acompanante')
+        else {
+            navigate('/perfil-profesional')
         }
     }
 

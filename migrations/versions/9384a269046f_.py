@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 4b1dce9c5056
+Revision ID: 9384a269046f
 Revises: 
-Create Date: 2024-08-16 09:04:11.831098
+Create Date: 2024-08-17 14:41:13.021568
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '4b1dce9c5056'
+revision = '9384a269046f'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -73,16 +73,19 @@ def upgrade():
     )
     op.create_table('ads',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('patient_id', sa.Integer(), nullable=False),
-    sa.Column('title', sa.String(length=120), nullable=False),
-    sa.Column('description', sa.Text(), nullable=False),
-    sa.Column('active', sa.Boolean(), nullable=False),
-    sa.Column('created_at', sa.Date(), nullable=False),
-    sa.Column('start_date', sa.Date(), nullable=False),
-    sa.Column('end_date', sa.Date(), nullable=False),
-    sa.Column('max_cost', sa.Integer(), nullable=False),
-    sa.Column('status', sa.Enum('PENDING', 'REJECTED', 'OK', name='status'), nullable=False),
+    sa.Column('patient_id', sa.Integer(), nullable=True),
+    sa.Column('title', sa.String(length=120), nullable=True),
+    sa.Column('description', sa.Text(), nullable=True),
+    sa.Column('active', sa.Boolean(), nullable=True),
+    sa.Column('created_at', sa.Date(), nullable=True),
+    sa.Column('type', sa.Enum('OUT', 'IN', name='type'), nullable=True),
+    sa.Column('start_date', sa.Date(), nullable=True),
+    sa.Column('end_date', sa.Date(), nullable=True),
+    sa.Column('max_cost', sa.Integer(), nullable=True),
+    sa.Column('status', sa.Enum('PENDING', 'REJECTED', 'OK', name='status'), nullable=True),
+    sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['patient_id'], ['patients.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('favourite_companions',

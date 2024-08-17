@@ -19,9 +19,10 @@ class User(db.Model):
     
     patients = db.relationship('Patient', backref='user')
     companions = db.relationship('Companion', backref='user')
+    ads = db.relationship('Ad', backref='user')
 
     def __repr__(self):
-        return f'<User {self.username}>'
+        return f'{self.id}'
 
     def serialize(self):
         return {
@@ -136,19 +137,25 @@ class Status(Enum):
     REJECTED = "rejected"
     OK = "ok"
     
+class Type(Enum):
+    OUT = "externo"
+    IN = "interno"
+    
 
 class Ad (db.Model):
     __tablename__ ="ads"
     id = db.Column(db.Integer, primary_key=True)
-    patient_id =db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
-    title = db.Column(db.String(120), nullable=False)
-    description = db.Column(db.Text, nullable=False)
-    active =db.Column(db.Boolean(), nullable=False) 
-    created_at = db.Column(db.Date, nullable=False)
-    start_date = db.Column(db.Date, nullable=False)
-    end_date =  db.Column(db.Date, nullable=False)
-    max_cost =db.Column(db.Integer, nullable=False)
-    status = db.Column(db.Enum(Status), nullable=False)
+    patient_id =db.Column(db.Integer, db.ForeignKey('patients.id'))
+    title = db.Column(db.String(120),)
+    description = db.Column(db.Text)
+    active =db.Column(db.Boolean(), default=True) 
+    created_at = db.Column(db.Date)
+    type=db.Column(db.Enum(Type))
+    start_date = db.Column(db.Date)
+    end_date =  db.Column(db.Date)
+    max_cost =db.Column(db.Integer)
+    status = db.Column(db.Enum(Status))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 
     def serialize(self):
@@ -162,5 +169,13 @@ class Ad (db.Model):
             "start_date": self.start_date,
             "end_date": self.end_date,
             "max_cost": self.max_cost,
-            "status": self.status
+            "status": self.status.value if self.status else None,
+            "type": self.type.value if self.type else None,
+            "user_id": self.user_id
         }
+
+
+
+
+
+

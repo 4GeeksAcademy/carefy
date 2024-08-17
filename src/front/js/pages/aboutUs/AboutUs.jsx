@@ -5,15 +5,15 @@ import { Jumbotron } from "../../component/Jumbotron/Jumbotron.jsx";
 const AboutUs = () => {
   return (
     <>
-    			<Jumbotron bgImg={ {backgroundImage: "url('https://media.istockphoto.com/id/1512266456/es/foto/una-anciana-con-la-enfermera-paseando-por-el-jard%C3%ADn-de-una-residencia-de-ancianos-en-silla-de.jpg?s=612x612&w=0&k=20&c=_7ABNTghwi1gB1IxvlLXSW0QcZofNSg88yo4bEK1pxM=')" }} title={"Sobre nosotros"} subtitle={"Tres cosas que debes saber..."} />
+    			<Jumbotron bgImg={ {backgroundImage: "url('https://media.istockphoto.com/id/1512266456/es/foto/una-anciana-con-la-enfermera-paseando-por-el-jard%C3%ADn-de-una-residencia-de-ancianos-en-silla-de.jpg?s=612x612&w=0&k=20&c=_7ABNTghwi1gB1IxvlLXSW0QcZofNSg88yo4bEK1pxM=')" }} title={"Te contamos un poco más sobre Carefy"} subtitle={"Tres cosas que debes saber"} />
 
-    <div className={styles.main_container}>
-    <div className={`container ${styles.container_aboutUs}`}>
+    <div className="my-5">
+    <div className="container">
      
       <div className="row mb-4">
-        <div className="col-12 col-md-4 ho">
-          <div className={`p-3 ${styles.text_who} ${styles.row_1} rounded`}>
-            <h5>¿Quiénes somos?</h5>
+        <div className="col-12 col-md-4">
+          <div className={`p-4 ${styles.text_who} bg-light rounded`}>
+            <h4 className="text-center py-3">¿Quiénes somos?</h4>
             <p className={styles.paragraphs}>
               Somos Carefy, tu aliado en la búsqueda del cuidado perfecto para
               esos seres queridos que tanto te importan. Nos encanta pensar que
@@ -24,7 +24,7 @@ const AboutUs = () => {
           </div>
         </div>
         <div className="col-12 col-md-4">
-          <div className={styles.row_1}>
+          <div>
             <img
               className={`${styles.image_lady_armchair} img-fluid rounded`}
               src="https://images.pexels.com/photos/4057763/pexels-photo-4057763.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -34,8 +34,8 @@ const AboutUs = () => {
           </div>
         </div>
         <div className="col-12 col-md-4">
-          <div className={`p-3 ${styles.text_what} ${styles.row_1} rounded`}>
-            <h5>¿Qué hacemos?</h5>
+          <div className={`p-4 ${styles.text_what} bg-light rounded`}>
+            <h4 className="text-center py-3">¿Qué hacemos?</h4>
             <p className={styles.paragraphs}>
               En Carefy, hacemos que encontrar el acompañante ideal sea tan
               fácil como un clic. Te ofrecemos dos opciones: puedes buscar entre
@@ -60,8 +60,8 @@ const AboutUs = () => {
           </div>
         </div>
         <div className="col-12 col-md-8">
-          <div className={`p-3 ${styles.text_why} ${styles.row_2} rounded`}>
-            <h5>¿Por qué lo hacemos?</h5>
+          <div className={`p-4 ${styles.text_why} bg-light rounded`}>
+            <h4 className="text-center py-3">¿Por qué lo hacemos?</h4>
             <p className={styles.paragraphs}>
               Lo hacemos porque creemos que nuestros mayores merecen lo mejor, y
               queremos que tú te sientas tranquilo sabiendo que están en buenas
