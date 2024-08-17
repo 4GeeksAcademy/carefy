@@ -58,7 +58,7 @@ export const Navbar = ({ username }) => {
 
                                     <ul className="dropdown-menu dropdown-menu-end">
                                         {store.userData.role == "companion" ?
-                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-acompanante">Mi perfil</Link></li>
+                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-profesional">Mi perfil</Link></li>
                                             :
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-usuario">Mi perfil</Link></li>
                                         }
@@ -133,7 +133,7 @@ export const Navbar = ({ username }) => {
 
                                     <ul className="dropdown-menu">
                                         {store.userData.role == "companion" ?
-                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-acompanante">Mi perfil</Link></li>
+                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-profesional">Mi perfil</Link></li>
                                             :
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-usuario">Mi perfil</Link></li>
                                         }

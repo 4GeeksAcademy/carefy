@@ -12,7 +12,7 @@ const AboutUs = () => {
      
       <div className="row mb-4">
         <div className="col-12 col-md-4">
-          <div className={`p-4 ${styles.text_who} rounded`}>
+          <div className={`p-4 ${styles.text_who} bg-light rounded`}>
             <h4 className="text-center py-3">¿Quiénes somos?</h4>
             <p className={styles.paragraphs}>
               Somos Carefy, tu aliado en la búsqueda del cuidado perfecto para
@@ -34,7 +34,7 @@ const AboutUs = () => {
           </div>
         </div>
         <div className="col-12 col-md-4">
-          <div className={`p-4 ${styles.text_what} rounded`}>
+          <div className={`p-4 ${styles.text_what} bg-light rounded`}>
             <h4 className="text-center py-3">¿Qué hacemos?</h4>
             <p className={styles.paragraphs}>
               En Carefy, hacemos que encontrar el acompañante ideal sea tan
@@ -60,7 +60,7 @@ const AboutUs = () => {
           </div>
         </div>
         <div className="col-12 col-md-8">
-          <div className={`p-4 ${styles.text_why} rounded`}>
+          <div className={`p-4 ${styles.text_why} bg-light rounded`}>
             <h4 className="text-center py-3">¿Por qué lo hacemos?</h4>
             <p className={styles.paragraphs}>
               Lo hacemos porque creemos que nuestros mayores merecen lo mejor, y
