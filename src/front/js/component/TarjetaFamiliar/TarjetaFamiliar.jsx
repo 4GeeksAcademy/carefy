@@ -5,8 +5,16 @@ import style from "../TarjetaFamiliar/tarjetafamiliar.module.css"
 import {ModalVerFamiliar} from "./ModalVerFamiliar/ModalVerFamiliar.jsx"
 import {ModalEditarFamiliar} from "./ModalEditarFamiliar/ModalEditarFamiliar.jsx"
  
-export const TarjetaFamiliar = ({ familiar }) => {
+// Recibe también index para que se pueda generar un id diferente en cada botón del modal
+export const TarjetaFamiliar = ({ familiar, index }) => {
     console.log('familiar card ', familiar);
+
+    // Se crean variables dinámicas para controlar el uso de los botones de los modales
+    const mostrarFamiliarId = `mostrarFamiliar-${index}`;
+    const editarFamiliarId = `editarFamiliar-${index}`;
+    const eliminarFamiliarId = `editarFamiliar-${index}`;
+
+
 
 
 
@@ -31,12 +39,12 @@ export const TarjetaFamiliar = ({ familiar }) => {
                     {/* Al pulsar este botón se abrirá la ventana modal del usuario con los campos bloqueados en sólo lectura */}
                     <div className="col">
                         <button type="button" className="btn btn-light"
-                            data-bs-toggle="modal" data-bs-target="#mostrarFamiliar">
+                            data-bs-toggle="modal" data-bs-target={`#${mostrarFamiliarId}`}>
                             <span className="fa-solid fa-eye fs-5"></span>
                         </button>
 
                         {/* <!-- Modal --> */}
-                        <div className={`modal fade`} id="mostrarFamiliar" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                        <div className={`modal fade`} id={mostrarFamiliarId} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
                             <div className="modal-dialog modal-dialog-scrollable modal-lg">
                             <ModalVerFamiliar familiar={familiar}/>
                             </div>
@@ -47,10 +55,10 @@ export const TarjetaFamiliar = ({ familiar }) => {
                     {/* Al pulsar en este campo se abrirá el modal del usuario con los campos editables */}
                     <div className="col">
                         <button type="button" className="btn btn-light"
-                        data-bs-toggle="modal" data-bs-target="#editarFamiliar">
+                        data-bs-toggle="modal" data-bs-target={`#${editarFamiliarId}`}>
                             <span className="fa-solid fa-pencil fs-5"></span>
                         </button>
-                        <div className={`modal fade`} id="editarFamiliar" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                        <div className={`modal fade`} id={editarFamiliarId} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
                             <div className="modal-dialog modal-dialog-scrollable modal-lg">
                             <ModalEditarFamiliar familiar={familiar}/>
                             </div>

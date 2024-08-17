@@ -181,6 +181,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('There was an error fetching the user details!', error);
 				}
 			},
+
+
 			editUser: async (name, lastname, email, phone, location) => {
 				const store = getStore();
 				const actions = getActions();
@@ -217,10 +219,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						}
 					});
 
-					if (!respuesta.ok) {
-						const errorData = await respuesta.json();
-						console.error("Error:", errorData);
-						return errorData;
+					if (!response.ok) {
+						throw new Error(`HTTP error! status: ${response.status}`);
 					}
 
 
@@ -274,6 +274,43 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} catch (error) {
 					console.error('There was an error fetching the user details!', error);
 				}
+			},
+
+			// Para editar el formulario de un familiar que ya existe previamente. 
+			editar_familiar: async (name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, id) => {
+				const store = getStore();
+				console.log('ID del familiar a editar: ', id);
+
+				try {
+					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/user/${id}/edit_fam_user`, {
+						method: 'PUT',
+						body: JSON.stringify({ name, alias, lastname, phone, description, birthdate, dependency, province, location, photo }),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					});
+					if (!respuesta.ok) {
+						const errorData = await respuesta.json();
+						console.error("Error:", errorData);
+						return errorData;
+					}
+					const data = await respuesta.json();
+					
+					// Asegúrate de que el familiar actualizado esté en el campo "familiar" de la respuesta
+					const updatedFamiliar = data.familiar;
+
+					// Actualiza el estado global con el familiar actualizado
+					setStore({
+						...store,
+						familiares: store.familiares.map(familiar =>
+							familiar.id === id ? updatedFamiliar : familiar
+						)
+					});
+					console.log('Familiar actualizado correctamente');
+				} catch (error) {
+					console.error('Error ocurrido en la actualización del familiar', error);
+				}
+
 			},
 
 

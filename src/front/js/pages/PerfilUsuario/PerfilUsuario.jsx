@@ -18,20 +18,16 @@ export const PerfilUsuario = () => {
     const [familiares, setFamiliares] = useState([]);
 
 
-    // useEffect hace que se cargue la lista de familiares una sola vez al recargar o abrir.
-    // Se declara familiaresData que recibe lo que haya guardado en la memoria local del objeto 'userFamily'
-    // Si es variable tiene datos/contenido, se setea la variable Familiares pasando el contenido a formato
-    //json de lo que contenga la variable familiaresData 
+    //Se encarga de mostrar las cards actualizadas en la vista de PerfilUsuario
     useEffect(() => {
-        // Obtener datos de localStorage y convertirlos en formato JSON
-        const familiaresData = localStorage.getItem('userFamily');
-        if (familiaresData) {
-            setFamiliares(JSON.parse(familiaresData));
+        // Obtener datos del contexto
+        if (store.familiares) {
+            setFamiliares(store.familiares);
         }
+    }, [store.familiares]);
 
-    }, []);
 
-
+    // Cuando estoy logueado obtiene los detalles de los familiares
     useEffect(() => {
         if (store.userData.userId) {
             actions.getFamiliarDetalles(); // LLama a la función para obtener detalles del familiar si el usuario está logueado. 
@@ -39,11 +35,15 @@ export const PerfilUsuario = () => {
     }, [store.userData.userId, store.userData.token]);
 
 
+    //Si no estoy logueado (no tengo token) me reenvia a la vista del login
     useEffect(() => {
         if (!store.userData.token) {
             navigate('/login');
         }
     }, [store.userData.token, navigate])
+
+
+    
 
     return (
         <>
@@ -90,7 +90,7 @@ export const PerfilUsuario = () => {
                         {familiares && familiares.length > 0 ? (
                             familiares.map((familiar, index) => (
                                 <div className="col col-sm-3" key={index}>
-                                    <TarjetaFamiliar  familiar={familiar} />
+                                    <TarjetaFamiliar  familiar={familiar} index={index}/>
                                 </div>
                             ))
                         ) : (<p>No has agregado aún ningún familiar.</p>)}

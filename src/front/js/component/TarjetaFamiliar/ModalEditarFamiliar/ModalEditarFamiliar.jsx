@@ -20,6 +20,23 @@ export const ModalEditarFamiliar = ({ familiar }) => {
     const [photo, setPhoto] = useState('')
     const [error, setError] = useState('')
 
+    // Sincronizar los valores iniciales del objeto `familiar` con los estados locales
+    useEffect(() => {
+        if (familiar) {
+            setName(familiar.name || '');
+            setAlias(familiar.alias || '');
+            setLastname(familiar.lastname || '');
+            setPhone(familiar.phone || '');
+            setDescription(familiar.description || '');
+            setBirthdate(familiar.birthdate || '');
+            setDependency(familiar.dependency || '');
+            setProvince(familiar.province || '');
+            setLocation(familiar.location || '');
+            setPhoto(familiar.photo || '');
+            setEdad(calcularEdad(familiar.birthdate || ''));
+        }
+    }, [familiar]); // Se vuelve a ejecutar cada vez que `familiar` cambie
+
     // Función para calcular la edad a partir de la fecha de nacimiento
     const calcularEdad = (fechaNacimiento) => {
         const hoy = new Date()
@@ -41,7 +58,7 @@ export const ModalEditarFamiliar = ({ familiar }) => {
             return;
         }
 
-        await actions.anadir_familiar(name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, user_id)
+        await actions.editar_familiar(name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, familiar.id)
 
     }
 
@@ -62,8 +79,7 @@ export const ModalEditarFamiliar = ({ familiar }) => {
     };
 
 
-    return (
-        <>
+    return (    
             <div className="modal-content">
                 <div className="modal-header">
                     <h1 className="modal-title fs-5" id="exampleModalLabel">Familiar: {familiar.alias}</h1>
@@ -73,30 +89,30 @@ export const ModalEditarFamiliar = ({ familiar }) => {
                     <form className="form p-4" onSubmit={(event) => editar_familiar(event, name, alias, lastname, phone, description, birthdate, dependency, province, location, photo)}>
                         <div className="mb-3">
                             <label htmlFor="alias" className="form-label fs-5">Alias</label>
-                            <input type="text" className="form-control" id="alias" placeholder="Ejemplo: mi padre" onChange={(e) => setAlias(e.target.value)} value={familiar.alias} />
+                            <input type="text" className="form-control" id="alias" placeholder="Ejemplo: mi padre" onChange={(e) => setAlias(e.target.value)} value={alias} />
 
                         </div>
 
                         <div className="mb-3">
                             <label htmlFor="name" className="form-label fs-5">Nombre</label>
-                            <input type="text" className="form-control" id="name" onChange={(e) => setName(e.target.value)} value={familiar.name} />
+                            <input type="text" className="form-control" id="name" onChange={(e) => setName(e.target.value)} value={name} />
                         </div>
 
                         <div className="mb-3">
                             <label htmlFor="lastname" className="form-label fs-5">Apellidos</label>
-                            <input type="text" className="form-control" id="lastname" onChange={(e) => setLastname(e.target.value)} value={familiar.lastname} />
+                            <input type="text" className="form-control" id="lastname" onChange={(e) => setLastname(e.target.value)} value={lastname} />
                         </div>
 
                         <div className="mb-3">
                             <label htmlFor="phone" className="form-label fs-5">Telefono</label>
-                            <input type="tel" className="form-control" id="phone" onChange={(e) => setPhone(e.target.value)} value={familiar.phone} />
+                            <input type="tel" className="form-control" id="phone" onChange={(e) => setPhone(e.target.value)} value={phone} />
                         </div>
 
                         <div className="mb-3">
                             <div className="row">
                                 <div className="col-8">
                                     <label htmlFor="birthdate" className="fs-5">Fecha de nacimiento</label><br></br>
-                                    <input onChange={handleBirthdayChange} type="date" id="birthdate" name="nacimiento" value={familiar.birthdate} />
+                                    <input onChange={handleBirthdayChange} type="date" id="birthdate" name="nacimiento" value={birthdate} />
                                 </div>
                                 <div className="col">
                                     <label htmlFor="birthdate" className="fs-5">Edad: </label><br></br>
@@ -176,7 +192,7 @@ export const ModalEditarFamiliar = ({ familiar }) => {
                         <div className="row mb-3">
                             <div className="col">
                                 <label htmlFor="province" className="form-label fs-5">Provincia</label>
-                                <select className="form-select" id="province" aria-label="Selecciona la provincia" onChange={(e) => setProvince(e.target.value)} value={familiar.province}>
+                                <select className="form-select" id="province" aria-label="Selecciona la provincia" onChange={(e) => setProvince(e.target.value)} value={province}>
                                     <option value="" disabled>Selecciona la provincia</option>
                                     <option value="A Coruna">A Coruña</option>
                                     <option value="Alava">Álava</option>
@@ -236,19 +252,19 @@ export const ModalEditarFamiliar = ({ familiar }) => {
 
                         <div className="mb-3">
                             <label htmlFor="location" className="form-label fs-5">Localidad</label>
-                            <input type="text" className="form-control" id="location" onChange={(e) => setLocation(e.target.value)} value={familiar.location} />
+                            <input type="text" className="form-control" id="location" onChange={(e) => setLocation(e.target.value)} value={location} />
                         </div>
 
 
 
                         <div className="mb-3">
                             <label htmlFor="photo" className="form-label fs-5">Foto</label>
-                            <input className="form-control" type="file" id="photo" onChange={(e) => setPhoto(e.target.value)} value={familiar.photo} />
+                            <input className="form-control" type="file" id="photo" onChange={(e) => setPhoto(e.target.value)} value={photo} />
                         </div>
 
                         <div className="mb-3">
                             <label htmlFor="description" className="form-label fs-5">Otra información importante</label>
-                            <textarea className="form-control" rows={10} cols={40} id="description" placeholder="Puedes añadir cualquier información / necesidad relevante para el acompañante" onChange={(e) => setDescription(e.target.value)} value={familiar.description} />
+                            <textarea className="form-control" rows={10} cols={40} id="description" placeholder="Puedes añadir cualquier información / necesidad relevante para el acompañante" onChange={(e) => setDescription(e.target.value)} value={description} />
                         </div>
 
                         <div>
@@ -260,6 +276,6 @@ export const ModalEditarFamiliar = ({ familiar }) => {
 
 
 
-        </>
+      
     )
 }
