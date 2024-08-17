@@ -147,6 +147,12 @@ def create_ad(user_id):
         "msg": "Anuncio creado exitosamente",
         **new_ad.serialize()}), 201
 
+# Traer todos los anuncios
+@api.route('/ads', methods=['GET'])
+def get_ads():
+    ads = Ad.query.all()
+    return jsonify([ad.serialize() for ad in ads])
+
 #Traer anuncios de un usuario
 @api.route('/ads/<int:user_id>', methods=['GET'])
 def get_users_ads(user_id):

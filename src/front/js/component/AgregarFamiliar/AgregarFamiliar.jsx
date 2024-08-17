@@ -57,10 +57,7 @@ export const AgregarFamiliar = () => {
         setLastname("");
         setEdad(0)
         setPhoto("")
-
-        
         window.location.reload()
-
 
     }
 
@@ -99,8 +96,8 @@ export const AgregarFamiliar = () => {
             </div>
 
             <div className="mb-3">
-                <label htmlFor="phone" className="form-label fs-5">Telefono</label>
-                <input type="tel" className="form-control" id="phone"  onChange={(e) =>setPhone(e.target.value)} value={phone}/>
+                <label htmlFor="phone" className="form-label fs-5">Teléfono</label>
+                <input type="tel" className="form-control" id="phone" placeholder="+34 123 465 789"  onChange={(e) =>setPhone(e.target.value)} value={phone}/>
             </div>
 
             <div className="mb-3">

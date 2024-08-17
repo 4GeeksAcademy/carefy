@@ -13,6 +13,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				phone: null,
 				location: null,
 			},
+			ads: JSON.parse(localStorage.getItem("ads")) || null,
 			adData: JSON.parse(localStorage.getItem("adData")) || [],
 			singleAd: []
 		},
@@ -315,6 +316,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				} catch (error) {
 					console.error('Error en la solicitud de eliminación:', error);
+				}
+			},
+
+			getAds: async () => {
+				try {
+					const resp = await fetch(`${process.env.BACKEND_URL}/api/ads`, {
+						method: "GET"
+					});
+					const data = await resp.json();
+					console.log("Datos recibidos de la API:", data);
+					setStore({ ads: data.ads });
+				} catch (error) {
+					console.log(error);
 				}
 			},
 
