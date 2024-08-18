@@ -190,6 +190,43 @@ def get_user_ad(ad_id):
 
     return jsonify(ad.serialize())
 
+#Editar usuario existente
+@api.route('/ad/edit/<int:ad_id>', methods=['PUT'])
+def edit_ad(ad_id):
+    ad = Ad.query.get(ad_id)
+    # Verificar si el anuncio existe
+    if ad is None:
+        return jsonify({"message": "Ad not found"}), 404
+
+    data = request.json
+
+    # Verificar si se enviaron datos
+    if not data:
+        return jsonify({"message": "No data provided"}), 400
+
+ # Actualizar el Anuncio con los nuevos datos
+    try:
+        if 'title' in data:
+            ad.title = data['title'] 
+        if 'description' in data:
+            ad.description = data['description'] 
+        if 'type' in data:
+            ad.type = data['type']
+        if 'start_date' in data:
+            ad.start_date = data['start_date']
+        if 'end_date' in data:
+            ad.end_date = data['end_date']
+        if 'max_cost' in data:
+            ad.max_cost = data['max_cost']
+
+        db.session.commit()  # Guarda los cambios en la base de datos
+
+        return jsonify({"message": "Ad updated successfully"}), 200
+
+    except Exception as e:
+        db.session.rollback()  # Revierte los cambios en caso de error
+        return jsonify({"error": str(e)}), 500
+
 #Página privada/protegida, solo accesible con token
 @api.route("/protected", methods=["GET"])
 @jwt_required()
