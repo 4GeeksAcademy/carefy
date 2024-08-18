@@ -52,7 +52,7 @@ const ListCompanions = () => {
     <div className={styles.container_main_profile}>
       
       <FilterCompanions />
-      <div className={`container ${styles.card_container}`}>
+      <div className={`container mb-5 ${styles.card_container}`}>
         <div className={styles.list_companions}>
           {companions.map((element, index) => (
             <div key={index}>
