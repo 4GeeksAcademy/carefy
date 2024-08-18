@@ -262,7 +262,7 @@ export const AgregarFamiliar = () => {
             </div>
 
             <div>
-                <button type="submit" className={`btn fs-5 ${style.botonGuardar}`} >Guardar usuario</button>
+                <button type="submit" data-bs-dismiss="modal" className={`btn fs-5 ${style.botonGuardar}`} >Guardar usuario</button>
             </div>
         </form >
 

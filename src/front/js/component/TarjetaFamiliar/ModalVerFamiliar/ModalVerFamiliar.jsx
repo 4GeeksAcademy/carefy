@@ -6,11 +6,41 @@ import style from "../../TarjetaFamiliar/tarjetafamiliar.module.css"
 
 export const ModalVerFamiliar = ({familiar}) => {
 
+    // Función para describir el nivel de dependencia en función del resultado
+    const nivelDepDescripcion = (dependency) => {
+        switch (dependency){
+            case "Nivel1":
+                return  "Acompañamiento. Es independiente en tareas diarias y personales";
+            case "Nivel2": 
+                return "Dependencia leve. Requiere ayuda para cosas puntuales en algún momento del día para la rutina o autonomía personal"
+            case "Nivel3":
+                return "Dependencia moderada. Requiere ayuda para actividades básicas, dos o tres veces al día";
+            case "Nivel4":
+                return "Dependencia severa. Necesita el apoyo indispensable de otra persona por pérdida de autonomía física, mental o intelectual";
+            default:
+                return "Se debee especificar un nivel de dependencia."
+        }
+    }
+
     // Función para cambiar el formato a dd/mm/aaaa
     const formatDate = (dateString) => {
         const [year, month, day] = dateString.split('-');
         return `${day}/${month}/${year}`;
     }
+
+    //Función para calcular la edad actual
+    const calcularEdad = (birthdate) => {
+        const hoy = new Date();
+        const birthDate = new Date(birthdate);
+        let edad = hoy.getFullYear() - birthDate.getFullYear();
+        const meses = hoy.getMonth() - birthDate.getMonth();
+
+        if (meses < 0 || (meses === 0 && hoy.getDate() < birthDate.getDate())) {
+            edad--;
+        }
+        return edad;
+    }
+    
 
 
     return(
@@ -67,18 +97,22 @@ export const ModalVerFamiliar = ({familiar}) => {
                         <div className="col-8">
                             <label htmlFor="birthdate" className="fs-5">Fecha de nacimiento: {formatDate(familiar.birthdate)}</label><br></br>
                         </div>
-                        {/* <div className="col">
-                            <label htmlFor="birthdate" className="fs-5">Edad: </label><br></br>
-                            <label htmlFor="birthdate" className="fs-5">{edad} </label>
-
-                        </div> */}
+                        <div className="col">
+                            <label htmlFor="edad" className="fs-5">Edad:  </label>
+                            <label htmlFor="edad" className="fs-5"> {calcularEdad(familiar.birthdate)} </label>
+                        </div>
                     </div>
                 </div>
 
 
                 {/* Selección de grado de dependencia */}
-                <div className="mb-3">
-                    <label htmlFor="dependencia" className="form-label fs-5">Grado de dependencia: {familiar.dependency} </label>
+                <div className="mb-5">
+                    <label 
+                    htmlFor="dependencia" 
+                    className="form-label fs-5">Grado de dependencia: <strong>{familiar.dependency}</strong> </label>
+                    <p className="text-muted">
+                        {nivelDepDescripcion(familiar.dependency)}
+                    </p>
                 </div>
 
 

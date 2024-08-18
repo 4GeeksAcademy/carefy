@@ -4,6 +4,7 @@ import profileImg from "../../../img/profileImg.png"
 import style from "../TarjetaFamiliar/tarjetafamiliar.module.css"
 import {ModalVerFamiliar} from "./ModalVerFamiliar/ModalVerFamiliar.jsx"
 import {ModalEditarFamiliar} from "./ModalEditarFamiliar/ModalEditarFamiliar.jsx"
+import {ModalEliminarFamiliar} from "./ModalEliminarFamiliar/ModalEliminarFamiliar.jsx"
  
 // Recibe también index para que se pueda generar un id diferente en cada botón del modal
 export const TarjetaFamiliar = ({ familiar, index }) => {
@@ -12,13 +13,7 @@ export const TarjetaFamiliar = ({ familiar, index }) => {
     // Se crean variables dinámicas para controlar el uso de los botones de los modales
     const mostrarFamiliarId = `mostrarFamiliar-${index}`;
     const editarFamiliarId = `editarFamiliar-${index}`;
-    const eliminarFamiliarId = `editarFamiliar-${index}`;
-
-
-
-
-
-
+    const eliminarFamiliarId = `eliminarFamiliar-${index}`;
 
 
     return (
@@ -42,7 +37,6 @@ export const TarjetaFamiliar = ({ familiar, index }) => {
                             data-bs-toggle="modal" data-bs-target={`#${mostrarFamiliarId}`}>
                             <span className="fa-solid fa-eye fs-5"></span>
                         </button>
-
                         {/* <!-- Modal --> */}
                         <div className={`modal fade`} id={mostrarFamiliarId} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
                             <div className="modal-dialog modal-dialog-scrollable modal-lg">
@@ -65,11 +59,17 @@ export const TarjetaFamiliar = ({ familiar, index }) => {
                         </div>
                     </div>
 
-
+                    {/* Al pulsar en este campo se abrirá un modal para confirmar la eliminación del familiar */}
                     <div className="col">
-                        <button type="button" className="btn btn-light">
+                        <button type="button" className="btn btn-light"
+                        data-bs-toggle="modal" data-bs-target={`#${eliminarFamiliarId}`}>
                             <span className="fa-solid fa-trash-can fs-5"></span>
                         </button>
+                        <div className={`modal fade`} id={eliminarFamiliarId} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                            <div className="modal-dialog modal-dialog-scrollable modal-lg">
+                            <ModalEliminarFamiliar familiar={familiar}/>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
