@@ -238,7 +238,7 @@ def protected():
     return jsonify({"id": user.id }), 200
 
 
-# 15/08/24 - TOM #
+
 @api.route("/anadir_familiar", methods=["POST"])
 def anadir_familiar():
     data = request.json
@@ -284,3 +284,81 @@ def anadir_familiar():
         return jsonify ({'Error' : 'error al anadir nuevo familiar'}), 400
     
 
+# Tenemos que obtener los familiares según el usuario que está logueado.
+# Reibe por parámetro el id del usuario. 
+# Se declara familiares que guarda la busqueda en la clase Patient, que filtra a su 
+# vez los familiares por el user_id (el valor del atributo que recibe tiene que ser
+# igual al que tiene en el endpoint).
+# Tras comprobar se hace un for para serlalizar uno a uno los familiares
+# y los guarda en familiares_serialize. 
+@api.route('/user/<int:user_id>/fam_user', methods=['GET'])
+def get_familiar_detalles(user_id):
+    familiares = Patient.query.filter_by(user_id=user_id).all()
+    if familiares is None:
+        return jsonify({'error': 'Patient not found'}), 404
+    
+    familiares_serialize = [familiar.serialize() for familiar in familiares]
+    
+    return jsonify(familiares_serialize)
+
+
+#Para editar el formulario de un familiar que ya existe previamente. 
+@api.route ('/user/<int:id>/edit_fam_user', methods=['PUT'])
+def editar_familiar(id):
+    familiar = Patient.query.filter_by(id=id).first()
+    if familiar is None:
+        return jsonify({'error': 'Patient not found'}), 404
+    
+    data = request.json
+
+    if not data:
+        return jsonify ({'error' : 'No data provided'}), 400
+    
+    try:
+        if 'alias' in data:
+            familiar.alias = data['alias']
+        if 'name' in data:
+            familiar.name = data['name']
+        if 'lastname' in data:
+            familiar.lastname = data['lastname']
+        if 'phone' in data:
+            familiar.phone = data['phone']
+        if 'description' in data:
+            familiar.description = data['description']
+        if 'birthdate' in data:
+            familiar.birthdate = data['birthdate']
+        if 'dependency' in data:
+            familiar.dependency = data['dependency']
+        if 'province' in data:
+            familiar.province = data['province']
+        if 'location' in data:
+            familiar.location = data['location']
+        if 'photo' in data:
+            familiar.photo = data['photo']
+        
+        db.session.commit()
+        return jsonify({"message": "Familiar actualizado correctamente", "familiar": familiar.serialize()}), 200
+    
+    except Exception as e:
+        db.session.rollback()  # Revierte los cambios en caso de error
+        return jsonify({"error": str(e)}), 500
+
+
+@api.route ('/user/<int:id>/delete_fam_user', methods=['DELETE'])
+def eliminar_familiar(id):
+    familiar = Patient.query.filter_by(id=id).first()
+    if familiar is None:
+        return jsonify({'error': 'Patient not found'}), 404
+    
+    
+    try:
+        db.session.delete(familiar)
+        db.session.commit()
+        return jsonify({"message": "Familiar eliminado correctamente"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+        
+        
+    
+    

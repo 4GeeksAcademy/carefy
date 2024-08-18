@@ -1,3 +1,4 @@
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
@@ -13,6 +14,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				phone: null,
 				location: null,
 			},
+
+			familiares: JSON.parse(localStorage.getItem("userFamily")) || [],
+
+
 			ads: JSON.parse(localStorage.getItem("ads")) || null,
 			adData: JSON.parse(localStorage.getItem("adData")) || [],
 			singleAd: []
@@ -335,7 +340,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getSingleAd: async (adId) => {
 				const store = getStore();
 				const actions = getActions();
-				
+
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/ad/user/${adId}`);
 					if (!response.ok) {
@@ -349,30 +354,145 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log(error);
 				}
 			},
-			
-			anadir_familiar: async (name, alias,  lastname, phone, description, birthdate, dependency, province, location,  photo, user_id) => {
+
+			anadir_familiar: async (name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, user_id) => {
 				try {
-					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/anadir_familiar`,{
+					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/anadir_familiar`, {
 						method: 'POST',
-						body: JSON.stringify({name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, user_id}),
+						body: JSON.stringify({ name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, user_id }),
 						headers: {
 							"Content-Type": "application/json"
 						}
 					});
 
-					if (!respuesta.ok) {
-						const errorData = await respuesta.json();
-						console.error("Error:", errorData);
-						return errorData;
+					if (!response.ok) {
+						throw new Error(`HTTP error! status: ${response.status}`);
 					}
 
+					const nuevoFamiliar = await response.json();
+
+					setStore({
+						...store,
+						familiares: [...store.familiares, nuevoFamiliar] // Añade el nuevo familiar a la lista
+					});
 				}
 				catch (error) {
 					// Manejo de errores de red u otros errores
 					console.error("Network error:", error);
 				}
 
-			}
+			},
+
+
+			getFamiliarDetalles: async () => {
+				const store = getStore();
+
+				if (!store.userData.userId) {
+					console.error('User ID is not available');
+					return;
+				}
+
+
+				/**
+				 * 
+				 * 	Se hace la llamada con el fetch a la función que haya en el backend en el @api.route y espera la respuesta. 
+					Si la respuesta NO es ok se lanza error. 
+					Si es correcta, se genera la variable data que recibe la respuesta correcta en formato json. 
+					Si data (es decir, si tiene datos), se crea un objeto familiarDetalles el cual va a guardar en el array
+					familiares que hay en el store  y también los datos (data) recibidos por parte del backend
+				 */
+				try {
+					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/user/${store.userData.userId}/fam_user`);
+					if (!respuesta.ok) {
+						throw new Error(`HTTP error! status: ${respuesta.status}`);
+					}
+					const data = await respuesta.json();
+					console.log("Datos del familiar del usuario recibidos:", data);
+					if (Array.isArray(data)) {
+						// Guardar en localStorage directamente el array de familiares
+						localStorage.setItem('userFamily', JSON.stringify(data));
+
+						// Actualizar el store con el array de familiares
+						setStore({
+							...store,
+							familiares: data
+						});
+						console.log("Store actualizado:", getStore());
+					} else {
+						console.error('Los datos recibidos no son un array:', data);
+					}
+
+				} catch (error) {
+					console.error('There was an error fetching the user details!', error);
+				}
+			},
+
+			// Para editar el formulario de un familiar que ya existe previamente. 
+			editar_familiar: async (name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, id) => {
+				const store = getStore();
+
+				try {
+					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/user/${id}/edit_fam_user`, {
+						method: 'PUT',
+						body: JSON.stringify({ name, alias, lastname, phone, description, birthdate, dependency, province, location, photo }),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					});
+					if (!respuesta.ok) {
+						const errorData = await respuesta.json();
+						console.error("Error:", errorData);
+						return errorData;
+					}
+					const data = await respuesta.json();
+
+					// Asegúrate de que el familiar actualizado esté en el campo "familiar" de la respuesta
+					const updatedFamiliar = data.familiar;
+
+					// Actualiza el estado global con el familiar actualizado
+					setStore({
+						...store,
+						familiares: store.familiares.map(familiar =>
+							familiar.id === id ? updatedFamiliar : familiar
+						)
+					});
+					console.log('Familiar actualizado correctamente');
+				} catch (error) {
+					console.error('Error ocurrido en la actualización del familiar', error);
+				}
+
+			},
+
+			eliminar_familiar: async (id) => {
+				const store = getStore();
+
+				try {
+					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/user/${id}/delete_fam_user`, {
+						method: 'DELETE',
+						headers: {
+							"Content-Type": "application/json"
+						}
+					});
+					if (!respuesta.ok) {
+						const errorData = await respuesta.json();
+						console.error("Error:", errorData);
+						return errorData;
+					}
+					const data = await respuesta.json();
+
+
+					// Actualiza el estado global para eliminar el familiar
+					setStore({
+						...store,
+						familiares: store.familiares.filter(familiar => familiar.id !== id)
+					});
+
+					console.log('Familiar actualizado correctamente');
+				} catch (error) {
+					console.error('Error ocurrido en la actualización del familiar', error);
+				}
+
+			},
 
 		}
 	};
