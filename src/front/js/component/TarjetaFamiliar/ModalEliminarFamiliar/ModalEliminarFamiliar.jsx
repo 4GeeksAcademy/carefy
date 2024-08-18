@@ -7,30 +7,37 @@ import styles from "../../BloqueAnuncio/BloqueAnuncio.module.css";
 export const ModalEliminarFamiliar = ({ familiar }) => {
 
     const { store, actions } = useContext(Context);
+    const [error, setError] = useState('')
+
+    const eliminar_familiar = async () => {
+        const result = await actions.eliminar_familiar(familiar.id)
+
+        if (result) {
+            // Maneja el éxito de la edición aquí
+            navigate('/perfilusuario');
+        } else {
+            setError("Ocurrió un error al editar los datos.");
+        }
+    }
+
+    // Sincronizar los valores iniciales del objeto `familiar` con los estados locales
+    useEffect(() => {
+        if (familiar) {
+            store.familiar
+        }
+    }, [familiar]); // Se vuelve a ejecutar cada vez que `familiar` cambie
+
+
 
     return (
-        <div>
-            {store.singleAd.user_id === store.userData.userId ?
-                <div className={`position-absolute ${styles.fav_icon}`}>
-                    <span className="fa-solid fa-pencil pe-3"></span>
-                    <span className="fa-regular fa-trash-can" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"></span>
-
-                    <div className={`modal fade ${styles.modal_edit}`} data-bs-backdrop="false" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div className="modal-dialog">
-                            <div className="modal-content">
-                                <div className="modal-body fw-bold fs-4">
-                                    ¿Desea eliminar el anuncio?
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary fs-5" data-bs-dismiss="modal">Volver</button>
-                                    <button type="button" className="btn btn-danger fs-5" onClick={() => handleDelete(store.singleAd.id)}>Eliminar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div> : ""
-            }
+        <div className="modal-content">
+            <div className="modal-body fw-bold fs-4">
+                ¿Desea eliminar a este familiar?
+            </div>
+            <div className="modal-footer">
+                <button type="button" className="btn btn-secondary fs-5" data-bs-dismiss="modal">Volver</button>
+                <button type="button" className="btn btn-danger fs-5" data-bs-dismiss="modal" onClick={() => eliminar_familiar()}>Eliminar</button>
+            </div>
         </div>
     )
 }

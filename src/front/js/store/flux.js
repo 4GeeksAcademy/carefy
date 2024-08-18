@@ -15,9 +15,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				location: null,
 			},
 
-			familiares: [], 
+			familiares: JSON.parse(localStorage.getItem("userFamily")) || [],
 
-			
+
 			ads: JSON.parse(localStorage.getItem("ads")) || null,
 			adData: JSON.parse(localStorage.getItem("adData")) || [],
 			singleAd: []
@@ -340,7 +340,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getSingleAd: async (adId) => {
 				const store = getStore();
 				const actions = getActions();
-				
+
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/ad/user/${adId}`);
 					if (!response.ok) {
@@ -354,8 +354,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log(error);
 				}
 			},
-			
-			anadir_familiar: async (name, alias,  lastname, phone, description, birthdate, dependency, province, location,  photo, user_id) => {
+
+			anadir_familiar: async (name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, user_id) => {
 				try {
 					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/anadir_familiar`, {
 						method: 'POST',
@@ -369,7 +369,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 						throw new Error(`HTTP error! status: ${response.status}`);
 					}
 
+					const nuevoFamiliar = await response.json();
 
+					setStore({
+						...store,
+						familiares: [...store.familiares, nuevoFamiliar] // Añade el nuevo familiar a la lista
+					});
 				}
 				catch (error) {
 					// Manejo de errores de red u otros errores
@@ -425,7 +430,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			// Para editar el formulario de un familiar que ya existe previamente. 
 			editar_familiar: async (name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, id) => {
 				const store = getStore();
-				console.log('ID del familiar a editar: ', id);
 
 				try {
 					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/user/${id}/edit_fam_user`, {
@@ -441,7 +445,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						return errorData;
 					}
 					const data = await respuesta.json();
-					
+
 					// Asegúrate de que el familiar actualizado esté en el campo "familiar" de la respuesta
 					const updatedFamiliar = data.familiar;
 
@@ -459,7 +463,36 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			},
 
+			eliminar_familiar: async (id) => {
+				const store = getStore();
 
+				try {
+					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/user/${id}/delete_fam_user`, {
+						method: 'DELETE',
+						headers: {
+							"Content-Type": "application/json"
+						}
+					});
+					if (!respuesta.ok) {
+						const errorData = await respuesta.json();
+						console.error("Error:", errorData);
+						return errorData;
+					}
+					const data = await respuesta.json();
+
+
+					// Actualiza el estado global para eliminar el familiar
+					setStore({
+						...store,
+						familiares: store.familiares.filter(familiar => familiar.id !== id)
+					});
+
+					console.log('Familiar actualizado correctamente');
+				} catch (error) {
+					console.error('Error ocurrido en la actualización del familiar', error);
+				}
+
+			},
 
 		}
 	};

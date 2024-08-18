@@ -20,6 +20,12 @@ export const AgregarFamiliar = () => {
     const [location, setLocation] = useState ('');
     const [photo, setPhoto] = useState ('')
     const [error, setError] = useState ('')
+    const [familiares, setFamiliares] = useState([]);
+
+    // Cargar la lista de familiares cuando el componente se monta
+    useEffect(() => {
+        setFamiliares(store.familiares); 
+    }, [store.familiares]); 
 
     // Función para calcular la edad a partir de la fecha de nacimiento
     const calcularEdad = (fechaNacimiento) => {
@@ -42,7 +48,15 @@ export const AgregarFamiliar = () => {
                 return;             
         }
         
-        await actions.anadir_familiar(name, alias, lastname, phone, description, birthdate, dependency, province,location, photo, user_id)
+        const result = await actions.anadir_familiar(name, alias, lastname, phone, description, birthdate, dependency, province,location, photo, user_id)
+        
+        if (result) {
+            // Maneja el éxito de la edición aquí
+            navigate('/perfilusuario');
+        } else {
+            setError("Ocurrió un error al editar los datos.");
+        }
+
 
         // Se resetean campos
         setName("");
@@ -57,11 +71,7 @@ export const AgregarFamiliar = () => {
         setLastname("");
         setEdad(0)
         setPhoto("")
-        window.location.reload()
-
     }
-
-
 
     /**
      *Recoge la fecha que le hemos pasado a través del calendario.

@@ -342,6 +342,22 @@ def editar_familiar(id):
     except Exception as e:
         db.session.rollback()  # Revierte los cambios en caso de error
         return jsonify({"error": str(e)}), 500
+
+
+@api.route ('/user/<int:id>/delete_fam_user', methods=['DELETE'])
+def eliminar_familiar(id):
+    familiar = Patient.query.filter_by(id=id).first()
+    if familiar is None:
+        return jsonify({'error': 'Patient not found'}), 404
+    
+    
+    try:
+        db.session.delete(familiar)
+        db.session.commit()
+        return jsonify({"message": "Familiar eliminado correctamente"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
         
         
     
