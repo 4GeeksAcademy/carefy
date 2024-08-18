@@ -49,6 +49,12 @@ export const BloqueAnuncio = ({ }) => {
         navigate('/mis-anuncios')
     }
 
+    const handleEditAd = (id) => {
+        console.log("Editing ad with ID:", id);
+        actions.selectedAd(id);
+        navigate(`/edit-ad/${id}`);
+    };
+
     return (
 
         (store.singleAd.status === "pending" || store.singleAd.status === "rejected") && store.singleAd.user_id === store.userData.userId ? (
@@ -63,7 +69,7 @@ export const BloqueAnuncio = ({ }) => {
                 {/* ICONOS PARA EL USUARIO (FAMILIAR) */}
                 {store.singleAd.user_id === store.userData.userId ?
                     <div className={`position-absolute ${styles.fav_icon}`}>
-                        <span className="fa-solid fa-pencil pe-3"></span>
+                        <span onClick={() => handleEditAd(store.singleAd.id)} className="fa-solid fa-pencil pe-3"></span>
                         <span className="fa-regular fa-trash-can" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"></span>
 
                         <div className={`modal fade ${styles.modal_edit}`} data-bs-backdrop="false" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -201,7 +207,7 @@ export const BloqueAnuncio = ({ }) => {
                     {/* ICONOS PARA EL USUARIO (FAMILIAR) */}
                     {store.singleAd.user_id === store.userData.userId ?
                         <div className={`position-absolute ${styles.fav_icon}`}>
-                            <span className="fa-solid fa-pencil pe-3"></span>
+                            <span onClick={() => handleEditAd(store.singleAd.id)} className="fa-solid fa-pencil pe-3"></span>
                             <span className="fa-regular fa-trash-can" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"></span>
 
                             <div className={`modal fade ${styles.modal_edit}`} data-bs-backdrop="false" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

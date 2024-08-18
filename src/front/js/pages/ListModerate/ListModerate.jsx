@@ -39,7 +39,7 @@ const ListModerate = ({name, lastName, title, created_at, status}) => {
 
 
         {/* Pestaña de Pendientes de Revisión */}
-        <div className="tab-pane fade show active table-responsive" id="pills-postulaciones" role="tabpanel" aria-labelledby="pills-postulaciones-tab" tabindex="0">
+        <div className="tab-pane fade show active table-responsive" id="pills-postulaciones" role="tabpanel" aria-labelledby="pills-postulaciones-tab" tabIndex="0">
           <table className="table table-light table-hover">
             <thead>
               <tr>
@@ -74,7 +74,7 @@ const ListModerate = ({name, lastName, title, created_at, status}) => {
           </table>
         </div>
         {/* Pestaña de Revisados */}
-        <div className="tab-pane fade table-responsive" id="pills-fav" role="tabpanel" aria-labelledby="pills-fav-tab" tabindex="0">
+        <div className="tab-pane fade table-responsive" id="pills-fav" role="tabpanel" aria-labelledby="pills-fav-tab" tabIndex="0">
           <table className="table table-light table-hover">
             <thead>
               <tr>

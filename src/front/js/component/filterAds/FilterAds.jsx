@@ -74,7 +74,7 @@ const FilterAds = () => {
             </select>
           </div>
           <div className="btn-group">
-            <input type="date" className={`btn ${styles.btn_buscador} ${styles.btn_buscador_companion} ${styles.custom_select} btn-lg form-select`} />
+            <input type="date" className={`btn ${styles.btn_buscador} ${styles.custom_select} btn-lg form-select`} />
 
           </div>
           <div>

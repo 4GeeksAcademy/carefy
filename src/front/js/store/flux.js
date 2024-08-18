@@ -13,9 +13,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				phone: null,
 				location: null,
 			},
-			ads: JSON.parse(localStorage.getItem("ads")) || null,
+			ads: JSON.parse(localStorage.getItem("ads")) || [],
 			adData: JSON.parse(localStorage.getItem("adData")) || [],
-			singleAd: []
+			singleAd: [],
+			adElegido: {}
 		},
 
 		actions: {
@@ -326,7 +327,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 					const data = await resp.json();
 					console.log("Datos recibidos de la API:", data);
-					setStore({ ads: data.ads });
+					if (Array.isArray(data)) {
+						setStore({ ads: data }); // Asegúrate de que sea un array
+						localStorage.setItem('ads', JSON.stringify(data));
+					} else {
+						console.error('Data from API is not an array');
+					}
 				} catch (error) {
 					console.log(error);
 				}
@@ -335,7 +341,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getSingleAd: async (adId) => {
 				const store = getStore();
 				const actions = getActions();
-				
+
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/ad/user/${adId}`);
 					if (!response.ok) {
@@ -349,12 +355,70 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log(error);
 				}
 			},
-			
-			anadir_familiar: async (name, alias,  lastname, phone, description, birthdate, dependency, province, location,  photo, user_id) => {
+
+			editAd: async (id, type, startDate, endDate, price, title, description) => {
+				const store = getStore();
+				const actions = getActions();
 				try {
-					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/anadir_familiar`,{
+					const response = await fetch(`${process.env.BACKEND_URL}/api/ad/edit/${id}`, {
+						method: "PUT",
+						body: JSON.stringify({
+							type: type,
+							start_date: startDate,
+							end_date: endDate,
+							max_cost: price,
+							title: title,
+							description: description
+						}),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					});
+
+					if (!response.ok) {
+						throw new Error(`HTTP error! status: ${response.status}`);
+					}
+
+					const data = await response.json();
+
+					const updatedAd = data.ad;
+
+					setStore({
+						...store,
+						ads: store.ads.map(ad =>
+							ad.id === id ? updatedAd : ad
+						)
+					});
+				} catch (error) {
+					console.error('There was an error updating the ad:', error);
+				}
+			},
+
+			selectedAd: (id) => {
+				const store = getStore();
+				
+				// Asegurarnos de que `store.ads` sea un array antes de buscar el anuncio
+				if (Array.isArray(store.ads) && store.ads.length > 0) {
+					const adSeleccionado = store.ads.find((ad) => ad.id === id);
+					
+					if (adSeleccionado) {
+						// Guardar el anuncio seleccionado en el store
+						setStore({ adElegido: adSeleccionado });
+					} else {
+						// Si no se encuentra el anuncio, almacenar null o un estado claro
+						console.error('No se encontró un anuncio con el ID especificado');
+						setStore({ adElegido: null });
+					}
+				} else {
+					console.error('Ads list is empty or not an array');
+					setStore({ adElegido: null }); // Indicando claramente que no hay anuncios seleccionados
+				}
+			},
+			anadir_familiar: async (name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, user_id) => {
+				try {
+					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/anadir_familiar`, {
 						method: 'POST',
-						body: JSON.stringify({name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, user_id}),
+						body: JSON.stringify({ name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, user_id }),
 						headers: {
 							"Content-Type": "application/json"
 						}

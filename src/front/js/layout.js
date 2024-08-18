@@ -26,7 +26,7 @@ import RegisterAndEditCompanion from "./pages/registerAndEditCompanion/RegisterA
 import ProfileCompanion from "./pages/profileCompanion/ProfileCompanion.jsx";
 import ListCompanions from "./pages/listCompanios/ListCompanions.jsx";
 import ListAds from "./pages/listAds/ListAds.jsx"
-
+import { EditAd } from "./pages/EditAd/EditAd.jsx"
 
 
 //create your first component
@@ -61,6 +61,7 @@ const Layout = () => {
                         <Route element={<ProfileCompanion />} path="/perfil-profesional" />
                         <Route element={<ListCompanions />} path="/listado-profesionales" />
                         <Route element={<ListAds />} path="/listado-anuncios" />
+                        <Route element={<EditAd />} path="/edit-ad/:id" />
 
 
 
