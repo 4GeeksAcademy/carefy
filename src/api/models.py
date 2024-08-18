@@ -60,13 +60,13 @@ class Patient(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "email": self.email,
             "name": self.name,
+            "alias": self.alias,
             "lastname": self.lastname,
             "phone": self.phone,
             "photo": self.photo,
             "description": self.description,
-            "age": self.age,
+            "birthdate": self.birthdate,
             "dependency": self.dependency,
             "location": self.location,
             "province": self.province,
