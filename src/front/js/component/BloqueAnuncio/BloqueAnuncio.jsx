@@ -2,8 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./BloqueAnuncio.module.css"
 import { Context } from "../../store/appContext";
-import { AgregarFamiliar } from "../AgregarFamiliar/AgregarFamiliar.jsx";
-
+import profileImg from "../../../img/profileImg.png"
 
 export const BloqueAnuncio = ({ }) => {
 
@@ -74,7 +73,7 @@ export const BloqueAnuncio = ({ }) => {
             <div className="d-flex align-items-start justify-content-between flex-wrap">
                 <div className="d-flex align-items-center flex-wrap">
                     <div className={`${styles.avatar} rounded`}>
-                        <img src={""} className={`img-fluid`} />
+                        <img src={profileImg} className={`img-fluid`} />
                     </div>
                     <div className="ms-3 fs-4 mt-3">
                         <p className=""><span className="fa-solid fa-user pe-3"></span>{store.singleAd.name}{store.singleAd.lastname}</p>
@@ -97,7 +96,7 @@ export const BloqueAnuncio = ({ }) => {
                     >
                         CANCELAR POSTULACIÓN
                     </button>
-                ) : <p className="fs-4 fw-bold">Estado: {store.singleAd.status === "pending" ? <span className="bg-warning p-2 rounded">Pendiente</span> : store.singleAd.status === "ok" ? <span className="bg-success p-2 rounded text-light">Publicado</span> : <span className="bg-danger p-2 rounded text-light">Rechazado</span>}</p>}
+                ) : store.singleAd.user_id === store.userData.userId ? <p className="fs-4 fw-bold">Estado: {store.singleAd.status === "pending" ? <span className="bg-warning p-2 rounded">Pendiente</span> : store.singleAd.status === "ok" ? <span className="bg-success p-2 rounded text-light">Publicado</span> : <span className="bg-danger p-2 rounded text-light">Rechazado</span>}</p> : ""}
             </div>
             <div className="pt-4">
                 <p className="fs-5">{store.singleAd.description}</p>

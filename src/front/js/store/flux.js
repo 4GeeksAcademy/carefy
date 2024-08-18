@@ -335,11 +335,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getSingleAd: async (adId) => {
 				const store = getStore();
 				const actions = getActions();
-
-				if (!store.userData.userId) {
-					console.error('User ID is not available');
-					return;
-				}
+				
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/ad/user/${adId}`);
 					if (!response.ok) {
