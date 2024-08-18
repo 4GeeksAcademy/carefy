@@ -13,3 +13,7 @@
 .pendiente{
     color: rgb(207, 145, 1)
 }
+
+.modal_edit{
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538));
+}

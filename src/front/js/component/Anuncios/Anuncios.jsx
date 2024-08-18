@@ -62,7 +62,21 @@ export const Anuncios = ({ countFav, companionName }) => {
                                             <td>{ad.status === "pending" ? <span className={styles.pendiente}>Pendiente</span> : ad.status === "ok" ? <span className="text-success">Publicado</span> : <span className="text-danger">Rechazado</span>}</td>
                                             <td className="text-end">
                                                 <span onClick={() => verAnuncio(ad.id)} className={`fa-solid fa-eye pe-3 ${styles.ad_icons}`}></span>
-                                                <span onClick={() => handleDelete(ad.id)} className={`fa-solid fa-trash-can pb-2 ${styles.ad_icons}`}></span>
+                                                <span className={`fa-solid fa-trash-can pb-2 ${styles.ad_icons}`} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"></span>
+
+                                                <div className={`modal fade ${styles.modal_edit}`} data-bs-backdrop="false" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div className="modal-dialog">
+                                                        <div className="modal-content">
+                                                            <div className="text-start modal-body fw-bold fs-4">
+                                                                ¿Desea eliminar el anuncio?
+                                                            </div>
+                                                            <div className="modal-footer">
+                                                                <button type="button" className="btn btn-secondary fs-5" data-bs-dismiss="modal">Volver</button>
+                                                                <button type="button" className="btn btn-danger fs-5" onClick={() => handleDelete(ad.id)}>Eliminar</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))
