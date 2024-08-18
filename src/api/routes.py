@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Patient
+from api.models import db, User, Patient, Ad, Status, Type
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -28,14 +28,6 @@ def get_users_details(user_id):
     if user is None:
         return jsonify({'error': 'User not found'}), 404
 
-    # usuario = {
-    #     'id': user.id,
-    #     'name': user.name,
-    #     'lastname': user.lastname,
-    #     'email': user.email,
-    #     'phone': user.phone,
-    #     'location': user.location
-    # }
     return jsonify(user.serialize())
 
 #Crear nuevo usuario
@@ -124,8 +116,116 @@ def create_token():
 #### ANUNCIOS ####
 
 #Crear anuncio
+@api.route("/create_ad/<int:user_id>", methods=['POST'])
+def create_ad(user_id):
+    data = request.json
+    if 'max_cost' not in data or 'title' not in data or 'description' not in data:
+        return jsonify({'error': 'Missing data'}), 400
+    
+    if data['status'] not in [status.value for status in Status]:
+        return jsonify({'error': 'Invalid status value'}), 400
+    
+    if data['type'] not in [type.value for type in Type]:
+        return jsonify({'error': 'Invalid type value'}), 400
 
+    new_ad = Ad(
+        title=data['title'],
+        description=data['description'],
+        created_at=data['created_at'],
+        type=Type(data['type']),
+        start_date=data['start_date'],
+        end_date=data['end_date'],
+        max_cost=data['max_cost'],
+        status=Status(data['status']),
+        user_id=user_id
+    )
 
+    db.session.add(new_ad)
+    db.session.commit()
+    
+    return jsonify({
+        "msg": "Anuncio creado exitosamente",
+        **new_ad.serialize()}), 201
+
+# Traer todos los anuncios
+@api.route('/ads', methods=['GET'])
+def get_ads():
+    ads = Ad.query.all()
+    return jsonify([ad.serialize() for ad in ads])
+
+#Traer anuncios de un usuario
+@api.route('/ads/<int:user_id>', methods=['GET'])
+def get_users_ads(user_id):
+    ads = Ad.query.filter_by(user_id=user_id).all()
+    
+    if not ads:
+        return jsonify({'error': 'No ads found for this user'}), 404
+
+    ads_serialized = [ad.serialize() for ad in ads]
+    
+    return jsonify(ads_serialized), 200
+
+#Eliminar anuncios
+@api.route('/ad/delete/<int:ad_id>', methods=['DELETE'])
+def delete_user_ad(ad_id):
+    ad = Ad.query.get(ad_id)
+
+    if ad is None:
+        return jsonify({"message": "Ad not found"}), 400
+
+    try:
+        db.session.delete(ad)
+        db.session.commit()
+        return jsonify({"message": "Ad deleted successfully"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
+#Traer data de un solo anuncio
+@api.route('/ad/user/<int:ad_id>', methods=['GET'])
+def get_user_ad(ad_id):
+    ad = Ad.query.get(ad_id)
+    if ad is None:
+        return jsonify({'error': 'Ad not found'}), 404
+
+    return jsonify(ad.serialize())
+
+#Editar usuario existente
+@api.route('/ad/edit/<int:ad_id>', methods=['PUT'])
+def edit_ad(ad_id):
+    ad = Ad.query.get(ad_id)
+    # Verificar si el anuncio existe
+    if ad is None:
+        return jsonify({"message": "Ad not found"}), 404
+
+    data = request.json
+
+    # Verificar si se enviaron datos
+    if not data:
+        return jsonify({"message": "No data provided"}), 400
+
+ # Actualizar el Anuncio con los nuevos datos
+    try:
+        if 'title' in data:
+            ad.title = data['title'] 
+        if 'description' in data:
+            ad.description = data['description'] 
+        if 'type' in data:
+            ad.type = data['type']
+        if 'start_date' in data:
+            ad.start_date = data['start_date']
+        if 'end_date' in data:
+            ad.end_date = data['end_date']
+        if 'max_cost' in data:
+            ad.max_cost = data['max_cost']
+
+        db.session.commit()  # Guarda los cambios en la base de datos
+
+        return jsonify({"message": "Ad updated successfully"}), 200
+
+    except Exception as e:
+        db.session.rollback()  # Revierte los cambios en caso de error
+        return jsonify({"error": str(e)}), 500
 
 #Página privada/protegida, solo accesible con token
 @api.route("/protected", methods=["GET"])

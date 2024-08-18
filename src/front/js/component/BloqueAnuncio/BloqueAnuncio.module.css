@@ -1,37 +1,46 @@
-.block_anuncio{
+.block_anuncio {
     filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538));
 }
 
-.avatar{
+.avatar {
     width: 200px;
     border: 3px solid grey;
 }
 
-.fav_icon{
+.fav_icon {
     top: 35px;
     right: 25px;
     font-size: 2rem;
     cursor: pointer;
 }
 
-.btn_postularse{
+.btn_postularse {
     background-color: #5C7728;
     border-color: #5C7728;
-    color:white;
+    color: white;
 }
 
-.btn_postularse:hover{
+.btn_postularse:hover {
     background-color: #3d4f1b;
     border-color: #3d4f1b;
-    color:white;
+    color: white;
 }
 
-.btn_cancel_postularse{
+.btn_cancel_postularse {
     background-color: #B76C49;
     color: white;
 }
 
-.btn_cancel_postularse:hover{
+.btn_cancel_postularse:hover {
     background-color: #9a593c;
     color: white;
+}
+
+.pendiente {
+    color: rgb(207, 145, 1);
+    font-weight: normal;
+}
+
+.modal_edit{
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538));
 }

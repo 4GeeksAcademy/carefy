@@ -26,6 +26,12 @@ export const Navbar = ({ username }) => {
                                     <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/">Inicio</Link>
                                 </li>
                                 <li className="nav-item">
+                                    <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/listado-anuncios">Anuncios</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/listado-profesionales">Acompañantes</Link>
+                                </li>
+                                <li className="nav-item">
                                     <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/nosotros">Nosotros</Link>
                                 </li>
                                 <li className="nav-item">
@@ -58,7 +64,7 @@ export const Navbar = ({ username }) => {
 
                                     <ul className="dropdown-menu dropdown-menu-end">
                                         {store.userData.role == "companion" ?
-                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-acompanante">Mi perfil</Link></li>
+                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-profesional">Mi perfil</Link></li>
                                             :
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-usuario">Mi perfil</Link></li>
                                         }
@@ -101,6 +107,12 @@ export const Navbar = ({ username }) => {
                                     <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/">Inicio</Link>
                                 </li>
                                 <li className="nav-item">
+                                    <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/listado-anuncios">Anuncios</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/listado-profesionales">Acompañantes</Link>
+                                </li>
+                                <li className="nav-item">
                                     <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/nosotros">Nosotros</Link>
                                 </li>
                                 <li className="nav-item">
@@ -133,7 +145,7 @@ export const Navbar = ({ username }) => {
 
                                     <ul className="dropdown-menu">
                                         {store.userData.role == "companion" ?
-                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-acompanante">Mi perfil</Link></li>
+                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-profesional">Mi perfil</Link></li>
                                             :
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-usuario">Mi perfil</Link></li>
                                         }

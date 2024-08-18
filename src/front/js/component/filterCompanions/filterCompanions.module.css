@@ -34,3 +34,78 @@
 option{
   text-align: left;   
 }
+
+
+
+.buscador{
+  background-color: #FFC9B3;
+  width: fit-content;
+}
+
+.btn_buscador{
+  background-color: #B76C49;
+  border: none;
+  color: white;
+}
+
+.btn_buscador:hover{
+  background-color: #B76C49;
+  border: none;
+  color: white  !important;
+}
+
+.btn_buscador:active{
+  background-color: #B76C49 !important;
+  border: none ;
+  color: white  !important;
+}
+
+.btn_buscador:focus{
+  background-color: #B76C49;
+  border: none;
+  color: white  !important;
+}
+
+.btn_buscador_availability{
+  width: clamp(10rem, 11vw, 15rem);
+}
+
+.custom_select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #B76C49;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='white' d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px bottom 15px;
+  background-size: 1em;
+  color: white;
+  
+}
+
+.btn_buscar{
+  display: none;
+}
+
+@media screen and (max-width: 500px){
+  .jumbotron_content_edit{
+      margin: 0;
+      padding: 0;   
+  }
+  .btn_buscador{
+      font-size: 1rem;
+      
+  }
+  .buscador{
+      justify-content: center;
+  }
+  .lupa_buscador{
+      display: none;
+  }
+  .btn_buscar{
+      display: block;
+      background-color: rgb(105, 105, 105);
+      color: white;
+      font-size: 1.1rem;
+  }
+}

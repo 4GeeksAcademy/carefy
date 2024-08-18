@@ -1,11 +1,13 @@
-body,html{
+body,
+html {
     background-color: #FFC9B3;
     box-sizing: border-box;
     overflow-x: hidden;
     margin: 0;
+    padding: 0 !important;
 }
 
-.btn{
+.btn {
     outline: none !important;
     box-shadow: none !important;
 }

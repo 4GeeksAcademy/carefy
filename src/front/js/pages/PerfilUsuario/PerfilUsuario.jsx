@@ -43,6 +43,13 @@ export const PerfilUsuario = () => {
     }, [store.userData.token, navigate])
 
 
+   const handleCreateAd = () => {
+        navigate('/crear-anuncio')
+        window.scrollTo(0, 0);
+
+    }
+
+
     
 
     return (
@@ -100,7 +107,7 @@ export const PerfilUsuario = () => {
       
             <div className={`${style.bg_publicar_anuncio} mt-5`}>
                 <div className="py-5 container">
-                    <p className="fs-1 text-light">¿Ya creaste a la persona que necesita acompañamiento?<Link to="/publicar-anuncio"><button className={`btn btn-primary fs-3 ms-3 text-dark ${style.btn_publicar_anuncio}`}>Publica un anuncio</button> </Link></p>
+                    <p className="fs-1 text-light">¿Ya creaste a la persona que necesita acompañamiento?<button className={`btn btn-primary fs-3 ms-3 text-dark ${style.btn_publicar_anuncio}`} onClick={handleCreateAd}>Publica un anuncio</button></p>
 
                 </div>
             </div>

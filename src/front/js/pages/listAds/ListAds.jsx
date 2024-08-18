@@ -28,21 +28,15 @@ const anuncios = [
     location: "Sevilla",
     date: "10-09-2024",
     description: "Requerimos asistencia para el cuidado personal y ayuda en el hogar. Incluye tareas básicas como preparar comidas, ayuda con la higiene personal y compañía durante el día."
-  },
-  {
-    title: "Apoyo Emocional y Social para Persona Mayor",
-    location: "Bilbao",
-    date: "15-09-2024",
-    description: "Buscamos a alguien que pueda ofrecer apoyo emocional y social a una persona mayor que se siente sola. Debe tener habilidades para escuchar y brindar conversación de calidad."
   }
 ];
 
 const ListAds = () => {
   return (
     <>
-    <Jumbotron bgImg={{ backgroundImage: "url('https://plus.unsplash.com/premium_photo-1681911657230-320f780ac474?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGhvbWJyZSUyMG1heW9yJTIwYW1pc3RhZHxlbnwwfHwwfHx8MA%3D%3D')" }} title={"Conoce cómo puedes acompañar y apoyar a personas mayores"} subtitle={"Navega entre nuestros anuncios y encuentra el perfil que mejor se ajusta a la compañía y asistencia que puedes brindar."} />
+    <Jumbotron bgImg={{ backgroundImage: "url('https://plus.unsplash.com/premium_photo-1681911657230-320f780ac474?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGhvbWJyZSUyMG1heW9yJTIwYW1pc3RhZHxlbnwwfHwwfHx8MA%3D%3D')" }} title={"Acompaña a personas mayores"} subtitle={"Navega entre nuestros anuncios y encuentra el perfil que mejor se ajusta a la asistencia que puedes brindar."} />
           
-    <div className={styles.container_main_ads}>
+    <div className={`${styles.container_main_ads} mb-5`}>
 
       <FilterAds/>
       <div className={`container ${styles.card_container}`}>

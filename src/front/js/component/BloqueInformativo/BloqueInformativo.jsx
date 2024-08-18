@@ -14,7 +14,7 @@ export const BloqueInformativo = () => {
                             Somos una plataforma que tiene como objetivo unir a acompañantes con adultos mayores que necesitan de cuidado y compañía.
                         </p>
                         <div className="text-start">
-                        <Link to="/signup"><button className={`btn ${styles.btn_signup} fs-5`}>Registrarse</button></Link>
+                        <Link to="/registro"><button className={`btn ${styles.btn_signup} fs-5`}>Registrarse</button></Link>
                         </div>
                     </div>
                     

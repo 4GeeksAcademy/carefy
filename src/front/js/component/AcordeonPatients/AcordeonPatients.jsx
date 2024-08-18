@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from './carrousel.module.css';
+import styles from './acordeonPatients.module.css';
 
-const Carrousel = ({ alias, photo, description, age, dependency, province, phone, location }) => {
+const AcordeonPatients = ({ alias, photo, description, age, dependency, province, phone, location }) => {
     return (
         <div className="accordion-item">
             <h2 className="accordion-header">
@@ -50,4 +50,4 @@ const Carrousel = ({ alias, photo, description, age, dependency, province, phone
     );
 };
 
-export default Carrousel;
+export default AcordeonPatients;

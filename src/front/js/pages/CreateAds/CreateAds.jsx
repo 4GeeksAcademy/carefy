@@ -2,14 +2,22 @@ import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext.js";;
 import styles from './createAds.module.css';
-import DataAds from '../../component/dataAds/DataAds.jsx';
-import Carrousel from '../../component/carrousel/Carrousel.jsx';
-import RadioButton from '../../component/radioButton/RadioButton.jsx';
+import DataAds from '../../component/DataAds/DataAds.jsx';
+import AcordeonPatients from '../../component/AcordeonPatients/AcordeonPatients.jsx';
+import RadioButton from '../../component/RadioButton/RadioButton.jsx';
 import { Jumbotron } from '../../component/Jumbotron/Jumbotron.jsx';
 
 const CreateAds = () => {
     const [patients, setPatients] = useState([]);
     const [selectedPatient, setSelectedPatient] = useState('');
+    const { store, actions } = useContext(Context);
+	const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!store.userData.token) {
+          navigate('/login');
+        }
+      }, [store.userData.token, navigate])
 
 
     return (
@@ -42,23 +50,23 @@ const CreateAds = () => {
                         ))}
                     </div>
 
-                    <div className="accordion mt-4" id="patientAccordion">
-                        {patients
-                            .filter(patient => selectedPatient === "all" || patient.alias.replace(/\s+/g, '_') === selectedPatient)
-                            .map((patient, index) => (
-                                <Carrousel
-                                    key={index}
-                                    alias={patient.alias}
-                                    photo={patient.photo}
-                                    description={patient.description}
-                                    age={patient.age}
-                                    dependency={patient.dependency}
-                                    province={patient.province}
-                                    phone={patient.phone}
-                                    location={patient.location}
-                                />
-                            ))}
-                    </div>
+                        <div className="accordion mt-4" id="patientAccordion">
+                            {patients
+                                .filter(patient => selectedPatient === "all" || patient.alias.replace(/\s+/g, '_') === selectedPatient)
+                                .map((patient, index) => (
+                                    <AcordeonPatients
+                                        key={index}
+                                        alias={patient.alias}
+                                        photo={patient.photo}
+                                        description={patient.description}
+                                        age={patient.age}
+                                        dependency={patient.dependency}
+                                        province={patient.province}
+                                        phone={patient.phone}
+                                        location={patient.location}
+                                    />
+                                ))}
+                        </div>
 
                     <DataAds />
                 </div>

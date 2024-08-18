@@ -14,13 +14,12 @@ import { Anuncio } from "./pages/Anuncio/Anuncio.jsx";
 import { MisPostulaciones } from "./pages/MisPostulaciones/MisPostulaciones.jsx";
 import { MisAnuncios } from "./pages/MisAnuncios/MisAnuncios.jsx";
 import { Login } from "./pages/Login/Login.jsx"
-
 import { Registro } from "./pages/Registro/Registro.jsx"
 import { Faqs } from "./pages/Faqs/Faqs.jsx";
-import { PerfilUsuario } from "./pages/PerfilUsuario/PerfilUsuario.jsx"
-import { Contacto } from "../../front/js/pages/Contacto/Contacto.jsx"
-import { PublicarResena } from "../js/pages/PublicarResena/PublicarResena.jsx"
-import CreateAds from "./pages/createAds/CreateAds.jsx"
+import {PerfilUsuario} from "./pages/PerfilUsuario/PerfilUsuario.jsx"
+import {Contacto} from "../../front/js/pages/Contacto/Contacto.jsx"
+import {PublicarResena} from "../js/pages/PublicarResena/PublicarResena.jsx"
+import CreateAds from "./pages/CreateAds/CreateAds.jsx"
 import AboutUs from "./pages/aboutUs/AboutUs.jsx"
 import ListModerate from "./pages/ListModerate/ListModerate.jsx"
 import RegisterAndEditCompanion from "./pages/registerAndEditCompanion/RegisterAndEditCompanion.jsx"
@@ -46,7 +45,7 @@ const Layout = () => {
                         <Route element={<Home />} path="/" />
                         <Route element={<Blog />} path="/blog" />
                         <Route element={<Post />} path="/post-blog/:id" />
-                        <Route element={<Anuncio />} path="/anuncio" />
+                        <Route element={<Anuncio />} path="/anuncio/:id" />
                         <Route element={<MisAnuncios />} path="/mis-anuncios" />
                         <Route element={<MisPostulaciones />} path="/mis-postulaciones" />
                         <Route element={<Login />} path="/login" />

@@ -1,17 +1,18 @@
 import React from "react";
 import styles from "./Footer.module.css"
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
     return(
-        <footer className="row py-5 mb-5 text-light text-center bg-dark">    
+        <footer className="row py-5 text-light text-center bg-dark">    
         <div className="col mb-3 text-light">
           <h5 className="mb-3">Carefy</h5>
           <ul className="nav flex-column">
-            <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-light">Home</a></li>
-            <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-light">Nosotros</a></li>
-            <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-light">FAQ</a></li>
-            <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-light">Blog</a></li>
-            <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-light">Contacto</a></li>
+            <li className="nav-item mb-2"><Link to="/" className="nav-link p-0 text-light">Inicio</Link></li>
+            <li className="nav-item mb-2"><Link to="/nosotros" className="nav-link p-0 text-light">Nosotros</Link></li>
+            <li className="nav-item mb-2"><Link to="/faq" className="nav-link p-0 text-light">FAQ</Link></li>
+            <li className="nav-item mb-2"><Link to="/blog" className="nav-link p-0 text-light">Blog</Link></li>
+            <li className="nav-item mb-2"><Link to="/contacto" className="nav-link p-0 text-light">Contacto</Link></li>
           </ul>
         </div>
     
