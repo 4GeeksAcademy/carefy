@@ -75,8 +75,9 @@ export const Navbar = ({ username }) => {
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-postulaciones">Mis postulaciones</Link></li>
                                             :
                                             <>
-                                                <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/crear-anuncio">Publicar anuncio</Link></li>
                                                 <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-anuncios">Mis anuncios</Link></li>
+                                                <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/crear-anuncio">Publicar anuncio</Link></li>
+
                                             </>
                                         }
 
@@ -156,8 +157,9 @@ export const Navbar = ({ username }) => {
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-postulaciones">Mis postulaciones</Link></li>
                                             :
                                             <>
-                                                <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/crear-anuncio">Publicar anuncio</Link></li>
                                                 <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-anuncios">Mis anuncios</Link></li>
+                                                <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/crear-anuncio">Publicar anuncio</Link></li>
+
                                             </>
                                         }
 

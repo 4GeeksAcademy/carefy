@@ -153,7 +153,7 @@ def get_ads():
     ads = Ad.query.all()
     return jsonify([ad.serialize() for ad in ads])
 
-#Traer anuncios de un usuario
+#Traer anuncio de un usuario
 @api.route('/ads/<int:user_id>', methods=['GET'])
 def get_users_ads(user_id):
     ads = Ad.query.filter_by(user_id=user_id).all()
@@ -165,7 +165,7 @@ def get_users_ads(user_id):
     
     return jsonify(ads_serialized), 200
 
-#Eliminar anuncios
+#Eliminar anuncio
 @api.route('/ad/delete/<int:ad_id>', methods=['DELETE'])
 def delete_user_ad(ad_id):
     ad = Ad.query.get(ad_id)
@@ -190,10 +190,10 @@ def get_user_ad(ad_id):
 
     return jsonify(ad.serialize())
 
-#Editar usuario existente
+#Editar anuncio
 @api.route('/ad/edit/<int:ad_id>', methods=['PUT'])
 def edit_ad(ad_id):
-    ad = Ad.query.get(ad_id)
+    ad = Ad.query.filter_by(id=ad_id).first()
     # Verificar si el anuncio existe
     if ad is None:
         return jsonify({"message": "Ad not found"}), 404
@@ -221,7 +221,7 @@ def edit_ad(ad_id):
 
         db.session.commit()  # Guarda los cambios en la base de datos
 
-        return jsonify({"message": "Ad updated successfully"}), 200
+        return jsonify({"message": "Ad actualizado correctamente", "Ad": ad.serialize()}), 200
 
     except Exception as e:
         db.session.rollback()  # Revierte los cambios en caso de error

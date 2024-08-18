@@ -1,8 +1,8 @@
 import React from "react";
-import { MdOutlineEmail } from "react-icons/md";
 import styles from "./cardsAds.module.css"
+import { Link } from "react-router-dom";
 
-const CardsAds = ({ title, location, date, description }) => {
+const CardsAds = ({ title, location, date, description, link }) => {
   return (
     <div className={`card ${styles.anuncio}`}>
       <div className={styles.cuadro_imagen}>
@@ -18,10 +18,10 @@ const CardsAds = ({ title, location, date, description }) => {
         <p className={styles.card_date}><span className="fa-solid fa-calendar-days pe-1"></span><span className="pe-2 fw-bold">Fecha de inicio:</span>{date}</p>
         <p className={`${styles.card_description}`}>{description}</p>
         <div className={styles.card_buttons}>
-          <span class="fa-regular fa-envelope fs-3 mt-3"></span>
-          <a href="#" className={`btn ${styles.boton_ver_mas}`}>
+          <span className="fa-regular fa-envelope fs-3 mt-3"></span>
+          <Link to={link} className={`btn ${styles.boton_ver_mas}`}>
             VER MÁS
-          </a>
+          </Link>
         </div>
       </div>
     </div>
