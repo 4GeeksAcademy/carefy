@@ -92,6 +92,7 @@ class Companion(db.Model):
     twitter = db.Column(db.String(250)) 
     linkedin = db.Column(db.String(250))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    hired = db.relationship('Ad', backref='hired_companion')
 
 
 class Inscription(db.Model): 
@@ -156,7 +157,7 @@ class Ad (db.Model):
     max_cost =db.Column(db.Integer)
     status = db.Column(db.Enum(Status))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-
+    hired = db.Column(db.Integer, db.ForeignKey('companions.id'))
 
     def serialize(self):
         return {
@@ -171,11 +172,6 @@ class Ad (db.Model):
             "max_cost": self.max_cost,
             "status": self.status.value if self.status else None,
             "type": self.type.value if self.type else None,
-            "user_id": self.user_id
+            "user_id": self.user_id,
+            "hired": self.hired 
         }
-
-
-
-
-
-
