@@ -9,13 +9,13 @@ export const ModalVerFamiliar = ({ familiar }) => {
     // Función para describir el nivel de dependencia en función del resultado
     const nivelDepDescripcion = (dependency) => {
         switch (dependency) {
-            case "Nivel1":
+            case "Nivel 1":
                 return "Acompañamiento. Es independiente en tareas diarias y personales";
-            case "Nivel2":
+            case "Nivel 2":
                 return "Dependencia leve. Requiere ayuda para cosas puntuales en algún momento del día para la rutina o autonomía personal"
-            case "Nivel3":
+            case "Nivel 3":
                 return "Dependencia moderada. Requiere ayuda para actividades básicas, dos o tres veces al día";
-            case "Nivel4":
+            case "Nivel 4":
                 return "Dependencia severa. Necesita el apoyo indispensable de otra persona por pérdida de autonomía física, mental o intelectual";
             default:
                 return "Se debee especificar un nivel de dependencia."

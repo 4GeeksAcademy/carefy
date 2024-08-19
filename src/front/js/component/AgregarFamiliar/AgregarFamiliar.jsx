@@ -139,7 +139,7 @@ export const AgregarFamiliar = () => {
                                 <p className={`text-secondary ${style.title_grado_dep}`}>Deja el cursor sobre el nivel para obtener más información</p>
 
                                 <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="dependency" id="nivel" onChange={(e) =>setDependency(e.target.value)} value= "Nivel1" />
+                                    <input className="form-check-input" type="radio" name="dependency" id="nivel" onChange={(e) =>setDependency(e.target.value)} value= "Nivel 1" />
                                     <label
                                         className="form-check-label"
                                         htmlFor="nivel"
@@ -150,7 +150,7 @@ export const AgregarFamiliar = () => {
                                     </label>
                                 </div>
                                 <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="dependency" id="nivel2" onChange={(e) =>setDependency(e.target.value)} value="Nivel2" />
+                                    <input className="form-check-input" type="radio" name="dependency" id="nivel2" onChange={(e) =>setDependency(e.target.value)} value="Nivel 2" />
                                     <label
                                         className="form-check-label"
                                         htmlFor="nivel2"
@@ -161,7 +161,7 @@ export const AgregarFamiliar = () => {
                                     </label>
                                 </div>
                                 <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="dependency" id="nivel3" onChange={(e) =>setDependency(e.target.value)} value="Nivel3" />
+                                    <input className="form-check-input" type="radio" name="dependency" id="nivel3" onChange={(e) =>setDependency(e.target.value)} value="Nivel 3" />
                                     <label
                                         className="form-check-label"
                                         htmlFor="nivel3"
@@ -172,7 +172,7 @@ export const AgregarFamiliar = () => {
                                     </label>
                                 </div>
                                 <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="dependency" id="nivel4" onChange={(e) =>setDependency(e.target.value)} value="Nivel4"/>
+                                    <input className="form-check-input" type="radio" name="dependency" id="nivel4" onChange={(e) =>setDependency(e.target.value)} value="Nivel 4"/>
                                     <label
                                         className="form-check-label"
                                         htmlFor="nivel4"

@@ -219,10 +219,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			createAd: async (type, startDate, endDate, price, title, description, status = "pending", active) => {
+			createAd: async (type, startDate, endDate, price, title, description, patient_id, status = "pending", active = true) => {
 				const store = getStore();
 				try {
-					const resp = await fetch(`${process.env.BACKEND_URL}/api/create_ad/${store.userData.userId}`, {
+					const resp = await fetch(`${process.env.BACKEND_URL}/api/create_ad/${store.userData.userId}/${patient_id}`, {
 						method: "POST",
 						body: JSON.stringify({
 							type: type,
@@ -233,8 +233,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 							description: description,
 							created_at: new Date().toISOString(), // Enviar la fecha actual como ISOString
 							status: status,
-							active: active
-
+							active: active,
+							patient_id: patient_id
 						}),
 						headers: {
 							"Content-Type": "application/json"

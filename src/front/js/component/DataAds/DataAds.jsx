@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext";
 import styles from './dataAds.module.css';
+import RadioButton from "../RadioButton/RadioButton.jsx";
+import AcordeonPatients from "../AcordeonPatients/AcordeonPatients.jsx";
 
 const DataAds = () => {
 
@@ -13,27 +15,69 @@ const DataAds = () => {
   const [price, setPrice] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [patient, setPatient] = useState('')
 
+  const [selectedPatient, setSelectedPatient] = useState('');
   const navigate = useNavigate();
-
   const [error, setError] = useState(null);
 
-  const createAd = async (type, startDate, endDate, price, title, description, status) => {
+  const createAd = async () => {
 
 
-    if (!title || !description) {
+    if (!title || !description || !selectedPatient) {
       setError("Por favor, complete título y descripción.");
       return;
     }
 
-    await actions.createAd(type, startDate, endDate, price, title, description, status);
+    await actions.createAd(type, startDate, endDate, price, title, description, selectedPatient);
     navigate(`/mis-anuncios`)
 
   }
 
+  useEffect(() => {
+    actions.getFamiliarDetalles();
+  }, []);
+
 
   return (
     <div className={`container p-4 rounded`}>
+      <div>
+        <p className='fs-5 fw-bold'>Selecciona el usuario al que deseas buscar un acompañante</p>
+      </div>
+      <div className="mb-3 container-fluid d-flex gap-5">
+
+        {store.familiares
+          .map((familiar, index) => (
+            <RadioButton
+              alias={familiar.alias}
+              value={familiar.id}
+              checked={selectedPatient === familiar.id}
+              onChange={() => setSelectedPatient(familiar.id)}
+            />
+          ))}
+
+
+      </div>
+
+      <div className="accordion mt-4" id="patientAccordion">
+        {store.familiares.map((patient, index) => (
+          <AcordeonPatients
+            key={index}
+            alias={patient.alias}
+            photo={patient.photo}
+            description={patient.description}
+            age={new Date(patient.birthdate).toLocaleDateString('es-ES', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric'
+          })}
+            dependency={patient.dependency}
+            province={patient.province}
+            phone={patient.phone}
+            location={patient.location}
+          />
+        ))}
+      </div>
 
       <div className="row mt-4">
         <div className="col-12 col-md-3">
@@ -100,7 +144,7 @@ const DataAds = () => {
       </div>
 
       <div className="d-flex justify-content-end mt-4">
-        <button onClick={() => createAd(type, startDate, endDate, price, title, description)} className={`me-2 fs-5 btn ${styles.btn_send}`}>Publicar</button>
+        <button onClick={createAd} className={`me-2 fs-5 btn ${styles.btn_send}`}>Publicar</button>
       </div>
     </div>
   );
