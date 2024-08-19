@@ -1,4 +1,6 @@
-.sizePhoto{
-    height: 190px;
-    width: 190px;
+.card_img_top {
+    width: 100%; /* O un ancho fijo como '300px' */
+    height: 200px; /* Fija el alto */
+    object-fit: cover; /* Recorta y ajusta la imagen para que cubra el área completamente */
+    object-position: center; /* Centra la imagen dentro del contenedor */
 }

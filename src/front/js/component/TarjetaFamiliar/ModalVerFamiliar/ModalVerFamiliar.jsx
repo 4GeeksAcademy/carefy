@@ -60,9 +60,9 @@ export const ModalVerFamiliar = ({ familiar }) => {
                         <div className="col-3">
                             <div className="mb-3" >
                                 {familiar.photo ? (
-                                    <img src={familiar.photo} className={`card-img-top ${style.sizePhoto}`} alt="..." />
+                                    <img src={familiar.photo} className={`${style.card_img_top }`} alt="..." />
                                 ) : (
-                                    <img src={profileImg} className={`card-img-top ${style.sizePhoto}`} alt="..." />
+                                    <img src={profileImg} className={`${style.card_img_top }`} alt="..." />
                                 )}
                             </div>
                         </div>

@@ -422,6 +422,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			anadir_familiar: async (name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, user_id) => {
 				const store = getStore();
 				try {
+					console.log('atributos', photo);
+					
 					const response = await fetch(`${process.env.BACKEND_URL}/api/anadir_familiar`, {
 						method: 'POST',
 						body: JSON.stringify({ name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, user_id }),
@@ -557,6 +559,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 
 			},
+
+			subirfoto: async (formData) => {
+				const store = getStore();				
+				try {
+			
+					const response = await fetch(`${process.env.BACKEND_URL}/api/subirfoto`, {
+						method: 'POST',
+						body: formData 
+					});
+			
+					if (!response.ok) {
+						throw new Error(`HTTP error! status: ${response.status}`);
+					}
+					
+					// Cuando obtiene la respuesta el response se pasa a formato json y lo guarda en fotosubida
+					// Se hace el return de fotosubida
+					const fotosubida = await response.json(); 
+					return fotosubida; //
+				}
+				catch (error) {
+					console.error("Network error:", error);
+					return null; 
+				}
+			},
+
+			
 
 		}
 	};
