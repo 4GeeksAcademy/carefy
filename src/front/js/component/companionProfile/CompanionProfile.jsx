@@ -123,7 +123,7 @@ export const CompanionProfile = ({
         <div className="col-12 col-md-4">
 
           <p className="fs-4 fw-bold">
-            <span class="pe-2 fa-solid fa-users"></span>
+            <span className="pe-2 fa-solid fa-users"></span>
             Conoce más de mí
           </p>
           <a
@@ -131,25 +131,25 @@ export const CompanionProfile = ({
             href="https://www.instagram.com
 "
           >
-            <span class="fa-brands fa-square-instagram fs-4"></span>
+            <span className="fa-brands fa-square-instagram fs-4"></span>
           </a>
           <a
             className={`fs-4 ms-3 ${styles.social_icons}`}
             href="https://www.facebook.com/"
           >
-            <span class="fa-brands fa-facebook-square fs-4"></span>
+            <span className="fa-brands fa-facebook-square fs-4"></span>
           </a>
           <a
             className={`fs-4 ms-3 ${styles.social_icons}`}
             href="https://x.com/"
           >
-            <span class="fa-brands fa-square-x-twitter fs-4"></span>
+            <span className="fa-brands fa-square-x-twitter fs-4"></span>
           </a>
           <a
             className={`fs-4 ms-3 ${styles.social_icons}`}
             href="https://www.linkedin.com/"
           >
-            <span class="fa-brands fa-linkedin fs-4"></span>
+            <span className="fa-brands fa-linkedin fs-4"></span>
           </a>
         </div>
       </div>

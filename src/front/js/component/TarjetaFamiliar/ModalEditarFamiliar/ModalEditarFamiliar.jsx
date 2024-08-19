@@ -189,8 +189,8 @@ export const ModalEditarFamiliar = ({ familiar }) => {
                                                 type="radio"
                                                 name="dependency"
                                                 id="nivel1"
-                                                value="Nivel1"
-                                                checked={dependency === "Nivel1"}
+                                                value="Nivel 1"
+                                                checked={dependency === "Nivel 1"}
                                                 onChange={(e) => setDependency(e.target.value)} />
                                             <label
                                                 className="form-check-label"
@@ -222,7 +222,7 @@ export const ModalEditarFamiliar = ({ familiar }) => {
                                         <div className="form-check">
                                             <input className="form-check-input" type="radio" name="dependency"
                                                 id="nivel3"
-                                                value="Nivel3" checked={dependency === "Nivel3"} onChange={(e) => setDependency(e.target.value)} />
+                                                value="Nivel 3" checked={dependency === "Nivel 3"} onChange={(e) => setDependency(e.target.value)} />
                                             <label
                                                 className="form-check-label"
                                                 htmlFor="nivel3"
@@ -235,7 +235,7 @@ export const ModalEditarFamiliar = ({ familiar }) => {
                                         <div className="form-check">
                                             <input className="form-check-input" type="radio" name="dependency"
                                                 id="nivel4"
-                                                value="Nivel4" checked={dependency === "Nivel4"} onChange={(e) => setDependency(e.target.value)} />
+                                                value="Nivel 4" checked={dependency === "Nivel 4"} onChange={(e) => setDependency(e.target.value)} />
                                             <label
                                                 className="form-check-label"
                                                 htmlFor="nivel4"
