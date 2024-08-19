@@ -39,7 +39,7 @@ const AcordeonPatients = ({ alias, photo, description, age, dependency, province
                     </div>
                     <h5>{alias}</h5>
                     <p><span className={styles.content_accordion}>Descripción:</span> {description}</p>
-                    <p><span className={styles.content_accordion}>Edad:</span> {age}</p>
+                    <p><span className={styles.content_accordion}>Fecha de nacimiento:</span> {age}</p>
                     <p><span className={styles.content_accordion}>Dependencia:</span> {dependency}</p>
                     <p><span className={styles.content_accordion}>Localidad:</span> {location}</p>
                     <p><span className={styles.content_accordion}>Provincia:</span> {province}</p>

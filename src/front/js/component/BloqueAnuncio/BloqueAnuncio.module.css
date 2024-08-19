@@ -44,3 +44,11 @@
 .modal_edit{
     filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538));
 }
+
+.status_ok{
+    background-color: #5C7728;
+}
+
+.status_rejected{
+    background-color: #B76C49;
+}

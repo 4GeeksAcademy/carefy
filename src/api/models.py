@@ -45,7 +45,7 @@ class Patient(db.Model):
     lastname = db.Column(db.String(250), nullable=False)
     phone = db.Column(db.String(250), nullable=False)
     photo = db.Column(db.String(250))
-    description =db.Column(db.String(250), nullable=False)
+    description = db.Column(db.Text)
     birthdate = db.Column(db.String(250), nullable=False)
     dependency = db.Column(db.String(250), nullable=False)
     location =  db.Column(db.String(250), nullable=False)
@@ -55,7 +55,7 @@ class Patient(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
     def __repr__(self):
-        return f'<Patient {self.name} {self.lastname}>'
+        return f'{self.id}'
 
     def serialize(self):
         return {
@@ -158,6 +158,8 @@ class Ad (db.Model):
     status = db.Column(db.Enum(Status))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     hired = db.Column(db.Integer, db.ForeignKey('companions.id'))
+    
+    patients = db.relationship('Patient', backref='ad')
 
     def serialize(self):
         return {

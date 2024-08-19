@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext.js";;
 import { EditarAnuncio } from '../../component/EditarAnuncio/EditarAnuncio.jsx';
-
+import styles from "./EditAd.module.css"
 import AcordeonPatients from '../../component/AcordeonPatients/AcordeonPatients.jsx';
 import RadioButton from '../../component/RadioButton/RadioButton.jsx';
 import { Jumbotron } from '../../component/Jumbotron/Jumbotron.jsx';
@@ -27,28 +27,9 @@ export const EditAd = () => {
                 title={"Edita tu anuncio y publica las actualizaciones"}
                 subtitle={"No te preocupes, si te has equivocado desde aquí lo puedes modificar."}
             />
-            <div className={`container p-4`}>
-                <div className={`container my-4 p-4 rounded`}>
-                    <div className="mb-3 container-fluid">
-                        {/* RadioButton para la opción "Todos" */}
-                        <RadioButton
-                            alias="Todos"
-                            value="all"
-                            checked={selectedPatient === "all"}
-                            onChange={() => setSelectedPatient("all")}
-                        />
-
-                        {/* Mapea los pacientes que el usuario tenga registrados */}
-                        {patients.map((patient, index) => (
-                            <RadioButton
-                                key={index}
-                                alias={patient.alias}
-                                value={patient.alias.replace(/\s+/g, '_')}
-                                checked={selectedPatient === patient.alias.replace(/\s+/g, '_')}
-                                onChange={() => setSelectedPatient(patient.alias.replace(/\s+/g, '_'))}
-                            />
-                        ))}
-                    </div>
+            <div className={`${styles.container_edit} container bg-light my-5 rounded`}>
+                <div className={`container my-4 rounded`}>
+     
 
                         <div className="accordion mt-4" id="patientAccordion">
                             {patients

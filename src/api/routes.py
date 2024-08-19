@@ -116,8 +116,8 @@ def create_token():
 #### ANUNCIOS ####
 
 #Crear anuncio
-@api.route("/create_ad/<int:user_id>", methods=['POST'])
-def create_ad(user_id):
+@api.route("/create_ad/<int:user_id>/<int:patient_id>", methods=['POST'])
+def create_ad(user_id, patient_id):
     data = request.json
     if 'max_cost' not in data or 'title' not in data or 'description' not in data:
         return jsonify({'error': 'Missing data'}), 400
@@ -137,7 +137,9 @@ def create_ad(user_id):
         end_date=data['end_date'],
         max_cost=data['max_cost'],
         status=Status(data['status']),
+        patient_id=patient_id,
         user_id=user_id
+        
     )
 
     db.session.add(new_ad)
@@ -218,6 +220,8 @@ def edit_ad(ad_id):
             ad.end_date = data['end_date']
         if 'max_cost' in data:
             ad.max_cost = data['max_cost']
+        if 'patient_id' in data:
+            ad.patient_id = data['patient_id']
 
         db.session.commit()  # Guarda los cambios en la base de datos
 
