@@ -30,6 +30,7 @@ export const EditarAnuncio = () => {
       setTitle(store.singleAd.title || '');
       setDescription(store.singleAd.description || '');
       setAdId(store.singleAd.id);
+      setSelectedPatient(store.singleAd.patient_id || ''); // Inicializa el paciente seleccionado
     } else {
       console.error('No ad selected or adElegido is null');
     }
@@ -53,6 +54,7 @@ export const EditarAnuncio = () => {
     actions.getFamiliarDetalles();
     actions.getSingleAd(store.singleAd.id);
   }, []);
+
 
   return (
     <div className={`container p-4 rounded`}>

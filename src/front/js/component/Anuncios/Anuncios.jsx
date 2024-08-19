@@ -67,7 +67,7 @@ export const Anuncios = ({ countFav, companionName }) => {
                                             <td>{ad.status === "pending" ? <span className={styles.pendiente}>Pendiente</span> : ad.status === "ok" ? <span className="text-success">Publicado</span> : <span className="text-danger">Rechazado</span>}</td>
                                             <td className="text-end">
                                                 <span onClick={() => verAnuncio(ad.id)} className={`fa-solid fa-eye pe-3 ${styles.ad_icons}`}></span>
-                                                <span onClick={() => handleEditAd(ad.id)} className={`fa-solid fa-pencil pe-3 ${styles.ad_icons}`}></span>
+                                                {/* <span onClick={() => handleEditAd(ad.id)} className={`fa-solid fa-pencil pe-3 ${styles.ad_icons}`}></span> */}
                                                 <span className={`fa-solid fa-trash-can pb-2 ${styles.ad_icons}`} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"></span>
 
                                                 <div className={`modal fade ${styles.modal_edit}`} data-bs-backdrop="false" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
