@@ -175,9 +175,3 @@ class Ad (db.Model):
             "user_id": self.user_id,
             "hired": self.hired 
         }
-
-
-
-
-
-
