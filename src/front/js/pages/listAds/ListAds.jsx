@@ -13,7 +13,11 @@ const ListAds = () => {
 
 	useEffect(() => {
 		actions.getAds();
+    actions.getFamiliarDetalles();
 	}, [])
+
+
+  const patientData = store.familiares.find(patient => patient.id === store.singleAd.patient_id);
 
   return (
     <>
