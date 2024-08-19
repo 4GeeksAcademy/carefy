@@ -1,6 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext";
+import styles from "./EditarAnuncio.module.css"
+import RadioButton from "../RadioButton/RadioButton.jsx";
+import AcordeonPatients from "../AcordeonPatients/AcordeonPatients.jsx";
 
 export const EditarAnuncio = () => {
 
@@ -14,22 +17,23 @@ export const EditarAnuncio = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [adId, setAdId] = useState(null);
+  const [selectedPatient, setSelectedPatient] = useState('');
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (store.adElegido) {
-        setType(store.adElegido.type || '');
-        setStartDate(store.adElegido.start_date || '');
-        setEndDate(store.adElegido.end_date || '');
-        setPrice(store.adElegido.max_cost || '');
-        setTitle(store.adElegido.title || '');
-        setDescription(store.adElegido.description || '');
-        setAdId(store.adElegido.id);
+    if (store.singleAd) {
+      setType(store.singleAd.type || '');
+      setStartDate(store.singleAd.start_date || '');
+      setEndDate(store.singleAd.end_date || '');
+      setPrice(store.singleAd.max_cost || '');
+      setTitle(store.singleAd.title || '');
+      setDescription(store.singleAd.description || '');
+      setAdId(store.singleAd.id);
     } else {
-        console.error('No ad selected or adElegido is null');
+      console.error('No ad selected or adElegido is null');
     }
-}, [store.adElegido]);
+  }, [store.singleAd]);
 
   const [error, setError] = useState(null);
 
@@ -41,13 +45,55 @@ export const EditarAnuncio = () => {
   const handleChangeDescription = (e) => setDescription(e.target.value);
 
   const handleEdit = async () => {
-      await actions.editAd(adId, type, startDate, endDate, price, title, description);
-      navigate("/mis-anuncios");
+    await actions.editAd(adId, type, startDate, endDate, price, title, description, selectedPatient);
+    navigate("/mis-anuncios");
   };
 
+  useEffect(() => {
+    actions.getFamiliarDetalles();
+    actions.getSingleAd(store.singleAd.id);
+  }, []);
 
   return (
     <div className={`container p-4 rounded`}>
+      <div>
+        <p className='fs-5 fw-bold'>Selecciona el usuario al que deseas buscar un acompañante</p>
+      </div>
+      <div className="mb-3 container-fluid d-flex gap-5">
+
+        {store.familiares
+          .map((familiar, index) => (
+            <RadioButton
+              key={index}
+              alias={familiar.alias}
+              value={familiar.id}
+              checked={selectedPatient === familiar.id}
+              onChange={() => setSelectedPatient(familiar.id)}
+            />
+          ))}
+
+
+      </div>
+
+      <div className="accordion mt-4" id="patientAccordion">
+        {store.familiares.map((patient, index) => (
+          <AcordeonPatients
+            key={index}
+            alias={patient.alias}
+            photo={patient.photo}
+            description={patient.description}
+            age={new Date(patient.birthdate).toLocaleDateString('es-ES', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric'
+            })}
+            dependency={patient.dependency}
+            province={patient.province}
+            phone={patient.phone}
+            location={patient.location}
+          />
+        ))}
+      </div>
 
       <div className="row mt-4">
         <div className="col-12 col-md-3">
@@ -114,7 +160,7 @@ export const EditarAnuncio = () => {
       </div>
 
       <div className="d-flex justify-content-end mt-4">
-        <button onClick={() => handleEdit(adId, type, startDate, endDate, price, title, description)} className={`me-2 fs-5 btn`}>Publicar</button>
+        <button onClick={() => handleEdit(adId, type, startDate, endDate, price, title, description)} className={`${styles.btn_publicar} me-2 fs-5 btn`}>Publicar</button>
       </div>
     </div>
   );

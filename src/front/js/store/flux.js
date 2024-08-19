@@ -360,7 +360,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			editAd: async (id, type, startDate, endDate, price, title, description) => {
+			editAd: async (id, type, startDate, endDate, price, title, description, patient_id) => {
 				const store = getStore();
 				const actions = getActions();
 				try {
@@ -372,7 +372,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 							end_date: endDate,
 							max_cost: price,
 							title: title,
-							description: description
+							description: description,
+							patient_id: patient_id
 						}),
 						headers: {
 							"Content-Type": "application/json"
@@ -386,6 +387,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await response.json();
 
 					const updatedAd = data.ad;
+
+					if (!updatedAd || !updatedAd.id) {
+						console.error('Updated ad data is missing or has no id');
+						return;
+					}
 
 					setStore({
 						...store,
@@ -401,15 +407,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 			selectedAd: (id) => {
 				const store = getStore();
 				
-				// Asegurarnos de que `store.ads` sea un array antes de buscar el anuncio
 				if (Array.isArray(store.ads) && store.ads.length > 0) {
 					const adSeleccionado = store.ads.find((ad) => ad.id === id);
 					
 					if (adSeleccionado) {
-						// Guardar el anuncio seleccionado en el store
+
 						setStore({ adElegido: adSeleccionado });
 					} else {
-						// Si no se encuentra el anuncio, almacenar null o un estado claro
 						console.error('No se encontró un anuncio con el ID especificado');
 						setStore({ adElegido: null });
 					}

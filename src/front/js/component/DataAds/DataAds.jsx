@@ -15,9 +15,8 @@ const DataAds = () => {
   const [price, setPrice] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [patient, setPatient] = useState('')
-
   const [selectedPatient, setSelectedPatient] = useState('');
+
   const navigate = useNavigate();
   const [error, setError] = useState(null);
 
@@ -49,6 +48,7 @@ const DataAds = () => {
         {store.familiares
           .map((familiar, index) => (
             <RadioButton
+              key={index}
               alias={familiar.alias}
               value={familiar.id}
               checked={selectedPatient === familiar.id}
@@ -70,7 +70,7 @@ const DataAds = () => {
               day: '2-digit',
               month: '2-digit',
               year: 'numeric'
-          })}
+            })}
             dependency={patient.dependency}
             province={patient.province}
             phone={patient.phone}

@@ -51,7 +51,7 @@ export const BloqueAnuncio = ({ }) => {
 
     const handleEditAd = (id) => {
         console.log("Editing ad with ID:", id);
-        actions.selectedAd(id);
+        actions.getSingleAd(id);
         navigate(`/edit-ad/${id}`);
     };
 
@@ -152,7 +152,7 @@ export const BloqueAnuncio = ({ }) => {
                 </div>
                 <div className="pt-4 row">
                     <div className="col-12 col-sm-7">
-                        <p className="fs-4 fw-bold"><span class="fa-solid fa-person-circle-exclamation pe-3"></span>Observaciones</p>
+                        <p className="fs-4 fw-bold"><span className="fa-solid fa-person-circle-exclamation pe-3"></span>Observaciones</p>
                         <div className="d-flex fs-5">
                             <div className="ps-4 ms-3 pb-3">
                                 <p className="fs-5">{patientData.description}</p>
@@ -299,7 +299,7 @@ export const BloqueAnuncio = ({ }) => {
                     </div>
                     <div className="pt-4 row">
                         <div className="col-12 col-sm-7">
-                            <p className="fs-4 fw-bold"><span class="fa-solid fa-person-circle-exclamation pe-3"></span>Observaciones</p>
+                            <p className="fs-4 fw-bold"><span className="fa-solid fa-person-circle-exclamation pe-3"></span>Observaciones</p>
                             <div className="d-flex fs-5">
                                 <div className="ps-4 ms-3 pb-3">
                                     <p className="fs-5">{patientData.description}</p>

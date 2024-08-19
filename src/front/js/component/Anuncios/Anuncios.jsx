@@ -23,7 +23,6 @@ export const Anuncios = ({ countFav, companionName }) => {
 
     const handleEditAd = (id) => {
         console.log("Editing ad with ID:", id);
-        actions.selectedAd(id);
         navigate(`/edit-ad/${id}`);
     };
 
