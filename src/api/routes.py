@@ -209,9 +209,9 @@ def edit_ad(ad_id):
         if 'title' in data:
             ad.title = data['title'] 
         if 'description' in data:
-            ad.description = data['description'] 
+            ad.description = data['description']
         if 'type' in data:
-            ad.type = data['type']
+            ad.type = Type(data['type'])
         if 'start_date' in data:
             ad.start_date = data['start_date']
         if 'end_date' in data:
