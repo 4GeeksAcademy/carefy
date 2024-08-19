@@ -16,9 +16,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			familiares: JSON.parse(localStorage.getItem("userFamily")) || [],
-
-
-			ads: JSON.parse(localStorage.getItem("ads")) || null,
 			ads: JSON.parse(localStorage.getItem("ads")) || [],
 			adData: JSON.parse(localStorage.getItem("adData")) || [],
 			singleAd: [],
@@ -421,6 +418,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ adElegido: null }); // Indicando claramente que no hay anuncios seleccionados
 				}
 			},
+
 			anadir_familiar: async (name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, user_id) => {
 				const store = getStore();
 				try {
