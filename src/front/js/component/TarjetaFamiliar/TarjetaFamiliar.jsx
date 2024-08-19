@@ -23,9 +23,9 @@ export const TarjetaFamiliar = ({ familiar, index }) => {
 
             {/* Si el usuario ha subido una foto, se pinta la foto. Si no, se pinta el muñeco */}
             {familiar.photo ? (
-                <img src={familiar.photo} className="card-img-top" alt="..." />
+                <img src={familiar.photo} className={`${style.card_img_top }`}alt="..." />
             ) : (
-                <img src={profileImg} className="card-img-top" alt="..." />
+                <img src={profileImg} className={`${style.card_img_top }`}alt="..." />
             )}
 
             <div className="card-body">

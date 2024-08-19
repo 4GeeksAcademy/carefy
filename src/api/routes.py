@@ -7,6 +7,8 @@ from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+import cloudinary
+import cloudinary.uploader
 
 api = Blueprint('api', __name__)
 
@@ -246,6 +248,7 @@ def protected():
 @api.route("/anadir_familiar", methods=["POST"])
 def anadir_familiar():
     data = request.json
+    print('datos añadir familiar', data)
 
     campos_requeridos = ['name', 'alias', 'lastname', 'phone' , 'description', 'birthdate', 'dependency', 'province', 'location']
 
@@ -362,7 +365,15 @@ def eliminar_familiar(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
-        
-        
     
+
+@api.route('/subirfoto', methods=['POST'])
+def subirfoto():
+    file_to_upload = request.files['file']
+    if file_to_upload:
+        upload = cloudinary.uploader.upload(file_to_upload)
+        print('-------------la url donde esta la imagen-------------', upload)
+        return jsonify(upload)
+    return jsonify({"error": "No file uploaded"}), 400
     
+ 
