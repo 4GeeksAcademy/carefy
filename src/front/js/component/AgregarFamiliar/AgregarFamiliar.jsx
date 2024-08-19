@@ -279,4 +279,3 @@ export const AgregarFamiliar = () => {
     )
 }
 
-// Pendiente revisión actualizacion de la pagina al agregar un familiar
