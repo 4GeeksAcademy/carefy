@@ -37,6 +37,13 @@ export const BloqueAnuncio = ({ }) => {
     }
 
     const handlePostularseClick = () => {
+      
+        const companionId = store.userData.userId;
+        const patientId = store.singleAd.patient_id;
+        const adId = store.singleAd.id;
+
+
+        actions.crearInscripcion(companionId, patientId, adId)
         setPostularseVisible(false); // Oculta "POSTULARSE"
     };
 
@@ -341,6 +348,8 @@ export const BloqueAnuncio = ({ }) => {
                     </div>
                     {store.singleAd.user_id === store.userData.userId ?
                         <>
+
+                        {/* Tabla de solicitudes de acompañantes con respecto al anuncio */}
                             <p className="fs-4 fw-bold">Solicitudes</p>
                             <div className="table-responsive">
                                 <table className="table table-hover table-light">

@@ -19,7 +19,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			patients: JSON.parse(localStorage.getItem("patients")) || [],
 			ads: JSON.parse(localStorage.getItem("ads")) || [],
 			adData: JSON.parse(localStorage.getItem("adData")) || [],
-			singleAd: []
+			singleAd: [],
+			postulantes: JSON.parse(localStorage.getItem("lista_postulantes")) || []
+			
 		},
 
 		actions: {
@@ -606,6 +608,39 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return null; 
 				}
 			},
+
+			crearInscripcion: async (companion_id, patient_id, ad_id) => {
+				const store = getStore();
+				try {
+					const respuesta = await fetch (`${process.env.BACKEND_URL}/api/crearinscripcion`, {
+						method: 'POST',
+						body: JSON.stringify ({
+							companion_id,
+							patient_id,
+							ad_id							
+						}),
+						headers: { "Content-Type": "application/json" }
+					});
+
+					if (!respuesta.ok) {
+						throw new Error(`HTTP error! status: ${response.status}`);
+					}
+					const nuevaInscripcion = await respuesta.json();
+
+					localStorage.setItem('lista_postulantes', JSON.stringify(nuevaInscripcion));
+
+					setStore ({
+						...store,
+						postulantes: [...store.postulantes, nuevaInscripcion]
+					});					
+				}
+				catch (error) {
+					// Manejo de errores de red u otros errores
+					console.error("Network error:", error);
+				}
+			}
+
+			
 
 			
 
