@@ -16,6 +16,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			familiares: JSON.parse(localStorage.getItem("userFamily")) || [],
+			companions: JSON.parse(localStorage.getItem("companions")) || [],
 
 
 			ads: JSON.parse(localStorage.getItem("ads")) || null,
@@ -559,6 +560,54 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 
 			},
+
+			anadir_companion: async (description, photo, location, province, birthdate, experience, service_cost, user_id, availability_hours = false, availability_days = false, availability_weeks = false, availability_live_in = false, facebook = '', instagram = '', twitter = '', linkedin = '') => {
+				const store = getStore();
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/anadir_companion`, {
+						method: 'POST',
+						body: JSON.stringify({
+							description,
+							photo,
+							location,
+							province,
+							birthdate,
+							experience,
+							service_cost,
+							user_id,
+							availability_hours,
+							availability_days,
+							availability_weeks,
+							availability_live_in,
+							facebook,
+							instagram,
+							twitter,
+							linkedin
+						}),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					});
+			
+					if (!response.ok) {
+						throw new Error(`HTTP error! status: ${response.status}`);
+					}
+			
+					const nuevoCompanion = await response.json();
+			
+					setStore({
+						...store,
+						companions: [...store.companions, nuevoCompanion] // Añade el nuevo companion a la lista
+					});
+				}
+				catch (error) {
+					// Manejo de errores de red u otros errores
+					console.error("Network error:", error);
+				}
+			},
+			
+
+			
 
 		}
 	};
