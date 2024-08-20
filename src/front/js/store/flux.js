@@ -363,6 +363,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			editAd: async (id, type, startDate, endDate, price, title, description, patient_id) => {
 				const store = getStore();
 				const actions = getActions();
+				
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/ad/edit/${id}`, {
 						method: "PUT",
@@ -388,10 +389,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					const updatedAd = data.ad;
 
-					if (!updatedAd || !updatedAd.id) {
-						console.error('Updated ad data is missing or has no id');
-						return;
-					}
+					// if (!updatedAd || !updatedAd.id) {
+					// 	console.error('Updated ad data is missing or has no id');
+					// 	return;
+					// }
 
 					setStore({
 						...store,

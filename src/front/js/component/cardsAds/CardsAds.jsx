@@ -2,13 +2,18 @@ import React from "react";
 import styles from "./cardsAds.module.css"
 import { Link } from "react-router-dom";
 
-const CardsAds = ({ title, location, date, description, link }) => {
+const CardsAds = ({photo, title, location, date, description, link }) => {
+
+  const verMas = () => {
+    window.scrollTo(0, 0);
+  }
+
   return (
     <div className={`card ${styles.anuncio}`}>
       <div className={styles.cuadro_imagen}>
       <img
-        src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"
-        className={`card-img-top ${styles.img_card}`}
+        src={photo}
+        className={`card-img-top`}
         alt="Imagen del anuncio"
       />
       </div>
@@ -19,7 +24,7 @@ const CardsAds = ({ title, location, date, description, link }) => {
         <p className={`${styles.card_description}`}>{description}</p>
         <div className={styles.card_buttons}>
           <span className="fa-regular fa-envelope fs-3 mt-3"></span>
-          <Link to={link} className={`btn ${styles.boton_ver_mas}`}>
+          <Link onClick={verMas} to={link} className={`btn ${styles.boton_ver_mas}`}>
             VER MÁS
           </Link>
         </div>

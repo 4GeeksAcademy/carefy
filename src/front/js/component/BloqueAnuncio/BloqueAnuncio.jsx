@@ -61,6 +61,18 @@ export const BloqueAnuncio = ({ }) => {
 
     const patientData = store.familiares.find(patient => patient.id === store.singleAd.patient_id);
 
+    const getAge = (birthdate) => {
+        const today = new Date();
+        const birthDate = new Date(birthdate);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDifference = today.getMonth() - birthDate.getMonth();
+
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    };
+
     return (
 
         (store.singleAd.status === "pending" || store.singleAd.status === "rejected") && store.singleAd.user_id === store.userData.userId ? (
@@ -98,11 +110,11 @@ export const BloqueAnuncio = ({ }) => {
                 <div className="d-flex align-items-start justify-content-between flex-wrap">
                     <div className="d-flex align-items-center flex-wrap">
                         <div className={`${styles.avatar} rounded`}>
-                            <img src={profileImg} className={`img-fluid`} />
+                            <img src={patientData.photo} className={`img-fluid`} />
                         </div>
                         <div className="ms-3 fs-4 mt-3">
                             <p className="fs-4"><span className="fa-solid fa-user pe-2"></span><span className="pe-2">{patientData.name}</span>{patientData.lastname}</p>
-                            <p className="fs-4"><span className="fa-solid fa-id-card pe-2"></span>{patientData.birthdate}</p>
+                            <p className="fs-4"><span className="fa-solid fa-id-card pe-2"></span>{getAge(patientData.birthdate)} años</p>
                             <p className="fs-4"><span className="fa-solid fa-location-dot pe-2"></span>{patientData.province}</p>
                         </div>
                     </div>
@@ -154,8 +166,8 @@ export const BloqueAnuncio = ({ }) => {
                     <div className="col-12 col-sm-7">
                         <p className="fs-4 fw-bold"><span className="fa-solid fa-person-circle-exclamation pe-3"></span>Observaciones</p>
                         <div className="d-flex fs-5">
-                            <div className="ps-4 ms-3 pb-3">
-                                <p className="fs-5">{patientData.description}</p>
+                            <div className="pb-3">
+                                <p className="fs-5 ps-4 ms-3">{patientData.description}</p>
                             </div>
                         </div>
                     </div>
@@ -245,11 +257,11 @@ export const BloqueAnuncio = ({ }) => {
                     <div className="d-flex align-items-start justify-content-between flex-wrap">
                         <div className="d-flex align-items-center flex-wrap">
                             <div className={`${styles.avatar} rounded`}>
-                                <img src={profileImg} className={`img-fluid`} />
+                                <img src={patientData.photo} className={`img-fluid`} />
                             </div>
                             <div className="ms-3 fs-4 mt-3">
                                 <p className="fs-4"><span className="fa-solid fa-user pe-2"></span><span className="pe-2">{patientData.name}</span>{patientData.lastname}</p>
-                                <p className="fs-4"><span className="fa-solid fa-id-card pe-2"></span>{patientData.birthdate}</p>
+                                <p className="fs-4"><span className="fa-solid fa-id-card pe-2"></span>{getAge(patientData.birthdate)} años</p>
                                 <p className="fs-4"><span className="fa-solid fa-location-dot pe-2"></span>{patientData.province}</p>
                             </div>
                         </div>
@@ -301,8 +313,8 @@ export const BloqueAnuncio = ({ }) => {
                         <div className="col-12 col-sm-7">
                             <p className="fs-4 fw-bold"><span className="fa-solid fa-person-circle-exclamation pe-3"></span>Observaciones</p>
                             <div className="d-flex fs-5">
-                                <div className="ps-4 ms-3 pb-3">
-                                    <p className="fs-5">{patientData.description}</p>
+                                <div className="pb-3">
+                                    <p className="fs-5 ps-4 ms-3">{patientData.description}</p>
                                 </div>
                             </div>
                         </div>
