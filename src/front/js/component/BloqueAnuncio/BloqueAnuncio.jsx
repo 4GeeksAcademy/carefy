@@ -110,7 +110,10 @@ export const BloqueAnuncio = ({ }) => {
                 <div className="d-flex align-items-start justify-content-between flex-wrap">
                     <div className="d-flex align-items-center flex-wrap">
                         <div className={`${styles.avatar} rounded`}>
+                            {patientData.photo ?
                             <img src={patientData.photo} className={`img-fluid`} />
+                            :
+                            <img src={profileImg} className={`img-fluid`} />}
                         </div>
                         <div className="ms-3 fs-4 mt-3">
                             <p className="fs-4"><span className="fa-solid fa-user pe-2"></span><span className="pe-2">{patientData.name}</span>{patientData.lastname}</p>
