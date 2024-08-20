@@ -76,7 +76,7 @@ const CompanionForm = () => {
         availability_hours: companion.availability_hours || false,
         availability_days: companion.availability_days || false,
         availability_weeks: companion.availability_weeks || false,
-        availability_live_in: companionData.availability_live_in || false
+        availability_live_in: companion.availability_live_in || false
       });
     
   }, [store.companions]);
