@@ -1,5 +1,6 @@
 import React from "react";
 import styles from './patientSelector.module.css';
+import profileImg from "../../../img/profileImg.png"
 
 const PatientSelector = ({ patients, selectedPatient, onSelect }) => {
     return (
@@ -86,7 +87,7 @@ const PatientSelector = ({ patients, selectedPatient, onSelect }) => {
                                                     />
                                                 ) : (
                                                     <img
-                                                        src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"
+                                                        src={profileImg}
                                                         alt={`Foto de ${patient.alias}`}
                                                         className={`img-fluid mb-3 ${styles.image}`}
                                                     />

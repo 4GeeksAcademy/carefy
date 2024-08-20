@@ -56,10 +56,10 @@ export const BloqueAnuncio = ({ }) => {
     };
 
     useEffect(() => {
-        actions.getFamiliarDetalles();
+        actions.getPatients();
     }, []);
 
-    const patientData = store.familiares.find(patient => patient.id === store.singleAd.patient_id);
+    const patientData = store.patients.find(patient => patient.id === store.singleAd.patient_id);
 
     const getAge = (birthdate) => {
         const today = new Date();
@@ -225,7 +225,7 @@ export const BloqueAnuncio = ({ }) => {
                 }
             </div>)
             :
-            store.singleAd.status == "ok" ? (
+            store.singleAd.status === "ok" ? (
                 <div className={`container bg-light p-4 my-5 rounded position-relative ${styles.block_anuncio}`}>
                     {/* ICONO PARA EL ACOMPAÑANTE */}
                     {store.userData.role == "companion" ?
