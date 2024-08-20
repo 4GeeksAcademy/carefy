@@ -1,0 +1,20 @@
+.btn_publicar{
+    background-color: #B76C49;
+    border: none;
+    color: white;
+}
+
+.btn_publicar:hover{
+    background-color: #9a593c;
+    color: white;
+}
+
+.btn_publicar:active{
+    background-color: #9a593c !important;
+    color: white !important;
+}
+
+.btn_publicar:focus{
+    background-color: #9a593c !important;
+    color: white !important;
+}

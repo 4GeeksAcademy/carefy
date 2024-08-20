@@ -142,7 +142,7 @@ const birthdate = store.oneCompanion?.birthdate;
         <div className="col-12 col-md-4">
 
           <p className="fs-4 fw-bold">
-            <span class="pe-2 fa-solid fa-users"></span>
+            <span className="pe-2 fa-solid fa-users"></span>
             Conoce más de mí
           </p>
           <a
@@ -150,28 +150,28 @@ const birthdate = store.oneCompanion?.birthdate;
             href={store.oneCompanion.instagram}
 
           >
-            <span class="fa-brands fa-square-instagram fs-4"></span>
+            <span className="fa-brands fa-square-instagram fs-4"></span>
           </a>
           <a
             className={`fs-4 ms-3 ${styles.social_icons}`}
             href={store.oneCompanion.facebook}
 
           >
-            <span class="fa-brands fa-facebook-square fs-4"></span>
+            <span className="fa-brands fa-facebook-square fs-4"></span>
           </a>
           <a
             className={`fs-4 ms-3 ${styles.social_icons}`}
             href={store.oneCompanion.twitter}
 
           >
-            <span class="fa-brands fa-square-x-twitter fs-4"></span>
+            <span className="fa-brands fa-square-x-twitter fs-4"></span>
           </a>
           <a
             className={`fs-4 ms-3 ${styles.social_icons}`}
             href={store.oneCompanion.linkedin}
 
           >
-            <span class="fa-brands fa-linkedin fs-4"></span>
+            <span className="fa-brands fa-linkedin fs-4"></span>
           </a>
         </div>
       </div>

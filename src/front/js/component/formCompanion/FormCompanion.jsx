@@ -45,6 +45,9 @@ const CompanionForm = () => {
         [name]: value
       }));
     }
+    console.log(companion);
+
+    
   };
 
   useEffect(() => {
@@ -66,6 +69,7 @@ const CompanionForm = () => {
         photo: companion.photo || "",
         province: companion.province || '',
         experience: companion.experience || '',
+        birthdate: companion.birthdate || '',
         service_cost: companion.service_cost || '',
         facebook: companion.facebook || '',
         instagram: companion.instagram || '',
@@ -81,7 +85,8 @@ const CompanionForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(companion);
+    
     try {
       // Primero, actualizar la información del usuario
       await actions.editUser(user.name, user.lastname, user.email, user.phone, user.location);
@@ -92,17 +97,17 @@ const CompanionForm = () => {
         companion.photo,
         companion.province,
         companion.birthdate,
-        companion.experience,
-        companion.service_cost,
-        store.userData.userId,  // Utilizar el ID del usuario actual
         companion.availability_hours,
         companion.availability_days,
         companion.availability_weeks,
         companion.availability_live_in,
+        companion.experience,
+        companion.service_cost,
         companion.facebook,
         companion.instagram,
         companion.twitter,
-        companion.linkedin
+        companion.linkedin,
+        store.userData.userId,  // Utilizar el ID del usuario actual
       );
 
       // Mostrar un mensaje de éxito o realizar alguna otra acción

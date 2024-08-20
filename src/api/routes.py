@@ -7,6 +7,8 @@ from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+import cloudinary
+import cloudinary.uploader
 
 api = Blueprint('api', __name__)
 
@@ -116,8 +118,8 @@ def create_token():
 #### ANUNCIOS ####
 
 #Crear anuncio
-@api.route("/create_ad/<int:user_id>", methods=['POST'])
-def create_ad(user_id):
+@api.route("/create_ad/<int:user_id>/<int:patient_id>", methods=['POST'])
+def create_ad(user_id, patient_id):
     data = request.json
     if 'max_cost' not in data or 'title' not in data or 'description' not in data:
         return jsonify({'error': 'Missing data'}), 400
@@ -137,7 +139,9 @@ def create_ad(user_id):
         end_date=data['end_date'],
         max_cost=data['max_cost'],
         status=Status(data['status']),
+        patient_id=patient_id,
         user_id=user_id
+        
     )
 
     db.session.add(new_ad)
@@ -209,15 +213,17 @@ def edit_ad(ad_id):
         if 'title' in data:
             ad.title = data['title'] 
         if 'description' in data:
-            ad.description = data['description'] 
+            ad.description = data['description']
         if 'type' in data:
-            ad.type = data['type']
+            ad.type = Type(data['type'])
         if 'start_date' in data:
             ad.start_date = data['start_date']
         if 'end_date' in data:
             ad.end_date = data['end_date']
         if 'max_cost' in data:
             ad.max_cost = data['max_cost']
+        if 'patient_id' in data:
+            ad.patient_id = data['patient_id']
 
         db.session.commit()  # Guarda los cambios en la base de datos
 
@@ -242,6 +248,7 @@ def protected():
 @api.route("/anadir_familiar", methods=["POST"])
 def anadir_familiar():
     data = request.json
+    print('datos añadir familiar', data)
 
     campos_requeridos = ['name', 'alias', 'lastname', 'phone' , 'description', 'birthdate', 'dependency', 'province', 'location']
 
@@ -448,9 +455,22 @@ def anadir_companion():
 
     except Exception as e:
         db.session.rollback()
+        print(f'Error al añadir nuevo companion: {str(e)}')
         return jsonify({'Error': f'Error al añadir nuevo companion: {str(e)}'}), 400
 
 
       
 
    
+    
+
+@api.route('/subirfoto', methods=['POST'])
+def subirfoto():
+    file_to_upload = request.files['file']
+    if file_to_upload:
+        upload = cloudinary.uploader.upload(file_to_upload)
+        print('-------------la url donde esta la imagen-------------', upload)
+        return jsonify(upload)
+    return jsonify({"error": "No file uploaded"}), 400
+    
+ 

@@ -9,16 +9,16 @@ export const ModalVerFamiliar = ({ familiar }) => {
     // Función para describir el nivel de dependencia en función del resultado
     const nivelDepDescripcion = (dependency) => {
         switch (dependency) {
-            case "Nivel1":
+            case "Nivel 1":
                 return "Acompañamiento. Es independiente en tareas diarias y personales";
-            case "Nivel2":
+            case "Nivel 2":
                 return "Dependencia leve. Requiere ayuda para cosas puntuales en algún momento del día para la rutina o autonomía personal"
-            case "Nivel3":
+            case "Nivel 3":
                 return "Dependencia moderada. Requiere ayuda para actividades básicas, dos o tres veces al día";
-            case "Nivel4":
+            case "Nivel 4":
                 return "Dependencia severa. Necesita el apoyo indispensable de otra persona por pérdida de autonomía física, mental o intelectual";
             default:
-                return "Se debee especificar un nivel de dependencia."
+                return ""
         }
     }
 
@@ -49,7 +49,7 @@ export const ModalVerFamiliar = ({ familiar }) => {
     return (
         <div className="modal-content">
             <div className="modal-header">
-                <h1 className="modal-title fs-5" id="exampleModalLabel">Familiar: {familiar.alias}</h1>
+                <h1 className="modal-title fs-5" id="exampleModalLabel">{familiar.alias}</h1>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
@@ -60,9 +60,9 @@ export const ModalVerFamiliar = ({ familiar }) => {
                         <div className="col-3">
                             <div className="mb-3" >
                                 {familiar.photo ? (
-                                    <img src={familiar.photo} className={`card-img-top ${style.sizePhoto}`} alt="..." />
+                                    <img src={familiar.photo} className={`${style.card_img_top }`} alt="..." />
                                 ) : (
-                                    <img src={profileImg} className={`card-img-top ${style.sizePhoto}`} alt="..." />
+                                    <img src={profileImg} className={`${style.card_img_top }`} alt="..." />
                                 )}
                             </div>
                         </div>
