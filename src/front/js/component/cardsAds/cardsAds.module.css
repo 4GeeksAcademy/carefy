@@ -1,39 +1,41 @@
 .anuncio {
-    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
     height: 100%;
-    background-color: #f7f7f7;
-    border-color: none;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.468));
 
 }
-.cuadro_imagen{
-    width: 100%;
-    height: 200px;
-}
-.img_card {
-    vertical-align: top;
-    width: 100%;
-    height: 200px;
 
+.cuadro_imagen {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.cuadro_imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .card_body {
+    flex-grow: 1; /* Hace que el cuerpo de la tarjeta ocupe el espacio disponible */
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding:10px;
+    padding: 10px;
 
 }
 
 
-.card_location{
-    color:#5C7728;
+.card_location {
+    color: #5C7728;
 }
 
-.card_location{
-    margin-bottom:0px;
+.card_location {
+    margin-bottom: 0px;
 }
 
-.card_description{
+.card_description {
     margin-bottom: 7px;
 }
 
@@ -63,7 +65,7 @@
 }
 
 .boton_ver_mas {
-    background-color:#B76C49 ;
+    background-color: #B76C49;
     color: white;
     font-weight: 500;
 }
@@ -83,4 +85,3 @@
     background-color: #9a593c !important;
     color: white !important;
 }
-

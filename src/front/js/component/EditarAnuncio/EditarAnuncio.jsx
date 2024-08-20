@@ -24,8 +24,18 @@ export const EditarAnuncio = () => {
   useEffect(() => {
     if (store.singleAd) {
       setType(store.singleAd.type || '');
-      setStartDate(store.singleAd.start_date || '');
-      setEndDate(store.singleAd.end_date || '');
+
+      // Formatear las fechas al formato 'yyyy-MM-dd'
+      const formatDate = (date) => {
+        const d = new Date(date);
+        const year = d.getFullYear();
+        const month = (`0${d.getMonth() + 1}`).slice(-2);
+        const day = (`0${d.getDate()}`).slice(-2);
+        return `${year}-${month}-${day}`;
+      };
+
+      setStartDate(formatDate(store.singleAd.start_date) || '');
+      setEndDate(formatDate(store.singleAd.end_date) || '');
       setPrice(store.singleAd.max_cost || '');
       setTitle(store.singleAd.title || '');
       setDescription(store.singleAd.description || '');
@@ -54,6 +64,18 @@ export const EditarAnuncio = () => {
     actions.getFamiliarDetalles();
     actions.getSingleAd(store.singleAd.id);
   }, []);
+
+  const getAge = (birthdate) => {
+    const today = new Date();
+    const birthDate = new Date(birthdate);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  };
 
 
   return (
@@ -84,11 +106,7 @@ export const EditarAnuncio = () => {
             alias={patient.alias}
             photo={patient.photo}
             description={patient.description}
-            age={new Date(patient.birthdate).toLocaleDateString('es-ES', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric'
-            })}
+            age={getAge(patient.birthdate)}
             dependency={patient.dependency}
             province={patient.province}
             phone={patient.phone}

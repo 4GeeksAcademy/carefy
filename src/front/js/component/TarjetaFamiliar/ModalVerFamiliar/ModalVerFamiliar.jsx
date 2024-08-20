@@ -18,7 +18,7 @@ export const ModalVerFamiliar = ({ familiar }) => {
             case "Nivel 4":
                 return "Dependencia severa. Necesita el apoyo indispensable de otra persona por pérdida de autonomía física, mental o intelectual";
             default:
-                return "Se debee especificar un nivel de dependencia."
+                return ""
         }
     }
 
@@ -49,7 +49,7 @@ export const ModalVerFamiliar = ({ familiar }) => {
     return (
         <div className="modal-content">
             <div className="modal-header">
-                <h1 className="modal-title fs-5" id="exampleModalLabel">Familiar: {familiar.alias}</h1>
+                <h1 className="modal-title fs-5" id="exampleModalLabel">{familiar.alias}</h1>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
