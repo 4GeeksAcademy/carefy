@@ -437,7 +437,6 @@ def anadir_companion():
             'id': nuevo_companion.id,
             "description": nuevo_companion.description,
             "photo": nuevo_companion.photo,
-            "location": nuevo_companion.location,
             "province": nuevo_companion.province,
             "birthdate": nuevo_companion.birthdate,
             "availability_hours": nuevo_companion.availability_hours,

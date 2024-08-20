@@ -645,7 +645,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 			//publicar perfil acompanante
-			anadir_companion: async (description, photo, location, province, birthdate, 
+			anadir_companion: async (description, photo, province, birthdate, 
 				availability_hours = false, 
 				availability_days = false, 
 				availability_weeks = false, 
