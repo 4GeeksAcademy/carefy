@@ -362,6 +362,29 @@ def eliminar_familiar(id):
         
 ### ACOMPANANTE ###
 
+#Ver todos los acompañantes
+@api.route("/get_companions", methods=["GET"])
+def get_companions():
+    companions = Companion.query.all()
+    return jsonify([companion.serialize() for companion in companions])
+
+#Ver un acompañante
+@api.route('/companion/<int:id>', methods=['GET'])
+def get_companion(id):
+    # Obtener el acompañante por ID
+    companion = Companion.query.get(id)
+    
+    if companion is None:
+        # Si no se encuentra el acompañante, devolver un error 404
+        return jsonify({"error": f"Companion with ID {id} not found"})
+    
+    # Serializar los datos del acompañante y devolverlos en formato JSON
+    return jsonify(companion.serialize())
+
+    
+
+
+#Crear acompañante
 @api.route("/anadir_companion", methods=["POST"])
 def anadir_companion():
     data = request.json

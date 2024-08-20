@@ -94,6 +94,8 @@ class Companion(db.Model):
     linkedin = db.Column(db.String(250))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
+    user = db.relationship('User', backref='companions')
+
     def __repr__(self):
         return f'<Companion {self.id}>'
     
@@ -110,13 +112,18 @@ class Companion(db.Model):
             "availability_weeks": self.availability_weeks,
             "availability_live_in": self.availability_live_in,
             "experience": self.experience,
-            "service_cost":self.service_cost,
+            "service_cost": self.service_cost,
             "facebook": self.facebook,
             "instagram": self.instagram,
             "twitter": self.twitter,
             "linkedin": self.linkedin,
-            "user_id": self.user_id,
-            
+            "user": {
+                "id": self.user.id,
+                "name": self.user.name,
+                "lastname": self.user.lastname,
+                "email": self.user.email,
+                "phone": self.user.phone
+            } if self.user else None,  #así se asegura que el usuario existe
         }
 
 

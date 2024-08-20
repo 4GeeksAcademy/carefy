@@ -17,6 +17,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			familiares: JSON.parse(localStorage.getItem("userFamily")) || [],
 			companions: JSON.parse(localStorage.getItem("companions")) || [],
+			oneCompanion: JSON.parse(localStorage.getItem("oneCompanion")) || [],
 
 
 			ads: JSON.parse(localStorage.getItem("ads")) || null,
@@ -561,6 +562,55 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			},
 
+			//ver todos los acompanantes
+			getCompanions: async () => {
+				try {
+					const resp = await fetch(`${process.env.BACKEND_URL}/api/get_companions`, {
+						method: "GET"
+					});
+					const data = await resp.json();
+					console.log("Datos recibidos de la API:", data);
+					if (Array.isArray(data)) {
+						setStore({ companions: data }); // se guardan los datos en la variable companions
+						localStorage.setItem('companions', JSON.stringify(data)); // Guardar en localStorage
+					} else {
+						console.error('Data from API is not an array');
+					}
+				} catch (error) {
+					console.log(error);
+				}
+			},
+			
+			//ver un acompanante
+			getCompanionById:async (id) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/companion/${id}`, {
+						method: "GET",
+						headers: {
+							"Content-Type": "application/json"
+						}
+					});
+					
+					if (!response.ok) {
+						console.error(`Error fetch companion con ID ${id}`);
+						return null;  
+					}
+			
+					const data = await response.json();
+					console.log("Datos recibidos:", data);
+					setStore({ ...store, oneCompanion: data });
+					localStorage.setItem("oneCompanion", JSON.stringify(data));
+					return data;
+					
+				} catch (error) {
+					console.error(`Error al obtener el companion con ID ${id}:`, error);
+					return null;  // O maneja el error de la manera que prefieras
+				}
+			},
+
+
+
+			//publicar perfil acompanante
 			anadir_companion: async (description, photo, location, province, birthdate, experience, service_cost, user_id, availability_hours = false, availability_days = false, availability_weeks = false, availability_live_in = false, facebook = '', instagram = '', twitter = '', linkedin = '') => {
 				const store = getStore();
 				try {

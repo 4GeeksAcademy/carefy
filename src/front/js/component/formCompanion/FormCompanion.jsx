@@ -97,7 +97,7 @@ const CompanionForm = () => {
         companion.birthdate,
         companion.experience,
         companion.service_cost,
-        store.userData.userId,  // Utiliza el ID del usuario actual
+        store.userData.userId,  // Utilizar el ID del usuario actual
         companion.availability_hours,
         companion.availability_days,
         companion.availability_weeks,
