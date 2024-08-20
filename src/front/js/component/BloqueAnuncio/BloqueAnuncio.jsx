@@ -106,7 +106,7 @@ export const BloqueAnuncio = ({ }) => {
 
                     </div> : ""
                 }
-                <h1 className="mb-5 pe-5 me-3 text-dark">{store.singleAd.title}</h1>
+                <h1 className="mb-5 pe-5 me-5 text-dark">{store.singleAd.title}</h1>
                 <div className="d-flex align-items-start justify-content-between flex-wrap">
                     <div className="d-flex align-items-center flex-wrap">
                         <div className={`${styles.avatar} rounded`}>
@@ -115,7 +115,7 @@ export const BloqueAnuncio = ({ }) => {
                         <div className="ms-3 fs-4 mt-3">
                             <p className="fs-4"><span className="fa-solid fa-user pe-2"></span><span className="pe-2">{patientData.name}</span>{patientData.lastname}</p>
                             <p className="fs-4"><span className="fa-solid fa-id-card pe-2"></span>{getAge(patientData.birthdate)} años</p>
-                            <p className="fs-4"><span className="fa-solid fa-location-dot pe-2"></span>{patientData.province}</p>
+                            <p className="fs-4"><span className="fa-solid fa-location-dot pe-2"></span>{patientData.location}, {patientData.province}</p>
                         </div>
                     </div>
                     {/* BOTON POSTULARSE/CANCELAR POSTULACION PARA ACOMPAÑANTES */}
@@ -253,7 +253,7 @@ export const BloqueAnuncio = ({ }) => {
 
                         </div> : ""
                     }
-                    <h1 className="mb-5 pe-5 me-3 text-dark">{store.singleAd.title}</h1>
+                    <h1 className="mb-5 pe-5 me-5 text-dark">{store.singleAd.title}</h1>
                     <div className="d-flex align-items-start justify-content-between flex-wrap">
                         <div className="d-flex align-items-center flex-wrap">
                             <div className={`${styles.avatar} rounded`}>
