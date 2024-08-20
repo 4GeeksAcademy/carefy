@@ -22,7 +22,8 @@ const ListAds = () => {
     return {
         ...ad,
         province: patient ? patient.province : 'Desconocida',
-        photo: patient ? patient.photo : ''
+        photo: patient ? patient.photo : '',
+        location: patient ? patient.location : ''
     };
 });
 
@@ -45,7 +46,8 @@ const ListAds = () => {
                   month: '2-digit',
                   year: 'numeric'
               })}
-                location={element.province}
+                location={element.location}
+                province={element.province}
                 description={element.description}
                 link={`/anuncio/${element.id}`}
               />
