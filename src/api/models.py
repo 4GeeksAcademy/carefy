@@ -79,7 +79,6 @@ class Companion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(250), nullable=False)
     photo = db.Column(db.String(250), nullable=False)
-    location =  db.Column(db.String(250), nullable=False)
     province = db.Column(db.String(250), nullable=False)
     birthdate = db.Column(db.String(250), nullable=False)
     availability_hours = db.Column(db.Boolean, default=False)
@@ -105,7 +104,6 @@ class Companion(db.Model):
             "photo": self.photo,
             "description": self.description,
             "birthdate": self.birthdate,
-            "location": self.location,
             "province": self.province,
             "availability_hours": self.availability_hours,
             "availability_days": self.availability_days,

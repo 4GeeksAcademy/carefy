@@ -391,7 +391,7 @@ def anadir_companion():
 
     # Definir los campos requeridos
     campos_requeridos = [
-        'description', 'photo', 'location', 'province', 
+        'description', 'photo', 'province', 
         'birthdate', 'experience', 'service_cost', 'user_id'
     ]
 
@@ -404,7 +404,6 @@ def anadir_companion():
     nuevo_companion = Companion(
         description=data['description'],
         photo=data['photo'],
-        location=data['location'],
         province=data['province'],
         birthdate=data['birthdate'],
         availability_hours=data.get('availability_hours', False),

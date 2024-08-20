@@ -9,7 +9,6 @@ const CompanionForm = () => {
     description: "",
     birthdate: "",
     photo: "",
-    location: "",
     province: "",
     availability_hours: false,
     availability_days: false,
@@ -65,7 +64,6 @@ const CompanionForm = () => {
       setCompanion({
         description: companion.description || "",
         photo: companion.photo || "",
-        location: companion.location || "",
         province: companion.province || '',
         experience: companion.experience || '',
         service_cost: companion.service_cost || '',
@@ -92,7 +90,6 @@ const CompanionForm = () => {
       await actions.anadir_companion(
         companion.description,
         companion.photo,
-        companion.location,
         companion.province,
         companion.birthdate,
         companion.experience,
@@ -216,7 +213,7 @@ const CompanionForm = () => {
                 className="form-control"
                 name="location"
                 id="location"
-                value={companion.location}
+                value={user.location}
                 onChange={handleChange}
                 required
               />

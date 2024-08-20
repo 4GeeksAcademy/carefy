@@ -40,12 +40,16 @@ const birthdate = store.oneCompanion?.birthdate;
 
   return (
     <div
-      className={`container bg-light p-4 my-5 rounded position-relative ${styles.container_profile}`}
-    >
+      className={`container bg-light p-4 my-5 rounded position-relative ${styles.container_profile}`}>
+
+
+
       <div className={`position-absolute ${styles.fav_icon}`}>
         {/* <span className="fa-solid fa-pencil pe-3"></span> */}
         <span className="fa-regular fa-heart" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"></span>
       </div>
+
+      
       <h1 className="mb-5 pe-5 me-3">`${store.oneCompanion.user.name} ${store.oneCompanion.user.lastname}` </h1>
       <div className="d-flex align-items-start justify-content-between flex-wrap">
         <div className="d-flex align-items-center flex-wrap">
@@ -64,7 +68,7 @@ const birthdate = store.oneCompanion?.birthdate;
               <FaRegStar className="fs-4" />
             </p>
             <p className="fs-4"><span className="fa-solid fa-id-card pe-3"></span>{calculateAge(birthdate)}</p>
-            <p className="fs-4"><span className="fa-solid fa-location-dot pe-3"></span>{store.oneCompanion.location}</p>
+            <p className="fs-4"><span className="fa-solid fa-location-dot pe-3"></span>{store.oneCompanion.user.location}</p>
           </div>
         </div>
         <button className={`btn ${styles.btn_contact} fs-4 fw-bold`}>

@@ -611,7 +611,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 			//publicar perfil acompanante
-			anadir_companion: async (description, photo, location, province, birthdate, experience, service_cost, user_id, availability_hours = false, availability_days = false, availability_weeks = false, availability_live_in = false, facebook = '', instagram = '', twitter = '', linkedin = '') => {
+			anadir_companion: async (description, photo, province, birthdate, experience, service_cost, user_id, availability_hours = false, availability_days = false, availability_weeks = false, availability_live_in = false, facebook = '', instagram = '', twitter = '', linkedin = '') => {
 				const store = getStore();
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/anadir_companion`, {
@@ -619,7 +619,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						body: JSON.stringify({
 							description,
 							photo,
-							location,
 							province,
 							birthdate,
 							experience,
