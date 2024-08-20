@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styles from "./cardsAds.module.css"
 import { Link } from "react-router-dom";
 import profileImg from "../../../img/profileImg.png"
+import { Context } from "../../store/appContext";
 
 
 const CardsAds = ({ photo, title, location, date, description, link, province }) => {
+
+
+  const { store, actions } = useContext(Context);
 
   const verMas = () => {
     window.scrollTo(0, 0);
@@ -40,7 +44,7 @@ const CardsAds = ({ photo, title, location, date, description, link, province })
         </div>
       </div>
     </div>
-  );
+  )
 };
 
 export default CardsAds;
