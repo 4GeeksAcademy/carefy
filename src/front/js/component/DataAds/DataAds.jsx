@@ -37,6 +37,23 @@ const DataAds = () => {
     actions.getFamiliarDetalles();
   }, []);
 
+  const getAge = (birthdate) => {
+    const today = new Date();
+    const birthDate = new Date(birthdate);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
+  function capitalizeFirstLetter(string) {
+    if (string.length === 0) return '';
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
+
 
   return (
     <div className={`container p-4 rounded`}>
@@ -49,7 +66,7 @@ const DataAds = () => {
           .map((familiar, index) => (
             <RadioButton
               key={index}
-              alias={familiar.alias}
+              alias={capitalizeFirstLetter(familiar.alias)}
               value={familiar.id}
               checked={selectedPatient === familiar.id}
               onChange={() => setSelectedPatient(familiar.id)}
@@ -63,18 +80,21 @@ const DataAds = () => {
         {store.familiares.map((patient, index) => (
           <AcordeonPatients
             key={index}
-            alias={patient.alias}
+            alias={capitalizeFirstLetter(patient.alias)}
             photo={patient.photo}
             description={patient.description}
-            age={new Date(patient.birthdate).toLocaleDateString('es-ES', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric'
-            })}
+            age={getAge(patient.birthdate)}
             dependency={patient.dependency}
             province={patient.province}
             phone={patient.phone}
             location={patient.location}
+            birthdate={new Date(patient.birthdate).toLocaleDateString('es-ES', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric'
+            })}
+            firstName={patient.name}
+            lastName={patient.lastname}
           />
         ))}
       </div>

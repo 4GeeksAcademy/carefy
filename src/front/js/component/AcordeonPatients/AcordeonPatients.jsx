@@ -1,7 +1,13 @@
 import React from 'react';
 import styles from './acordeonPatients.module.css';
 
-const AcordeonPatients = ({ alias, photo, description, age, dependency, province, phone, location }) => {
+const AcordeonPatients = ({ alias, firstName, lastName, photo, description, age, dependency, province, phone, location, birthdate }) => {
+
+    function capitalizeFirstLetter(string) {
+        if (string.length === 0) return '';
+        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    }
+
     return (
         <div className="accordion-item">
             <h2 className="accordion-header">
@@ -13,7 +19,7 @@ const AcordeonPatients = ({ alias, photo, description, age, dependency, province
                     aria-expanded="false"
                     aria-controls={`collapse-${alias.replace(/\s+/g, '_')}`}
                 >
-                    {alias}
+                    {capitalizeFirstLetter(alias)}
                 </button>
             </h2>
             <div
@@ -21,8 +27,8 @@ const AcordeonPatients = ({ alias, photo, description, age, dependency, province
                 className="accordion-collapse collapse"
                 data-bs-parent="#patientAccordion"
             >
-                <div className="accordion-body">
-                    <div className={`rounded mb-3 ${styles.image}`}>
+                <div className="accordion-body row">
+                    <div className={`col-3 mb-3 ${styles.image}`}>
                         {photo ? (
                             <img
                                 src={photo}
@@ -37,13 +43,20 @@ const AcordeonPatients = ({ alias, photo, description, age, dependency, province
                             />
                         )}
                     </div>
-                    <h5>{alias}</h5>
-                    <p><span className={styles.content_accordion}>Descripción:</span> {description}</p>
-                    <p><span className={styles.content_accordion}>Edad:</span> {age} años</p>
-                    <p><span className={styles.content_accordion}>Dependencia:</span> {dependency}</p>
-                    <p><span className={styles.content_accordion}>Localidad:</span> {location}</p>
-                    <p><span className={styles.content_accordion}>Provincia:</span> {province}</p>
-                    <p><span className={styles.content_accordion}>Teléfono:</span> {phone}</p>
+                    <div className='col-9 row'>
+                        <div className='col-6'>
+                        <p><span className="fa-solid fa-user pe-2"></span><span className="pe-2">{firstName}</span>{lastName}</p>
+                        <p><span className="fa-solid fa-id-card pe-2"></span>{age} años</p>
+                        <p><span className="fa-solid fa-location-dot pe-2"></span>{location},<span className='ps-1'>{province}</span></p>
+                        </div>
+                        <div className='col-6'>
+                        <p><span className={styles.content_accordion}>Fecha de nacimiento:</span> {birthdate}</p> 
+                        <p><span className={styles.content_accordion}>Dependencia:</span> {dependency}</p>
+                        <p><span className={styles.content_accordion}>Teléfono:</span> {phone}</p>
+                        </div>
+                    </div>
+                    <p className="fw-bold fs-5">Observaciones</p>
+                    <p>{description}</p>
                 </div>
             </div>
         </div>

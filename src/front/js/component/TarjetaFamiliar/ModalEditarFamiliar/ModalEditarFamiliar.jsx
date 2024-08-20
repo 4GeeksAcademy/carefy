@@ -124,15 +124,20 @@ export const ModalEditarFamiliar = ({ familiar }) => {
         setEdad(calcularEdad(fechaNacimiento));
     };
 
+    function capitalizeFirstLetter(string) {
+        if (string.length === 0) return '';
+        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    }
+
 
     return (
         <div className="modal-content">
             <div className="modal-header">
-                <h1 className="modal-title fs-5" id="exampleModalLabel">{familiar.alias}</h1>
+                <h1 className="modal-title fs-5" id="exampleModalLabel">{capitalizeFirstLetter(familiar.alias)}</h1>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
-                <form className="form p-4" onSubmit={(event) => editar_familiar(event, name, alias, lastname, phone, description, birthdate, dependency, province, location, photo)}>
+                <form className="form p-2" onSubmit={(event) => editar_familiar(event, name, alias, lastname, phone, description, birthdate, dependency, province, location, photo)}>
                     <div className="mb-3">
                         <label htmlFor="alias" className="form-label fs-5">Alias</label>
                         <input type="text" className="form-control" id="alias" placeholder="Ejemplo: mi padre" onChange={(e) => setAlias(e.target.value)} value={alias} />

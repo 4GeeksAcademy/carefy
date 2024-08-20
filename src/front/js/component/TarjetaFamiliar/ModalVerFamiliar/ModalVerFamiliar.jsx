@@ -22,34 +22,29 @@ export const ModalVerFamiliar = ({ familiar }) => {
         }
     }
 
-    // Función para cambiar el formato a dd/mm/aaaa
-    const formatDate = (dateString) => {
-        if (dateString) {
-            const [year, month, day] = dateString.split('-');
-            return `${day}/${month}/${year}`;
-        }
-
+    function capitalizeFirstLetter(string) {
+        if (string.length === 0) return '';
+        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
     }
 
-    //Función para calcular la edad actual
-    const calcularEdad = (birthdate) => {
-        const hoy = new Date();
+    const getAge = (birthdate) => {
+        const today = new Date();
         const birthDate = new Date(birthdate);
-        let edad = hoy.getFullYear() - birthDate.getFullYear();
-        const meses = hoy.getMonth() - birthDate.getMonth();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDifference = today.getMonth() - birthDate.getMonth();
 
-        if (meses < 0 || (meses === 0 && hoy.getDate() < birthDate.getDate())) {
-            edad--;
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
         }
-        return edad;
-    }
+        return age;
+    };
 
 
 
     return (
         <div className="modal-content">
             <div className="modal-header">
-                <h1 className="modal-title fs-5" id="exampleModalLabel">{familiar.alias}</h1>
+                <h1 className="modal-title fs-5" id="exampleModalLabel">{capitalizeFirstLetter(familiar.alias)}</h1>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
@@ -60,86 +55,33 @@ export const ModalVerFamiliar = ({ familiar }) => {
                         <div className="col-3">
                             <div className="mb-3" >
                                 {familiar.photo ? (
-                                    <img src={familiar.photo} className={`${style.card_img_top }`} alt="..." />
+                                    <img src={familiar.photo} className={`${style.card_img_top}`} alt="..." />
                                 ) : (
-                                    <img src={profileImg} className={`${style.card_img_top }`} alt="..." />
+                                    <img src={profileImg} className={`${style.card_img_top}`} alt="..." />
                                 )}
                             </div>
                         </div>
 
-                        <div className="col align-content-center">
-                            <div className="row">
-                                <div className="mb-3">
-                                    <label htmlFor="alias" className="form-label fs-5">Alias:<strong> {familiar.alias}</strong> </label>
-                                </div>
+                        <div className="col-9 row">
+                            <div className="col-5">
+                                <p><span className="fa-solid fa-user pe-2"></span><span className="pe-2">{familiar.name}</span>{familiar.lastname}</p>
+                                <p><span className="fa-solid fa-id-card pe-2"></span>{getAge(familiar.birthdate)} años</p>
+                                <p><span className="fa-solid fa-location-dot pe-2"></span>{familiar.location}, {familiar.province}</p>
                             </div>
-                            <div className="row">
-                                <div className="col">
-                                    <div className="mb-3">
-                                        <label htmlFor="name" className="form-label fs-5">Nombre: <strong> {familiar.name} </strong> </label>
-                                    </div>
-                                </div>
-                                <div className="col">
-                                    <div className="mb-3">
-                                        <label htmlFor="lastname" className="form-label fs-5">Apellidos: <strong>  {familiar.lastname} </strong> </label>
-                                    </div>
-                                </div>
+                            <div className="col-7">
+                                <p><span className="fw-bold">Fecha de nacimiento: </span>{new Date(familiar.birthdate).toLocaleDateString('es-ES', {
+                                    day: '2-digit',
+                                    month: '2-digit',
+                                    year: 'numeric'
+                                })}</p>
+                                <p><span className="fw-bold">Dependencia:</span> {familiar.dependency}</p>
+                                <p><span className="fw-bold">Teléfono:</span> {familiar.phone}</p>
                             </div>
                         </div>
                     </div>
-
-                    <hr></hr>
-
-
-
-
-
-                    {/* Fecha de nacimiento y edad */}
                     <div className="mb-3">
-                        <div className="row">
-                            <div className="col-8">
-                                <label htmlFor="birthdate" className="fs-5">Fecha de nacimiento: {formatDate(familiar.birthdate)}</label><br></br>
-                            </div>
-                            <div className="col">
-                                <label htmlFor="edad" className="fs-5">Edad:  </label>
-                                <label htmlFor="edad" className="fs-5"> {calcularEdad(familiar.birthdate)} </label>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    {/* Selección de grado de dependencia */}
-                    <div className="mb-5">
-                        <label
-                            htmlFor="dependencia"
-                            className="form-label fs-5">Grado de dependencia: <strong>{familiar.dependency}</strong> </label>
-                        <p className="text-muted">
-                            {nivelDepDescripcion(familiar.dependency)}
-                        </p>
-                    </div>
-
-
-
-                    {/* Localidad y provincia */}
-                    <div className="row">
-                        <div className="col">
-                            <div className="mb-3">
-                                <label htmlFor="location" className="form-label fs-5">Localidad: {familiar.location} </label>
-                            </div>
-                        </div>
-                        <div className="col">
-                            <div className="row mb-3">
-                                <label htmlFor="province" className="form-label fs-5">Provincia: {familiar.province}</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="mb-3">
-                        <label htmlFor="phone" className="form-label fs-5">Telefono: {familiar.phone} </label>
-                    </div>
-
-                    <div className="mb-3">
-                        <label htmlFor="description" className="form-label fs-5">Otra información importante: {familiar.description}  </label>
+                        <p className="fw-bold">Observaciones</p> 
+                        <p>{familiar.description}</p>
                     </div>
                 </form >
             </div>
