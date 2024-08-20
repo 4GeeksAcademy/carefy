@@ -15,17 +15,23 @@ export const TarjetaFamiliar = ({ familiar, index }) => {
     const editarFamiliarId = `editarFamiliar-${index}`;
     const eliminarFamiliarId = `eliminarFamiliar-${index}`;
 
+    function capitalizeFirstLetter(string) {
+        if (string.length === 0) return '';
+        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    }
+
+
 
     return (
 
         <div className="card" style={{ width: '15rem' }}>
-            <h5 className="card-title text-center pt-2">{familiar.alias}</h5>
+            <h5 className="card-title text-center pt-2">{capitalizeFirstLetter(familiar.alias)}</h5>
 
             {/* Si el usuario ha subido una foto, se pinta la foto. Si no, se pinta el muñeco */}
             {familiar.photo ? (
-                <img src={familiar.photo} className={`${style.card_img_top }`}alt="..." />
+                <img src={familiar.photo} className={`${style.card_img_top }`} alt="..." />
             ) : (
-                <img src={profileImg} className={`${style.card_img_top }`}alt="..." />
+                <img src={profileImg} className={`${style.card_img_top }`} alt="..." />
             )}
 
             <div className="card-body">

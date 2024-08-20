@@ -77,6 +77,10 @@ export const EditarAnuncio = () => {
     return age;
   };
 
+  function capitalizeFirstLetter(string) {
+    if (string.length === 0) return '';
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
 
   return (
     <div className={`container p-4 rounded`}>
@@ -89,7 +93,7 @@ export const EditarAnuncio = () => {
           .map((familiar, index) => (
             <RadioButton
               key={index}
-              alias={familiar.alias}
+              alias={capitalizeFirstLetter(familiar.alias)}
               value={familiar.id}
               checked={selectedPatient === familiar.id}
               onChange={() => setSelectedPatient(familiar.id)}
@@ -107,10 +111,17 @@ export const EditarAnuncio = () => {
             photo={patient.photo}
             description={patient.description}
             age={getAge(patient.birthdate)}
+            birthdate={new Date(patient.birthdate).toLocaleDateString('es-ES', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric'
+            })}
             dependency={patient.dependency}
             province={patient.province}
             phone={patient.phone}
             location={patient.location}
+            firstName={patient.name}
+            lastName={patient.lastname}
           />
         ))}
       </div>
