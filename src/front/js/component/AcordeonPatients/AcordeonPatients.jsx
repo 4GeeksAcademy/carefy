@@ -22,12 +22,12 @@ const AcordeonPatients = ({ alias, photo, description, age, dependency, province
                 data-bs-parent="#patientAccordion"
             >
                 <div className="accordion-body">
-                    <div className={styles.container_img}>
+                    <div className={`rounded mb-3 ${styles.image}`}>
                         {photo ? (
                             <img
                                 src={photo}
                                 alt={`Foto de ${alias}`}
-                                className={`img-fluid mb-3 ${styles.image}`}
+                                className={`img-fluid mb-3`}
                             />
                         ) : (
                             <img
@@ -39,7 +39,7 @@ const AcordeonPatients = ({ alias, photo, description, age, dependency, province
                     </div>
                     <h5>{alias}</h5>
                     <p><span className={styles.content_accordion}>Descripción:</span> {description}</p>
-                    <p><span className={styles.content_accordion}>Edad:</span> {age}</p>
+                    <p><span className={styles.content_accordion}>Edad:</span> {age} años</p>
                     <p><span className={styles.content_accordion}>Dependencia:</span> {dependency}</p>
                     <p><span className={styles.content_accordion}>Localidad:</span> {location}</p>
                     <p><span className={styles.content_accordion}>Provincia:</span> {province}</p>

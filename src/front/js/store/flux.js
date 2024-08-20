@@ -224,10 +224,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			createAd: async (type, startDate, endDate, price, title, description, status = "pending", active) => {
+			createAd: async (type, startDate, endDate, price, title, description, patient_id, status = "pending", active = true) => {
 				const store = getStore();
 				try {
-					const resp = await fetch(`${process.env.BACKEND_URL}/api/create_ad/${store.userData.userId}`, {
+					const resp = await fetch(`${process.env.BACKEND_URL}/api/create_ad/${store.userData.userId}/${patient_id}`, {
 						method: "POST",
 						body: JSON.stringify({
 							type: type,
@@ -238,8 +238,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 							description: description,
 							created_at: new Date().toISOString(), // Enviar la fecha actual como ISOString
 							status: status,
-							active: active
-
+							active: active,
+							patient_id: patient_id
 						}),
 						headers: {
 							"Content-Type": "application/json"
@@ -365,9 +365,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			editAd: async (id, type, startDate, endDate, price, title, description) => {
+			editAd: async (id, type, startDate, endDate, price, title, description, patient_id) => {
 				const store = getStore();
 				const actions = getActions();
+				
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/ad/edit/${id}`, {
 						method: "PUT",
@@ -377,7 +378,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 							end_date: endDate,
 							max_cost: price,
 							title: title,
-							description: description
+							description: description,
+							patient_id: patient_id
 						}),
 						headers: {
 							"Content-Type": "application/json"
@@ -391,6 +393,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await response.json();
 
 					const updatedAd = data.ad;
+
+					// if (!updatedAd || !updatedAd.id) {
+					// 	console.error('Updated ad data is missing or has no id');
+					// 	return;
+					// }
 
 					setStore({
 						...store,
@@ -406,15 +413,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 			selectedAd: (id) => {
 				const store = getStore();
 				
-				// Asegurarnos de que `store.ads` sea un array antes de buscar el anuncio
 				if (Array.isArray(store.ads) && store.ads.length > 0) {
 					const adSeleccionado = store.ads.find((ad) => ad.id === id);
 					
 					if (adSeleccionado) {
-						// Guardar el anuncio seleccionado en el store
+
 						setStore({ adElegido: adSeleccionado });
 					} else {
-						// Si no se encuentra el anuncio, almacenar null o un estado claro
 						console.error('No se encontró un anuncio con el ID especificado');
 						setStore({ adElegido: null });
 					}
@@ -423,9 +428,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ adElegido: null }); // Indicando claramente que no hay anuncios seleccionados
 				}
 			},
+
 			anadir_familiar: async (name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, user_id) => {
 				const store = getStore();
 				try {
+					console.log('atributos', photo);
+					
 					const response = await fetch(`${process.env.BACKEND_URL}/api/anadir_familiar`, {
 						method: 'POST',
 						body: JSON.stringify({ name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, user_id }),
@@ -561,6 +569,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 
 			},
+
+			subirfoto: async (formData) => {
+				const store = getStore();				
+				try {
+			
+					const response = await fetch(`${process.env.BACKEND_URL}/api/subirfoto`, {
+						method: 'POST',
+						body: formData 
+					});
+			
+					if (!response.ok) {
+						throw new Error(`HTTP error! status: ${response.status}`);
+					}
+					
+					// Cuando obtiene la respuesta el response se pasa a formato json y lo guarda en fotosubida
+					// Se hace el return de fotosubida
+					const fotosubida = await response.json(); 
+					return fotosubida; //
+				}
+				catch (error) {
+					console.error("Network error:", error);
+					return null; 
+				}
+			},
+
+			
 
 			//ver todos los acompanantes
 			getCompanions: async () => {

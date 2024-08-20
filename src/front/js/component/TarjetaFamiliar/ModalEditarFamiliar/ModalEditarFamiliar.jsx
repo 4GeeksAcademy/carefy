@@ -19,6 +19,7 @@ export const ModalEditarFamiliar = ({ familiar }) => {
     const [location, setLocation] = useState('');
     const [photo, setPhoto] = useState('')
     const [error, setError] = useState('')
+    const [imageUrl, setImageUrl] = useState('');
 
     // Sincronizar los valores iniciales del objeto `familiar` con los estados locales
     useEffect(() => {
@@ -50,39 +51,60 @@ export const ModalEditarFamiliar = ({ familiar }) => {
         return edadCalculada
     }
 
-    // const editar_familiar = async (event, name, alias, lastname, phone, description, birthdate, dependency, province, location, photo) => {
-    //     event.preventDefault();
-    //     const user_id = store.userData.userId
-    //     if (!name || !alias || !lastname || !phone || !description || !birthdate || !dependency || !province || !location) {
-    //         setError("Por favor, complete todos los campos.");
-    //         return;
-    //     }
 
-    //     await actions.editar_familiar(name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, familiar.id)
-
-    // }
 
     const editar_familiar = async (event) => {
         try {
             event.preventDefault();
-    
+
             if (!name || !alias || !lastname || !phone || !description || !birthdate || !dependency || !province || !location) {
                 setError("Por favor, complete todos los campos.");
                 return;
             }
-    
+
             const result = await actions.editar_familiar(name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, familiar.id);
-    
+
             if (result) {
                 // Maneja el éxito de la edición aquí
                 navigate('/perfilusuario');
             } else {
                 setError("Ocurrió un error al editar los datos.");
             }
-    
+
         } catch (error) {
             console.error("Error al editar familiar:", error);
             setError("Ocurrió un error inesperado.");
+        }
+    };
+
+    // Este useEffect se ejecutará cada vez que imageUrl cambie
+    useEffect(() => {
+        if (imageUrl) {
+            console.log('imageUrl actualizado:', imageUrl);
+        }
+    }, [imageUrl]); // Se ejecuta cuando imageUrl cambia
+
+    /**
+ * Función subirfoto: agrega una imagen
+ * Con formData da un formato específico al tipo de fichero (foto) que se le pasa.
+ * formData.append("file", photo); --> añade al formData el fichero al que se le quiere dar formato. 
+ * response: llama a la función del actions que conecta con Clodinary, devolviendo el objeto que contiene
+ * en el atributo "url" la url en string que necesitamos para que se pinte la imagen. 
+ * setPhoto guarda la url en la variable photo. 
+ * @param {photo}  
+ * @returns null si hay algún error.
+ */
+    const subirfoto = async (photo) => {
+        try {
+            const formData = new FormData();
+            formData.append("file", photo);
+            const response = await actions.subirfoto(formData);
+            setPhoto(response.url)
+            console.log('response', response);
+
+        } catch (error) {
+            console.error("Error al subir la imagen:", error);
+            return null;
         }
     };
 
@@ -106,7 +128,7 @@ export const ModalEditarFamiliar = ({ familiar }) => {
     return (
         <div className="modal-content">
             <div className="modal-header">
-                <h1 className="modal-title fs-5" id="exampleModalLabel">Familiar: {familiar.alias}</h1>
+                <h1 className="modal-title fs-5" id="exampleModalLabel">{familiar.alias}</h1>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
@@ -167,8 +189,8 @@ export const ModalEditarFamiliar = ({ familiar }) => {
                                                 type="radio"
                                                 name="dependency"
                                                 id="nivel1"
-                                                value="Nivel1"
-                                                checked={dependency === "Nivel1"}
+                                                value="Nivel 1"
+                                                checked={dependency === "Nivel 1"}
                                                 onChange={(e) => setDependency(e.target.value)} />
                                             <label
                                                 className="form-check-label"
@@ -180,14 +202,14 @@ export const ModalEditarFamiliar = ({ familiar }) => {
                                             </label>
                                         </div>
                                         <div className="form-check">
-                                            <input 
-                                            className="form-check-input" 
-                                            type="radio" 
-                                            name="dependency"
-                                            id="nivel2"
-                                            value="Nivel2"
-                                            checked={dependency === "Nivel2"} 
-                                            onChange={(e) => setDependency(e.target.value)} />
+                                            <input
+                                                className="form-check-input"
+                                                type="radio"
+                                                name="dependency"
+                                                id="nivel2"
+                                                value="Nivel2"
+                                                checked={dependency === "Nivel2"}
+                                                onChange={(e) => setDependency(e.target.value)} />
                                             <label
                                                 className="form-check-label"
                                                 htmlFor="nivel2"
@@ -200,7 +222,7 @@ export const ModalEditarFamiliar = ({ familiar }) => {
                                         <div className="form-check">
                                             <input className="form-check-input" type="radio" name="dependency"
                                                 id="nivel3"
-                                                value="Nivel3" checked={dependency === "Nivel3"} onChange={(e) => setDependency(e.target.value)} />
+                                                value="Nivel 3" checked={dependency === "Nivel 3"} onChange={(e) => setDependency(e.target.value)} />
                                             <label
                                                 className="form-check-label"
                                                 htmlFor="nivel3"
@@ -213,7 +235,7 @@ export const ModalEditarFamiliar = ({ familiar }) => {
                                         <div className="form-check">
                                             <input className="form-check-input" type="radio" name="dependency"
                                                 id="nivel4"
-                                                value="Nivel4" checked={dependency === "Nivel4"} onChange={(e) => setDependency(e.target.value)} />
+                                                value="Nivel 4" checked={dependency === "Nivel 4"} onChange={(e) => setDependency(e.target.value)} />
                                             <label
                                                 className="form-check-label"
                                                 htmlFor="nivel4"
@@ -302,7 +324,7 @@ export const ModalEditarFamiliar = ({ familiar }) => {
 
                     <div className="mb-3">
                         <label htmlFor="photo" className="form-label fs-5">Foto</label>
-                        <input className="form-control" type="file" id="photo" onChange={(e) => setPhoto(e.target.files[0])} />
+                        <input className="form-control" type="file" id="photo" onChange={(e) => subirfoto(e.target.files[0])} />
                     </div>
 
                     <div className="mb-3">

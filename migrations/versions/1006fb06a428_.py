@@ -1,8 +1,14 @@
 """empty message
 
-Revision ID: 9384a269046f
+<<<<<<<< HEAD:migrations/versions/ae778d29a470_.py
+Revision ID: ae778d29a470
 Revises: 
-Create Date: 2024-08-17 14:41:13.021568
+Create Date: 2024-08-19 10:47:05.518528
+========
+Revision ID: 1006fb06a428
+Revises: 
+Create Date: 2024-08-19 10:10:28.584359
+>>>>>>>> 7b10c88f2ab01af47c240851480feb654abc980b:migrations/versions/1006fb06a428_.py
 
 """
 from alembic import op
@@ -10,7 +16,11 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '9384a269046f'
+<<<<<<<< HEAD:migrations/versions/ae778d29a470_.py
+revision = 'ae778d29a470'
+========
+revision = '1006fb06a428'
+>>>>>>>> 7b10c88f2ab01af47c240851480feb654abc980b:migrations/versions/1006fb06a428_.py
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -60,7 +70,7 @@ def upgrade():
     sa.Column('lastname', sa.String(length=250), nullable=False),
     sa.Column('phone', sa.String(length=250), nullable=False),
     sa.Column('photo', sa.String(length=250), nullable=True),
-    sa.Column('description', sa.String(length=250), nullable=False),
+    sa.Column('description', sa.Text(), nullable=True),
     sa.Column('birthdate', sa.String(length=250), nullable=False),
     sa.Column('dependency', sa.String(length=250), nullable=False),
     sa.Column('location', sa.String(length=250), nullable=False),
@@ -84,6 +94,8 @@ def upgrade():
     sa.Column('max_cost', sa.Integer(), nullable=True),
     sa.Column('status', sa.Enum('PENDING', 'REJECTED', 'OK', name='status'), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.Column('hired', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['hired'], ['companions.id'], ),
     sa.ForeignKeyConstraint(['patient_id'], ['patients.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')

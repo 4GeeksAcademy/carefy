@@ -13,7 +13,18 @@ const ListAds = () => {
 
 	useEffect(() => {
 		actions.getAds();
+    actions.getFamiliarDetalles();
 	}, [])
+
+
+  const adsWithProvinces = store.ads.map(ad => {
+    const patient = store.familiares.find(patient => patient.id === ad.patient_id);
+    return {
+        ...ad,
+        province: patient ? patient.province : 'Desconocida',
+        photo: patient ? patient.photo : ''
+    };
+});
 
   return (
     <>
@@ -24,16 +35,17 @@ const ListAds = () => {
       <FilterAds/>
       <div className={`container ${styles.card_container}`}>
         <div className={`row ${styles.list_ads}`}>
-          {store.ads.map((element, index) => (
+          {adsWithProvinces.map((element, index) => (
             <div className="col-12 col-sm-3 mb-4" key={index}>
               <CardsAds
+                photo={element.photo}
                 title={element.title}
                 date={new Date(element.start_date).toLocaleDateString('es-ES', {
                   day: '2-digit',
                   month: '2-digit',
                   year: 'numeric'
               })}
-                location={element.location}
+                location={element.province}
                 description={element.description}
                 link={`/anuncio/${element.id}`}
               />
