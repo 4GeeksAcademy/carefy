@@ -667,17 +667,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 							photo,
 							province,
 							birthdate,
-							experience,
-							service_cost,
-							user_id,
 							availability_hours,
 							availability_days,
 							availability_weeks,
 							availability_live_in,
+							experience,
+							service_cost,
 							facebook,
 							instagram,
 							twitter,
-							linkedin
+							linkedin,
+							user_id,
+							
+					
+							
 						}),
 						headers: {
 							"Content-Type": "application/json"

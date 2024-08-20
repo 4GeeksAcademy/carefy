@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import styles from "./companionProfile.module.css";
 
 import { MdOutlineCancel } from "react-icons/md";

@@ -1,25 +1,29 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./formCompanion.module.css";
 import { Context } from "../../store/appContext";
+import { useNavigate } from "react-router-dom";
 
 const CompanionForm = () => {
   const { store, actions } = useContext(Context);
+  const navigate = useNavigate();
+
 
   const [companion, setCompanion] = useState({
     description: "",
-    birthdate: "",
     photo: "",
     province: "",
+    birthdate: "",
     availability_hours: false,
     availability_days: false,
     availability_weeks: false,
     availability_live_in: false,
     experience: "",
     service_cost: "",
-    facebook: "",
+    facebook: "", 
     instagram: "",
+    twitter: "",
     linkedin: "",
-    twitter: ""
+    
   });
 
   const [user, setUser] = useState({
@@ -54,9 +58,8 @@ const CompanionForm = () => {
     if (store.userData) {
       setUser({
         name: store.userData.name || "",
-        password: store.userData.password || "",
-        email: store.userData.email || "",
         lastname: store.userData.lastname || '',
+        email: store.userData.email || "",
         phone: store.userData.phone || '',
         location: store.userData.location || ''
       });
@@ -68,17 +71,19 @@ const CompanionForm = () => {
         description: companion.description || "",
         photo: companion.photo || "",
         province: companion.province || '',
-        experience: companion.experience || '',
         birthdate: companion.birthdate || '',
-        service_cost: companion.service_cost || '',
-        facebook: companion.facebook || '',
-        instagram: companion.instagram || '',
-        linkedin: companion.linkedin || '',
-        twitter: companion.twitter || '',
         availability_hours: companion.availability_hours || false,
         availability_days: companion.availability_days || false,
         availability_weeks: companion.availability_weeks || false,
-        availability_live_in: companion.availability_live_in || false
+        availability_live_in: companion.availability_live_in || false,
+        experience: companion.experience || '', 
+        service_cost: companion.service_cost || '',
+        facebook: companion.facebook || '',
+        instagram: companion.instagram || '',
+        twitter: companion.twitter || '',
+        linkedin: companion.linkedin || '',
+        
+        
       });
     
   }, [store.companions]);
@@ -115,6 +120,8 @@ const CompanionForm = () => {
     } catch (error) {
       console.error('There was an error submitting the data:', error);
     }
+
+   // navigate('/perfil-profesional');
   };
 
   return (
