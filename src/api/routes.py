@@ -456,6 +456,7 @@ def anadir_companion():
 
     except Exception as e:
         db.session.rollback()
+        print(f'Error al añadir nuevo companion: {str(e)}')
         return jsonify({'Error': f'Error al añadir nuevo companion: {str(e)}'}), 400
 
 

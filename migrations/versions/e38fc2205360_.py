@@ -1,14 +1,8 @@
 """empty message
 
-<<<<<<<< HEAD:migrations/versions/ae778d29a470_.py
-Revision ID: ae778d29a470
+Revision ID: e38fc2205360
 Revises: 
-Create Date: 2024-08-19 10:47:05.518528
-========
-Revision ID: 1006fb06a428
-Revises: 
-Create Date: 2024-08-19 10:10:28.584359
->>>>>>>> 7b10c88f2ab01af47c240851480feb654abc980b:migrations/versions/1006fb06a428_.py
+Create Date: 2024-08-20 11:22:22.609866
 
 """
 from alembic import op
@@ -16,11 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-<<<<<<<< HEAD:migrations/versions/ae778d29a470_.py
-revision = 'ae778d29a470'
-========
-revision = '1006fb06a428'
->>>>>>>> 7b10c88f2ab01af47c240851480feb654abc980b:migrations/versions/1006fb06a428_.py
+revision = 'e38fc2205360'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -49,6 +39,7 @@ def upgrade():
     sa.Column('photo', sa.String(length=250), nullable=False),
     sa.Column('location', sa.String(length=250), nullable=False),
     sa.Column('province', sa.String(length=250), nullable=False),
+    sa.Column('birthdate', sa.String(length=250), nullable=False),
     sa.Column('availability_hours', sa.Boolean(), nullable=True),
     sa.Column('availability_days', sa.Boolean(), nullable=True),
     sa.Column('availability_weeks', sa.Boolean(), nullable=True),

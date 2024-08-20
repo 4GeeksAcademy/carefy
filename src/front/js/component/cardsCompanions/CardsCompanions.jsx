@@ -2,7 +2,7 @@ import React from 'react'
 import styles from "./cardCompanions.module.css"
 import { Link } from 'react-router-dom';
 
-const CardsCompanions = ({ name, last_name, description, photo, location, link }) => {
+const CardsCompanions = ({ name, last_name, description, photo, location, link, ratings }) => {
   return (
 
     <div className={`card ${styles.profile}`}>

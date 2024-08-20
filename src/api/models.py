@@ -95,7 +95,6 @@ class Companion(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     hired = db.relationship('Ad', backref='hired_companion')
 
-    user = db.relationship('User', backref='companions')
 
     def __repr__(self):
         return f'<Companion {self.id}>'
