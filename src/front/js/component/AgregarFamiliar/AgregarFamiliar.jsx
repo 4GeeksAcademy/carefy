@@ -125,10 +125,10 @@ export const AgregarFamiliar = () => {
     };
 
     return (
-        <form className="form p-4" onSubmit={(event) => anadir_familiar(event, name, alias, lastname, phone, description, birthdate, dependency, province, location, photo)}>
+        <form className="form p-2" onSubmit={(event) => anadir_familiar(event, name, alias, lastname, phone, description, birthdate, dependency, province, location, photo)}>
             <div className="mb-3">
                 <label htmlFor="alias" className="form-label fs-5">Alias</label>
-                <input type="text" className="form-control" id="alias" placeholder="Ejemplo: mi padre" onChange={(e) => setAlias(e.target.value)} value={alias} />
+                <input type="text" className="form-control" id="alias" placeholder="Ejemplo: Mi padre" onChange={(e) => setAlias(e.target.value)} value={alias} />
 
             </div>
 
