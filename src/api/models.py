@@ -168,6 +168,7 @@ class Status(Enum):
     PENDING = "pending"
     REJECTED = "rejected"
     OK = "ok"
+    FINISH = "finish"
     
 class Type(Enum):
     OUT = "externo"
