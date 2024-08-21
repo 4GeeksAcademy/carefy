@@ -59,7 +59,7 @@ export const CompanionProfile = ({ }) => {
       </div>
 
 
-      <h1 className="mb-5 pe-5 me-3">{store.oneCompanion?.user?.name} </h1>
+      <h1 className="mb-5 pe-5 me-3">{store.oneCompanion?.user?.name} {store.oneCompanion?.user?.lastname} </h1>
       <div className="d-flex align-items-start justify-content-between flex-wrap">
         <div className="d-flex align-items-center flex-wrap">
           <div className={`${styles.container_img} rounded`}>
@@ -76,7 +76,7 @@ export const CompanionProfile = ({ }) => {
               <FaRegStar className="fs-4" />
               <FaRegStar className="fs-4" />
             </p>
-            <p className="fs-4"><span className="fa-solid fa-id-card pe-3"></span>{calculateAge(birthdate)}</p>
+            <p className="fs-4"><span className="fa-solid fa-id-card pe-3"></span>{calculateAge(birthdate)} años</p>
             <p className="fs-4"><span className="fa-solid fa-location-dot pe-3"></span>{store.oneCompanion?.user?.location}</p>
           </div>
         </div>
@@ -146,7 +146,7 @@ export const CompanionProfile = ({ }) => {
         </div>
         <div className="col-12 col-md-4">
           <p className="fs-4 fw-bold"><span className="fa-solid fa-coins pe-3"></span>Pago (hora)</p>
-          <p className="fs-4 ps-4 ms-3">{store.oneCompanion?.service_cost}</p>
+          <p className="fs-4 ps-4 ms-3">{store.oneCompanion?.service_cost} €</p>
         </div>
         <div className="col-12 col-md-4">
 
@@ -156,7 +156,7 @@ export const CompanionProfile = ({ }) => {
           </p>
           {/* Instagram */}
           {store.oneCompanion?.instagram ? (
-            <a
+            <a target="_blank"
               className={`fs-4 ps-4 ms-3 ${styles.social_icons}`}
               href={store.oneCompanion?.instagram}
             >
@@ -168,7 +168,7 @@ export const CompanionProfile = ({ }) => {
 
           {/* Facebook */}
           {store.oneCompanion?.facebook ? (
-            <a
+            <a target="_blank"
               className={`fs-4 ms-3 ${styles.social_icons}`}
               href={store.oneCompanion?.facebook}
             >
@@ -180,7 +180,7 @@ export const CompanionProfile = ({ }) => {
 
           {/* Twitter */}
           {store.oneCompanion?.twitter ? (
-            <a
+            <a target="_blank"
               className={`fs-4 ms-3 ${styles.social_icons}`}
               href={store.oneCompanion?.twitter}
             >
@@ -192,7 +192,7 @@ export const CompanionProfile = ({ }) => {
 
           {/* LinkedIn */}
           {store.oneCompanion?.linkedin ? (
-            <a
+            <a target="_blank"
               className={`fs-4 ms-3 ${styles.social_icons}`}
               href={store.oneCompanion?.linkedin}
             >
