@@ -25,7 +25,7 @@ export const CompanionProfile = ({ }) => {
     
       actions.companion(id);
     
-  }, []);
+  }, [id]);
   console.log("----------------------------------------------------------", store.oneCompanion)
 
 
@@ -59,7 +59,7 @@ export const CompanionProfile = ({ }) => {
       </div>
 
 
-      <h1 className="mb-5 pe-5 me-3">{store.oneCompanion?.user.name} </h1>
+      <h1 className="mb-5 pe-5 me-3">{store.oneCompanion?.user?.name} </h1>
       <div className="d-flex align-items-start justify-content-between flex-wrap">
         <div className="d-flex align-items-center flex-wrap">
           <div className={`${styles.container_img} rounded`}>
@@ -77,7 +77,7 @@ export const CompanionProfile = ({ }) => {
               <FaRegStar className="fs-4" />
             </p>
             <p className="fs-4"><span className="fa-solid fa-id-card pe-3"></span>{calculateAge(birthdate)}</p>
-            <p className="fs-4"><span className="fa-solid fa-location-dot pe-3"></span>{store.oneCompanion.user.location}</p>
+            <p className="fs-4"><span className="fa-solid fa-location-dot pe-3"></span>{store.oneCompanion?.user?.location}</p>
           </div>
         </div>
         <button className={`btn ${styles.btn_contact} fs-4 fw-bold`}>
@@ -87,13 +87,13 @@ export const CompanionProfile = ({ }) => {
       <div className="pt-4">
         <p className="fs-4 fw-bold">Descripción</p>
         <p className="fs-5">
-          {store.oneCompanion.description}
+          {store.oneCompanion?.description}
         </p>
       </div>
       <div className="pt-4">
         <p className="fs-4 fw-bold">Experiencia</p>
         <p className="fs-5">
-          {store.oneCompanion.experience}
+          {store.oneCompanion?.experience}
         </p>
       </div>
       <div className="pt-3 row">
@@ -103,7 +103,7 @@ export const CompanionProfile = ({ }) => {
             <div className="row">
               <div className=" col-12 col-md-12 ">
                 <p className="ps-4 ms-3 ms-3 fs-5">
-                  {store.oneCompanion.availability_hours ? (
+                  {store.oneCompanion?.availability_hours ? (
                     <IoIosCheckmarkCircleOutline className={styles.available} />
                   ) : (
                     <MdOutlineCancel className={styles.not_available} />
@@ -113,7 +113,7 @@ export const CompanionProfile = ({ }) => {
               </div>
               <div className="col-12 col-md-12">
                 <p className="ps-4 ms-3 ms-3 fs-5">
-                  {store.oneCompanion.availability_days ? (
+                  {store.oneCompanion?.availability_days ? (
                     <IoIosCheckmarkCircleOutline className={styles.available} />
                   ) : (
                     <MdOutlineCancel className={styles.not_available} />
@@ -123,7 +123,7 @@ export const CompanionProfile = ({ }) => {
               </div>
               <div className="col-12 col-md-12">
                 <p className="ps-4 ms-3 ms-3 fs-5">
-                  {store.oneCompanion.availability_weeks ? (
+                  {store.oneCompanion?.availability_weeks ? (
                     <IoIosCheckmarkCircleOutline className={styles.available} />
                   ) : (
                     <MdOutlineCancel className={styles.not_available} />
@@ -133,7 +133,7 @@ export const CompanionProfile = ({ }) => {
               </div>
               <div className="col-12 col-md-12">
                 <p className="ps-4 ms-3 ms-3 fs-5">
-                  {store.oneCompanion.availability_live_in ? (
+                  {store.oneCompanion?.availability_live_in ? (
                     <IoIosCheckmarkCircleOutline className={styles.available} />
                   ) : (
                     <MdOutlineCancel className={styles.not_available} />
@@ -146,7 +146,7 @@ export const CompanionProfile = ({ }) => {
         </div>
         <div className="col-12 col-md-4">
           <p className="fs-4 fw-bold"><span className="fa-solid fa-coins pe-3"></span>Pago (hora)</p>
-          <p className="fs-4 ps-4 ms-3">{store.oneCompanion.service_cost}</p>
+          <p className="fs-4 ps-4 ms-3">{store.oneCompanion?.service_cost}</p>
         </div>
         <div className="col-12 col-md-4">
 
@@ -155,10 +155,10 @@ export const CompanionProfile = ({ }) => {
             Conoce más de mí
           </p>
           {/* Instagram */}
-          {store.oneCompanion.instagram ? (
+          {store.oneCompanion?.instagram ? (
             <a
               className={`fs-4 ps-4 ms-3 ${styles.social_icons}`}
-              href={store.oneCompanion.instagram}
+              href={store.oneCompanion?.instagram}
             >
               <span className="fa-brands fa-square-instagram fs-4"></span>
             </a>
@@ -167,10 +167,10 @@ export const CompanionProfile = ({ }) => {
           )}
 
           {/* Facebook */}
-          {store.oneCompanion.facebook ? (
+          {store.oneCompanion?.facebook ? (
             <a
               className={`fs-4 ms-3 ${styles.social_icons}`}
-              href={store.oneCompanion.facebook}
+              href={store.oneCompanion?.facebook}
             >
               <span className="fa-brands fa-facebook-square fs-4"></span>
             </a>
@@ -179,10 +179,10 @@ export const CompanionProfile = ({ }) => {
           )}
 
           {/* Twitter */}
-          {store.oneCompanion.twitter ? (
+          {store.oneCompanion?.twitter ? (
             <a
               className={`fs-4 ms-3 ${styles.social_icons}`}
-              href={store.oneCompanion.twitter}
+              href={store.oneCompanion?.twitter}
             >
               <span className="fa-brands fa-square-x-twitter fs-4"></span>
             </a>
@@ -191,10 +191,10 @@ export const CompanionProfile = ({ }) => {
           )}
 
           {/* LinkedIn */}
-          {store.oneCompanion.linkedin ? (
+          {store.oneCompanion?.linkedin ? (
             <a
               className={`fs-4 ms-3 ${styles.social_icons}`}
-              href={store.oneCompanion.linkedin}
+              href={store.oneCompanion?.linkedin}
             >
               <span className="fa-brands fa-linkedin fs-4"></span>
             </a>

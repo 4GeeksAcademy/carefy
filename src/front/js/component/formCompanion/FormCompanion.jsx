@@ -163,10 +163,9 @@ const CompanionForm = () => {
       console.error('There was an error submitting the data:', error);
     }
 
-
-
-   // navigate('/perfil-profesional');
+    navigate('/blog');
    actions.handleEditCompanionOrNewCompanion(false)
+   
   };
 
   return (
