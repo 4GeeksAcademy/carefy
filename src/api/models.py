@@ -96,7 +96,7 @@ class Companion(db.Model):
 
 
     def __repr__(self):
-        return f'<Companion {self.id}>'
+        return f'{self.id}'
     
     def serialize(self):
         return {
@@ -148,21 +148,25 @@ class Inscription(db.Model):
         }
     
 
-class Favourite_companion(db.Model):
+class Favorite_companion(db.Model):
     __tablename__ ="favourite_companions"
     id = db.Column(db.Integer, primary_key=True)
-    patient_id =db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
+    user_id =db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     companion_id =db.Column(db.Integer, db.ForeignKey('companions.id'), nullable=False)
 
-    patient = db.relationship ("Patient", backref="favourite_companions")
+    user = db.relationship ("User", backref="favourite_companions")
     companion = db.relationship ("Companion", backref = "favourite_companions")
+    
+    def __repr__(self):
+        return f'{self.id}'
 
     def serialize(self):
         return{
             "id": self.id,
-            "patient_id": self.patient_id,
+            "user_id": self.user_id,
             "companion_id": self.companion_id
         }
+        
         
 class Status(Enum):
     PENDING = "pending"

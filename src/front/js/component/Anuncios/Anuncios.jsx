@@ -10,6 +10,9 @@ export const Anuncios = ({ countFav, companionName }) => {
 
     useEffect(() => {
         actions.getUserAds();
+        actions.getCompanionFavs();
+        actions.companion();
+        actions.getCompanions()
     }, []);
 
     const handleDelete = (id) => {
@@ -21,10 +24,7 @@ export const Anuncios = ({ countFav, companionName }) => {
         navigate(`/anuncio/${id}`)
     }
 
-    const handleEditAd = (id) => {
-        console.log("Editing ad with ID:", id);
-        navigate(`/edit-ad/${id}`);
-    };
+
 
     return (
         <>
@@ -101,18 +101,28 @@ export const Anuncios = ({ countFav, companionName }) => {
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Nombre</th>
+                                    <th scope="col">Ubicación</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">{countFav}</th>
-                                    <td>{companionName}</td>
+                            {Array.isArray(store.favData) ? (
+                                    store.favData.map((fav, index) => (
+
+                                        <tr key={fav.id}>
+                                            <th scope="row">{index + 1}</th>
+                                            <td>{store.oneCompanion?.user?.name} {store.oneCompanion?.user?.lastname}</td>
+                                            <td>{store.oneCompanion?.user?.location}, {store.oneCompanion?.province}</td>
                                     <td className="text-end">
-                                        <span className="fa-solid fa-eye pe-3"></span>
-                                        <span className="fa-solid fa-trash-can pb-2"></span>
+                                        <Link to={`/perfil-profesional/${store.oneCompanion.id}`}><span className="fa-solid fa-eye pe-3 text-dark"></span></Link>
                                     </td>
-                                </tr>
+                                    </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="5">No tienes favoritos guardados</td>
+                                    </tr>
+                                )}
                             </tbody>
                         </table>
                     </div>

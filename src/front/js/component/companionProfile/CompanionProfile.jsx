@@ -24,6 +24,8 @@ export const CompanionProfile = ({ }) => {
   useEffect(() => {
     
       actions.companion(id);
+      actions.getCompanionFavs();
+      actions.getAllFavs();
     
   }, [id]);
   console.log("----------------------------------------------------------", store.oneCompanion)
@@ -47,6 +49,15 @@ export const CompanionProfile = ({ }) => {
 
   const birthdate = store.oneCompanion?.birthdate;
 
+  const handleAddFav = (companion_id) => {
+    actions.addCompanionFav(companion_id)
+  }
+
+  const handleDeleteFav = (fav_id) => {
+    console.log('ID de favdata', store.favData.id)
+    actions.deleteFavCompanion(fav_id)
+  }
+
   return (
     <div
       className={`container bg-light p-4 my-5 rounded position-relative ${styles.container_profile}`}>
@@ -55,7 +66,8 @@ export const CompanionProfile = ({ }) => {
 
       <div className={`position-absolute ${styles.fav_icon}`}>
         {/* <span className="fa-solid fa-pencil pe-3"></span> */}
-        <span className="fa-regular fa-heart" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"></span>
+        <span onClick={() => handleAddFav(store.oneCompanion.id)} className="fa-regular fa-heart" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"></span>
+        <span onClick={() => handleDeleteFav(store.favsCompanion?.id)} className="fa-solid mt-5 fa-heart" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"></span>
       </div>
 
 
