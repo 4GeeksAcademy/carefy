@@ -79,8 +79,8 @@ class Companion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(250), nullable=False)
     photo = db.Column(db.String(250), nullable=False)
-    location =  db.Column(db.String(250), nullable=False)
     province = db.Column(db.String(250), nullable=False)
+    birthdate = db.Column(db.String(250), nullable=False)
     availability_hours = db.Column(db.Boolean, default=False)
     availability_days = db.Column(db.Boolean, default=False)
     availability_weeks = db.Column(db.Boolean, default=False)
@@ -95,22 +95,53 @@ class Companion(db.Model):
     hired = db.relationship('Ad', backref='hired_companion')
 
 
+    def __repr__(self):
+        return f'<Companion {self.id}>'
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "photo": self.photo,
+            "description": self.description,
+            "birthdate": self.birthdate,
+            "province": self.province,
+            "availability_hours": self.availability_hours,
+            "availability_days": self.availability_days,
+            "availability_weeks": self.availability_weeks,
+            "availability_live_in": self.availability_live_in,
+            "experience": self.experience,
+            "service_cost": self.service_cost,
+            "facebook": self.facebook,
+            "instagram": self.instagram,
+            "twitter": self.twitter,
+            "linkedin": self.linkedin,
+            "user": {
+                "id": self.user.id,
+                "name": self.user.name,
+                "lastname": self.user.lastname,
+                "email": self.user.email,
+                "phone": self.user.phone,
+                "location": self.user.location,
+            } if self.user else None,  #así se asegura que el usuario existe
+        }
+
+
 class Inscription(db.Model): 
     __tablename__ ="inscriptions"
     id = db.Column(db.Integer, primary_key=True)
-    patient_id =db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
+    user_id =db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     companion_id =db.Column(db.Integer, db.ForeignKey('companions.id'), nullable=False)
     ad_id =db.Column(db.Integer,  db.ForeignKey('ads.id'), nullable=False)
     is_active =db.Column(db.Boolean(), nullable=False) 
 
     companions = db.relationship("Companion", backref = "inscriptions")
-    patients = db.relationship ("Patient",  backref = "inscriptions")
+    users = db.relationship ("User",  backref = "inscriptions")
     ad = db.relationship ("Ad", backref = "inscriptions")
 
     def serialize(self):
         return {
             "id": self.id,
-            "patient_id": self.patient_id,
+            "user_id": self.user_id,
             "companion_id": self.companion_id,
             "ad_id": self.ad_id,
             "is_active": self.is_active

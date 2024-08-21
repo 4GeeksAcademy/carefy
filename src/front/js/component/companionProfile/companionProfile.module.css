@@ -52,3 +52,7 @@
   cursor: pointer;
   color: #5c7728;
 }
+
+.hiddenButSpace {
+  visibility: hidden; /* Oculta el elemento visualmente pero mantiene el espacio que ocupa */
+}

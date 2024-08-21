@@ -2,7 +2,7 @@ import React from 'react'
 import styles from "./cardCompanions.module.css"
 import { Link } from 'react-router-dom';
 
-const CardsCompanions = ({ name, last_name, ratings, description, photo, location }) => {
+const CardsCompanions = ({ name, last_name, description, photo, location, link, ratings }) => {
   return (
 
     <div className={`card ${styles.profile}`}>
@@ -21,7 +21,7 @@ const CardsCompanions = ({ name, last_name, ratings, description, photo, locatio
         <p className={`card-text ${styles.card_description}`}>{description}</p>
         <div className={styles.card_buttons}>
           <span className="fa-regular fa-envelope fs-3 mt-3"></span>
-          <Link to="#" className={`btn ${styles.boton_ver_mas}`}>
+          <Link to={link} className={`btn ${styles.boton_ver_mas}`}>
             VER MÁS
           </Link>
         </div>

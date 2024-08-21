@@ -16,12 +16,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			familiares: JSON.parse(localStorage.getItem("userFamily")) || [],
+			companions: JSON.parse(localStorage.getItem("companions")) || [],
+			oneCompanion: JSON.parse(localStorage.getItem("oneCompanion")) || [],
+			editCompanionOrNewCompanion: false,
+
+
+
+			ads: JSON.parse(localStorage.getItem("ads")) || null,
 			patients: JSON.parse(localStorage.getItem("patients")) || [],
 			ads: JSON.parse(localStorage.getItem("ads")) || [],
 			adData: JSON.parse(localStorage.getItem("adData")) || [],
 			singleAd: [],
-			postulantes: JSON.parse(localStorage.getItem("lista_postulantes")) || []
-			
+			postulantes: JSON.parse(localStorage.getItem("lista_postulantes")) || [],
+			inscripciones: JSON.parse(localStorage.getItem('inscripciones_lista')) || []
+ 
 		},
 
 		actions: {
@@ -365,7 +373,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			editAd: async (id, type, startDate, endDate, price, title, description, patient_id) => {
 				const store = getStore();
 				const actions = getActions();
-				
+
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/ad/edit/${id}`, {
 						method: "PUT",
@@ -409,10 +417,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			selectedAd: (id) => {
 				const store = getStore();
-				
+
 				if (Array.isArray(store.ads) && store.ads.length > 0) {
 					const adSeleccionado = store.ads.find((ad) => ad.id === id);
-					
+
 					if (adSeleccionado) {
 
 						setStore({ adElegido: adSeleccionado });
@@ -430,7 +438,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore();
 				try {
 					console.log('atributos', photo);
-					
+
 					const response = await fetch(`${process.env.BACKEND_URL}/api/anadir_familiar`, {
 						method: 'POST',
 						body: JSON.stringify({ name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, user_id }),
@@ -586,38 +594,38 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			subirfoto: async (formData) => {
-				const store = getStore();				
+				const store = getStore();
 				try {
-			
+
 					const response = await fetch(`${process.env.BACKEND_URL}/api/subirfoto`, {
 						method: 'POST',
-						body: formData 
+						body: formData
 					});
-			
+
 					if (!response.ok) {
 						throw new Error(`HTTP error! status: ${response.status}`);
 					}
-					
+
 					// Cuando obtiene la respuesta el response se pasa a formato json y lo guarda en fotosubida
 					// Se hace el return de fotosubida
-					const fotosubida = await response.json(); 
+					const fotosubida = await response.json();
 					return fotosubida; //
 				}
 				catch (error) {
 					console.error("Network error:", error);
-					return null; 
+					return null;
 				}
 			},
 
-			crearInscripcion: async (companion_id, patient_id, ad_id) => {
+			crearInscripcion: async (companion_id, user_id, ad_id) => {
 				const store = getStore();
 				try {
-					const respuesta = await fetch (`${process.env.BACKEND_URL}/api/crearinscripcion`, {
+					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/crearinscripcion`, {
 						method: 'POST',
-						body: JSON.stringify ({
+						body: JSON.stringify({
 							companion_id,
-							patient_id,
-							ad_id							
+							user_id,
+							ad_id
 						}),
 						headers: { "Content-Type": "application/json" }
 					});
@@ -629,18 +637,207 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					localStorage.setItem('lista_postulantes', JSON.stringify(nuevaInscripcion));
 
-					setStore ({
+					setStore({
 						...store,
 						postulantes: [...store.postulantes, nuevaInscripcion]
-					});					
+					});
 				}
 				catch (error) {
 					// Manejo de errores de red u otros errores
 					console.error("Network error:", error);
 				}
+			},
+
+			//ver todos los acompanantes
+			getCompanions: async () => {
+				try {
+					const resp = await fetch(`${process.env.BACKEND_URL}/api/get_companions`, {
+						method: "GET"
+					});
+					const data = await resp.json();
+					console.log("Datos recibidos de la API:", data);
+					if (Array.isArray(data)) {
+						setStore({ companions: data }); // se guardan los datos en la variable companions
+						localStorage.setItem('companions', JSON.stringify(data)); // Guardar en localStorage
+					} else {
+						console.error('Data from API is not an array');
+					}
+				} catch (error) {
+					console.log(error);
+				}
+			},
+
+			//ver un acompanante
+			companion: async (id) => {
+
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/companion/${id}`, {
+						method: "GET",
+						headers: {
+							"Content-Type": "application/json"
+						}
+					});
+
+					if (!response.ok) {
+						console.error(`Error fetch companion con ID ${id}`);
+						return null;
+					}
+
+					const data = await response.json();
+					console.log("Datos recibidos:", data);
+					setStore({ oneCompanion: data });
+					localStorage.setItem("oneCompanion", JSON.stringify(data));
+					console.log(oneCompanion)
+					return data;
+
+
+				} catch (error) {
+					console.error(`Error al obtener el companion con ID ${id}:`, error);
+					return null;  // O maneja el error de la manera que prefieras
+				}
+
+			},
+
+
+
+			//publicar perfil acompanante
+			anadir_companion: async (description, photo, province, birthdate,
+				availability_hours = false,
+				availability_days = false,
+				availability_weeks = false,
+				availability_live_in = false,
+				experience,
+				service_cost,
+				facebook = '',
+				instagram = '',
+				twitter = '',
+				linkedin = '',
+				user_id,
+			) => {
+				const store = getStore();
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/anadir_companion`, {
+						method: 'POST',
+						body: JSON.stringify({
+							description,
+							photo,
+							province,
+							birthdate,
+							availability_hours,
+							availability_days,
+							availability_weeks,
+							availability_live_in,
+							experience,
+							service_cost,
+							facebook,
+							instagram,
+							twitter,
+							linkedin,
+							user_id,
+
+
+
+						}),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					});
+
+					if (!response.ok) {
+						throw new Error(`HTTP error! status: ${response.status}`);
+					}
+
+					const nuevoCompanion = await response.json();
+
+					setStore({
+						...store,
+						companions: [...store.companions, nuevoCompanion] // Añade el nuevo companion a la lista
+					});
+				}
+				catch (error) {
+					// Manejo de errores de red u otros errores
+					console.error("Network error:", error);
+				}
+			},
+
+			//modificar acompanante
+
+			updateCompanion: async (id, description, photo, province, birthdate, availability_hours, availability_days, availability_weeks, availability_live_in, experience, service_cost, facebook, instagram, twitter, linkedin) => {
+				const store = getStore();
+				const actions = getActions();
+
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/actualizar_companion/${id}`, {
+						method: "PUT",
+						body: JSON.stringify({
+							description: description,
+							photo: photo,
+							province: province,
+							birthdate: birthdate,
+							availability_hours: availability_hours,
+							availability_days: availability_days,
+							availability_weeks: availability_weeks,
+							availability_live_in: availability_live_in,
+							experience: experience,
+							service_cost: service_cost,
+							facebook: facebook,
+							instagram: instagram,
+							twitter: twitter,
+							linkedin: linkedin
+						}),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					});
+
+					if (!response.ok) {
+						throw new Error(`HTTP error! status: ${response.status}`);
+					}
+
+					const data = await response.json();
+
+					setStore({
+						...store,
+						companions: store.companions.map(companion =>
+							companion.id === id ? data.companion : companion
+						)
+					});
+					console.log('Companion updated successfully:', data);
+				} catch (error) {
+					console.error('There was an error updating the companion:', error);
+				}
+			},
+
+			handleEditCompanionOrNewCompanion: (value) => {
+				setStore({ ...store, editCompanionOrNewCompanion: value, })
+
+			},
+
+			obtenerinscripciones: async () => {
+				try {
+					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/obtenerinscripciones`, {
+						method: "GET"
+					});
+					const data = await respuesta.json();
+					console.log("postulaciones", data);
+
+					if (Array.isArray(data)) {
+						setStore({ inscripciones_lista: data })
+						localStorage.setItem('inscripciones_lista', JSON.stringify(data))
+					} else {
+						console.error.apply('Datos erroneos, no es un array')
+					}
+				}
+				catch (error) {
+					console.log(error);
+				}
+
 			}
+
+
 		}
 	};
+
 };
 
 export default getState;

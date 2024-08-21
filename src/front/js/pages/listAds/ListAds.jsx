@@ -17,7 +17,7 @@ const ListAds = () => {
   }, [])
 
   if (!store.ads || !store.patients) {
-    return <div>Loading...</div>; // Puedes renderizar un spinner o un mensaje de carga aquí
+    return <div>Loading...</div>; 
 }
 
 

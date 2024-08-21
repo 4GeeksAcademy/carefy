@@ -32,7 +32,7 @@ export const Postulaciones = ({ countAds, title, location, date, countFav, favTi
                                     <th scope="col">Fecha</th>
                                     <th scope="col"></th>
                                 </tr>
-                            </thead>
+                           z </thead>
                             <tbody>
                                 <tr>
                                     <th scope="row">{countAds}</th>
