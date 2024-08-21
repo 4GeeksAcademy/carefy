@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Patient, Ad, Status, Type, Companion
+from api.models import db, User, Patient, Ad, Status, Type, Companion, Inscription
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -512,5 +512,36 @@ def subirfoto():
         print('-------------la url donde esta la imagen-------------', upload)
         return jsonify(upload)
     return jsonify({"error": "No file uploaded"}), 400
+
+
+@api.route('/crearinscripcion', methods=['POST'])
+def crearInscripcion():
+    data = request.json
+    if (data):
+        nueva_inscripcion = Inscription (
+            companion_id = data ['companion_id'],
+            user_id = data ['user_id'],
+            ad_id = data ['ad_id'],
+            is_active = True 
+        )
+
+        db.session.add(nueva_inscripcion)
+        db.session.commit()
+
+        return jsonify({
+            "mensaje": "inscripción creada correctamente",
+            'id': nueva_inscripcion.id,
+            "companion_id": nueva_inscripcion.companion_id,
+            "user_id" : nueva_inscripcion.user_id,
+            "ad_id": nueva_inscripcion.ad_id
+        }), 200
+    return jsonify ({'Error' : 'error al crear nueva inscripción'}), 400
+   
+
+
+@api.route('/obtenerinscripciones', methods=['GET'])
+def obtenerinscripciones():
+    postulantes = Inscription.query.all()
+    return jsonify([postulante.serialize() for postulante in postulantes])
     
  
