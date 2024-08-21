@@ -28,7 +28,7 @@ export const BloqueAnuncio = ({ }) => {
         // Redirigir al home si el anuncio es "pending" o "rejected" y el usuario no es el creador
         if (
             store.singleAd &&
-            (store.singleAd.status === "pending" || store.singleAd.status === "rejected") &&
+            (store.singleAd.status === "pending" || store.singleAd.status === "rejected" || store.singleAd.status === "finish") &&
             store.singleAd.user_id !== store.userData.userId
         ) {
             navigate('/listado-anuncios');
@@ -123,7 +123,7 @@ export const BloqueAnuncio = ({ }) => {
 
     return (
 
-        (store.singleAd.status === "pending" || store.singleAd.status === "rejected") && store.singleAd.user_id === store.userData.userId ? (
+        (store.singleAd.status === "pending" || store.singleAd.status === "rejected" || store.singleAd.status === "finish") && store.singleAd.user_id === store.userData.userId ? (
             <div className={`container bg-light p-4 my-5 rounded position-relative ${styles.block_anuncio}`}>
                 {/* ICONO PARA EL ACOMPAÑANTE */}
                 {store.userData.role == "companion" ?
@@ -184,7 +184,22 @@ export const BloqueAnuncio = ({ }) => {
                         >
                             CANCELAR POSTULACIÓN
                         </button>
-                    ) : store.singleAd.user_id === store.userData.userId ? <p className="fs-4 fw-bold">Estado: {store.singleAd.status === "pending" ? <span className="bg-warning p-2 rounded">Pendiente</span> : store.singleAd.status === "ok" ? <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span> : <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>}</p> : ""}
+                    ) : store.singleAd.user_id === store.userData.userId ? (
+                        <p className="fs-4 fw-bold">
+                          Estado:{" "}
+                          {store.singleAd.status === "pending" ? (
+                            <span className="bg-warning p-2 rounded">Pendiente</span>
+                          ) : store.singleAd.status === "ok" ? (
+                            <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
+                          ) : store.singleAd.status === "rejected" ? (
+                            <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
+                          ) : store.singleAd.status === "finish" ? (
+                            <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
+                          ) : (
+                            ""
+                          )}
+                        </p>
+                      ) : null}
                 </div>
                 <div className="pt-4">
                     <p className="fs-5">{store.singleAd.description}</p>
@@ -316,7 +331,7 @@ export const BloqueAnuncio = ({ }) => {
                             <div className="ms-3 fs-4 mt-3">
                                 <p className="fs-4"><span className="fa-solid fa-user pe-2"></span><span className="pe-2">{patientData.name}</span>{patientData.lastname}</p>
                                 <p className="fs-4"><span className="fa-solid fa-id-card pe-2"></span>{getAge(patientData.birthdate)} años</p>
-                                <p className="fs-4"><span className="fa-solid fa-location-dot pe-2"></span>{patientData.province}</p>
+                                <p className="fs-4"><span className="fa-solid fa-location-dot pe-2"></span>{patientData.location}, {patientData.province}</p>
                             </div>
                         </div>
                         {/* BOTON POSTULARSE/CANCELAR POSTULACION PARA ACOMPAÑANTES */}
@@ -334,7 +349,22 @@ export const BloqueAnuncio = ({ }) => {
                             >
                                 CANCELAR POSTULACIÓN
                             </button>
-                        ) : store.singleAd.user_id === store.userData.userId ? <p className="fs-4 fw-bold">Estado: {store.singleAd.status === "pending" ? <span className="bg-warning p-2 rounded">Pendiente</span> : store.singleAd.status === "ok" ? <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span> : <span className="bg-danger p-2 rounded text-light">Rechazado</span>}</p> : ""}
+                        ) : store.singleAd.user_id === store.userData.userId ? (
+                            <p className="fs-4 fw-bold">
+                              Estado:{" "}
+                              {store.singleAd.status === "pending" ? (
+                                <span className="bg-warning p-2 rounded">Pendiente</span>
+                              ) : store.singleAd.status === "ok" ? (
+                                <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
+                              ) : store.singleAd.status === "rejected" ? (
+                                <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
+                              ) : store.singleAd.status === "finish" ? (
+                                <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
+                              ) : (
+                                ""
+                              )}
+                            </p>
+                          ) : null}
                     </div>
                     <div className="pt-4">
                         <p className="fs-5">{store.singleAd.description}</p>

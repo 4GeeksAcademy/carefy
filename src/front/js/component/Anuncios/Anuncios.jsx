@@ -64,7 +64,7 @@ export const Anuncios = ({ countFav, companionName }) => {
                                                 month: '2-digit',
                                                 year: 'numeric'
                                             })}</td>
-                                            <td>{ad.status === "pending" ? <span className={styles.pendiente}>Pendiente</span> : ad.status === "ok" ? <span className="text-success">Publicado</span> : <span className="text-danger">Rechazado</span>}</td>
+                                            <td>{ad.status === "pending" ? <span className={styles.pendiente}>Pendiente</span> : ad.status === "ok" ? <span className="text-success">Publicado</span> : ad.status === "rejected" ? <span className="text-danger">Rechazado</span> : <span className="text-secondary">Finalizado</span>}</td>
                                             <td className="text-end">
                                                 <span onClick={() => verAnuncio(ad.id)} className={`fa-solid fa-eye pe-3 ${styles.ad_icons}`}></span>
                                                 {/* <span onClick={() => handleEditAd(ad.id)} className={`fa-solid fa-pencil pe-3 ${styles.ad_icons}`}></span> */}
