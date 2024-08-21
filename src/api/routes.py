@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Patient, Ad, Status, Type
+from api.models import db, User, Patient, Ad, Status, Type, Companion
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -371,6 +371,137 @@ def eliminar_familiar(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
+        
+        
+### ACOMPANANTE ###
+
+#Ver todos los acompañantes
+@api.route("/get_companions", methods=["GET"])
+def get_companions():
+    companions = Companion.query.all()
+    return jsonify([companion.serialize() for companion in companions])
+
+#Ver un acompañante
+@api.route('/companion/<int:id>', methods=['GET'])
+def companion(id):
+    # Obtener el acompañante por ID
+    companion = Companion.query.get(id)
+    
+    if companion is None:
+        # Si no se encuentra el acompañante, devolver un error 404
+        return jsonify({"error": f"Companion with ID {id} not found"})
+    
+    # Serializar los datos del acompañante y devolverlos en formato JSON
+    return jsonify(companion.serialize())
+
+    
+
+
+#Crear acompañante
+@api.route("/anadir_companion", methods=["POST"])
+def anadir_companion():
+    data = request.json
+
+    # Definir los campos requeridos
+    campos_requeridos = [
+        'description', 'photo', 'province', 
+        'birthdate', 'experience', 'service_cost', 'user_id'
+    ]
+
+    # Verificamos que todos los campos requeridos están presentes en la solicitud
+    for campo in campos_requeridos:
+        if campo not in data:
+            return jsonify({'ERROR': f"Falta el campo requerido: {campo}"}), 400
+
+    # Creamos una nueva instancia de Companion
+    nuevo_companion = Companion(
+        description=data['description'],
+        photo=data['photo'],
+        province=data['province'],
+        birthdate=data['birthdate'],
+        availability_hours=data.get('availability_hours', False),
+        availability_days=data.get('availability_days', False),
+        availability_weeks=data.get('availability_weeks', False),
+        availability_live_in=data.get('availability_live_in', False),
+        experience=data['experience'],
+        service_cost=data['service_cost'],
+        facebook=data.get('facebook'),
+        instagram=data.get('instagram'),
+        twitter=data.get('twitter'),
+        linkedin=data.get('linkedin'),
+        user_id=data['user_id']
+    )
+
+    # Guardamos el nuevo Companion en la base de datos
+    try:
+        db.session.add(nuevo_companion)
+        db.session.commit()
+
+        # Respondemos con los datos del Companion creado
+        return jsonify({
+            "msg": "Companion creado exitosamente",
+            'id': nuevo_companion.id,
+            "description": nuevo_companion.description,
+            "photo": nuevo_companion.photo,
+            "province": nuevo_companion.province,
+            "birthdate": nuevo_companion.birthdate,
+            "availability_hours": nuevo_companion.availability_hours,
+            "availability_days": nuevo_companion.availability_days,
+            "availability_weeks": nuevo_companion.availability_weeks,
+            "availability_live_in": nuevo_companion.availability_live_in,
+            "experience": nuevo_companion.experience,
+            "service_cost": nuevo_companion.service_cost,
+            "facebook": nuevo_companion.facebook,
+            "instagram": nuevo_companion.instagram,
+            "twitter": nuevo_companion.twitter,
+            "linkedin": nuevo_companion.linkedin,
+            "user_id": nuevo_companion.user_id
+        }), 200
+
+    except Exception as e:
+        db.session.rollback()
+        print(f'Error al añadir nuevo companion: {str(e)}')
+        return jsonify({'Error': f'Error al añadir nuevo companion: {str(e)}'}), 400
+
+@api.route("/actualizar_companion/<int:id>", methods=["PUT"])
+def actualizar_companion(id):
+    data=request.json
+
+    # Verificar que el Companion existe
+    companion = Companion.query.get(id)
+    if not companion:
+        return jsonify({"Error":"El companion no existe"}),404
+    
+    # Actualizamos los campos si están presentes en la solicitud
+    companion.description = data.get('description', companion.description)  # Si se proporciona 'description' en los datos de la solicitud, se usa ese valor; si no, se mantiene el valor actual.
+    companion.photo = data.get('photo', companion.photo)
+    companion.province = data.get('province', companion.province)
+    companion.birthdate = data.get('birthdate', companion.birthdate)
+    companion.availability_hours = data.get('availability_hours', companion.availability_hours)
+    companion.availability_days = data.get('availability_days', companion.availability_days)
+    companion.availability_weeks = data.get('availability_weeks', companion.availability_weeks)
+    companion.availability_live_in = data.get('availability_live_in', companion.availability_live_in)
+    companion.experience = data.get('experience', companion.experience)
+    companion.service_cost = data.get('service_cost', companion.service_cost)
+    companion.facebook = data.get('facebook', companion.facebook)
+    companion.instagram = data.get('instagram', companion.instagram)
+    companion.twitter = data.get('twitter', companion.twitter)
+    companion.linkedin = data.get('linkedin', companion.linkedin)
+    
+    # Guardamos los cambios en la base de datos
+    try:
+        db.session.commit()
+        return jsonify({
+            "msg": "Companion actualizado exitosamente",
+            "companion": companion.serialize()
+        }), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"ERROR": f"Ocurrió un error al actualizar el companion: {str(e)}"}), 500
+    
+
+      
+
     
 
 @api.route('/subirfoto', methods=['POST'])

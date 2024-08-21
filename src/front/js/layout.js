@@ -58,7 +58,7 @@ const Layout = () => {
                         <Route element={<AboutUs />} path="/nosotros" />
                         <Route element={<ListModerate />} path="/moderar-anuncios" />
                         <Route element={<RegisterAndEditCompanion />} path="/formulario-profesional" />
-                        <Route element={<ProfileCompanion />} path="/perfil-profesional" />
+                        <Route element={<ProfileCompanion />} path="/perfil-profesional/:id" />
                         <Route element={<ListCompanions />} path="/listado-profesionales" />
                         <Route element={<ListAds />} path="/listado-anuncios" />
                         <Route element={<EditAd />} path="/edit-ad/:id" />

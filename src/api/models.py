@@ -79,8 +79,8 @@ class Companion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(250), nullable=False)
     photo = db.Column(db.String(250), nullable=False)
-    location =  db.Column(db.String(250), nullable=False)
     province = db.Column(db.String(250), nullable=False)
+    birthdate = db.Column(db.String(250), nullable=False)
     availability_hours = db.Column(db.Boolean, default=False)
     availability_days = db.Column(db.Boolean, default=False)
     availability_weeks = db.Column(db.Boolean, default=False)
@@ -93,6 +93,37 @@ class Companion(db.Model):
     linkedin = db.Column(db.String(250))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     hired = db.relationship('Ad', backref='hired_companion')
+
+
+    def __repr__(self):
+        return f'<Companion {self.id}>'
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "photo": self.photo,
+            "description": self.description,
+            "birthdate": self.birthdate,
+            "province": self.province,
+            "availability_hours": self.availability_hours,
+            "availability_days": self.availability_days,
+            "availability_weeks": self.availability_weeks,
+            "availability_live_in": self.availability_live_in,
+            "experience": self.experience,
+            "service_cost": self.service_cost,
+            "facebook": self.facebook,
+            "instagram": self.instagram,
+            "twitter": self.twitter,
+            "linkedin": self.linkedin,
+            "user": {
+                "id": self.user.id,
+                "name": self.user.name,
+                "lastname": self.user.lastname,
+                "email": self.user.email,
+                "phone": self.user.phone,
+                "location": self.user.location,
+            } if self.user else None,  #así se asegura que el usuario existe
+        }
 
 
 class Inscription(db.Model): 
