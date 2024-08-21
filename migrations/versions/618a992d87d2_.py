@@ -1,14 +1,8 @@
 """empty message
 
-<<<<<<<< HEAD:migrations/versions/ae778d29a470_.py
-Revision ID: ae778d29a470
+Revision ID: 618a992d87d2
 Revises: 
-Create Date: 2024-08-19 10:47:05.518528
-========
-Revision ID: 1006fb06a428
-Revises: 
-Create Date: 2024-08-19 10:10:28.584359
->>>>>>>> 7b10c88f2ab01af47c240851480feb654abc980b:migrations/versions/1006fb06a428_.py
+Create Date: 2024-08-21 13:38:50.876788
 
 """
 from alembic import op
@@ -16,11 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-<<<<<<<< HEAD:migrations/versions/ae778d29a470_.py
-revision = 'ae778d29a470'
-========
-revision = '1006fb06a428'
->>>>>>>> 7b10c88f2ab01af47c240851480feb654abc980b:migrations/versions/1006fb06a428_.py
+revision = '618a992d87d2'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -92,7 +82,7 @@ def upgrade():
     sa.Column('start_date', sa.Date(), nullable=True),
     sa.Column('end_date', sa.Date(), nullable=True),
     sa.Column('max_cost', sa.Integer(), nullable=True),
-    sa.Column('status', sa.Enum('PENDING', 'REJECTED', 'OK', name='status'), nullable=True),
+    sa.Column('status', sa.Enum('PENDING', 'REJECTED', 'OK', 'FINISH', name='status'), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('hired', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['hired'], ['companions.id'], ),

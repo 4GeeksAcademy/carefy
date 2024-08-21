@@ -93,7 +93,7 @@ export const Faqs = () => {
                             <div id="collapseSix" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
                                 <div className="accordion-body">
                                     <strong>Intuitivo y sencillo</strong> <br></br>
-                                    A través de nuestro <Link to="/registro">formulario de registro</Link> podrás entrar a la Carefy de forma
+                                    A través de nuestro <Link to="/registro">formulario de registro</Link> podrás entrar a Carefy de forma
                                     rápida y sencilla. Sólo debes tener un correo electrónico, pensar en un nombre de usuario,
                                     y una contraseña segura. Debes elegir si deseas registrarte como acompañante o como familiar de la persona
                                     que necesita este servicio.
