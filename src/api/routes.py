@@ -309,6 +309,12 @@ def get_familiar_detalles(user_id):
     return jsonify(familiares_serialize)
 
 
+# Traer todos los anuncios
+@api.route('/familiares', methods=['GET'])
+def get_patients():
+    patients = Patient.query.all()
+    return jsonify([patient.serialize() for patient in patients])
+
 #Para editar el formulario de un familiar que ya existe previamente. 
 @api.route ('/user/<int:id>/edit_fam_user', methods=['PUT'])
 def editar_familiar(id):

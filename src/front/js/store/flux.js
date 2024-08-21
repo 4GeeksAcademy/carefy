@@ -23,10 +23,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 			ads: JSON.parse(localStorage.getItem("ads")) || null,
+			patients: JSON.parse(localStorage.getItem("patients")) || [],
 			ads: JSON.parse(localStorage.getItem("ads")) || [],
 			adData: JSON.parse(localStorage.getItem("adData")) || [],
-			singleAd: [],
-			adElegido: {}
+			singleAd: []
 		},
 
 		actions: {
@@ -502,6 +502,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				} catch (error) {
 					console.error('There was an error fetching the user details!', error);
+				}
+			},
+
+			getPatients: async () => {
+				try {
+					const resp = await fetch(`${process.env.BACKEND_URL}/api/familiares`, {
+						method: "GET"
+					});
+					const data = await resp.json();
+					console.log("Datos recibidos de la API:", data);
+					if (Array.isArray(data)) {
+						setStore({ patients: data }); // Asegúrate de que sea un array
+						localStorage.setItem('patients', JSON.stringify(data));
+					} else {
+						console.error('Data from API is not an array');
+					}
+				} catch (error) {
+					console.log(error);
 				}
 			},
 
