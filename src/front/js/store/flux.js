@@ -639,11 +639,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Network error:", error);
 				}
 			}
-
-			
-
-			
-
 		}
 	};
 };
