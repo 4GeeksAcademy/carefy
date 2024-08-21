@@ -14,7 +14,7 @@ const ProfileCompanion = () => {
     actions.companion(id);
   
 }, []);
-console.log("----------------------------------------------------------", store.oneCompanion)
+
   return (
     <div>
       <div className={styles.main_container}>

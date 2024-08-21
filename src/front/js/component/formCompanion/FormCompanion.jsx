@@ -116,7 +116,7 @@ const CompanionForm = () => {
       await actions.editUser(user.name, user.lastname, user.email, user.phone, user.location);
 
       // // Luego, añadir o actualizar el acompañante
-      if(store.editCompanionOrNewCompanion===false){
+      if(store.editCompanionOrNewCompanion){
         await actions.anadir_companion(
           companion.description,
           companion.photo,
@@ -164,7 +164,7 @@ const CompanionForm = () => {
     }
 
     navigate('/blog');
-   actions.handleEditCompanionOrNewCompanion(false)
+   actions.handleEditCompanionOrNewCompanion(true,null)
    
   };
 
