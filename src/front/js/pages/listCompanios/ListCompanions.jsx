@@ -30,10 +30,10 @@ const ListCompanions = () => {
               <CardsCompanions
                 name={element.user.name} 
                 last_name={element.user.last_name}
-                location={element.location} 
+                location={element.user.location} 
                 photo={element.photo}
                 description={element.description} 
-                link={`/perfil-usuario/${element.id}`}
+                link={`/perfil-profesional/${element.id}`}
               />
             </div>
 

@@ -120,7 +120,8 @@ class Companion(db.Model):
                 "name": self.user.name,
                 "lastname": self.user.lastname,
                 "email": self.user.email,
-                "phone": self.user.phone
+                "phone": self.user.phone,
+                "location": self.user.location,
             } if self.user else None,  #así se asegura que el usuario existe
         }
 

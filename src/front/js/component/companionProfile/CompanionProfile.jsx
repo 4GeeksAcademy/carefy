@@ -9,20 +9,29 @@ import { FaRegStar } from "react-icons/fa";
 import { Context } from "../../store/appContext";
 import { useNavigate, useParams } from "react-router-dom";
 
-export const CompanionProfile = ({}) => {
+export const CompanionProfile = ({ }) => {
   const { store, actions } = useContext(Context);
   const { id } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (id) {
-        actions.getCompanionById(id);
-    }
-}, [id]);
+  const perfil = store.oneCompanion;
 
-   // Función para calcular la edad
-   const calculateAge = (birthdateString) => {
-    if (!birthdateString) return 'N/A'; // si birthdate podría estar vacío o indefinido
+
+  if (!perfil) {
+    return <p>Cargando...</p>;
+  }
+
+  useEffect(() => {
+    
+      actions.companion(id);
+    
+  }, []);
+  console.log("----------------------------------------------------------", store.oneCompanion)
+
+
+  // Función para calcular la edad
+  const calculateAge = (birthdateString) => {
+    if (!birthdateString) return 'N/A';
 
     const birthdate = new Date(birthdateString);
     const today = new Date();
@@ -30,13 +39,13 @@ export const CompanionProfile = ({}) => {
     const monthDifference = today.getMonth() - birthdate.getMonth();
 
     if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthdate.getDate())) {
-        age--;
+      age--;
     }
 
     return age;
-};
+  };
 
-const birthdate = store.oneCompanion?.birthdate;
+  const birthdate = store.oneCompanion?.birthdate;
 
   return (
     <div
@@ -49,8 +58,8 @@ const birthdate = store.oneCompanion?.birthdate;
         <span className="fa-regular fa-heart" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"></span>
       </div>
 
-      
-      <h1 className="mb-5 pe-5 me-3">`${store.oneCompanion.user.name} ${store.oneCompanion.user.lastname}` </h1>
+
+      <h1 className="mb-5 pe-5 me-3">{store.oneCompanion?.user.name} </h1>
       <div className="d-flex align-items-start justify-content-between flex-wrap">
         <div className="d-flex align-items-center flex-wrap">
           <div className={`${styles.container_img} rounded`}>
@@ -84,7 +93,7 @@ const birthdate = store.oneCompanion?.birthdate;
       <div className="pt-4">
         <p className="fs-4 fw-bold">Experiencia</p>
         <p className="fs-5">
-        {store.oneCompanion.experience}
+          {store.oneCompanion.experience}
         </p>
       </div>
       <div className="pt-3 row">
@@ -94,7 +103,7 @@ const birthdate = store.oneCompanion?.birthdate;
             <div className="row">
               <div className=" col-12 col-md-12 ">
                 <p className="ps-4 ms-3 ms-3 fs-5">
-                {store.oneCompanion.availability_hours ? (
+                  {store.oneCompanion.availability_hours ? (
                     <IoIosCheckmarkCircleOutline className={styles.available} />
                   ) : (
                     <MdOutlineCancel className={styles.not_available} />
@@ -104,7 +113,7 @@ const birthdate = store.oneCompanion?.birthdate;
               </div>
               <div className="col-12 col-md-12">
                 <p className="ps-4 ms-3 ms-3 fs-5">
-                {store.oneCompanion.availability_days ? (
+                  {store.oneCompanion.availability_days ? (
                     <IoIosCheckmarkCircleOutline className={styles.available} />
                   ) : (
                     <MdOutlineCancel className={styles.not_available} />
@@ -114,7 +123,7 @@ const birthdate = store.oneCompanion?.birthdate;
               </div>
               <div className="col-12 col-md-12">
                 <p className="ps-4 ms-3 ms-3 fs-5">
-                {store.oneCompanion.availability_weeks ? (
+                  {store.oneCompanion.availability_weeks ? (
                     <IoIosCheckmarkCircleOutline className={styles.available} />
                   ) : (
                     <MdOutlineCancel className={styles.not_available} />
@@ -124,7 +133,7 @@ const birthdate = store.oneCompanion?.birthdate;
               </div>
               <div className="col-12 col-md-12">
                 <p className="ps-4 ms-3 ms-3 fs-5">
-                {store.oneCompanion.availability_live_in ? (
+                  {store.oneCompanion.availability_live_in ? (
                     <IoIosCheckmarkCircleOutline className={styles.available} />
                   ) : (
                     <MdOutlineCancel className={styles.not_available} />
@@ -136,8 +145,8 @@ const birthdate = store.oneCompanion?.birthdate;
           </div>
         </div>
         <div className="col-12 col-md-4">
-        <p className="fs-4 fw-bold"><span className="fa-solid fa-coins pe-3"></span>{store.oneCompanion}</p>
-          <p className="fs-4 ps-4 ms-3">8 €</p>
+          <p className="fs-4 fw-bold"><span className="fa-solid fa-coins pe-3"></span>Pago (hora)</p>
+          <p className="fs-4 ps-4 ms-3">{store.oneCompanion.service_cost}</p>
         </div>
         <div className="col-12 col-md-4">
 
@@ -145,34 +154,53 @@ const birthdate = store.oneCompanion?.birthdate;
             <span className="pe-2 fa-solid fa-users"></span>
             Conoce más de mí
           </p>
-          <a
-            className={`fs-4 ps-4 ms-3 ${styles.social_icons}`}
-            href={store.oneCompanion.instagram}
+          {/* Instagram */}
+          {store.oneCompanion.instagram ? (
+            <a
+              className={`fs-4 ps-4 ms-3 ${styles.social_icons}`}
+              href={store.oneCompanion.instagram}
+            >
+              <span className="fa-brands fa-square-instagram fs-4"></span>
+            </a>
+          ) : (
+            <div className={`${styles.hiddenButSpace}`} />
+          )}
 
-          >
-            <span className="fa-brands fa-square-instagram fs-4"></span>
-          </a>
-          <a
-            className={`fs-4 ms-3 ${styles.social_icons}`}
-            href={store.oneCompanion.facebook}
+          {/* Facebook */}
+          {store.oneCompanion.facebook ? (
+            <a
+              className={`fs-4 ms-3 ${styles.social_icons}`}
+              href={store.oneCompanion.facebook}
+            >
+              <span className="fa-brands fa-facebook-square fs-4"></span>
+            </a>
+          ) : (
+            <div className={`${styles.hiddenButSpace}`} />
+          )}
 
-          >
-            <span className="fa-brands fa-facebook-square fs-4"></span>
-          </a>
-          <a
-            className={`fs-4 ms-3 ${styles.social_icons}`}
-            href={store.oneCompanion.twitter}
+          {/* Twitter */}
+          {store.oneCompanion.twitter ? (
+            <a
+              className={`fs-4 ms-3 ${styles.social_icons}`}
+              href={store.oneCompanion.twitter}
+            >
+              <span className="fa-brands fa-square-x-twitter fs-4"></span>
+            </a>
+          ) : (
+            <div className={`${styles.hiddenButSpace}`} />
+          )}
 
-          >
-            <span className="fa-brands fa-square-x-twitter fs-4"></span>
-          </a>
-          <a
-            className={`fs-4 ms-3 ${styles.social_icons}`}
-            href={store.oneCompanion.linkedin}
-
-          >
-            <span className="fa-brands fa-linkedin fs-4"></span>
-          </a>
+          {/* LinkedIn */}
+          {store.oneCompanion.linkedin ? (
+            <a
+              className={`fs-4 ms-3 ${styles.social_icons}`}
+              href={store.oneCompanion.linkedin}
+            >
+              <span className="fa-brands fa-linkedin fs-4"></span>
+            </a>
+          ) : (
+            <div className={`${styles.hiddenButSpace}`} />
+          )}
         </div>
       </div>
     </div>

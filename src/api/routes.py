@@ -377,7 +377,7 @@ def get_companions():
 
 #Ver un acompañante
 @api.route('/companion/<int:id>', methods=['GET'])
-def get_companion(id):
+def companion(id):
     # Obtener el acompañante por ID
     companion = Companion.query.get(id)
     
@@ -457,10 +457,45 @@ def anadir_companion():
         print(f'Error al añadir nuevo companion: {str(e)}')
         return jsonify({'Error': f'Error al añadir nuevo companion: {str(e)}'}), 400
 
+@api.route("/actualizar_companion/<int:id>", methods=["PUT"])
+def actualizar_companion(id):
+    data=request.json
+
+    # Verificar que el Companion existe
+    companion = Companion.query.get(id)
+    if not companion:
+        return jsonify({"Error":"El companion no existe"}),404
+    
+    # Actualizamos los campos si están presentes en la solicitud
+    companion.description = data.get('description', companion.description)  # Si se proporciona 'description' en los datos de la solicitud, se usa ese valor; si no, se mantiene el valor actual.
+    companion.photo = data.get('photo', companion.photo)
+    companion.province = data.get('province', companion.province)
+    companion.birthdate = data.get('birthdate', companion.birthdate)
+    companion.availability_hours = data.get('availability_hours', companion.availability_hours)
+    companion.availability_days = data.get('availability_days', companion.availability_days)
+    companion.availability_weeks = data.get('availability_weeks', companion.availability_weeks)
+    companion.availability_live_in = data.get('availability_live_in', companion.availability_live_in)
+    companion.experience = data.get('experience', companion.experience)
+    companion.service_cost = data.get('service_cost', companion.service_cost)
+    companion.facebook = data.get('facebook', companion.facebook)
+    companion.instagram = data.get('instagram', companion.instagram)
+    companion.twitter = data.get('twitter', companion.twitter)
+    companion.linkedin = data.get('linkedin', companion.linkedin)
+    
+    # Guardamos los cambios en la base de datos
+    try:
+        db.session.commit()
+        return jsonify({
+            "msg": "Companion actualizado exitosamente",
+            "companion": companion.serialize()
+        }), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"ERROR": f"Ocurrió un error al actualizar el companion: {str(e)}"}), 500
+    
 
       
 
-   
     
 
 @api.route('/subirfoto', methods=['POST'])

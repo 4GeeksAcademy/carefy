@@ -18,6 +18,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			familiares: JSON.parse(localStorage.getItem("userFamily")) || [],
 			companions: JSON.parse(localStorage.getItem("companions")) || [],
 			oneCompanion: JSON.parse(localStorage.getItem("oneCompanion")) || [],
+			editCompanionOrNewCompanion: false,
+
 
 
 			ads: JSON.parse(localStorage.getItem("ads")) || null,
@@ -368,7 +370,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			editAd: async (id, type, startDate, endDate, price, title, description, patient_id) => {
 				const store = getStore();
 				const actions = getActions();
-				
+
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/ad/edit/${id}`, {
 						method: "PUT",
@@ -412,10 +414,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			selectedAd: (id) => {
 				const store = getStore();
-				
+
 				if (Array.isArray(store.ads) && store.ads.length > 0) {
 					const adSeleccionado = store.ads.find((ad) => ad.id === id);
-					
+
 					if (adSeleccionado) {
 
 						setStore({ adElegido: adSeleccionado });
@@ -433,7 +435,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore();
 				try {
 					console.log('atributos', photo);
-					
+
 					const response = await fetch(`${process.env.BACKEND_URL}/api/anadir_familiar`, {
 						method: 'POST',
 						body: JSON.stringify({ name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, user_id }),
@@ -571,30 +573,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			subirfoto: async (formData) => {
-				const store = getStore();				
+				const store = getStore();
 				try {
-			
+
 					const response = await fetch(`${process.env.BACKEND_URL}/api/subirfoto`, {
 						method: 'POST',
-						body: formData 
+						body: formData
 					});
-			
+
 					if (!response.ok) {
 						throw new Error(`HTTP error! status: ${response.status}`);
 					}
-					
+
 					// Cuando obtiene la respuesta el response se pasa a formato json y lo guarda en fotosubida
 					// Se hace el return de fotosubida
-					const fotosubida = await response.json(); 
+					const fotosubida = await response.json();
 					return fotosubida; //
 				}
 				catch (error) {
 					console.error("Network error:", error);
-					return null; 
+					return null;
 				}
 			},
 
-			
+
 
 			//ver todos los acompanantes
 			getCompanions: async () => {
@@ -614,9 +616,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log(error);
 				}
 			},
-			
+
 			//ver un acompanante
-			getCompanionById:async (id) => {
+			companion: async (id) => {
+
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/companion/${id}`, {
 						method: "GET",
@@ -624,39 +627,42 @@ const getState = ({ getStore, getActions, setStore }) => {
 							"Content-Type": "application/json"
 						}
 					});
-					
+
 					if (!response.ok) {
 						console.error(`Error fetch companion con ID ${id}`);
-						return null;  
+						return null;
 					}
-			
+
 					const data = await response.json();
 					console.log("Datos recibidos:", data);
-					setStore({ ...store, oneCompanion: data });
+					setStore({ oneCompanion: data });
 					localStorage.setItem("oneCompanion", JSON.stringify(data));
+					console.log(oneCompanion)
 					return data;
-					
+
+
 				} catch (error) {
 					console.error(`Error al obtener el companion con ID ${id}:`, error);
 					return null;  // O maneja el error de la manera que prefieras
 				}
+
 			},
 
 
 
 			//publicar perfil acompanante
-			anadir_companion: async (description, photo, province, birthdate, 
-				availability_hours = false, 
-				availability_days = false, 
-				availability_weeks = false, 
-				availability_live_in = false, 
-				experience, 
-				service_cost, 
-				facebook = '', 
-				instagram = '', 
-				twitter = '', 
+			anadir_companion: async (description, photo, province, birthdate,
+				availability_hours = false,
+				availability_days = false,
+				availability_weeks = false,
+				availability_live_in = false,
+				experience,
+				service_cost,
+				facebook = '',
+				instagram = '',
+				twitter = '',
 				linkedin = '',
-				user_id, 
+				user_id,
 			) => {
 				const store = getStore();
 				try {
@@ -678,21 +684,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 							twitter,
 							linkedin,
 							user_id,
-							
-					
-							
+
+
+
 						}),
 						headers: {
 							"Content-Type": "application/json"
 						}
 					});
-			
+
 					if (!response.ok) {
 						throw new Error(`HTTP error! status: ${response.status}`);
 					}
-			
+
 					const nuevoCompanion = await response.json();
-			
+
 					setStore({
 						...store,
 						companions: [...store.companions, nuevoCompanion] // Añade el nuevo companion a la lista
@@ -703,12 +709,73 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Network error:", error);
 				}
 			},
-			
 
-			
+			//modificar acompanante
 
-		}
-	};
+			updateCompanion: async (id, description, photo, province, birthdate, availability_hours, availability_days, availability_weeks, availability_live_in, experience, service_cost, facebook, instagram, twitter, linkedin) => {
+				const store = getStore();
+				const actions = getActions();
+
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/actualizar_companion/${id}`, {
+						method: "PUT",
+						body: JSON.stringify({
+							description: description,
+							photo: photo,
+							province: province,
+							birthdate: birthdate,
+							availability_hours: availability_hours,
+							availability_days: availability_days,
+							availability_weeks: availability_weeks,
+							availability_live_in: availability_live_in,
+							experience: experience,
+							service_cost: service_cost,
+							facebook: facebook,
+							instagram: instagram,
+							twitter: twitter,
+							linkedin: linkedin
+						}),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					});
+
+					if (!response.ok) {
+						throw new Error(`HTTP error! status: ${response.status}`);
+					}
+
+					const data = await response.json();
+
+					setStore({
+						...store,
+						companions: store.companions.map(companion =>
+							companion.id === id ? data.companion : companion
+						)
+					});
+					console.log('Companion updated successfully:', data);
+				} catch (error) {
+					console.error('There was an error updating the companion:', error);
+				}
+			},
+
+			handleEditCompanionOrNewCompanion: (value) => {
+				setStore({...store, editCompanionOrNewCompanion: value, })
+
+		
+
+
+
+
+
+
+
+
+
+		},
+		
+	},
+}
+
 };
 
 export default getState;

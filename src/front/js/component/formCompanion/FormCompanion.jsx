@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 const CompanionForm = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
 
   const [companion, setCompanion] = useState({
@@ -90,30 +91,71 @@ const CompanionForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+
+    if (
+      !user.name ||
+      !user.lastname ||
+      !user.email ||
+      !user.phone ||
+      !companion.birthdate ||
+      !companion.province ||
+      !user.location ||
+      !companion.description ||
+      !companion.experience
+    ) {
+      setError("Por favor, complete todos los campos.");
+      return;
+    }
+    setError(null); // Limpia cualquier error previo si todo está bien
+
     console.log(companion);
     
     try {
       // Primero, actualizar la información del usuario
       await actions.editUser(user.name, user.lastname, user.email, user.phone, user.location);
 
-      // Luego, añadir el acompañante
-      await actions.anadir_companion(
-        companion.description,
-        companion.photo,
-        companion.province,
-        companion.birthdate,
-        companion.availability_hours,
-        companion.availability_days,
-        companion.availability_weeks,
-        companion.availability_live_in,
-        companion.experience,
-        companion.service_cost,
-        companion.facebook,
-        companion.instagram,
-        companion.twitter,
-        companion.linkedin,
-        store.userData.userId,  // Utilizar el ID del usuario actual
-      );
+      // // Luego, añadir o actualizar el acompañante
+      if(store.editCompanionOrNewCompanion===false){
+        await actions.anadir_companion(
+          companion.description,
+          companion.photo,
+          companion.province,
+          companion.birthdate,
+          companion.availability_hours,
+          companion.availability_days,
+          companion.availability_weeks,
+          companion.availability_live_in,
+          companion.experience,
+          companion.service_cost,
+          companion.facebook,
+          companion.instagram,
+          companion.twitter,
+          companion.linkedin,
+          store.userData.userId,  // Utilizar el ID del usuario actual
+        );
+      }
+      else{
+        await actions.updateCompanion(
+          companion.description,
+          companion.photo,
+          companion.province,
+          companion.birthdate,
+          companion.availability_hours,
+          companion.availability_days,
+          companion.availability_weeks,
+          companion.availability_live_in,
+          companion.experience,
+          companion.service_cost,
+          companion.facebook,
+          companion.instagram,
+          companion.twitter,
+          companion.linkedin,
+          
+
+        )
+      }
+      
 
       // Mostrar un mensaje de éxito o realizar alguna otra acción
       console.log('User and companion data submitted successfully.');
@@ -121,14 +163,19 @@ const CompanionForm = () => {
       console.error('There was an error submitting the data:', error);
     }
 
+
+
    // navigate('/perfil-profesional');
+   actions.handleEditCompanionOrNewCompanion(false)
   };
 
   return (
     <div className={styles.container_form_companion}>
       <form className={`m-5 container`} onSubmit={handleSubmit}>
+      {error && <div className="alert alert-danger" role="alert">{error}</div>}
         <div className={`container-fluid p-4 ${styles.form_companion}`}>
           {/* Fila 1: foto y campos básicos */}
+          
           <div className="row">
             <div className="col-12 col-sm-6">
               <div className="input-group mb-4">
@@ -177,6 +224,7 @@ const CompanionForm = () => {
                 id="email"
                 onChange={handleChange}
                 value={user.email}
+                readOnly
                 required
               />
             </div>
@@ -208,15 +256,67 @@ const CompanionForm = () => {
             </div>
             <div className="col-md-3">
               <label htmlFor="province" className="form-label fs-5">Provincia</label>
-              <input
-                type="text"
-                className="form-control"
-                name="province"
-                id="province"
-                value={companion.province}
-                onChange={handleChange}
-                required
-              />
+              <select
+    className="form-control"
+    name="province"
+    id="province"
+    value={companion.province}
+    onChange={handleChange}
+    required
+  >
+    <option value="">Selecciona una provincia</option>
+    <option value="Álava">Álava</option>
+    <option value="Albacete">Albacete</option>
+    <option value="Alicante">Alicante</option>
+    <option value="Almería">Almería</option>
+    <option value="Asturias">Asturias</option>
+    <option value="Ávila">Ávila</option>
+    <option value="Badajoz">Badajoz</option>
+    <option value="Barcelona">Barcelona</option>
+    <option value="Burgos">Burgos</option>
+    <option value="Cáceres">Cáceres</option>
+    <option value="Cádiz">Cádiz</option>
+    <option value="Cantabria">Cantabria</option>
+    <option value="Castellón">Castellón</option>
+    <option value="Ciudad Real">Ciudad Real</option>
+    <option value="Córdoba">Córdoba</option>
+    <option value="Cuenca">Cuenca</option>
+    <option value="Girona">Girona</option>
+    <option value="Granada">Granada</option>
+    <option value="Guadalajara">Guadalajara</option>
+    <option value="Gipuzkoa">Gipuzkoa</option>
+    <option value="Huelva">Huelva</option>
+    <option value="Huesca">Huesca</option>
+    <option value="Illes Balears">Illes Balears</option>
+    <option value="Jaén">Jaén</option>
+    <option value="La Rioja">La Rioja</option>
+    <option value="Las Palmas">Las Palmas</option>
+    <option value="León">León</option>
+    <option value="Lleida">Lleida</option>
+    <option value="Lugo">Lugo</option>
+    <option value="Madrid">Madrid</option>
+    <option value="Málaga">Málaga</option>
+    <option value="Murcia">Murcia</option>
+    <option value="Navarra">Navarra</option>
+    <option value="Ourense">Ourense</option>
+    <option value="Palencia">Palencia</option>
+    <option value="Pontevedra">Pontevedra</option>
+    <option value="Salamanca">Salamanca</option>
+    <option value="Santa Cruz de Tenerife">Santa Cruz de Tenerife</option>
+    <option value="Segovia">Segovia</option>
+    <option value="Sevilla">Sevilla</option>
+    <option value="Soria">Soria</option>
+    <option value="Tarragona">Tarragona</option>
+    <option value="Teruel">Teruel</option>
+    <option value="Toledo">Toledo</option>
+    <option value="Valencia">Valencia</option>
+    <option value="Valladolid">Valladolid</option>
+    <option value="Bizkaia">Bizkaia</option>
+    <option value="Zamora">Zamora</option>
+    <option value="Zaragoza">Zaragoza</option>
+    <option value="Ceuta">Ceuta</option>
+    <option value="Melilla">Melilla</option>
+  </select>
             </div>
             <div className="col-md-3">
               <label htmlFor="location" className="form-label fs-5">Localidad</label>
