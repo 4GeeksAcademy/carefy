@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import styles from "./BloqueAnuncio.module.css"
 import { Context } from "../../store/appContext";
 import profileImg from "../../../img/profileImg.png"
@@ -16,6 +16,8 @@ export const BloqueAnuncio = ({ }) => {
     const [experiencia, setExperiencia] = useState('');
     const [precio, setPrecio] = useState(0);
     const [valoracion, setValoracion] = useState("");
+    const [companion_id, setCompanion_id] = useState(0);
+    const [listaInscripciones, setListaInscripciones] = useState([])
 
 
     useEffect(() => {
@@ -48,8 +50,15 @@ export const BloqueAnuncio = ({ }) => {
         const patientId = store.singleAd.patient_id;
         const adId = store.singleAd.id;
 
+        const companionsData = localStorage.getItem('companions');
+        const companionsParsed = JSON.parse(companionsData);
+        companionsParsed.map((companion) => {
+            if (companion.user.id == companionId) {
+                actions.crearInscripcion(companion.id, patientId, adId)
+            }
+        })
 
-        actions.crearInscripcion(companionId, patientId, adId)
+
         setPostularseVisible(false); // Oculta "POSTULARSE"
     };
 
@@ -91,6 +100,9 @@ export const BloqueAnuncio = ({ }) => {
         actions.obtenerinscripciones()
     }, []);
 
+    useEffect(() => {
+        actions.getCompanions()
+    }, []);
 
     // Función para calcular la edad a partir de la fecha de nacimiento
     const calcularEdad = (fechaNacimiento) => {
@@ -106,19 +118,23 @@ export const BloqueAnuncio = ({ }) => {
     }
 
 
+    // useEffect(() => {
+    //     const companionData = localStorage.getItem('oneCompanion');
+    //     const companionParsed = JSON.parse(companionData);
+    //     setNameCompanion(companionParsed.user.name);
+    //     setBirthdate(calcularEdad(companionParsed.birthdate));
+    //     setExperiencia(companionParsed.experience);
+    //     setPrecio(companionParsed.service_cost);
+    //     // setValoracion(companion.)
+    //     setCompanion_id(companionParsed.user.id)
+
+    // }, [store.userData.userId]);
+
     useEffect(() => {
-        
-        const companionData = localStorage.getItem('oneCompanion');
-        const companionParsed = JSON.parse(companionData);
-        setNameCompanion(companionParsed.user.name);
-        setBirthdate(calcularEdad(companionParsed.birthdate));
-        setExperiencia(companionParsed.experience);
-        setPrecio(companionParsed.service_cost);
-        // setValoracion(companion.)
-
-    }, []);
-
-
+        const lista = store.inscripciones;
+        setListaInscripciones(lista)
+        console.log('listado de inscripciones disponibles', listaInscripciones);
+    }, [listaInscripciones])
 
 
     return (
@@ -186,20 +202,20 @@ export const BloqueAnuncio = ({ }) => {
                         </button>
                     ) : store.singleAd.user_id === store.userData.userId ? (
                         <p className="fs-4 fw-bold">
-                          Estado:{" "}
-                          {store.singleAd.status === "pending" ? (
-                            <span className="bg-warning p-2 rounded">Pendiente</span>
-                          ) : store.singleAd.status === "ok" ? (
-                            <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
-                          ) : store.singleAd.status === "rejected" ? (
-                            <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
-                          ) : store.singleAd.status === "finish" ? (
-                            <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
-                          ) : (
-                            ""
-                          )}
+                            Estado:{" "}
+                            {store.singleAd.status === "pending" ? (
+                                <span className="bg-warning p-2 rounded">Pendiente</span>
+                            ) : store.singleAd.status === "ok" ? (
+                                <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
+                            ) : store.singleAd.status === "rejected" ? (
+                                <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
+                            ) : store.singleAd.status === "finish" ? (
+                                <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
+                            ) : (
+                                ""
+                            )}
                         </p>
-                      ) : null}
+                    ) : null}
                 </div>
                 <div className="pt-4">
                     <p className="fs-5">{store.singleAd.description}</p>
@@ -351,20 +367,20 @@ export const BloqueAnuncio = ({ }) => {
                             </button>
                         ) : store.singleAd.user_id === store.userData.userId ? (
                             <p className="fs-4 fw-bold">
-                              Estado:{" "}
-                              {store.singleAd.status === "pending" ? (
-                                <span className="bg-warning p-2 rounded">Pendiente</span>
-                              ) : store.singleAd.status === "ok" ? (
-                                <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
-                              ) : store.singleAd.status === "rejected" ? (
-                                <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
-                              ) : store.singleAd.status === "finish" ? (
-                                <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
-                              ) : (
-                                ""
-                              )}
+                                Estado:{" "}
+                                {store.singleAd.status === "pending" ? (
+                                    <span className="bg-warning p-2 rounded">Pendiente</span>
+                                ) : store.singleAd.status === "ok" ? (
+                                    <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
+                                ) : store.singleAd.status === "rejected" ? (
+                                    <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
+                                ) : store.singleAd.status === "finish" ? (
+                                    <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
+                                ) : (
+                                    ""
+                                )}
                             </p>
-                          ) : null}
+                        ) : null}
                     </div>
                     <div className="pt-4">
                         <p className="fs-5">{store.singleAd.description}</p>
@@ -436,19 +452,35 @@ export const BloqueAnuncio = ({ }) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>{nameCompanion}</td>
-                                            <td>{birthdate}</td>
-                                            <td>{experiencia}</td>
-                                            <td>{precio}</td>
-                                            <td>{valoracion}</td>
-                                            <td className="text-end">
-                                                <span className="fa-solid fa-eye pe-3"></span>
-                                                <span className="fa-solid fa-trash-can pb-2"></span>
-                                            </td>
-                                        </tr>
+                                        {listaInscripciones.map((inscripcion) => {
+                                            // Encuentra el companion correspondiente al companion_id de la inscripción
+                                            const companion = store.companions.find(comp => comp.id === inscripcion.companion_id);
+
+                                            // Si no se encuentra el companion, se omite el rendering de esa fila
+                                            if (!companion) return null;
+
+                                            // Asegúrate de obtener estos datos de la manera correcta
+                                            const { id: companion_id, user, birthdate, experiencia, precio, valoracion } = companion;
+
+                                            return (
+                                                <tr key={inscripcion.id}>
+                                                    <th scope="row">1</th>
+                                                    <td>{user?.name}</td>
+                                                    <td>{birthdate}</td>
+                                                    <td>{experiencia}</td>
+                                                    <td>{precio}</td>
+                                                    <td>{valoracion}</td>
+                                                    <td className="text-end">
+                                                        <Link to={`/perfil-profesional/${companion_id}`}>
+                                                            <span className="fa-solid fa-eye pe-3"></span>
+                                                        </Link>
+                                                        <span className="fa-solid fa-trash-can pb-2"></span>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
                                     </tbody>
+
                                 </table>
                             </div>
                         </> : ""
