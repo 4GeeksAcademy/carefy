@@ -18,11 +18,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 			familiares: JSON.parse(localStorage.getItem("userFamily")) || [],
 			companions: JSON.parse(localStorage.getItem("companions")) || [],
 			oneCompanion: JSON.parse(localStorage.getItem("oneCompanion")) || [],
-			editCompanionOrNewCompanion: false,
+			
 
 
-
-			ads: JSON.parse(localStorage.getItem("ads")) || null,
+			favsCompanion: JSON.parse(localStorage.getItem("favsCompanion")) || [],
+			favData: JSON.parse(localStorage.getItem("favData")) || [],
+			favDataAds: JSON.parse(localStorage.getItem("favDataAds")) || [],
 			patients: JSON.parse(localStorage.getItem("patients")) || [],
 			ads: JSON.parse(localStorage.getItem("ads")) || [],
 			adData: JSON.parse(localStorage.getItem("adData")) || [],
@@ -132,6 +133,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				// Elimina el objeto completo de userData del localStorage
 				localStorage.removeItem("userData");
 				localStorage.removeItem("adData");
+				localStorage.removeItem("oneCompanion");
+				
+				localStorage.removeItem("favData");
+				localStorage.removeItem("favDataAds");
+				localStorage.removeItem("inscripciones");
+				localStorage.removeItem("postulantes");
 
 				setStore({
 					...store,
@@ -146,7 +153,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 						phone: null,
 						location: null,
 					},
-					adData: []
+					adData: [],
+					oneCompanion: [],
+					favData: [],
+					favDataAds: [],
+					inscripciones: [],
+					postulantes: []
 				});
 			},
 
@@ -679,6 +691,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			//ver un acompanante
 			companion: async (id) => {
+				
 
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/companion/${id}`, {
@@ -697,7 +710,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Datos recibidos:", data);
 					setStore({ oneCompanion: data });
 					localStorage.setItem("oneCompanion", JSON.stringify(data));
-					console.log(oneCompanion)
+					console.log(getStore().oneCompanion)
 					return data;
 
 
@@ -772,44 +785,38 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			//modificar acompanante
 
-			updateCompanion: async (id, description, photo, province, birthdate, availability_hours, availability_days, availability_weeks, availability_live_in, experience, service_cost, facebook, instagram, twitter, linkedin) => {
+			updateCompanion: async (
+				description, photo, province, birthdate, availability_hours, availability_days,
+				availability_weeks, availability_live_in, experience, service_cost, facebook,
+				instagram, twitter, linkedin
+			) => {
 				const store = getStore();
 				const actions = getActions();
-
+				const companionId = store.companionId; // Asegúrate de tener el ID correcto
+			
 				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/actualizar_companion/${id}`, {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/actualizar_companion/${companionId}`, {
 						method: "PUT",
 						body: JSON.stringify({
-							description: description,
-							photo: photo,
-							province: province,
-							birthdate: birthdate,
-							availability_hours: availability_hours,
-							availability_days: availability_days,
-							availability_weeks: availability_weeks,
-							availability_live_in: availability_live_in,
-							experience: experience,
-							service_cost: service_cost,
-							facebook: facebook,
-							instagram: instagram,
-							twitter: twitter,
-							linkedin: linkedin
+							description, photo, province, birthdate, availability_hours, availability_days,
+							availability_weeks, availability_live_in, experience, service_cost, facebook,
+							instagram, twitter, linkedin
 						}),
 						headers: {
 							"Content-Type": "application/json"
 						}
 					});
-
+			
 					if (!response.ok) {
 						throw new Error(`HTTP error! status: ${response.status}`);
 					}
-
+			
 					const data = await response.json();
-
+			
 					setStore({
 						...store,
 						companions: store.companions.map(companion =>
-							companion.id === id ? data.companion : companion
+							companion.id === companionId ? data.companion : companion
 						)
 					});
 					console.log('Companion updated successfully:', data);
@@ -817,30 +824,264 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('There was an error updating the companion:', error);
 				}
 			},
+			
 
-			handleEditCompanionOrNewCompanion: (value) => {
-				setStore({ ...store, editCompanionOrNewCompanion: value, })
+			handleEditCompanionOrNewCompanion: (id) => {
+				const store = getStore();
+				setStore({...store, companionId: id })
 
-			},
-
-			obtenerinscripciones: async () => {
-				try {
-					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/obtenerinscripciones`, {
-						method: "GET"
-					});
-					const data = await respuesta.json();
-					console.log("postulaciones", data);
-
-					if (Array.isArray(data)) {
-						setStore({ inscripciones_lista: data })
-						localStorage.setItem('inscripciones_lista', JSON.stringify(data))
-					} else {
-						console.error.apply('Datos erroneos, no es un array')
+		},
+		addCompanionFav: async (companion_id) => {
+			const store = getStore();
+			try {
+				const resp = await fetch(`${process.env.BACKEND_URL}/api/favorite_companion/add/${companion_id}/${store.userData.userId}`, {
+					method: "POST",
+					body: JSON.stringify({
+						companion_id: companion_id
+					}),
+					headers: {
+						"Content-Type": "application/json"
 					}
+				});
+
+				const alreadyFav = store.favData.some(fav => fav.companion_id === companion_id);
+				if (alreadyFav) {
+				  console.log("Este perfil ya está en tus favoritos.");
+				  return;
 				}
-				catch (error) {
-					console.log(error);
+
+				if (!resp.ok) {
+					const errorData = await resp.json();
+					console.error("Error:", errorData);
+					return errorData;
 				}
+
+				const data = await resp.json();
+
+				if (data) {
+					localStorage.setItem('favData', JSON.stringify(data));
+
+					setStore({
+						...store,
+						favData: data
+					});
+					console.log("Success:", data);
+				} else {
+					console.error("Datos no recibidos:", data);
+				}
+			} catch (error) {
+				// Manejo de errores de red u otros errores
+				console.error("Network error:", error);
+			}
+		},
+		getCompanionFavs: async () => {
+			const store = getStore();
+			const actions = getActions();
+
+			if (!store.userData.userId) {
+				console.error('User ID is not available');
+				return;
+			}
+			try {
+				const response = await fetch(`${process.env.BACKEND_URL}/api/favorite_companion/${store.userData.userId}`);
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+				const data = await response.json();
+				console.log("Datos de los favoritos recibidos:", data);
+				if (Array.isArray(data)) {
+					setStore({
+						...store,
+						favData: data  // Guardamos la lista completa de favoritos en el store
+					});
+
+					localStorage.setItem('favData', JSON.stringify(data));
+
+					console.log("Store actualizado:", store);
+				}
+			} catch (error) {
+				console.error('There was an error fetching the ad details!', error);
+			}
+		},
+		getAllFavs: async () => {
+			try {
+				const resp = await fetch(`${process.env.BACKEND_URL}/api/favorite_companion`, {
+					method: "GET"
+				});
+				const data = await resp.json();
+				console.log("Datos recibidos de la API:", data);
+				setStore({ favsCompanion: data.favsCompanion });
+			} catch (error) {
+				console.log(error);
+			}
+		},
+		deleteFavCompanion: async (favId) => {
+			const store = getStore();
+			const actions = getActions();
+			try {
+				const response = await fetch(`${process.env.BACKEND_URL}/api/favorite_companion/delete/${favId}`, {
+					method: 'DELETE',
+				});
+
+				if (response.ok) {
+					console.log('Favorito eliminado con éxito');
+					const updatedFavs = store.favData.filter(favs => favs.id !== favId);
+					setStore({
+						...store,
+						favData: updatedFavs,
+						favsCompanion: updatedFavs
+					});
+					localStorage.setItem('favData', JSON.stringify(updatedFavs));
+				} else {
+					console.error('Error al eliminar el anuncio');
+				}
+			} catch (error) {
+				console.error('Error en la solicitud de eliminación:', error);
+			}
+		},
+		addFavAd: async (ad_id) => {
+			const store = getStore();
+			try {
+				const resp = await fetch(`${process.env.BACKEND_URL}/api/favorite_ad/add/${ad_id}/${store.userData.userId}`, {
+					method: "POST",
+					body: JSON.stringify({
+						ad_id: ad_id
+					}),
+					headers: {
+						"Content-Type": "application/json"
+					}
+				});
+
+				const alreadyFav = store.favDataAds.some(fav => fav.ad_id === ad_id);
+				if (alreadyFav) {
+				  console.log("Este perfil ya está en tus favoritos.");
+				  return;
+				}
+
+				if (!resp.ok) {
+					const errorData = await resp.json();
+					console.error("Error:", errorData);
+					return errorData;
+				}
+
+				const data = await resp.json();
+
+				if (data) {
+					localStorage.setItem('favDataAds', JSON.stringify(data));
+
+					setStore({
+						...store,
+						favDataAds: data
+					});
+					console.log("Success:", data);
+				} else {
+					console.error("Datos no recibidos:", data);
+				}
+			} catch (error) {
+				// Manejo de errores de red u otros errores
+				console.error("Network error:", error);
+			}
+		},
+		getAdFavs: async () => {
+			const store = getStore();
+			const actions = getActions();
+
+			if (!store.userData.userId) {
+				console.error('User ID is not available');
+				return;
+			}
+			try {
+				const response = await fetch(`${process.env.BACKEND_URL}/api/favorite_ad/${store.userData.userId}`);
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+				const data = await response.json();
+				console.log("Datos de los favoritos recibidos:", data);
+				if (Array.isArray(data)) {
+					setStore({
+						...store,
+						favDataAds: data  // Guardamos la lista completa de favoritos en el store
+					});
+
+					localStorage.setItem('favDataAds', JSON.stringify(data));
+
+					console.log("Store actualizado:", store);
+				}
+			} catch (error) {
+				console.error('There was an error fetching the ad details!', error);
+			}
+		},
+		deleteFavAd: async (favId) => {
+			const store = getStore();
+			const actions = getActions();
+			try {
+				const response = await fetch(`${process.env.BACKEND_URL}/api/favorite_ad/delete/${favId}`, {
+					method: 'DELETE',
+				});
+
+				if (response.ok) {
+					console.log('Favorito eliminado con éxito');
+					const updatedFavs = store.favDataAds.filter(favs => favs.id !== favId);
+					setStore({
+						...store,
+						favDataAds: updatedFavs
+					});
+					localStorage.setItem('favDataAds', JSON.stringify(updatedFavs));
+				} else {
+					console.error('Error al eliminar el anuncio');
+				}
+			} catch (error) {
+				console.error('Error en la solicitud de eliminación:', error);
+			}
+		},
+		crearInscripcion: async (companion_id, user_id, ad_id) => {
+			const store = getStore();
+			try {
+				const respuesta = await fetch(`${process.env.BACKEND_URL}/api/crearinscripcion`, {
+					method: 'POST',
+					body: JSON.stringify({
+						companion_id,
+						user_id,
+						ad_id
+					}),
+					headers: { "Content-Type": "application/json" }
+				});
+
+				if (!respuesta.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+				const nuevaInscripcion = await respuesta.json();
+
+				localStorage.setItem('lista_postulantes', JSON.stringify(nuevaInscripcion));
+
+				setStore({
+					...store,
+					postulantes: [...store.postulantes, nuevaInscripcion]
+				});
+			}
+			catch (error) {
+				// Manejo de errores de red u otros errores
+				console.error("Network error:", error);
+			}
+		},
+		obtenerinscripciones: async () => {
+			try {
+				const respuesta = await fetch(`${process.env.BACKEND_URL}/api/obtenerinscripciones`, {
+					method: "GET"
+				});
+				const data = await respuesta.json();
+				console.log("postulaciones", data);
+
+				if (Array.isArray(data)) {
+					setStore({ inscripciones_lista: data })
+					localStorage.setItem('inscripciones_lista', JSON.stringify(data))
+				} else {
+					console.error.apply('Datos erroneos, no es un array')
+				}
+			}
+			catch (error) {
+				console.log(error);
+			}
 
 			},
 

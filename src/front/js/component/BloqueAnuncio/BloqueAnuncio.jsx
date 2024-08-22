@@ -189,17 +189,51 @@ export const BloqueAnuncio = ({ }) => {
         console.log('listado de inscripciones disponibles', listaInscripciones);
     }, [listaInscripciones])
 
+    const handleAddFav = async (ad_id) => {
+        console.log('Data de favAd: ', store.favDataAds)
+        await actions.addFavAd(ad_id);
+        const updatedFavData = await actions.getAdFavs();
+        const isFavorited = Array.isArray(updatedFavData) && updatedFavData.some(fav => fav.ad_id === store.singleAd.id);
+        setFavorited(isFavorited);
+    };
+
+    const handleDeleteFav = async (favId) => {
+        console.log('Data de favAd: ', store.favDataAds)
+        await actions.deleteFavAd(favId);
+        const updatedFavData = await actions.getAdFavs();
+        const isFavorited = Array.isArray(updatedFavData) && updatedFavData.some(fav => fav.ad_id === store.singleAd.id);
+        setFavorited(isFavorited);
+    };
+
+    const isFavorited = Array.isArray(store.favDataAds) && store.favDataAds.some(fav => fav.ad_id === store.singleAd.id);
 
     return (
 
         (store.singleAd.status === "pending" || store.singleAd.status === "rejected" || store.singleAd.status === "finish") && store.singleAd.user_id === store.userData.userId ? (
             <div className={`container bg-light p-4 my-5 rounded position-relative ${styles.block_anuncio}`}>
                 {/* ICONO PARA EL ACOMPAÑANTE */}
-                {store.userData.role == "companion" ?
-                    <span className={`fa-regular fa-heart position-absolute ${styles.fav_icon}`}></span>
-                    :
-                    ''
-                }
+                {store.userData.role === "companion" && (
+                    isFavorited ? (
+                        <span
+                            onClick={() => {
+                                const favId = store.favDataAds.find(fav => fav.ad_id === store.singleAd.id);
+                                if (favId) handleDeleteFav(favId);
+                            }}
+                            className={`position-absolute fa-solid fa-heart ${styles.fav_icon} text-danger fs-1`}
+                            type="button"
+                            data-bs-toggle="modal"
+                            data-bs-target="#exampleModal"
+                        ></span>
+                    ) : (
+                        <span
+                            onClick={() => handleAddFav(store.singleAd.id)}
+                            className={`position-absolute fs-1 fa-regular fa-heart ${styles.fav_icon}`}
+                            type="button"
+                            data-bs-toggle="modal"
+                            data-bs-target="#exampleModal"
+                        ></span>
+                    )
+                )}
 
                 {/* ICONOS PARA EL USUARIO (FAMILIAR) */}
                 {store.singleAd.user_id === store.userData.userId ?
@@ -266,7 +300,7 @@ export const BloqueAnuncio = ({ }) => {
                                 <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
                             ) : (
                                 ""
-                            )}
+                            )}                            
                         </p>
                     ) : null}
                 </div>
@@ -340,11 +374,11 @@ export const BloqueAnuncio = ({ }) => {
                                 <tbody>
                                     <tr>
                                         <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
+                                        <td>{nameCompanion}</td>
+                                        <td>{birthdate}</td>
+                                        <td>{experiencia}</td>
+                                        <td>{precio} €</td>
+                                        <td>{valoracion}<span className="ps-2 fa-solid fa-star"></span></td>
                                         <td className="text-end">
                                             <span className="fa-solid fa-eye pe-3"></span>
                                             <span className="fa-solid fa-trash-can pb-2"></span>
@@ -360,11 +394,28 @@ export const BloqueAnuncio = ({ }) => {
             store.singleAd.status === "ok" ? (
                 <div className={`container bg-light p-4 my-5 rounded position-relative ${styles.block_anuncio}`}>
                     {/* ICONO PARA EL ACOMPAÑANTE */}
-                    {store.userData.role == "companion" ?
-                        <span className={`fa-regular fa-heart position-absolute ${styles.fav_icon}`}></span>
-                        :
-                        ''
-                    }
+                    {store.userData.role === "companion" && (
+                        isFavorited ? (
+                            <span
+                                onClick={() => {
+                                    const fav = store.favDataAds.find(fav => fav.ad_id === store.singleAd.id);
+                                    if (fav && fav.id) handleDeleteFav(fav.id);
+                                }}
+                                className={`position-absolute fa-solid fa-heart ${styles.fav_icon} text-danger fs-1`}
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"
+                            ></span>
+                        ) : (
+                            <span
+                                onClick={() => handleAddFav(store.singleAd.id)}
+                                className={`position-absolute fs-1 fa-regular fa-heart ${styles.fav_icon}`}
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"
+                            ></span>
+                        )
+                    )}
 
                     {/* ICONOS PARA EL USUARIO (FAMILIAR) */}
                     {store.singleAd.user_id === store.userData.userId ?
@@ -431,7 +482,7 @@ export const BloqueAnuncio = ({ }) => {
                                     <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
                                 ) : (
                                     ""
-                                )}
+                                )}                               
                             </p>
                         ) : null}
                     </div>
