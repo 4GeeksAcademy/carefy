@@ -171,6 +171,27 @@ class Favorite_companion(db.Model):
             "user": self.user.serialize() if self.user else None
         }
         
+class Favorite_ad(db.Model):
+    __tablename__ ="favorite_ads"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    ad_id = db.Column(db.Integer, db.ForeignKey('ads.id'), nullable=False)
+
+    user = db.relationship ("User", backref="favorite_ads")
+    ad = db.relationship ("Ad", backref = "favorite_ads")
+    
+    def __repr__(self):
+        return f'{self.id}'
+
+    def serialize(self):
+        return{
+            "id": self.id,
+            "user_id": self.user_id,
+            "ad_id": self.ad_id,
+            "ad": self.ad.serialize() if self.ad else None,
+            "user": self.user.serialize() if self.user else None
+        }
+        
         
 class Status(Enum):
     PENDING = "pending"
@@ -200,6 +221,9 @@ class Ad (db.Model):
     hired = db.Column(db.Integer, db.ForeignKey('companions.id'))
     
     patients = db.relationship('Patient', backref='ad')
+    
+    def __repr__(self):
+        return f'{self.id}'
 
     def serialize(self):
         return {

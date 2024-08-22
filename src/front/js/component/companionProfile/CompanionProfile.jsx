@@ -166,7 +166,7 @@ export const CompanionProfile = ({ }) => {
           <p className="fs-4 fw-bold"><span className="fa-solid fa-coins pe-3"></span>Pago (hora)</p>
           <p className="fs-4 ps-4 ms-3">{store.oneCompanion?.service_cost} €</p>
         </div>
-        {store.oneCompanion?.instagram.length === 0 && store.oneCompanion?.facebook.length === 0 && store.oneCompanion?.linkedin.length === 0 && store.oneCompanion?.twitter.length === 0 ? "" :
+        {store.oneCompanion?.instagram && store.oneCompanion?.facebook && store.oneCompanion?.linkedin && store.oneCompanion?.twitter ? 
           <div className="col-12 col-md-4">
 
             <p className="fs-4 fw-bold">
@@ -221,7 +221,7 @@ export const CompanionProfile = ({ }) => {
               <div className={`${styles.hiddenButSpace}`} />
             )}
           </div>
-        }
+        : ""}
       </div>
     </div>
   );

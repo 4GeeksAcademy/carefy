@@ -23,6 +23,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			favsCompanion: JSON.parse(localStorage.getItem("favsCompanion")) || [],
 			favData: JSON.parse(localStorage.getItem("favData")) || [],
+			favDataAds: JSON.parse(localStorage.getItem("favDataAds")) || [],
 			patients: JSON.parse(localStorage.getItem("patients")) || [],
 			ads: JSON.parse(localStorage.getItem("ads")) || [],
 			adData: JSON.parse(localStorage.getItem("adData")) || [],
@@ -133,6 +134,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				localStorage.removeItem("userData");
 				localStorage.removeItem("adData");
 				localStorage.removeItem("favData");
+				localStorage.removeItem("favDataAds");
+				localStorage.removeItem("inscripciones");
+				localStorage.removeItem("postulantes");
 
 				setStore({
 					...store,
@@ -149,6 +153,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					},
 					adData: [],
 					favData: [],
+					favDataAds: [],
 					inscripciones: [],
 					postulantes: []
 				});
@@ -886,6 +891,101 @@ const getState = ({ getStore, getActions, setStore }) => {
 						favsCompanion: updatedFavs
 					});
 					localStorage.setItem('favData', JSON.stringify(updatedFavs));
+				} else {
+					console.error('Error al eliminar el anuncio');
+				}
+			} catch (error) {
+				console.error('Error en la solicitud de eliminación:', error);
+			}
+		},
+		addFavAd: async (ad_id) => {
+			const store = getStore();
+			try {
+				const resp = await fetch(`${process.env.BACKEND_URL}/api/favorite_ad/add/${ad_id}/${store.userData.userId}`, {
+					method: "POST",
+					body: JSON.stringify({
+						ad_id: ad_id
+					}),
+					headers: {
+						"Content-Type": "application/json"
+					}
+				});
+
+				const alreadyFav = store.favDataAds.some(fav => fav.ad_id === ad_id);
+				if (alreadyFav) {
+				  console.log("Este perfil ya está en tus favoritos.");
+				  return;
+				}
+
+				if (!resp.ok) {
+					const errorData = await resp.json();
+					console.error("Error:", errorData);
+					return errorData;
+				}
+
+				const data = await resp.json();
+
+				if (data) {
+					localStorage.setItem('favDataAds', JSON.stringify(data));
+
+					setStore({
+						...store,
+						favDataAds: data
+					});
+					console.log("Success:", data);
+				} else {
+					console.error("Datos no recibidos:", data);
+				}
+			} catch (error) {
+				// Manejo de errores de red u otros errores
+				console.error("Network error:", error);
+			}
+		},
+		getAdFavs: async () => {
+			const store = getStore();
+			const actions = getActions();
+
+			if (!store.userData.userId) {
+				console.error('User ID is not available');
+				return;
+			}
+			try {
+				const response = await fetch(`${process.env.BACKEND_URL}/api/favorite_ad/${store.userData.userId}`);
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+				const data = await response.json();
+				console.log("Datos de los favoritos recibidos:", data);
+				if (Array.isArray(data)) {
+					setStore({
+						...store,
+						favDataAds: data  // Guardamos la lista completa de favoritos en el store
+					});
+
+					localStorage.setItem('favDataAds', JSON.stringify(data));
+
+					console.log("Store actualizado:", store);
+				}
+			} catch (error) {
+				console.error('There was an error fetching the ad details!', error);
+			}
+		},
+		deleteFavAd: async (favId) => {
+			const store = getStore();
+			const actions = getActions();
+			try {
+				const response = await fetch(`${process.env.BACKEND_URL}/api/favorite_ad/delete/${favId}`, {
+					method: 'DELETE',
+				});
+
+				if (response.ok) {
+					console.log('Favorito eliminado con éxito');
+					const updatedFavs = store.favDataAds.filter(favs => favs.id !== favId);
+					setStore({
+						...store,
+						favDataAds: updatedFavs
+					});
+					localStorage.setItem('favDataAds', JSON.stringify(updatedFavs));
 				} else {
 					console.error('Error al eliminar el anuncio');
 				}

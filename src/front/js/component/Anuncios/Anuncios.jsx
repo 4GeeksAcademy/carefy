@@ -13,7 +13,6 @@ export const Anuncios = ({ countFav, companionName }) => {
         actions.getCompanionFavs();
         actions.companion();
         actions.getCompanions()
-        console.log('Data de favdata:', store.favData)
     }, []);
 
     const handleDelete = (id) => {
