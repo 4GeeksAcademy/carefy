@@ -11,6 +11,12 @@ export const BloqueAnuncio = ({ }) => {
     const navigate = useNavigate();
 
     const [PostularseVisible, setPostularseVisible] = useState(true);
+    const [nameCompanion, setNameCompanion] = useState('')
+    const [birthdate, setBirthdate] = useState(0);
+    const [experiencia, setExperiencia] = useState('');
+    const [precio, setPrecio] = useState(0);
+    const [valoracion, setValoracion] = useState("");
+
 
     useEffect(() => {
         if (id) {
@@ -37,6 +43,13 @@ export const BloqueAnuncio = ({ }) => {
     }
 
     const handlePostularseClick = () => {
+
+        const companionId = store.userData.userId;
+        const patientId = store.singleAd.patient_id;
+        const adId = store.singleAd.id;
+
+
+        actions.crearInscripcion(companionId, patientId, adId)
         setPostularseVisible(false); // Oculta "POSTULARSE"
     };
 
@@ -72,6 +85,41 @@ export const BloqueAnuncio = ({ }) => {
         }
         return age;
     };
+
+    // Obtiene todas las inscripciones
+    useEffect(() => {
+        actions.obtenerinscripciones()
+    }, []);
+
+
+    // Función para calcular la edad a partir de la fecha de nacimiento
+    const calcularEdad = (fechaNacimiento) => {
+        const hoy = new Date()
+        const fechaNac = new Date(fechaNacimiento);
+        let edadCalculada = hoy.getFullYear() - fechaNac.getFullYear();
+        const mes = hoy.getMonth() - fechaNac.getMonth()
+
+        if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNac.getDate())) {
+            edadCalculada--;
+        }
+        return edadCalculada
+    }
+
+
+    useEffect(() => {
+
+        const companionData = localStorage.getItem('oneCompanion');
+        const companionParsed = JSON.parse(companionData);
+        setNameCompanion(companionParsed.user.name);
+        setBirthdate(calcularEdad(companionParsed.birthdate));
+        setExperiencia(companionParsed.experience);
+        setPrecio(companionParsed.service_cost);
+        // setValoracion(companion.)
+
+    }, []);
+
+
+
 
     return (
 
@@ -138,20 +186,20 @@ export const BloqueAnuncio = ({ }) => {
                         </button>
                     ) : store.singleAd.user_id === store.userData.userId ? (
                         <p className="fs-4 fw-bold">
-                          Estado:{" "}
-                          {store.singleAd.status === "pending" ? (
-                            <span className="bg-warning p-2 rounded">Pendiente</span>
-                          ) : store.singleAd.status === "ok" ? (
-                            <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
-                          ) : store.singleAd.status === "rejected" ? (
-                            <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
-                          ) : store.singleAd.status === "finish" ? (
-                            <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
-                          ) : (
-                            ""
-                          )}
+                            Estado:{" "}
+                            {store.singleAd.status === "pending" ? (
+                                <span className="bg-warning p-2 rounded">Pendiente</span>
+                            ) : store.singleAd.status === "ok" ? (
+                                <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
+                            ) : store.singleAd.status === "rejected" ? (
+                                <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
+                            ) : store.singleAd.status === "finish" ? (
+                                <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
+                            ) : (
+                                ""
+                            )}
                         </p>
-                      ) : null}
+                    ) : null}
                 </div>
                 <div className="pt-4">
                     <p className="fs-5">{store.singleAd.description}</p>
@@ -223,11 +271,11 @@ export const BloqueAnuncio = ({ }) => {
                                 <tbody>
                                     <tr>
                                         <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
+                                        <td>{nameCompanion}</td>
+                                        <td>{birthdate}</td>
+                                        <td>{experiencia}</td>
+                                        <td>{precio} €</td>
+                                        <td>{valoracion}<span class="ps-2 fa-solid fa-star"></span></td>
                                         <td className="text-end">
                                             <span className="fa-solid fa-eye pe-3"></span>
                                             <span className="fa-solid fa-trash-can pb-2"></span>
@@ -303,20 +351,20 @@ export const BloqueAnuncio = ({ }) => {
                             </button>
                         ) : store.singleAd.user_id === store.userData.userId ? (
                             <p className="fs-4 fw-bold">
-                              Estado:{" "}
-                              {store.singleAd.status === "pending" ? (
-                                <span className="bg-warning p-2 rounded">Pendiente</span>
-                              ) : store.singleAd.status === "ok" ? (
-                                <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
-                              ) : store.singleAd.status === "rejected" ? (
-                                <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
-                              ) : store.singleAd.status === "finish" ? (
-                                <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
-                              ) : (
-                                ""
-                              )}
+                                Estado:{" "}
+                                {store.singleAd.status === "pending" ? (
+                                    <span className="bg-warning p-2 rounded">Pendiente</span>
+                                ) : store.singleAd.status === "ok" ? (
+                                    <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
+                                ) : store.singleAd.status === "rejected" ? (
+                                    <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
+                                ) : store.singleAd.status === "finish" ? (
+                                    <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
+                                ) : (
+                                    ""
+                                )}
                             </p>
-                          ) : null}
+                        ) : null}
                     </div>
                     <div className="pt-4">
                         <p className="fs-5">{store.singleAd.description}</p>
@@ -371,6 +419,8 @@ export const BloqueAnuncio = ({ }) => {
                     </div>
                     {store.singleAd.user_id === store.userData.userId ?
                         <>
+
+                            {/* Tabla de solicitudes de acompañantes con respecto al anuncio */}
                             <p className="fs-4 fw-bold">Solicitudes</p>
                             <div className="table-responsive">
                                 <table className="table table-hover table-light">
@@ -388,11 +438,11 @@ export const BloqueAnuncio = ({ }) => {
                                     <tbody>
                                         <tr>
                                             <th scope="row">1</th>
-                                            <td>Mark</td>
-                                            <td>Otto</td>
-                                            <td>@mdo</td>
-                                            <td>@mdo</td>
-                                            <td>@mdo</td>
+                                            <td>{nameCompanion}</td>
+                                            <td>{birthdate}</td>
+                                            <td>{experiencia}</td>
+                                            <td>{precio}</td>
+                                            <td>{valoracion}</td>
                                             <td className="text-end">
                                                 <span className="fa-solid fa-eye pe-3"></span>
                                                 <span className="fa-solid fa-trash-can pb-2"></span>

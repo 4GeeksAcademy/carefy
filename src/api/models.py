@@ -131,19 +131,19 @@ class Companion(db.Model):
 class Inscription(db.Model): 
     __tablename__ ="inscriptions"
     id = db.Column(db.Integer, primary_key=True)
-    patient_id =db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
+    user_id =db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     companion_id =db.Column(db.Integer, db.ForeignKey('companions.id'), nullable=False)
     ad_id =db.Column(db.Integer,  db.ForeignKey('ads.id'), nullable=False)
     is_active =db.Column(db.Boolean(), nullable=False) 
 
     companions = db.relationship("Companion", backref = "inscriptions")
-    patients = db.relationship ("Patient",  backref = "inscriptions")
+    users = db.relationship ("User",  backref = "inscriptions")
     ad = db.relationship ("Ad", backref = "inscriptions")
 
     def serialize(self):
         return {
             "id": self.id,
-            "patient_id": self.patient_id,
+            "user_id": self.user_id,
             "companion_id": self.companion_id,
             "ad_id": self.ad_id,
             "is_active": self.is_active
