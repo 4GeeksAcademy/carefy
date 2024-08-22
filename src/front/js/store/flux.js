@@ -21,9 +21,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			editCompanionOrNewCompanion: false,
 
 
-			favsCompanion: JSON.parse(localStorage.getItem("favsCompanion")) || null,
+			favsCompanion: JSON.parse(localStorage.getItem("favsCompanion")) || [],
 			favData: JSON.parse(localStorage.getItem("favData")) || [],
-			ads: JSON.parse(localStorage.getItem("ads")) || null,
 			patients: JSON.parse(localStorage.getItem("patients")) || [],
 			ads: JSON.parse(localStorage.getItem("ads")) || [],
 			adData: JSON.parse(localStorage.getItem("adData")) || [],
@@ -796,6 +795,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				});
 
+				const alreadyFav = store.favData.some(fav => fav.companion_id === companion_id);
+				if (alreadyFav) {
+				  console.log("Este perfil ya está en tus favoritos.");
+				  return;
+				}
+
 				if (!resp.ok) {
 					const errorData = await resp.json();
 					console.error("Error:", errorData);
@@ -871,12 +876,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				if (response.ok) {
 					console.log('Favorito eliminado con éxito');
-					const updatedFavs = store.favsCompanion.filter(favs => favs.id !== favId);
+					const updatedFavs = store.favData.filter(favs => favs.id !== favId);
 					setStore({
 						...store,
+						favData: updatedFavs,
 						favsCompanion: updatedFavs
-					})
-					localStorage.setItem('favsCompanion', JSON.stringify(updatedFavs));
+					});
+					localStorage.setItem('favData', JSON.stringify(updatedFavs));
 				} else {
 					console.error('Error al eliminar el anuncio');
 				}

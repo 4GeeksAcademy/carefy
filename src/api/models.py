@@ -79,6 +79,7 @@ class Companion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(250), nullable=False)
     photo = db.Column(db.String(250), nullable=False)
+    rating = db.Column(db.Integer)
     province = db.Column(db.String(250), nullable=False)
     birthdate = db.Column(db.String(250), nullable=False)
     availability_hours = db.Column(db.Boolean, default=False)
@@ -103,6 +104,7 @@ class Companion(db.Model):
             "id": self.id,
             "photo": self.photo,
             "description": self.description,
+            "rating": self.rating,
             "birthdate": self.birthdate,
             "province": self.province,
             "availability_hours": self.availability_hours,
@@ -149,13 +151,13 @@ class Inscription(db.Model):
     
 
 class Favorite_companion(db.Model):
-    __tablename__ ="favourite_companions"
+    __tablename__ ="favorite_companions"
     id = db.Column(db.Integer, primary_key=True)
     user_id =db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     companion_id =db.Column(db.Integer, db.ForeignKey('companions.id'), nullable=False)
 
-    user = db.relationship ("User", backref="favourite_companions")
-    companion = db.relationship ("Companion", backref = "favourite_companions")
+    user = db.relationship ("User", backref="favorite_companions")
+    companion = db.relationship ("Companion", backref = "favorite_companions")
     
     def __repr__(self):
         return f'{self.id}'
@@ -164,7 +166,9 @@ class Favorite_companion(db.Model):
         return{
             "id": self.id,
             "user_id": self.user_id,
-            "companion_id": self.companion_id
+            "companion_id": self.companion_id,
+            "companion": self.companion.serialize() if self.companion else None,
+            "user": self.user.serialize() if self.user else None
         }
         
         

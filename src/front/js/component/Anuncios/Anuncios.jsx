@@ -13,6 +13,7 @@ export const Anuncios = ({ countFav, companionName }) => {
         actions.getCompanionFavs();
         actions.companion();
         actions.getCompanions()
+        console.log('Data de favdata:', store.favData)
     }, []);
 
     const handleDelete = (id) => {
@@ -101,26 +102,29 @@ export const Anuncios = ({ countFav, companionName }) => {
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Nombre</th>
-                                    <th scope="col">Ubicación</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Valoración</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                            {Array.isArray(store.favData) ? (
+                                {Array.isArray(store.favData) && store.favData.length > 0 ? (
                                     store.favData.map((fav, index) => (
-
                                         <tr key={fav.id}>
                                             <th scope="row">{index + 1}</th>
-                                            <td>{store.oneCompanion?.user?.name} {store.oneCompanion?.user?.lastname}</td>
-                                            <td>{store.oneCompanion?.user?.location}, {store.oneCompanion?.province}</td>
-                                    <td className="text-end">
-                                        <Link to={`/perfil-profesional/${store.oneCompanion.id}`}><span className="fa-solid fa-eye pe-3 text-dark"></span></Link>
-                                    </td>
-                                    </tr>
+                                            <td>{fav.companion?.user?.name} {fav.companion?.user?.lastname}</td>
+                                            <td>{fav.companion?.user?.email}</td>
+                                            <td>4.5<span class="ps-2 fa-solid fa-star"></span></td>
+                                            <td className="text-end">
+                                                <Link to={`/perfil-profesional/${fav.companion_id}`}>
+                                                    <span className="fa-solid fa-eye pe-3 text-dark"></span>
+                                                </Link>
+                                            </td>
+                                        </tr>
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan="5">No tienes favoritos guardados</td>
+                                        <td colSpan="4">No tienes favoritos guardados</td>
                                     </tr>
                                 )}
                             </tbody>
