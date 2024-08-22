@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import styles from "./BloqueAnuncio.module.css"
 import { Context } from "../../store/appContext";
 import profileImg from "../../../img/profileImg.png"
@@ -11,20 +11,19 @@ export const BloqueAnuncio = ({ }) => {
     const navigate = useNavigate();
 
     const [PostularseVisible, setPostularseVisible] = useState(true);
-    const [nameCompanion, setNameCompanion] = useState('')
-    const [birthdate, setBirthdate] = useState(0);
-    const [experiencia, setExperiencia] = useState('');
-    const [precio, setPrecio] = useState(0);
-    const [valoracion, setValoracion] = useState("");
-    const [favorited, setFavorited] = useState(false);
+    const [listaInscripciones, setListaInscripciones] = useState([])
+    const [companion_id, setCompanion_id] = useState(0)
 
-
+    //Obtiene un anuncio a través del id
     useEffect(() => {
         if (id) {
             actions.getSingleAd(id);
         }
     }, [id]);
 
+    //Si existe un anuncio y su estado es "pendiente", "rechazado" o "finalizado" y además el id del anuncio no es igual
+    // que el usuario logueado --> redirige a listado-anuncios.
+    // De lo contrario accede al anuncio. 
     useEffect(() => {
         // Redirigir al home si el anuncio es "pending" o "rejected" y el usuario no es el creador
         if (
@@ -36,6 +35,8 @@ export const BloqueAnuncio = ({ }) => {
         }
     }, [store.singleAd, store.userData.userId, navigate]);
 
+
+
     // Obtener los datos del anuncio del store
     const ad = store.singleAd;
 
@@ -43,20 +44,73 @@ export const BloqueAnuncio = ({ }) => {
         return <p>Cargando...</p>;
     }
 
+    /**
+     * Función para crear una postulación/inscripción a un ad
+     * @param userComId: buscar en el store el id del usuario logueado
+     * @param adId busca el Id del anuncio. 
+     * @param companions: obtenemos la lista de companions del storage
+     * @param companionsParsed: obtiene la lista anterior en un formato JSON
+     * -forEach: recorre la lista companionParsed y se valida si el usuario del acompañanante (compain.user.id) es el mismo
+     * que el usuario logueado(user.id), nos aseguramos acceder a  los datos del usuario logueado. 
+     * Si coincide se crea inscripcionExiste, para verificar si un mismo acompañante ya está inscrito a un mismo ad.
+     * Si no está inscrito se llama a la función para inscribirse y oculta el botón "postularse".
+     * Si ya estuviese inscrito una vez, aparece alerta 
+     */
     const handlePostularseClick = () => {
 
-        const companionId = store.userData.userId;
-        const patientId = store.singleAd.patient_id;
+        const userCompId = store.userData.userId;
         const adId = store.singleAd.id;
+        const companions = localStorage.getItem('companions');
+        const companionsParsed = JSON.parse(companions)
 
+        companionsParsed.forEach((companion) => {
+            if (companion.user.id === userCompId) {
+                const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.companion_id === companion.id && inscripcion.ad_id === adId);
 
-        actions.crearInscripcion(companionId, patientId, adId)
-        setPostularseVisible(false); // Oculta "POSTULARSE"
+                if (!inscripcionExistente) {
+                    actions.add_inscription(companion.id, adId, userCompId)
+                        .then(() => {
+                            window.location.reload();
+                        })
+                        .catch((error) => {
+                            console.error("Error al crear la inscripción:", error);
+                        });
+                }
+            }
+        });
+
     };
+
+
+
 
     const handleCancelarClick = () => {
+        const userCompId = store.userData.userId;
+        const inscriptionId = localStorage.getItem('inscripciones_lista');
+        if (!inscriptionId) {
+            console.error('No hay datos en localStorage para "inscripciones_lista".');
+            return;
+        }
+
+        const lista_inscripciones = JSON.parse(inscriptionId);
+        if (!Array.isArray(lista_inscripciones)) {
+            console.error('El formato de "inscripciones_lista" no es válido.');
+            return;
+        }
+
+
+        lista_inscripciones.forEach((inscripcion) => {
+            const id_Inscripcion = store.inscripciones.find(inscr => inscr.id === inscripcion.id && inscripcion.user_id === userCompId);
+            if (id_Inscripcion) {
+                actions.deleteinscription(inscripcion.id);
+            } else {
+                console.warn(`No se encontró inscripción con ID ${inscripcion.id}`);
+            }
+        });
         setPostularseVisible(true); // Oculta "CANCELAR POSTULACIÓN"
     };
+
+
 
     const handleDelete = (id) => {
         actions.deleteAd(id);
@@ -68,6 +122,10 @@ export const BloqueAnuncio = ({ }) => {
         actions.getSingleAd(id);
         navigate(`/edit-ad/${id}`);
     };
+
+    useEffect(() => {
+        actions.getPatients();
+    }, []);
 
     const patientData = store.patients.find(patient => patient.id === store.singleAd.patient_id);
 
@@ -85,11 +143,31 @@ export const BloqueAnuncio = ({ }) => {
 
     // Obtiene todas las inscripciones
     useEffect(() => {
-        actions.getPatients();
-        actions.obtenerinscripciones()
-        console.log('Favoritos en el store:', store.favDataAds);
+        actions.obtenerinscripciones();
+        const userCompId = store.userData.userId;
+        const adId = store.singleAd.id;
+        const companions = localStorage.getItem('companions');
+        const companionsParsed = JSON.parse(companions)
+
+        companionsParsed.forEach((companion) => {
+            if (companion.user.id === userCompId) {
+                const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.companion_id === companion.id);
+
+                if (!inscripcionExistente) {
+                    // Después de inscribirse con éxito, ocultar el botón "POSTULARSE"
+                    setPostularseVisible(true);
+                } else {
+                    setPostularseVisible(false); // Oculta "CANCELAR POSTULACIÓN"
+                }
+            }
+        });
+
     }, []);
 
+    useEffect(() => {
+        actions.getCompanions();
+
+    }, []);
 
     // Función para calcular la edad a partir de la fecha de nacimiento
     const calcularEdad = (fechaNacimiento) => {
@@ -106,19 +184,10 @@ export const BloqueAnuncio = ({ }) => {
 
 
     useEffect(() => {
-        const companionData = localStorage.getItem('oneCompanion');
-        if (companionData) {
-            const companionParsed = JSON.parse(companionData);
-            if (companionParsed && companionParsed.user) {
-                setNameCompanion(companionParsed.user.name);
-                setBirthdate(calcularEdad(companionParsed.birthdate));
-                setExperiencia(companionParsed.experience);
-                setPrecio(companionParsed.service_cost);
-                // setValoracion(companionParsed.valoracion); // Si existe
-            }
-        }
-    }, []);
-
+        const lista = store.inscripciones;
+        setListaInscripciones(lista)
+        console.log('listado de inscripciones disponibles', listaInscripciones);
+    }, [listaInscripciones])
 
     const handleAddFav = async (ad_id) => {
         console.log('Data de favAd: ', store.favDataAds)
@@ -143,7 +212,6 @@ export const BloqueAnuncio = ({ }) => {
         (store.singleAd.status === "pending" || store.singleAd.status === "rejected" || store.singleAd.status === "finish") && store.singleAd.user_id === store.userData.userId ? (
             <div className={`container bg-light p-4 my-5 rounded position-relative ${styles.block_anuncio}`}>
                 {/* ICONO PARA EL ACOMPAÑANTE */}
-
                 {store.userData.role === "companion" && (
                     isFavorited ? (
                         <span
@@ -167,9 +235,7 @@ export const BloqueAnuncio = ({ }) => {
                     )
                 )}
 
-
                 {/* ICONOS PARA EL USUARIO (FAMILIAR) */}
-
                 {store.singleAd.user_id === store.userData.userId ?
                     <div className={`position-absolute ${styles.fav_icon}`}>
                         <span onClick={() => handleEditAd(store.singleAd.id)} className="fa-solid fa-pencil pe-3"></span>
@@ -189,8 +255,8 @@ export const BloqueAnuncio = ({ }) => {
                             </div>
                         </div>
 
-                    </div> : ""}
-
+                    </div> : ""
+                }
                 <h1 className="mb-5 pe-5 me-5 text-dark">{store.singleAd.title}</h1>
                 <div className="d-flex align-items-start justify-content-between flex-wrap">
                     <div className="d-flex align-items-center flex-wrap">
@@ -234,7 +300,7 @@ export const BloqueAnuncio = ({ }) => {
                                 <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
                             ) : (
                                 ""
-                            )}
+                            )}                            
                         </p>
                     ) : null}
                 </div>
@@ -289,42 +355,41 @@ export const BloqueAnuncio = ({ }) => {
                         </p>
                     </div>
                 </div>
-                {
-                    store.singleAd.user_id === store.userData.userId ?
-                        <>
-                            <p className="fs-4 fw-bold">Solicitudes</p>
-                            <div className="table-responsive">
-                                <table className="table table-hover table-light">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Nombre</th>
-                                            <th scope="col">Edad</th>
-                                            <th scope="col">Experiencia</th>
-                                            <th scope="col">Costo (hora)</th>
-                                            <th scope="col">Valoración</th>
-                                            <th scope="col"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>{nameCompanion}</td>
-                                            <td>{birthdate}</td>
-                                            <td>{experiencia}</td>
-                                            <td>{precio} €</td>
-                                            <td>{valoracion}<span className="ps-2 fa-solid fa-star"></span></td>
-                                            <td className="text-end">
-                                                <span className="fa-solid fa-eye pe-3"></span>
-                                                <span className="fa-solid fa-trash-can pb-2"></span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </> : ""
+                {store.singleAd.user_id === store.userData.userId ?
+                    <>
+                        <p className="fs-4 fw-bold">Solicitudes</p>
+                        <div className="table-responsive">
+                            <table className="table table-hover table-light">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Edad</th>
+                                        <th scope="col">Experiencia</th>
+                                        <th scope="col">Costo (hora)</th>
+                                        <th scope="col">Valoración</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>{nameCompanion}</td>
+                                        <td>{birthdate}</td>
+                                        <td>{experiencia}</td>
+                                        <td>{precio} €</td>
+                                        <td>{valoracion}<span className="ps-2 fa-solid fa-star"></span></td>
+                                        <td className="text-end">
+                                            <span className="fa-solid fa-eye pe-3"></span>
+                                            <span className="fa-solid fa-trash-can pb-2"></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </> : ""
                 }
-            </div >)
+            </div>)
             :
             store.singleAd.status === "ok" ? (
                 <div className={`container bg-light p-4 my-5 rounded position-relative ${styles.block_anuncio}`}>
@@ -351,7 +416,6 @@ export const BloqueAnuncio = ({ }) => {
                             ></span>
                         )
                     )}
-
 
                     {/* ICONOS PARA EL USUARIO (FAMILIAR) */}
                     {store.singleAd.user_id === store.userData.userId ?
@@ -418,7 +482,7 @@ export const BloqueAnuncio = ({ }) => {
                                     <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
                                 ) : (
                                     ""
-                                )}
+                                )}                               
                             </p>
                         ) : null}
                     </div>
@@ -492,19 +556,35 @@ export const BloqueAnuncio = ({ }) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>{nameCompanion}</td>
-                                            <td>{birthdate}</td>
-                                            <td>{experiencia}</td>
-                                            <td>{precio}</td>
-                                            <td>{valoracion}</td>
-                                            <td className="text-end">
-                                                <span className="fa-solid fa-eye pe-3"></span>
-                                                <span className="fa-solid fa-trash-can pb-2"></span>
-                                            </td>
-                                        </tr>
+                                        {listaInscripciones.map((inscripcion) => {
+                                            // Encuentra el companion correspondiente al companion_id de la inscripción
+                                            const companion = store.companions.find(comp => comp.id === inscripcion.companion_id);
+
+                                            // Si no se encuentra el companion, se omite el rendering de esa fila
+                                            if (!companion) return null;
+
+                                            // Asegúrate de obtener estos datos de la manera correcta
+                                            const { id: companion_id, user, birthdate, experiencia, precio, valoracion } = companion;
+
+                                            return (
+                                                <tr key={inscripcion.id}>
+                                                    <th scope="row">1</th>
+                                                    <td>{companion?.user?.name}</td>
+                                                    <td>{calcularEdad(companion?.birthdate)}</td>
+                                                    <td>{companion?.experience}</td>
+                                                    <td>{companion?.service_cost}</td>
+                                                    <td>{valoracion}</td>
+                                                    <td className="text-end">
+                                                        <Link to={`/perfil-profesional/${companion_id}`}>
+                                                            <span className="fa-solid fa-eye pe-3"></span>
+                                                        </Link>
+                                                        <span className="fa-solid fa-trash-can pb-2"></span>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
                                     </tbody>
+
                                 </table>
                             </div>
                         </> : ""

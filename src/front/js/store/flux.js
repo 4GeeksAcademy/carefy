@@ -629,6 +629,47 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			// Crea una inscripción
+			add_inscription: async (companion_id, ad_id, user_id) => {
+				const store = getStore();
+				try {
+					const resp = await fetch(`${process.env.BACKEND_URL}/api/inscripcion/add/${companion_id}/${ad_id}/${user_id}`, {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json"
+						}
+					});
+			
+					if (!resp.ok) {
+						const errorData = await resp.json();
+						console.error("Error:", errorData);
+						return errorData;
+					}
+			
+					const data = await resp.json();
+			
+					if (data) {
+
+						const updatedInscriptions = [...store.inscriptions, data];
+						localStorage.setItem('inscripciones_lista', JSON.stringify(updatedInscriptions));
+			
+						setStore({
+							...store,
+							inscriptions: updatedInscriptions
+						});
+			
+						console.log("Dato ok", data);
+					} else {
+						console.error("Datos no recibidos:", data);
+					}
+				} catch (error) {
+					// Manejo de errores de red u otros errores
+					console.error("Network error:", error);
+				}
+			},
+
+
+
 			//ver todos los acompanantes
 			getCompanions: async () => {
 				try {
@@ -1042,10 +1083,35 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log(error);
 			}
 
+			},
+
+			deleteinscription: async (id) => {
+				const store = getStore();
+				const actions = getActions();
+
+				try{
+					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/inscripcion/delete/${id}`, {
+						method: 'DELETE',
+					});
+					if (respuesta.ok){
+						console.log('Inscripción borrada correctamente');
+						const inscriptionsUpdate = store.inscripciones.filter(inscripcion => inscripcion.id !== id);
+						setStore ({
+							...store,
+							inscripciones: inscriptionsUpdate
+						})
+						localStorage.setItem('inscripciones_lista', JSON.stringify(inscriptionsUpdate))
+					}else {
+						console.error('Error al eliminar la inscripción');
+					}
+				}catch (error) {
+					console.error('Error en la solicitud de la eliminacion: ', error)
+				}
+			},
+
+			
 		}
-		
-	},
-}
+	};
 
 };
 
