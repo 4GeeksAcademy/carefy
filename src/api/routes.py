@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Patient, Ad, Status, Type, Companion, Inscription
+from api.models import db, User, Patient, Ad, Status, Type, Companion, Favorite_companion, Inscription, Favorite_ad
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -395,8 +395,6 @@ def companion(id):
     return jsonify(companion.serialize())
 
     
-
-
 #Crear acompañante
 @api.route("/anadir_companion", methods=["POST"])
 def anadir_companion():
@@ -500,9 +498,119 @@ def actualizar_companion(id):
         return jsonify({"ERROR": f"Ocurrió un error al actualizar el companion: {str(e)}"}), 500
     
 
-      
+#FAVORITOS COMPANIONS
 
+# Mostrar todos los favoritos
+@api.route('/favorite_companion', methods=['GET'])
+def get_fav():
+    favs = Favorite_companion.query.all()
+    return jsonify([fav.serialize() for fav in favs])   
+
+#Traer favoritos de un usuario
+@api.route('/favorite_companion/<int:user_id>', methods=['GET'])
+def get_users_favs(user_id):
+    favs = Favorite_companion.query.filter_by(user_id=user_id).all()
     
+    if not favs:
+        return jsonify({'error': 'No favs found for this user'}), 404
+
+    favs_serialized = [fav.serialize() for fav in favs]
+    
+    return jsonify(favs_serialized), 200
+
+#Guardar favorito
+@api.route("/favorite_companion/add/<int:companion_id>/<int:user_id>", methods=['POST'])
+def add_fav(companion_id,user_id):
+    data = request.json
+    if 'companion_id' not in data:
+        return jsonify({'error': 'Missing data'}), 400
+
+    new_fav = Favorite_companion(
+        companion_id=companion_id,
+        user_id=user_id  
+    )
+
+    db.session.add(new_fav)
+    db.session.commit()
+    
+    return jsonify({
+        "msg": "Favorito guardado exitosamente",
+        **new_fav.serialize()}), 201
+
+#Eliminar favorito
+@api.route('/favorite_companion/delete/<int:fav_id>', methods=['DELETE'])
+def delete_fav(fav_id):
+    fav = Favorite_companion.query.get(fav_id)
+
+    if fav is None:
+        return jsonify({"message": "Favorite not found"}), 400
+
+    try:
+        db.session.delete(fav)
+        db.session.commit()
+        return jsonify({"message": "Favorite deleted successfully"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
+
+#FAVORITOS ADS
+
+# Mostrar todos los favoritos
+@api.route('/favorite_ad', methods=['GET'])
+def get_fav_ad():
+    favs = Favorite_ad.query.all()
+    return jsonify([fav.serialize() for fav in favs])   
+
+#Traer favoritos de un usuario
+@api.route('/favorite_ad/<int:user_id>', methods=['GET'])
+def get_users_favs_ad(user_id):
+    favs = Favorite_ad.query.filter_by(user_id=user_id).all()
+    
+    if not favs:
+        return jsonify({'error': 'No favs found for this user'}), 404
+
+    favs_serialized = [fav.serialize() for fav in favs]
+    
+    return jsonify(favs_serialized), 200
+
+#Guardar favorito
+@api.route("/favorite_ad/add/<int:ad_id>/<int:user_id>", methods=['POST'])
+def add_fav_ad(ad_id,user_id):
+    data = request.json
+    if 'ad_id' not in data:
+        return jsonify({'error': 'Missing data'}), 400
+
+    new_fav = Favorite_ad(
+        ad_id=ad_id,
+        user_id=user_id  
+    )
+
+    db.session.add(new_fav)
+    db.session.commit()
+    
+    return jsonify({
+        "msg": "Favorito guardado exitosamente",
+        **new_fav.serialize()}), 201
+
+#Eliminar favorito
+@api.route('/favorite_ad/delete/<int:fav_id>', methods=['DELETE'])
+def delete_fav_ad(fav_id):
+    fav = Favorite_ad.query.get(fav_id)
+
+    if fav is None:
+        return jsonify({"message": "Favorite not found"}), 400
+
+    try:
+        db.session.delete(fav)
+        db.session.commit()
+        return jsonify({"message": "Favorite deleted successfully"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
+
+#SUBIR FOTO CLOUDINARY
 
 @api.route('/subirfoto', methods=['POST'])
 def subirfoto():

@@ -50,8 +50,6 @@ const CompanionForm = () => {
         [name]: value
       }));
     }
-    console.log(companion);
-
     
   };
 

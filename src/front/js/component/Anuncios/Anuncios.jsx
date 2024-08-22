@@ -10,6 +10,9 @@ export const Anuncios = ({ countFav, companionName }) => {
 
     useEffect(() => {
         actions.getUserAds();
+        actions.getCompanionFavs();
+        actions.companion();
+        actions.getCompanions()
     }, []);
 
     const handleDelete = (id) => {
@@ -21,10 +24,7 @@ export const Anuncios = ({ countFav, companionName }) => {
         navigate(`/anuncio/${id}`)
     }
 
-    const handleEditAd = (id) => {
-        console.log("Editing ad with ID:", id);
-        navigate(`/edit-ad/${id}`);
-    };
+
 
     return (
         <>
@@ -101,18 +101,31 @@ export const Anuncios = ({ countFav, companionName }) => {
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Nombre</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Valoración</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">{countFav}</th>
-                                    <td>{companionName}</td>
-                                    <td className="text-end">
-                                        <span className="fa-solid fa-eye pe-3"></span>
-                                        <span className="fa-solid fa-trash-can pb-2"></span>
-                                    </td>
-                                </tr>
+                                {Array.isArray(store.favData) && store.favData.length > 0 ? (
+                                    store.favData.map((fav, index) => (
+                                        <tr key={fav.id}>
+                                            <th scope="row">{index + 1}</th>
+                                            <td>{fav.companion?.user?.name} {fav.companion?.user?.lastname}</td>
+                                            <td>{fav.companion?.user?.email}</td>
+                                            <td>4.5<span className="ps-2 fa-solid fa-star"></span></td>
+                                            <td className="text-end">
+                                                <Link to={`/perfil-profesional/${fav.companion_id}`}>
+                                                    <span className="fa-solid fa-eye pe-3 text-dark"></span>
+                                                </Link>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="4">No tienes favoritos guardados</td>
+                                    </tr>
+                                )}
                             </tbody>
                         </table>
                     </div>

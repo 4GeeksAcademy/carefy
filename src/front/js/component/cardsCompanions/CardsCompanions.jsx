@@ -2,7 +2,13 @@ import React from 'react'
 import styles from "./cardCompanions.module.css"
 import { Link } from 'react-router-dom';
 
-const CardsCompanions = ({ name, last_name, description, photo, location, link, ratings, province }) => {
+const CardsCompanions = ({ name, last_name, description, photo, location, province, link, ratings }) => {
+
+  const verMas = () => {
+    window.scrollTo(0, 0);
+  }
+
+  
   return (
 
     <div className={`card ${styles.profile}`}>
@@ -21,7 +27,7 @@ const CardsCompanions = ({ name, last_name, description, photo, location, link, 
         <p className={`card-text ${styles.card_description}`}>{description}</p>
         <div className={styles.card_buttons}>
           <span className="fa-regular fa-envelope fs-3 mt-3"></span>
-          <Link to={link} className={`btn ${styles.boton_ver_mas}`}>
+          <Link onClick={verMas} to={link} className={`btn ${styles.boton_ver_mas}`}>
             VER MÁS
           </Link>
         </div>

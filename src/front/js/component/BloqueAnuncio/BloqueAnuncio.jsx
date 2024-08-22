@@ -16,6 +16,7 @@ export const BloqueAnuncio = ({ }) => {
     const [experiencia, setExperiencia] = useState('');
     const [precio, setPrecio] = useState(0);
     const [valoracion, setValoracion] = useState("");
+    const [favorited, setFavorited] = useState(false);
 
 
     useEffect(() => {
@@ -68,10 +69,6 @@ export const BloqueAnuncio = ({ }) => {
         navigate(`/edit-ad/${id}`);
     };
 
-    useEffect(() => {
-        actions.getPatients();
-    }, []);
-
     const patientData = store.patients.find(patient => patient.id === store.singleAd.patient_id);
 
     const getAge = (birthdate) => {
@@ -88,7 +85,9 @@ export const BloqueAnuncio = ({ }) => {
 
     // Obtiene todas las inscripciones
     useEffect(() => {
+        actions.getPatients();
         actions.obtenerinscripciones()
+        console.log('Favoritos en el store:', store.favDataAds);
     }, []);
 
 
@@ -107,32 +106,70 @@ export const BloqueAnuncio = ({ }) => {
 
 
     useEffect(() => {
-        
         const companionData = localStorage.getItem('oneCompanion');
-        const companionParsed = JSON.parse(companionData);
-        setNameCompanion(companionParsed.user.name);
-        setBirthdate(calcularEdad(companionParsed.birthdate));
-        setExperiencia(companionParsed.experience);
-        setPrecio(companionParsed.service_cost);
-        // setValoracion(companion.)
-
+        if (companionData) {
+            const companionParsed = JSON.parse(companionData);
+            if (companionParsed && companionParsed.user) {
+                setNameCompanion(companionParsed.user.name);
+                setBirthdate(calcularEdad(companionParsed.birthdate));
+                setExperiencia(companionParsed.experience);
+                setPrecio(companionParsed.service_cost);
+                // setValoracion(companionParsed.valoracion); // Si existe
+            }
+        }
     }, []);
 
 
+    const handleAddFav = async (ad_id) => {
+        console.log('Data de favAd: ', store.favDataAds)
+        await actions.addFavAd(ad_id);
+        const updatedFavData = await actions.getAdFavs();
+        const isFavorited = Array.isArray(updatedFavData) && updatedFavData.some(fav => fav.ad_id === store.singleAd.id);
+        setFavorited(isFavorited);
+    };
 
+    const handleDeleteFav = async (favId) => {
+        console.log('Data de favAd: ', store.favDataAds)
+        await actions.deleteFavAd(favId);
+        const updatedFavData = await actions.getAdFavs();
+        const isFavorited = Array.isArray(updatedFavData) && updatedFavData.some(fav => fav.ad_id === store.singleAd.id);
+        setFavorited(isFavorited);
+    };
+
+    const isFavorited = Array.isArray(store.favDataAds) && store.favDataAds.some(fav => fav.ad_id === store.singleAd.id);
 
     return (
 
         (store.singleAd.status === "pending" || store.singleAd.status === "rejected" || store.singleAd.status === "finish") && store.singleAd.user_id === store.userData.userId ? (
             <div className={`container bg-light p-4 my-5 rounded position-relative ${styles.block_anuncio}`}>
                 {/* ICONO PARA EL ACOMPAÑANTE */}
-                {store.userData.role == "companion" ?
-                    <span className={`fa-regular fa-heart position-absolute ${styles.fav_icon}`}></span>
-                    :
-                    ''
-                }
+
+                {store.userData.role === "companion" && (
+                    isFavorited ? (
+                        <span
+                            onClick={() => {
+                                const favId = store.favDataAds.find(fav => fav.ad_id === store.singleAd.id);
+                                if (favId) handleDeleteFav(favId);
+                            }}
+                            className={`position-absolute fa-solid fa-heart ${styles.fav_icon} text-danger fs-1`}
+                            type="button"
+                            data-bs-toggle="modal"
+                            data-bs-target="#exampleModal"
+                        ></span>
+                    ) : (
+                        <span
+                            onClick={() => handleAddFav(store.singleAd.id)}
+                            className={`position-absolute fs-1 fa-regular fa-heart ${styles.fav_icon}`}
+                            type="button"
+                            data-bs-toggle="modal"
+                            data-bs-target="#exampleModal"
+                        ></span>
+                    )
+                )}
+
 
                 {/* ICONOS PARA EL USUARIO (FAMILIAR) */}
+
                 {store.singleAd.user_id === store.userData.userId ?
                     <div className={`position-absolute ${styles.fav_icon}`}>
                         <span onClick={() => handleEditAd(store.singleAd.id)} className="fa-solid fa-pencil pe-3"></span>
@@ -152,8 +189,8 @@ export const BloqueAnuncio = ({ }) => {
                             </div>
                         </div>
 
-                    </div> : ""
-                }
+                    </div> : ""}
+
                 <h1 className="mb-5 pe-5 me-5 text-dark">{store.singleAd.title}</h1>
                 <div className="d-flex align-items-start justify-content-between flex-wrap">
                     <div className="d-flex align-items-center flex-wrap">
@@ -186,20 +223,20 @@ export const BloqueAnuncio = ({ }) => {
                         </button>
                     ) : store.singleAd.user_id === store.userData.userId ? (
                         <p className="fs-4 fw-bold">
-                          Estado:{" "}
-                          {store.singleAd.status === "pending" ? (
-                            <span className="bg-warning p-2 rounded">Pendiente</span>
-                          ) : store.singleAd.status === "ok" ? (
-                            <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
-                          ) : store.singleAd.status === "rejected" ? (
-                            <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
-                          ) : store.singleAd.status === "finish" ? (
-                            <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
-                          ) : (
-                            ""
-                          )}
+                            Estado:{" "}
+                            {store.singleAd.status === "pending" ? (
+                                <span className="bg-warning p-2 rounded">Pendiente</span>
+                            ) : store.singleAd.status === "ok" ? (
+                                <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
+                            ) : store.singleAd.status === "rejected" ? (
+                                <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
+                            ) : store.singleAd.status === "finish" ? (
+                                <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
+                            ) : (
+                                ""
+                            )}
                         </p>
-                      ) : null}
+                    ) : null}
                 </div>
                 <div className="pt-4">
                     <p className="fs-5">{store.singleAd.description}</p>
@@ -252,50 +289,69 @@ export const BloqueAnuncio = ({ }) => {
                         </p>
                     </div>
                 </div>
-                {store.singleAd.user_id === store.userData.userId ?
-                    <>
-                        <p className="fs-4 fw-bold">Solicitudes</p>
-                        <div className="table-responsive">
-                            <table className="table table-hover table-light">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Nombre</th>
-                                        <th scope="col">Edad</th>
-                                        <th scope="col">Experiencia</th>
-                                        <th scope="col">Costo (hora)</th>
-                                        <th scope="col">Valoración</th>
-                                        <th scope="col"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                        <td className="text-end">
-                                            <span className="fa-solid fa-eye pe-3"></span>
-                                            <span className="fa-solid fa-trash-can pb-2"></span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </> : ""
+                {
+                    store.singleAd.user_id === store.userData.userId ?
+                        <>
+                            <p className="fs-4 fw-bold">Solicitudes</p>
+                            <div className="table-responsive">
+                                <table className="table table-hover table-light">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Edad</th>
+                                            <th scope="col">Experiencia</th>
+                                            <th scope="col">Costo (hora)</th>
+                                            <th scope="col">Valoración</th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>{nameCompanion}</td>
+                                            <td>{birthdate}</td>
+                                            <td>{experiencia}</td>
+                                            <td>{precio} €</td>
+                                            <td>{valoracion}<span className="ps-2 fa-solid fa-star"></span></td>
+                                            <td className="text-end">
+                                                <span className="fa-solid fa-eye pe-3"></span>
+                                                <span className="fa-solid fa-trash-can pb-2"></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </> : ""
                 }
-            </div>)
+            </div >)
             :
             store.singleAd.status === "ok" ? (
                 <div className={`container bg-light p-4 my-5 rounded position-relative ${styles.block_anuncio}`}>
                     {/* ICONO PARA EL ACOMPAÑANTE */}
-                    {store.userData.role == "companion" ?
-                        <span className={`fa-regular fa-heart position-absolute ${styles.fav_icon}`}></span>
-                        :
-                        ''
-                    }
+                    {store.userData.role === "companion" && (
+                        isFavorited ? (
+                            <span
+                                onClick={() => {
+                                    const fav = store.favDataAds.find(fav => fav.ad_id === store.singleAd.id);
+                                    if (fav && fav.id) handleDeleteFav(fav.id);
+                                }}
+                                className={`position-absolute fa-solid fa-heart ${styles.fav_icon} text-danger fs-1`}
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"
+                            ></span>
+                        ) : (
+                            <span
+                                onClick={() => handleAddFav(store.singleAd.id)}
+                                className={`position-absolute fs-1 fa-regular fa-heart ${styles.fav_icon}`}
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"
+                            ></span>
+                        )
+                    )}
+
 
                     {/* ICONOS PARA EL USUARIO (FAMILIAR) */}
                     {store.singleAd.user_id === store.userData.userId ?
@@ -351,20 +407,20 @@ export const BloqueAnuncio = ({ }) => {
                             </button>
                         ) : store.singleAd.user_id === store.userData.userId ? (
                             <p className="fs-4 fw-bold">
-                              Estado:{" "}
-                              {store.singleAd.status === "pending" ? (
-                                <span className="bg-warning p-2 rounded">Pendiente</span>
-                              ) : store.singleAd.status === "ok" ? (
-                                <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
-                              ) : store.singleAd.status === "rejected" ? (
-                                <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
-                              ) : store.singleAd.status === "finish" ? (
-                                <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
-                              ) : (
-                                ""
-                              )}
+                                Estado:{" "}
+                                {store.singleAd.status === "pending" ? (
+                                    <span className="bg-warning p-2 rounded">Pendiente</span>
+                                ) : store.singleAd.status === "ok" ? (
+                                    <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
+                                ) : store.singleAd.status === "rejected" ? (
+                                    <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
+                                ) : store.singleAd.status === "finish" ? (
+                                    <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
+                                ) : (
+                                    ""
+                                )}
                             </p>
-                          ) : null}
+                        ) : null}
                     </div>
                     <div className="pt-4">
                         <p className="fs-5">{store.singleAd.description}</p>
