@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: b4160e99cdae
+Revision ID: 9c5c36f9e4e6
 Revises: 
-Create Date: 2024-08-21 11:33:19.907621
+Create Date: 2024-08-22 17:00:24.525517
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b4160e99cdae'
+revision = '9c5c36f9e4e6'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -35,7 +35,7 @@ def upgrade():
     )
     op.create_table('companions',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('description', sa.String(length=250), nullable=False),
+    sa.Column('description', sa.Text(), nullable=False),
     sa.Column('photo', sa.String(length=250), nullable=False),
     sa.Column('province', sa.String(length=250), nullable=False),
     sa.Column('birthdate', sa.String(length=250), nullable=False),
@@ -43,7 +43,7 @@ def upgrade():
     sa.Column('availability_days', sa.Boolean(), nullable=True),
     sa.Column('availability_weeks', sa.Boolean(), nullable=True),
     sa.Column('availability_live_in', sa.Boolean(), nullable=True),
-    sa.Column('experience', sa.String(length=250), nullable=False),
+    sa.Column('experience', sa.Text(), nullable=False),
     sa.Column('service_cost', sa.Integer(), nullable=False),
     sa.Column('facebook', sa.String(length=250), nullable=True),
     sa.Column('instagram', sa.String(length=250), nullable=True),
@@ -82,7 +82,7 @@ def upgrade():
     sa.Column('start_date', sa.Date(), nullable=True),
     sa.Column('end_date', sa.Date(), nullable=True),
     sa.Column('max_cost', sa.Integer(), nullable=True),
-    sa.Column('status', sa.Enum('PENDING', 'REJECTED', 'OK', name='status'), nullable=True),
+    sa.Column('status', sa.Enum('PENDING', 'REJECTED', 'OK', 'FINISH', name='status'), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('hired', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['hired'], ['companions.id'], ),
@@ -100,13 +100,13 @@ def upgrade():
     )
     op.create_table('inscriptions',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('patient_id', sa.Integer(), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('companion_id', sa.Integer(), nullable=False),
     sa.Column('ad_id', sa.Integer(), nullable=False),
     sa.Column('is_active', sa.Boolean(), nullable=False),
     sa.ForeignKeyConstraint(['ad_id'], ['ads.id'], ),
     sa.ForeignKeyConstraint(['companion_id'], ['companions.id'], ),
-    sa.ForeignKeyConstraint(['patient_id'], ['patients.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

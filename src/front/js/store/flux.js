@@ -132,7 +132,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				// Elimina el objeto completo de userData del localStorage
 				localStorage.removeItem("userData");
 				localStorage.removeItem("adData");
-				locarStorage.removeItem("oneCompanion")
+				localStorage.removeItem("oneCompanion");
 				
 
 				setStore({

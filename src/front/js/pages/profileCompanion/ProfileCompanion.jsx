@@ -9,12 +9,7 @@ const ProfileCompanion = () => {
   const { store, actions } = useContext(Context);
   const { id } = useParams();
  
-  useEffect(() => {
-    
-    actions.companion(id);
-  
-}, []);
-
+ 
   return (
     <div>
       <div className={styles.main_container}>

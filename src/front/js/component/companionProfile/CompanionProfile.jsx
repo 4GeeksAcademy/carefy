@@ -18,6 +18,7 @@ export const CompanionProfile = ({ }) => {
   const navigate = useNavigate();
 
   const perfil = store.oneCompanion;
+  
 
 
   if (!perfil) {
@@ -183,7 +184,7 @@ export const CompanionProfile = ({ }) => {
         </div>
         <div className="col-12 col-md-4">
           <p className="fs-4 fw-bold"><span className="fa-solid fa-coins pe-3"></span>Pago (hora)</p>
-          <p className="fs-4 ps-4 ms-3">{store.oneCompanion?.service_cost} €</p>
+          <p className="fs-4 ps-4 ms-3">`{store.oneCompanion?.service_cost} €`</p>
         </div>
         {store.oneCompanion?.instagram.length === 0 && store.oneCompanion?.facebook.length === 0 && store.oneCompanion?.linkedin.length === 0 && store.oneCompanion?.twitter.length === 0 ? "" :
         <div className="col-12 col-md-4">

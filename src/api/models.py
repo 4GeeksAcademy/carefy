@@ -77,7 +77,7 @@ class Patient(db.Model):
 class Companion(db.Model):
     __tablename__ ='companions'
     id = db.Column(db.Integer, primary_key=True)
-    description = db.Column(db.String(250), nullable=False)
+    description = db.Column(db.Text, nullable=False)
     photo = db.Column(db.String(250), nullable=False)
     province = db.Column(db.String(250), nullable=False)
     birthdate = db.Column(db.String(250), nullable=False)
@@ -85,7 +85,7 @@ class Companion(db.Model):
     availability_days = db.Column(db.Boolean, default=False)
     availability_weeks = db.Column(db.Boolean, default=False)
     availability_live_in = db.Column(db.Boolean, default=False)
-    experience = db.Column(db.String(250), nullable=False)
+    experience = db.Column(db.Text, nullable=False)
     service_cost = db.Column(db.Integer, nullable=False)
     facebook = db.Column(db.String(250))
     instagram = db.Column(db.String(250))
