@@ -117,6 +117,7 @@ class Companion(db.Model):
             "instagram": self.instagram,
             "twitter": self.twitter,
             "linkedin": self.linkedin,
+            "user_id":self.user_id,
             "user": {
                 "id": self.user.id,
                 "name": self.user.name,

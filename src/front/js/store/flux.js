@@ -18,7 +18,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			familiares: JSON.parse(localStorage.getItem("userFamily")) || [],
 			companions: JSON.parse(localStorage.getItem("companions")) || [],
 			oneCompanion: JSON.parse(localStorage.getItem("oneCompanion")) || [],
-			editCompanionOrNewCompanion: false,
+			
 
 
 			favsCompanion: JSON.parse(localStorage.getItem("favsCompanion")) || [],
@@ -133,6 +133,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				// Elimina el objeto completo de userData del localStorage
 				localStorage.removeItem("userData");
 				localStorage.removeItem("adData");
+				localStorage.removeItem("oneCompanion");
+				
 				localStorage.removeItem("favData");
 				localStorage.removeItem("favDataAds");
 				localStorage.removeItem("inscripciones");
@@ -152,6 +154,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						location: null,
 					},
 					adData: [],
+					oneCompanion: [],
 					favData: [],
 					favDataAds: [],
 					inscripciones: [],
@@ -647,6 +650,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			//ver un acompanante
 			companion: async (id) => {
+				
 
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/companion/${id}`, {
@@ -665,7 +669,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Datos recibidos:", data);
 					setStore({ oneCompanion: data });
 					localStorage.setItem("oneCompanion", JSON.stringify(data));
-					console.log(oneCompanion)
+					console.log(getStore().oneCompanion)
 					return data;
 
 
@@ -740,44 +744,38 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			//modificar acompanante
 
-			updateCompanion: async (id, description, photo, province, birthdate, availability_hours, availability_days, availability_weeks, availability_live_in, experience, service_cost, facebook, instagram, twitter, linkedin) => {
+			updateCompanion: async (
+				description, photo, province, birthdate, availability_hours, availability_days,
+				availability_weeks, availability_live_in, experience, service_cost, facebook,
+				instagram, twitter, linkedin
+			) => {
 				const store = getStore();
 				const actions = getActions();
-
+				const companionId = store.companionId; // Asegúrate de tener el ID correcto
+			
 				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/actualizar_companion/${id}`, {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/actualizar_companion/${companionId}`, {
 						method: "PUT",
 						body: JSON.stringify({
-							description: description,
-							photo: photo,
-							province: province,
-							birthdate: birthdate,
-							availability_hours: availability_hours,
-							availability_days: availability_days,
-							availability_weeks: availability_weeks,
-							availability_live_in: availability_live_in,
-							experience: experience,
-							service_cost: service_cost,
-							facebook: facebook,
-							instagram: instagram,
-							twitter: twitter,
-							linkedin: linkedin
+							description, photo, province, birthdate, availability_hours, availability_days,
+							availability_weeks, availability_live_in, experience, service_cost, facebook,
+							instagram, twitter, linkedin
 						}),
 						headers: {
 							"Content-Type": "application/json"
 						}
 					});
-
+			
 					if (!response.ok) {
 						throw new Error(`HTTP error! status: ${response.status}`);
 					}
-
+			
 					const data = await response.json();
-
+			
 					setStore({
 						...store,
 						companions: store.companions.map(companion =>
-							companion.id === id ? data.companion : companion
+							companion.id === companionId ? data.companion : companion
 						)
 					});
 					console.log('Companion updated successfully:', data);
@@ -785,10 +783,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('There was an error updating the companion:', error);
 				}
 			},
+			
 
-			handleEditCompanionOrNewCompanion: (value) => {
+			handleEditCompanionOrNewCompanion: (id) => {
 				const store = getStore();
-				setStore({ ...store, editCompanionOrNewCompanion: value, })
+				setStore({...store, companionId: id })
 
 		},
 		addCompanionFav: async (companion_id) => {
