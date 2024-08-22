@@ -1,16 +1,24 @@
-import React from "react";
-import { FaSearch } from "react-icons/fa";
+import React, {useState} from "react";
 import styles from "./filterAds.module.css";
 
-const FilterAds = () => {
+const FilterAds = ({ onFilter }) => {
+
+  const [province, setProvince] = useState("");
+  const [startDate, setStartDate] = useState("");
+
+  const handleSearch = () => {
+    onFilter({ province, startDate });
+  };
+
   return (
     <div className={`container-fluid text-center ${styles.filter_container}`}>
 
       <div className="pb-5">
         <div className={`${styles.buscador} container rounded p-2 d-flex gap-2 align-items-center flex-wrap`}>
           <div className="btn-group">
-            <select className={`btn ${styles.btn_buscador} ${styles.custom_select} btn-lg form-select`} id="provincia" defaultValue={"Ubicación"} aria-label="Selecciona la provincia">
-              <option className="text-dark bg-light" disabled hidden>Ubicación</option>
+            <select value={province}
+              onChange={(e) => setProvince(e.target.value)} className={`btn  ${styles.btn_buscador} ${styles.custom_select} btn-lg form-select`} id="provincia" defaultValue={"Ubicación"} aria-label="Selecciona la provincia">
+              <option className="text-dark bg-light" disabled value="">Ubicación</option>
               <option className="text-dark bg-light" value="A Coruna">A Coruña</option>
               <option className="text-dark bg-light" value="Alava">Álava</option>
               <option className="text-dark bg-light" value="Albacete">Albacete</option>
@@ -66,21 +74,14 @@ const FilterAds = () => {
             </select>
           </div>
           <div className="btn-group">
-            <select className={`btn ${styles.btn_buscador} ${styles.btn_buscador_availability}  ${styles.custom_select} btn-lg form-select`} defaultValue={"Disponibilidad"} id="provincia" aria-label="Selecciona la provincia">
-              <option className="text-dark bg-light" disabled hidden>Disponibilidad</option>
-              <option className="text-dark bg-light" value="hours">Por horas</option>
-              <option className="text-dark bg-light" value="intern">Interno</option>
-              <option className="text-dark bg-light" value="day">Por día</option>
-            </select>
-          </div>
-          <div className="btn-group">
-            <input type="date" className={`btn ${styles.btn_buscador} ${styles.custom_select} btn-lg form-select`} />
+            <input value={startDate}
+              onChange={(e) => setStartDate(e.target.value)} type="date" className={`btn ${styles.btn_buscador} ${styles.custom_select} btn-lg form-select`} />
 
           </div>
           <div>
             <span className="btn">
-              <span className={`fa-solid fa-magnifying-glass fs-2 text-dark ${styles.lupa_buscador}`}></span>
-              <button className={`btn ${styles.btn_buscar}`}>BUSCAR</button>
+              <span className={`fa-solid fa-magnifying-glass fs-2 text-dark ${styles.lupa_buscador}`} onClick={handleSearch}></span>
+              <button className={`btn ${styles.btn_buscar}`} onClick={handleSearch}>BUSCAR</button>
             </span>
           </div>
         </div>
@@ -93,76 +94,3 @@ const FilterAds = () => {
 };
 
 export default FilterAds;
-
-
-
-
-
-
-
-
-
-
-
-/*<div className=" mb-1">
-<label htmlFor="ubicacion" className="form-label">Ubicación</label>
-<input 
-  className={`form-control ${styles.input}`}
-  list="provincias" 
-  id="ubicacion" 
-  name="ubicacion" 
-  placeholder="Escribe para buscar..." 
-/>
-<datalist id="provincias" className={styles.search_results}>
-  <option value="Álava" />
-  <option value="Albacete" />
-  <option value="Alicante" />
-  <option value="Almería" />
-  <option value="Asturias" />
-  <option value="Ávila" />
-  <option value="Badajoz" />
-  <option value="Barcelona" />
-  <option value="Burgos" />
-  <option value="Cáceres" />
-  <option value="Cádiz" />
-  <option value="Cantabria" />
-  <option value="Castellón" />
-  <option value="Ciudad Real" />
-  <option value="Córdoba" />
-  <option value="Cuenca" />
-  <option value="Girona" />
-  <option value="Granada" />
-  <option value="Guadalajara" />
-  <option value="Guipúzcoa" />
-  <option value="Huelva" />
-  <option value="Huesca" />
-  <option value="Islas Baleares" />
-  <option value="Jaén" />
-  <option value="La Coruña" />
-  <option value="La Rioja" />
-  <option value="Las Palmas" />
-  <option value="León" />
-  <option value="Lleida" />
-  <option value="Lugo" />
-  <option value="Madrid" />
-  <option value="Málaga" />
-  <option value="Murcia" />
-  <option value="Navarra" />
-  <option value="Orense" />
-  <option value="Palencia" />
-  <option value="Pontevedra" />
-  <option value="Salamanca" />
-  <option value="Santa Cruz de Tenerife" />
-  <option value="Segovia" />
-  <option value="Sevilla" />
-  <option value="Soria" />
-  <option value="Tarragona" />
-  <option value="Teruel" />
-  <option value="Toledo" />
-  <option value="Valencia" />
-  <option value="Valladolid" />
-  <option value="Vizcaya" />
-  <option value="Zamora" />
-  <option value="Zaragoza" />
-</datalist>
-</div>*/
