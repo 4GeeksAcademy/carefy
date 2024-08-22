@@ -107,7 +107,7 @@ export const BloqueAnuncio = ({ }) => {
 
 
     useEffect(() => {
-        
+
         const companionData = localStorage.getItem('oneCompanion');
         const companionParsed = JSON.parse(companionData);
         setNameCompanion(companionParsed.user.name);
@@ -186,20 +186,20 @@ export const BloqueAnuncio = ({ }) => {
                         </button>
                     ) : store.singleAd.user_id === store.userData.userId ? (
                         <p className="fs-4 fw-bold">
-                          Estado:{" "}
-                          {store.singleAd.status === "pending" ? (
-                            <span className="bg-warning p-2 rounded">Pendiente</span>
-                          ) : store.singleAd.status === "ok" ? (
-                            <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
-                          ) : store.singleAd.status === "rejected" ? (
-                            <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
-                          ) : store.singleAd.status === "finish" ? (
-                            <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
-                          ) : (
-                            ""
-                          )}
+                            Estado:{" "}
+                            {store.singleAd.status === "pending" ? (
+                                <span className="bg-warning p-2 rounded">Pendiente</span>
+                            ) : store.singleAd.status === "ok" ? (
+                                <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
+                            ) : store.singleAd.status === "rejected" ? (
+                                <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
+                            ) : store.singleAd.status === "finish" ? (
+                                <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
+                            ) : (
+                                ""
+                            )}
                         </p>
-                      ) : null}
+                    ) : null}
                 </div>
                 <div className="pt-4">
                     <p className="fs-5">{store.singleAd.description}</p>
@@ -271,11 +271,11 @@ export const BloqueAnuncio = ({ }) => {
                                 <tbody>
                                     <tr>
                                         <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
+                                        <td>{nameCompanion}</td>
+                                        <td>{birthdate}</td>
+                                        <td>{experiencia}</td>
+                                        <td>{precio} €</td>
+                                        <td>{valoracion}<span class="ps-2 fa-solid fa-star"></span></td>
                                         <td className="text-end">
                                             <span className="fa-solid fa-eye pe-3"></span>
                                             <span className="fa-solid fa-trash-can pb-2"></span>
@@ -351,20 +351,20 @@ export const BloqueAnuncio = ({ }) => {
                             </button>
                         ) : store.singleAd.user_id === store.userData.userId ? (
                             <p className="fs-4 fw-bold">
-                              Estado:{" "}
-                              {store.singleAd.status === "pending" ? (
-                                <span className="bg-warning p-2 rounded">Pendiente</span>
-                              ) : store.singleAd.status === "ok" ? (
-                                <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
-                              ) : store.singleAd.status === "rejected" ? (
-                                <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
-                              ) : store.singleAd.status === "finish" ? (
-                                <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
-                              ) : (
-                                ""
-                              )}
+                                Estado:{" "}
+                                {store.singleAd.status === "pending" ? (
+                                    <span className="bg-warning p-2 rounded">Pendiente</span>
+                                ) : store.singleAd.status === "ok" ? (
+                                    <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
+                                ) : store.singleAd.status === "rejected" ? (
+                                    <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
+                                ) : store.singleAd.status === "finish" ? (
+                                    <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
+                                ) : (
+                                    ""
+                                )}
                             </p>
-                          ) : null}
+                        ) : null}
                     </div>
                     <div className="pt-4">
                         <p className="fs-5">{store.singleAd.description}</p>
