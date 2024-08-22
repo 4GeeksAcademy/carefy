@@ -787,6 +787,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			handleEditCompanionOrNewCompanion: (value) => {
+				const store = getStore();
 				setStore({ ...store, editCompanionOrNewCompanion: value, })
 
 		},

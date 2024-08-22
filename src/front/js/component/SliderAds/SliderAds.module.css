@@ -1,0 +1,38 @@
+.swiper_container_paginas {
+    max-width: 80vw;
+
+}
+
+.scrollableDiv_paginas {
+    top: 0; /* Ajusta la posición desde la parte superior del contenedor padre */
+    left: 0; /* Ajusta la posición desde la parte izquierda del contenedor padre */
+    overflow-x: auto; /* Permite el scroll vertical solo cuando sea necesario */
+    padding: 10px; /* Opcional: Agrega relleno para el contenido */
+    box-sizing: border-box; /* Asegura que el padding esté incluido en el ancho y alto */
+    padding-right: 80px;
+}
+
+.swiper_slide_paginas{
+    min-width: 20rem;
+}
+
+.bloque_card_mobile {
+    display: flex;
+    justify-content: center;
+}
+
+.swiper_wrapper_paginas::-webkit-scrollbar {
+    height: 5px;
+    border-radius: 5px;
+    
+}
+
+.swiper_wrapper_paginas::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.swiper_wrapper_paginas::-webkit-scrollbar-thumb {
+    background-color: rgb(223, 156, 105);
+    border-radius: 5px;
+
+}

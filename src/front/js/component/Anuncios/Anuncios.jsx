@@ -113,7 +113,7 @@ export const Anuncios = ({ countFav, companionName }) => {
                                             <th scope="row">{index + 1}</th>
                                             <td>{fav.companion?.user?.name} {fav.companion?.user?.lastname}</td>
                                             <td>{fav.companion?.user?.email}</td>
-                                            <td>4.5<span class="ps-2 fa-solid fa-star"></span></td>
+                                            <td>4.5<span className="ps-2 fa-solid fa-star"></span></td>
                                             <td className="text-end">
                                                 <Link to={`/perfil-profesional/${fav.companion_id}`}>
                                                     <span className="fa-solid fa-eye pe-3 text-dark"></span>
