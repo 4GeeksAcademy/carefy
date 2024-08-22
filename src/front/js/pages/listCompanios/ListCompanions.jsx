@@ -23,14 +23,15 @@ const ListCompanions = () => {
     <div className={styles.container_main_profile}>
       
       <FilterCompanions />
-      <div className={`container mb-5 ${styles.card_container}`}>
-        <div className={styles.list_companions}>
+      <div className={`container ${styles.card_container}`}>
+            <div className={`row ${styles.list_companions}`}>
           {store.companions.map((element, index) => (
-            <div key={index}>
+            <div className="col-12 col-sm-3 mb-4" key={index}>
               <CardsCompanions
                 name={element.user.name} 
                 last_name={element.user.last_name}
-                location={element.user.location} 
+                location={element.user.location}
+                province={element.province}
                 photo={element.photo}
                 description={element.description} 
                 link={`/perfil-profesional/${element.id}`}
