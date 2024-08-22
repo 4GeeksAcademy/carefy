@@ -56,6 +56,7 @@ const CompanionForm = () => {
   };
 
   useEffect(() => {
+    actions.getUserDetails()
     if (store.userData) {
       setUser({
         name: store.userData.name || "",
@@ -65,29 +66,32 @@ const CompanionForm = () => {
         location: store.userData.location || ''
       });
     }
-  }, [store.userData]);
+  }, []);
 
   useEffect(() => {
+    if (store.oneCompanion?.user_id === store.userData?.userId){
+      actions.companion(store.oneCompanion.id)
+    }
       setCompanion({
-        description: companion.description || "",
-        photo: companion.photo || "",
-        province: companion.province || '',
-        birthdate: companion.birthdate || '',
-        availability_hours: companion.availability_hours || false,
-        availability_days: companion.availability_days || false,
-        availability_weeks: companion.availability_weeks || false,
-        availability_live_in: companion.availability_live_in || false,
-        experience: companion.experience || '', 
-        service_cost: companion.service_cost || '',
-        facebook: companion.facebook || '',
-        instagram: companion.instagram || '',
-        twitter: companion.twitter || '',
-        linkedin: companion.linkedin || '',
+        description: store.oneCompanion?.description || "",
+        photo: store.oneCompanion?.photo || "",
+        province: store.oneCompanion?.province || '',
+        birthdate: store.oneCompanion?.birthdate || '',
+        availability_hours: store.oneCompanion?.availability_hours || false,
+        availability_days: store.oneCompanion?.availability_days || false,
+        availability_weeks: store.oneCompanion?.availability_weeks || false,
+        availability_live_in: store.oneCompanion?.availability_live_in || false,
+        experience: store.oneCompanion?.experience || '', 
+        service_cost: store.oneCompanion?.service_cost || '',
+        facebook: store.oneCompanion?.facebook || '',
+        instagram: store.oneCompanion?.instagram || '',
+        twitter: store.oneCompanion?.twitter || '',
+        linkedin: store.oneCompanion?.linkedin || '',
         
         
       });
     
-  }, [store.companions]);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -116,26 +120,7 @@ const CompanionForm = () => {
       await actions.editUser(user.name, user.lastname, user.email, user.phone, user.location);
 
       // // Luego, añadir o actualizar el acompañante
-      if(store.editCompanionOrNewCompanion){
-        await actions.anadir_companion(
-          companion.description,
-          companion.photo,
-          companion.province,
-          companion.birthdate,
-          companion.availability_hours,
-          companion.availability_days,
-          companion.availability_weeks,
-          companion.availability_live_in,
-          companion.experience,
-          companion.service_cost,
-          companion.facebook,
-          companion.instagram,
-          companion.twitter,
-          companion.linkedin,
-          store.userData.userId,  // Utilizar el ID del usuario actual
-        );
-      }
-      else{
+      if(store.oneCompanion?.user_id === store.userData?.userId ){
         await actions.updateCompanion(
           companion.description,
           companion.photo,
@@ -151,7 +136,25 @@ const CompanionForm = () => {
           companion.instagram,
           companion.twitter,
           companion.linkedin,
-          
+        );
+      }
+      else{
+        await actions.anadir_companion(
+          companion.description,
+          companion.photo,
+          companion.province,
+          companion.birthdate,
+          companion.availability_hours,
+          companion.availability_days,
+          companion.availability_weeks,
+          companion.availability_live_in,
+          companion.experience,
+          companion.service_cost,
+          companion.facebook,
+          companion.instagram,
+          companion.twitter,
+          companion.linkedin,
+          store.userData.userId,  // Utilizar el ID del usuario actual 
 
         )
       }
@@ -164,7 +167,7 @@ const CompanionForm = () => {
     }
 
     navigate('/blog');
-   actions.handleEditCompanionOrNewCompanion(true,null)
+   
    
   };
 

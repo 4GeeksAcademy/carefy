@@ -52,7 +52,7 @@ export const CompanionProfile = ({ }) => {
 
   const handleEditCompanion = (id) => {
     console.log("Editing ad with ID:", id);
-    actions.handleEditCompanionOrNewCompanion(null, store.oneCompanion?.id);
+    actions.handleEditCompanionOrNewCompanion(id);
     navigate('/formulario-profesional');
   };
 
@@ -70,7 +70,7 @@ export const CompanionProfile = ({ }) => {
           </div>
           : ""}
 
-        <h1 className="mb-5 pe-5 me-3">{store.oneCompanion?.user?.name} </h1>
+        <h1 className="mb-5 pe-5 me-3">{store.oneCompanion?.user?.name} {store.oneCompanion?.user?.lastname} </h1>
         <div className="d-flex align-items-start justify-content-between flex-wrap">
           <div className="d-flex align-items-center flex-wrap">
             <div className={`${styles.container_img} rounded`}>

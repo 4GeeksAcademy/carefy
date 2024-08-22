@@ -18,7 +18,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			familiares: JSON.parse(localStorage.getItem("userFamily")) || [],
 			companions: JSON.parse(localStorage.getItem("companions")) || [],
 			oneCompanion: JSON.parse(localStorage.getItem("oneCompanion")) || [],
-			editCompanionOrNewCompanion: true,
+			
 
 
 
@@ -129,6 +129,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				// Elimina el objeto completo de userData del localStorage
 				localStorage.removeItem("userData");
 				localStorage.removeItem("adData");
+				locarStorage.removeItem("oneCompanion")
 				
 
 				setStore({
@@ -145,7 +146,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						location: null,
 					},
 					adData: [],
-					
+					oneCompanion: [],
 				});
 			},
 
@@ -774,9 +775,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			
 
-			handleEditCompanionOrNewCompanion: (value, id) => {
+			handleEditCompanionOrNewCompanion: (id) => {
 				const store = getStore();
-				setStore({...store, editCompanionOrNewCompanion: value, companionId: id })
+				setStore({...store, companionId: id })
 
 		
 
