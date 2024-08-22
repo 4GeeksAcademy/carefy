@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState} from "react";
 import styles from "./formCompanion.module.css";
 import { Context } from "../../store/appContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const CompanionForm = () => {
   const { store, actions } = useContext(Context);
@@ -163,7 +163,7 @@ const CompanionForm = () => {
       console.error('There was an error submitting the data:', error);
     }
 
-    navigate('/blog');
+    navigate('/listado-anuncios');
    actions.handleEditCompanionOrNewCompanion(false)
    
   };

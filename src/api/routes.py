@@ -514,28 +514,42 @@ def subirfoto():
     return jsonify({"error": "No file uploaded"}), 400
 
 
-@api.route('/crearinscripcion', methods=['POST'])
-def crearInscripcion():
-    data = request.json
-    if (data):
-        nueva_inscripcion = Inscription (
-            companion_id = data ['companion_id'],
-            user_id = data ['user_id'],
-            ad_id = data ['ad_id'],
-            is_active = True 
-        )
 
-        db.session.add(nueva_inscripcion)
+# Nuevo crear inscripción desde acompañante botón POSTULARSE
+@api.route("/inscripcion/add/<int:companion_id>/<int:ad_id>/<int:user_id>", methods=['POST'])
+def add_inscription(companion_id, ad_id, user_id):
+
+    new_inscription = Inscription(
+        companion_id = companion_id,
+        ad_id = ad_id,
+        user_id = user_id,
+        is_active = True
+    )
+
+    db.session.add(new_inscription)
+    db.session.commit()
+
+    return jsonify({
+        "msg": "inscripcion creada correctamente",
+        **new_inscription.serialize()}), 201
+
+# Nuevo borrar inscripcion
+@api.route('inscripcion/delete/<int:inscription_id>', methods=['DELETE'])
+def delete_inscription(inscription_id):
+    inscription = Inscription.query.get(inscription_id)
+
+    if inscription is None:
+        return jsonify ({'message': 'Inscripción no encontrada'}), 400
+    
+    try:     
+        db.session.delete(inscription)
         db.session.commit()
+        return jsonify({"message":"Inscripcion borrada correctamente"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
 
-        return jsonify({
-            "mensaje": "inscripción creada correctamente",
-            'id': nueva_inscripcion.id,
-            "companion_id": nueva_inscripcion.companion_id,
-            "user_id" : nueva_inscripcion.user_id,
-            "ad_id": nueva_inscripcion.ad_id
-        }), 200
-    return jsonify ({'Error' : 'error al crear nueva inscripción'}), 400
+
    
 
 
@@ -543,5 +557,23 @@ def crearInscripcion():
 def obtenerinscripciones():
     postulantes = Inscription.query.all()
     return jsonify([postulante.serialize() for postulante in postulantes])
+
+
+# #Para borrar una postulación (Cuando se pulsa "Cancelar postulación")
+# @api.route('/cancelarinscripcion/<int:id>', methods=['DELETE'])
+# def borrarinscripcion(id):
+#     inscripcion=Inscription.query.filter_by(id=id).first()
+#     if inscripcion is None:
+#         return jsonify({'Error': 'inscripción no encontrada'}), 404
     
+#     try: 
+#         db.session.delete(inscripcion)
+#         db.session.commit()
+#         return jsonify ({'mensaje': 'inscripción borrada correctamente'}), 200
+#     except Exception as e:
+#         db.session.rollback()
+#         return jsonify({"error": str(e)}), 500
+    
+
+
  

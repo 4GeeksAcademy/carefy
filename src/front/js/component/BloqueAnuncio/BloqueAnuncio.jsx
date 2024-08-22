@@ -11,21 +11,19 @@ export const BloqueAnuncio = ({ }) => {
     const navigate = useNavigate();
 
     const [PostularseVisible, setPostularseVisible] = useState(true);
-    const [nameCompanion, setNameCompanion] = useState('')
-    const [birthdate, setBirthdate] = useState(0);
-    const [experiencia, setExperiencia] = useState('');
-    const [precio, setPrecio] = useState(0);
-    const [valoracion, setValoracion] = useState("");
-    const [companion_id, setCompanion_id] = useState(0);
     const [listaInscripciones, setListaInscripciones] = useState([])
+    const [companion_id, setCompanion_id] = useState(0)
 
-
+    //Obtiene un anuncio a través del id
     useEffect(() => {
         if (id) {
             actions.getSingleAd(id);
         }
     }, [id]);
 
+    //Si existe un anuncio y su estado es "pendiente", "rechazado" o "finalizado" y además el id del anuncio no es igual
+    // que el usuario logueado --> redirige a listado-anuncios.
+    // De lo contrario accede al anuncio. 
     useEffect(() => {
         // Redirigir al home si el anuncio es "pending" o "rejected" y el usuario no es el creador
         if (
@@ -37,6 +35,8 @@ export const BloqueAnuncio = ({ }) => {
         }
     }, [store.singleAd, store.userData.userId, navigate]);
 
+
+
     // Obtener los datos del anuncio del store
     const ad = store.singleAd;
 
@@ -44,27 +44,73 @@ export const BloqueAnuncio = ({ }) => {
         return <p>Cargando...</p>;
     }
 
+    /**
+     * Función para crear una postulación/inscripción a un ad
+     * @param userComId: buscar en el store el id del usuario logueado
+     * @param adId busca el Id del anuncio. 
+     * @param companions: obtenemos la lista de companions del storage
+     * @param companionsParsed: obtiene la lista anterior en un formato JSON
+     * -forEach: recorre la lista companionParsed y se valida si el usuario del acompañanante (compain.user.id) es el mismo
+     * que el usuario logueado(user.id), nos aseguramos acceder a  los datos del usuario logueado. 
+     * Si coincide se crea inscripcionExiste, para verificar si un mismo acompañante ya está inscrito a un mismo ad.
+     * Si no está inscrito se llama a la función para inscribirse y oculta el botón "postularse".
+     * Si ya estuviese inscrito una vez, aparece alerta 
+     */
     const handlePostularseClick = () => {
 
-        const companionId = store.userData.userId;
-        const patientId = store.singleAd.patient_id;
+        const userCompId = store.userData.userId;
         const adId = store.singleAd.id;
+        const companions = localStorage.getItem('companions');
+        const companionsParsed = JSON.parse(companions)
 
-        const companionsData = localStorage.getItem('companions');
-        const companionsParsed = JSON.parse(companionsData);
-        companionsParsed.map((companion) => {
-            if (companion.user.id == companionId) {
-                actions.crearInscripcion(companion.id, patientId, adId)
+        companionsParsed.forEach((companion) => {
+            if (companion.user.id === userCompId) {
+                const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.companion_id === companion.id && inscripcion.ad_id === adId);
+
+                if (!inscripcionExistente) {
+                    actions.add_inscription(companion.id, adId, userCompId)
+                        .then(() => {
+                            window.location.reload();
+                        })
+                        .catch((error) => {
+                            console.error("Error al crear la inscripción:", error);
+                        });
+                }
             }
-        })
+        });
 
-
-        setPostularseVisible(false); // Oculta "POSTULARSE"
     };
+
+
+
 
     const handleCancelarClick = () => {
+        const userCompId = store.userData.userId;
+        const inscriptionId = localStorage.getItem('inscripciones_lista');
+        if (!inscriptionId) {
+            console.error('No hay datos en localStorage para "inscripciones_lista".');
+            return;
+        }
+
+        const lista_inscripciones = JSON.parse(inscriptionId);
+        if (!Array.isArray(lista_inscripciones)) {
+            console.error('El formato de "inscripciones_lista" no es válido.');
+            return;
+        }
+
+
+        lista_inscripciones.forEach((inscripcion) => {
+            const id_Inscripcion = store.inscripciones.find(inscr => inscr.id === inscripcion.id && inscripcion.user_id === userCompId);
+            if (id_Inscripcion) {
+                actions.deleteinscription(inscripcion.id);
+            } else {
+                console.warn(`No se encontró inscripción con ID ${inscripcion.id}`);
+            }
+        });
         setPostularseVisible(true); // Oculta "CANCELAR POSTULACIÓN"
     };
+
+
 
     const handleDelete = (id) => {
         actions.deleteAd(id);
@@ -97,11 +143,30 @@ export const BloqueAnuncio = ({ }) => {
 
     // Obtiene todas las inscripciones
     useEffect(() => {
-        actions.obtenerinscripciones()
+        actions.obtenerinscripciones();
+        const userCompId = store.userData.userId;
+        const adId = store.singleAd.id;
+        const companions = localStorage.getItem('companions');
+        const companionsParsed = JSON.parse(companions)
+
+        companionsParsed.forEach((companion) => {
+            if (companion.user.id === userCompId) {
+                const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.companion_id === companion.id);
+
+                if (!inscripcionExistente) {
+                    // Después de inscribirse con éxito, ocultar el botón "POSTULARSE"
+                    setPostularseVisible(true);
+                } else {
+                    setPostularseVisible(false); // Oculta "CANCELAR POSTULACIÓN"
+                }
+            }
+        });
+
     }, []);
 
     useEffect(() => {
-        actions.getCompanions()
+        actions.getCompanions();
+
     }, []);
 
     // Función para calcular la edad a partir de la fecha de nacimiento
@@ -117,18 +182,6 @@ export const BloqueAnuncio = ({ }) => {
         return edadCalculada
     }
 
-
-    // useEffect(() => {
-    //     const companionData = localStorage.getItem('oneCompanion');
-    //     const companionParsed = JSON.parse(companionData);
-    //     setNameCompanion(companionParsed.user.name);
-    //     setBirthdate(calcularEdad(companionParsed.birthdate));
-    //     setExperiencia(companionParsed.experience);
-    //     setPrecio(companionParsed.service_cost);
-    //     // setValoracion(companion.)
-    //     setCompanion_id(companionParsed.user.id)
-
-    // }, [store.userData.userId]);
 
     useEffect(() => {
         const lista = store.inscripciones;
@@ -465,10 +518,10 @@ export const BloqueAnuncio = ({ }) => {
                                             return (
                                                 <tr key={inscripcion.id}>
                                                     <th scope="row">1</th>
-                                                    <td>{user?.name}</td>
-                                                    <td>{birthdate}</td>
-                                                    <td>{experiencia}</td>
-                                                    <td>{precio}</td>
+                                                    <td>{companion?.user?.name}</td>
+                                                    <td>{calcularEdad(companion?.birthdate)}</td>
+                                                    <td>{companion?.experience}</td>
+                                                    <td>{companion?.service_cost}</td>
                                                     <td>{valoracion}</td>
                                                     <td className="text-end">
                                                         <Link to={`/perfil-profesional/${companion_id}`}>
