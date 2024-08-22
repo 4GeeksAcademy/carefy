@@ -2,7 +2,7 @@ import React from 'react'
 import styles from "./cardCompanions.module.css"
 import { Link } from 'react-router-dom';
 
-const CardsCompanions = ({ name, last_name, description, photo, location, link, ratings }) => {
+const CardsCompanions = ({ name, last_name, description, photo, location, province, link, ratings }) => {
   return (
 
     <div className={`card ${styles.profile}`}>
@@ -15,7 +15,7 @@ const CardsCompanions = ({ name, last_name, description, photo, location, link, 
       <div className={`${styles.card_body} p-2`}>
         <h4 className={`${styles.card_name}`}>{name} {last_name}</h4>
         <div className='d-flex justify-content-between'>
-          <p className={styles.card_location}><span className="fa-solid fa-location-dot pe-1"></span>{location}</p>
+          <p className={styles.card_location}><span className="fa-solid fa-location-dot pe-1"></span>{location}, {province}</p>
           <p className={styles.card_ratings}><span className="fa-solid fa-star pe-1"></span>{ratings}</p>
         </div>
         <p className={`card-text ${styles.card_description}`}>{description}</p>
