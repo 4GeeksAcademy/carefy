@@ -106,15 +106,17 @@ export const BloqueAnuncio = ({ }) => {
 
 
     useEffect(() => {
-
         const companionData = localStorage.getItem('oneCompanion');
-        const companionParsed = JSON.parse(companionData);
-        setNameCompanion(companionParsed.user.name);
-        setBirthdate(calcularEdad(companionParsed.birthdate));
-        setExperiencia(companionParsed.experience);
-        setPrecio(companionParsed.service_cost);
-        // setValoracion(companion.)
-
+        if (companionData) {
+            const companionParsed = JSON.parse(companionData);
+            if (companionParsed && companionParsed.user) {
+                setNameCompanion(companionParsed.user.name);
+                setBirthdate(calcularEdad(companionParsed.birthdate));
+                setExperiencia(companionParsed.experience);
+                setPrecio(companionParsed.service_cost);
+                // setValoracion(companionParsed.valoracion); // Si existe
+            }
+        }
     }, []);
 
 
@@ -311,7 +313,7 @@ export const BloqueAnuncio = ({ }) => {
                                             <td>{birthdate}</td>
                                             <td>{experiencia}</td>
                                             <td>{precio} €</td>
-                                            <td>{valoracion}<span class="ps-2 fa-solid fa-star"></span></td>
+                                            <td>{valoracion}<span className="ps-2 fa-solid fa-star"></span></td>
                                             <td className="text-end">
                                                 <span className="fa-solid fa-eye pe-3"></span>
                                                 <span className="fa-solid fa-trash-can pb-2"></span>
@@ -328,27 +330,27 @@ export const BloqueAnuncio = ({ }) => {
                 <div className={`container bg-light p-4 my-5 rounded position-relative ${styles.block_anuncio}`}>
                     {/* ICONO PARA EL ACOMPAÑANTE */}
                     {store.userData.role === "companion" && (
-                    isFavorited ? (
-                        <span
-                            onClick={() => {
-                                const fav = store.favDataAds.find(fav => fav.ad_id === store.singleAd.id);
-                                if (fav && fav.id) handleDeleteFav(fav.id);
-                            }}
-                            className={`position-absolute fa-solid fa-heart ${styles.fav_icon} text-danger fs-1`}
-                            type="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                        ></span>
-                    ) : (
-                        <span
-                            onClick={() => handleAddFav(store.singleAd.id)}
-                            className={`position-absolute fs-1 fa-regular fa-heart ${styles.fav_icon}`}
-                            type="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                        ></span>
-                    )
-                )}
+                        isFavorited ? (
+                            <span
+                                onClick={() => {
+                                    const fav = store.favDataAds.find(fav => fav.ad_id === store.singleAd.id);
+                                    if (fav && fav.id) handleDeleteFav(fav.id);
+                                }}
+                                className={`position-absolute fa-solid fa-heart ${styles.fav_icon} text-danger fs-1`}
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"
+                            ></span>
+                        ) : (
+                            <span
+                                onClick={() => handleAddFav(store.singleAd.id)}
+                                className={`position-absolute fs-1 fa-regular fa-heart ${styles.fav_icon}`}
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"
+                            ></span>
+                        )
+                    )}
 
 
                     {/* ICONOS PARA EL USUARIO (FAMILIAR) */}

@@ -5,6 +5,8 @@ import { BloqueInformativo } from "../../component/BloqueInformativo/BloqueInfor
 import { SliderHome } from "../../component/SliderHome/SliderHome.jsx";
 import { CardReviews } from "../../component/CardReviews/CardReviews.jsx";
 import { BloqueVerFaq } from "../../component/BloqueVerFaq/BloqueVerFaq.jsx";
+import { SliderAds } from "../../component/SliderAds/SliderAds.jsx";
+import { SliderCompanions } from "../../component/SliderCompanions/SliderCompanions.jsx";
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);
@@ -20,6 +22,8 @@ export const Home = () => {
 					<CardReviews />
 				</div>
 			</div>
+			<SliderAds/>
+			<SliderCompanions/>
 			<BloqueVerFaq/>
 		</>
 	);

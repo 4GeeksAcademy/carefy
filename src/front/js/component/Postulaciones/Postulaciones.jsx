@@ -1,10 +1,10 @@
-import React, {useContext, useEffect} from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import styles from "./Postulaciones.module.css"
 import { Context } from "../../store/appContext";
 
 
-export const Postulaciones = ({}) => {
+export const Postulaciones = ({ }) => {
 
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
@@ -29,7 +29,7 @@ export const Postulaciones = ({}) => {
                     </li>
 
                 </ul>
-                
+
                 {/* Inicio Tabla */}
                 <div className="tab-content" id="pills-tabContent">
                     <div className="tab-pane fade show active table-responsive" id="pills-postulaciones" role="tabpanel" aria-labelledby="pills-postulaciones-tab" tabIndex="0">
@@ -43,16 +43,16 @@ export const Postulaciones = ({}) => {
                                     <th scope="col">Fecha</th>
                                     <th scope="col"></th>
                                 </tr>
-                           </thead>
-                           <tbody>
+                            </thead>
+                            <tbody>
                                 <tr>
                                     <th scope="row"></th>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td className="">
-                                        <span class="fa-solid fa-eye pe-3"></span>
-                                        <span class="fa-solid fa-trash-can pb-2"></span>
+                                        <span className="fa-solid fa-eye pe-3"></span>
+                                        <span className="fa-solid fa-trash-can pb-2"></span>
                                     </td>
                                 </tr>
                             </tbody>
