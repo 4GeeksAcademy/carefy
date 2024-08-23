@@ -53,7 +53,7 @@ export const SliderCompanions = () => {
 
     return (
         <div className="container-fluid">
-            <p className="text-center display-4">Encuentra la mejor compañía</p>
+            <p className="text-center display-4">Encuentra los mejores profesionales</p>
             <div className={`mt-4 ${styles.bloque_card_mobile} fade-in`}>
 
                 <div className={`${styles.swiper_container_paginas}`}>
@@ -65,7 +65,7 @@ export const SliderCompanions = () => {
                                     last_name={element?.user?.last_name || ""}
                                     location={element?.user?.location || "Ubicación no especificada"}
                                     province={element.province || "Ubicación no especificada"}
-                                    photo={element.photo ? element.photo : profileImg}
+                                    photo={store.userData.token && element.photo ? element.photo : profileImg}
                                     description={element.description || "Descripción no especificada"}
                                     link={`/perfil-profesional/${element.id}`}
                                 />

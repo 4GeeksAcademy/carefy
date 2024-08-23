@@ -27,6 +27,8 @@ import ProfileCompanion from "./pages/profileCompanion/ProfileCompanion.jsx";
 import ListCompanions from "./pages/listCompanios/ListCompanions.jsx";
 import ListAds from "./pages/listAds/ListAds.jsx"
 import { EditAd } from "./pages/EditAd/EditAd.jsx"
+import { TermsAndConditions } from "./pages/TermsAndConditions/TermsAndConditions.jsx";
+import { PrivacyPolitics } from "./pages/PrivacyPolitics/PrivacyPolitics.jsx";
 
 
 //create your first component
@@ -62,9 +64,10 @@ const Layout = () => {
                         <Route element={<ListCompanions />} path="/listado-profesionales" />
                         <Route element={<ListAds />} path="/listado-anuncios" />
                         <Route element={<EditAd />} path="/edit-ad/:id" />
+                        <Route element={<TermsAndConditions />} path="/terminos-condiciones" />
+                        <Route element={<PrivacyPolitics />} path="/politicas-privacidad" />
 
-
-
+                        
                         <Route element={<h1>Not found!</h1>} path="*"/>
 
                     </Routes>

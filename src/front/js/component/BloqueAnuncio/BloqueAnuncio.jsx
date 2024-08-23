@@ -21,6 +21,8 @@ export const BloqueAnuncio = ({ }) => {
         }
     }, [id]);
 
+    
+
     //Si existe un anuncio y su estado es "pendiente", "rechazado" o "finalizado" y además el id del anuncio no es igual
     // que el usuario logueado --> redirige a listado-anuncios.
     // De lo contrario accede al anuncio. 
@@ -336,7 +338,7 @@ export const BloqueAnuncio = ({ }) => {
                         <p className="fs-4 fw-bold"><span className="fa-solid fa-person-circle-exclamation pe-3"></span>Observaciones</p>
                         <div className="d-flex fs-5">
                             <div className="pb-3">
-                                <p className="fs-5 ps-4 ms-3">{patientData.description}</p>
+                                <p className="ps-4 ms-3">{patientData.description}</p>
                             </div>
                         </div>
                     </div>
@@ -392,7 +394,7 @@ export const BloqueAnuncio = ({ }) => {
                                                 <td>{valoracion}</td>
                                                 <td className="text-end">
                                                     <Link to={`/perfil-profesional/${companion_id}`}>
-                                                        <span className="fa-solid fa-eye pe-3"></span>
+                                                        <span className="fa-solid fa-eye pe-3 text-dark"></span>
                                                     </Link>
                                                     <span className="fa-solid fa-trash-can pb-2"></span>
                                                 </td>
@@ -591,7 +593,7 @@ export const BloqueAnuncio = ({ }) => {
                                                     <td>{valoracion}</td>
                                                     <td className="text-end">
                                                         <Link to={`/perfil-profesional/${companion_id}`}>
-                                                            <span className="fa-solid fa-eye pe-3"></span>
+                                                            <span className="fa-solid fa-eye pe-3 text-dark"></span>
                                                         </Link>
                                                         <span className="fa-solid fa-trash-can pb-2"></span>
                                                     </td>

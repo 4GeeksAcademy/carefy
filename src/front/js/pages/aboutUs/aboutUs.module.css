@@ -1,4 +1,8 @@
- .image_lady_armchair,
+.aboutus_container{
+  filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538));
+}
+
+.image_lady_armchair,
  .image_girl_lady {
    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538));
  }
@@ -27,12 +31,4 @@
  .text_why {
    background-color: #E4E8F4;
    color: rgb(58, 58, 58);
- }
-
- .text_who:hover,
- .text_what:hover,
- .text_why:hover {
-   transform: translateY(-10px);
-   /* para hacer efecto de elevación del contenedor al pasar el ratón */
-   box-shadow: 0px 8px 10px rgba(71, 70, 70, 0.2);
  }
