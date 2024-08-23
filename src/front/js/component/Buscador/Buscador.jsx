@@ -11,7 +11,12 @@ export const Buscador = () => {
 
   const handleSearch = () => {
     const queryParams = new URLSearchParams(filters).toString();
+    if(filters.type === "ad"){
     navigate(`/listado-anuncios?${queryParams}`);
+    }
+    else{
+      navigate(`/listado-profesionales?${queryParams}`);
+    }
   };
 
   const handleFilterChange = (e) => {

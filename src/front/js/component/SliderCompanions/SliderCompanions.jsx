@@ -53,7 +53,7 @@ export const SliderCompanions = () => {
 
     return (
         <div className="container-fluid">
-            <p className="text-center display-4">Encuentra la mejor compañía</p>
+            <p className="text-center display-4">Encuentra los mejores profesionales</p>
             <div className={`mt-4 ${styles.bloque_card_mobile} fade-in`}>
 
                 <div className={`${styles.swiper_container_paginas}`}>
