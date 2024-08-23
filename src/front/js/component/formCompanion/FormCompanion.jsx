@@ -54,22 +54,32 @@ const CompanionForm = () => {
   };
 
   useEffect(() => {
-    actions.getUserDetails()
+   
     if (store.userData) {
       setUser({
-        name: store.userData.name || "",
-        lastname: store.userData.lastname || '',
-        email: store.userData.email || "",
-        phone: store.userData.phone || '',
-        location: store.userData.location || ''
+        name: store.userData?.name || "",
+        lastname: store.userData?.lastname || '',
+        email: store.userData?.email || "",
+        phone: store.userData?.phone || '',
+        location: store.userData?.location || ''
       });
     }
-  }, []);
+  }, [store.userData]);
 
   useEffect(() => {
-    if (store.oneCompanion?.user_id === store.userData?.userId){
-      actions.companion(store.oneCompanion.id)
+    if (store.userData.userId) {
+        actions.getUserDetails(); // Fetch user details when userId is available
     }
+}, [store.userData.userId, store.userData.token]);
+
+useEffect(() => {
+  if (store.oneCompanion?.user_id === store.userData?.userId){
+    actions.companion(store.oneCompanion.id)
+  }
+}, [store.userData.userId, store.oneCompanion.id]);
+
+  useEffect(() => {
+   
       setCompanion({
         description: store.oneCompanion?.description || "",
         photo: store.oneCompanion?.photo || "",
@@ -89,7 +99,7 @@ const CompanionForm = () => {
         
       });
     
-  }, []);
+  }, [store.oneCompanion]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -164,7 +174,7 @@ const CompanionForm = () => {
       console.error('There was an error submitting the data:', error);
     }
 
-    navigate('/blog');
+    navigate('/listado-anuncios');
    
    
   };
