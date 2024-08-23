@@ -7,6 +7,7 @@ const CompanionForm = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
 
 
   const [companion, setCompanion] = useState({
@@ -36,10 +37,36 @@ const CompanionForm = () => {
     location: ""
   });
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const [imageUrl, setImageUrl] = useState('');
+  const [photo, setPhoto] = useState('')
+
+  useEffect(() => {
+    
+    if (store.userData) {
+      setUser({
+        name: store.userData?.name || "",
+        lastname: store.userData?.lastname || '',
+        email: store.userData?.email || "",
+        phone: store.userData?.phone || '',
+        location: store.userData?.location || ''
+      });
+    }
+  }, [store.userData]);
   
-    if (name in companion) {
+  useEffect(() => {
+    if (store.userData.userId) {
+        actions.getUserDetails(); // Fetch user details when userId is available
+    }
+}, [store.userData.userId, store.userData.token]);
+
+
+
+  const handleChange = (e) => {
+    const { name, value, type, checked, files } = e.target;
+  
+    if (name === 'photo') {
+      setPhoto(files[0]); // Configura el archivo en el estado `photo`
+    } else if (name in companion) {
       setCompanion(prevState => ({
         ...prevState,
         [name]: type === 'checkbox' ? checked : value
@@ -50,25 +77,26 @@ const CompanionForm = () => {
         [name]: value
       }));
     }
-    
   };
+ 
 
   useEffect(() => {
-    actions.getUserDetails()
-    if (store.userData) {
-      setUser({
-        name: store.userData.name || "",
-        lastname: store.userData.lastname || '',
-        email: store.userData.email || "",
-        phone: store.userData.phone || '',
-        location: store.userData.location || ''
-      });
+    if (imageUrl) {
+        console.log('imageUrl actualizado:', imageUrl);
     }
-  }, []);
+}, [imageUrl]); // Se ejecuta cuando imageUrl cambia
+
+useEffect(() => {
+  if (store.oneCompanion.id) {
+      actions.companion(store.oneCompanion?.id); 
+  }
+}, [store.oneCompanion.id]);
+
+ 
 
   useEffect(() => {
     if (store.oneCompanion?.user_id === store.userData?.userId){
-      actions.companion(store.oneCompanion.id)
+      
     }
       setCompanion({
         description: store.oneCompanion?.description || "",
@@ -89,7 +117,9 @@ const CompanionForm = () => {
         
       });
     
-  }, []);
+  }, [store.oneCompanion]);
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -109,13 +139,15 @@ const CompanionForm = () => {
       setError("Por favor, complete todos los campos.");
       return;
     }
-    setError(null); // Limpia cualquier error previo si todo está bien
+   
 
     console.log(companion);
+
+    
     
     try {
       // Primero, actualizar la información del usuario
-      await actions.editUser(user.name, user.lastname, user.email, user.phone, user.location);
+      await actions.editUser(user?.name, user?.lastname, user?.email, user?.phone, user.location);
 
       // // Luego, añadir o actualizar el acompañante
       if(store.oneCompanion?.user_id === store.userData?.userId ){
@@ -135,6 +167,7 @@ const CompanionForm = () => {
           companion.twitter,
           companion.linkedin,
         );
+        setSuccessMessage('Datos actualizados correctamente');
       }
       else{
         await actions.anadir_companion(
@@ -153,8 +186,10 @@ const CompanionForm = () => {
           companion.twitter,
           companion.linkedin,
           store.userData.userId,  // Utilizar el ID del usuario actual 
+          
 
         )
+        setSuccessMessage('Datos actualizados correctamente');
       }
       
 
@@ -164,7 +199,7 @@ const CompanionForm = () => {
       console.error('There was an error submitting the data:', error);
     }
 
-    navigate('/blog');
+    navigate('/listado-anuncios');
    
    
   };
@@ -173,20 +208,20 @@ const CompanionForm = () => {
     <div className={styles.container_form_companion}>
       <form className={`m-5 container`} onSubmit={handleSubmit}>
       {error && <div className="alert alert-danger" role="alert">{error}</div>}
+      {successMessage && (
+                <div className={`alert alert-success ${alertClass}`} role="alert">
+                    {successMessage}
+                </div>
+            )}
+      
         <div className={`container-fluid p-4 ${styles.form_companion}`}>
           {/* Fila 1: foto y campos básicos */}
           
           <div className="row">
             <div className="col-12 col-sm-6">
               <div className="input-group mb-4">
-                <label className="fs-5 mt-1 pe-3" htmlFor="inputGroupFile01">Foto de perfil</label>
-                <input
-                  type="file"
-                  className="form-control rounded"
-                  id="inputGroupFile01"
-                  name="photo"
-                  onChange={handleChange}
-                />
+              <label htmlFor="photo" className="form-label fs-5">Foto</label>
+              <input className="form-control" type="file" id="photo" onChange={handleChange} />
               </div>
             </div>
           </div>
