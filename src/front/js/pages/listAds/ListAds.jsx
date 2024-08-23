@@ -5,6 +5,8 @@ import styles from "./listAds.module.css"
 import CardsAds from '../../component/cardsAds/CardsAds.jsx';
 import FilterAds from '../../component/filterAds/FilterAds.jsx';
 import { Jumbotron } from '../../component/Jumbotron/Jumbotron.jsx';
+import profileImg from "../../../img/profileImg.png"
+
 
 const ListAds = () => {
 
@@ -69,13 +71,13 @@ const ListAds = () => {
   
         <div className={`${styles.container_main_ads} mb-5`}>
           <FilterAds onFilter={handleFilterChange}/>
-          <div className={`container ${styles.card_container}`}>
+          <div className={`container bg-light rounded p-4 ${styles.card_container}`}>
             <div className={`row ${styles.list_ads}`}>
               {filteredAds.length > 0 ? (
                 filteredAds.map((element, index) => (
                   <div className="col-12 col-sm-3 mb-4" key={index}>
                     <CardsAds
-                      photo={element.photo}
+                      photo={store.userData.token && element.photo ? element.photo : profileImg}
                       title={element.title}
                       date={new Date(element.start_date).toLocaleDateString('es-ES', {
                         day: '2-digit',

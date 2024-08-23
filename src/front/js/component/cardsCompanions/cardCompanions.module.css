@@ -1,15 +1,30 @@
 .profile{
-    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
     height: 100%;
-    border-color: none;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.468));
+
     
   }
+
   .img_card {
     width: 100%;
-   vertical-align:top;
-   
+    height: 200px;
+    overflow: hidden;
+}
+  .img_card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
+  .card_body {
+    flex-grow: 1; /* Hace que el cuerpo de la tarjeta ocupe el espacio disponible */
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+
+}
 
   .card_name {
     text-align: left;

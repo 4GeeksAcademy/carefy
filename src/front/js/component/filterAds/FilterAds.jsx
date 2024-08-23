@@ -80,7 +80,7 @@ const FilterAds = ({ onFilter }) => {
           </div>
           <div>
             <span className="btn">
-              <span className={`fa-solid fa-magnifying-glass fs-2 text-dark ${styles.lupa_buscador}`} onClick={handleSearch}></span>
+              <span className={`fa-solid fa-magnifying-glass fs-2 ${styles.lupa_buscador}`} onClick={handleSearch}></span>
               <button className={`btn ${styles.btn_buscar}`} onClick={handleSearch}>BUSCAR</button>
             </span>
           </div>

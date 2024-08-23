@@ -63,8 +63,6 @@ const ListCompanions = () => {
 
   }
 
- 
-
   return (
     <>
       <Jumbotron bgImg={{ backgroundImage: "url('https://media.istockphoto.com/id/1512266456/es/foto/una-anciana-con-la-enfermera-paseando-por-el-jard%C3%ADn-de-una-residencia-de-ancianos-en-silla-de.jpg?s=612x612&w=0&k=20&c=_7ABNTghwi1gB1IxvlLXSW0QcZofNSg88yo4bEK1pxM=')" }} title={"Conoce a nuestros expertos del cuidado"} subtitle={"Aquí podrás conocer a profesionales que están listos para brindar un cuidado atento y afectuoso."} />
@@ -72,8 +70,8 @@ const ListCompanions = () => {
     <div className={styles.container_main_profile}>
       
       <FilterCompanions onFilter={handleFilterChange} />
-      <div className={`container mb-5 ${styles.card_container}`}>
-        <div className={`row $styles.list_companions}`}>
+      <div className={`container p-4 bg-light rounded mb-5 ${styles.card_container}`}>
+        <div className={`row ${styles.list_companions}`}>
           {filtroPerfiles.length > 0 ? (
           filtroPerfiles.map((element, index) => (
             <div className='col-12 col-sm-3' key={index}>
@@ -82,7 +80,7 @@ const ListCompanions = () => {
                   last_name={element?.user?.last_name || ""}
                   location={element?.user?.location || "Ubicación no especificada"}
                   province={element.province || "Ubicación no especificada"}
-                  photo={element.photo ? element.photo : profileImg}
+                  photo={store.userData.token && element.photo ? element.photo : profileImg}
                   description={element.description || "Descripción no especificada"}
                   link={`/perfil-profesional/${element.id}`}
               />

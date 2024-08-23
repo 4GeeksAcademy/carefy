@@ -22,8 +22,12 @@ export const Anuncios = ({ countFav, companionName }) => {
 
     const verAnuncio = (id) => {
         navigate(`/anuncio/${id}`)
+
     }
 
+    const verPerfil = () => {
+        window.scrollTo(0, 0);
+    }
 
 
     return (
@@ -115,7 +119,7 @@ export const Anuncios = ({ countFav, companionName }) => {
                                             <td>{fav.companion?.user?.email}</td>
                                             <td>4.5<span className="ps-2 fa-solid fa-star"></span></td>
                                             <td className="text-end">
-                                                <Link to={`/perfil-profesional/${fav.companion_id}`}>
+                                                <Link onClick={verPerfil} to={`/perfil-profesional/${fav.companion_id}`}>
                                                     <span className="fa-solid fa-eye pe-3 text-dark"></span>
                                                 </Link>
                                             </td>

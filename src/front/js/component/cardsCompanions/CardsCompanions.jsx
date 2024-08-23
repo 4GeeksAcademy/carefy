@@ -12,12 +12,22 @@ const CardsCompanions = ({ name, last_name, description, photo, location, provin
   return (
 
     <div className={`card ${styles.profile}`}>
-      <img
-        src={photo}
-        className={`card-img-top ${styles.img_card}`}
-        alt="persona profesional del cuidado de personas mayores"
-        title="persona profesional del cuidado de personas mayores"
-      />
+      
+      <div className={styles.img_card}>
+        {photo ? (
+          <img
+            src={photo}
+            className={`card-img-top`}
+            alt="Imagen del profesional"
+          />
+        ) : (
+          <img
+            src={profileImg}
+            className={`card-img-top`}
+            alt="Imagen del profesional"
+          />
+        )}
+      </div>
       <div className={`${styles.card_body} p-2`}>
         <h4 className={`${styles.card_name}`}>{name} {last_name}</h4>
         <div className='d-flex justify-content-between'>
@@ -25,8 +35,7 @@ const CardsCompanions = ({ name, last_name, description, photo, location, provin
           <p className={styles.card_ratings}><span className="fa-solid fa-star pe-1"></span>{ratings}</p>
         </div>
         <p className={`card-text ${styles.card_description}`}>{description}</p>
-        <div className={styles.card_buttons}>
-          <span className="fa-regular fa-envelope fs-3 mt-3"></span>
+        <div className={`d-flex justify-content-center ${styles.card_buttons}`}>
           <Link onClick={verMas} to={link} className={`btn ${styles.boton_ver_mas}`}>
             VER MÁS
           </Link>

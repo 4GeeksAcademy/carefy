@@ -40,6 +40,7 @@ option{
 .buscador{
   background-color: #FFC9B3;
   width: fit-content;
+  border: 1px solid #B76C49;
 }
 
 .btn_buscador{
