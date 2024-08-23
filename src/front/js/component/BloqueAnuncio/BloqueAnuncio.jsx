@@ -300,7 +300,7 @@ export const BloqueAnuncio = ({ }) => {
                                 <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
                             ) : (
                                 ""
-                            )}                            
+                            )}
                         </p>
                     ) : null}
                 </div>
@@ -372,18 +372,33 @@ export const BloqueAnuncio = ({ }) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td> €</td>
-                                        <td><span className="ps-2 fa-solid fa-star"></span></td>
-                                        <td className="text-end">
-                                            <span className="fa-solid fa-eye pe-3"></span>
-                                            <span className="fa-solid fa-trash-can pb-2"></span>
-                                        </td>
-                                    </tr>
+                                    {listaInscripciones.map((inscripcion) => {
+                                        // Encuentra el companion correspondiente al companion_id de la inscripción
+                                        const companion = store.companions.find(comp => comp.id === inscripcion.companion_id);
+
+                                        // Si no se encuentra el companion, se omite el rendering de esa fila
+                                        if (!companion) return null;
+
+                                        // Asegúrate de obtener estos datos de la manera correcta
+                                        const { id: companion_id, user, birthdate, experiencia, precio, valoracion } = companion;
+
+                                        return (
+                                            <tr key={inscripcion.id}>
+                                                <th scope="row">1</th>
+                                                <td>{companion?.user?.name}</td>
+                                                <td>{calcularEdad(companion?.birthdate)}</td>
+                                                <td>{companion?.experience}</td>
+                                                <td>{companion?.service_cost}</td>
+                                                <td>{valoracion}</td>
+                                                <td className="text-end">
+                                                    <Link to={`/perfil-profesional/${companion_id}`}>
+                                                        <span className="fa-solid fa-eye pe-3"></span>
+                                                    </Link>
+                                                    <span className="fa-solid fa-trash-can pb-2"></span>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
                                 </tbody>
                             </table>
                         </div>
@@ -482,7 +497,7 @@ export const BloqueAnuncio = ({ }) => {
                                     <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
                                 ) : (
                                     ""
-                                )}                               
+                                )}
                             </p>
                         ) : null}
                     </div>
