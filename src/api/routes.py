@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Patient, Ad, Status, Type, Companion, Favorite_companion, Inscription, Favorite_ad
+from api.models import db, User, Patient, Ad, Status, Type, Companion, Favorite_companion, Inscription, Favorite_ad, Rating
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -657,14 +657,54 @@ def delete_inscription(inscription_id):
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-
-   
-
-
 @api.route('/obtenerinscripciones', methods=['GET'])
 def obtenerinscripciones():
     postulantes = Inscription.query.all()
     return jsonify([postulante.serialize() for postulante in postulantes])
+
+
+#VALORACIONES Y RESEÑAS
+
+# Traer todos las reseñas
+@api.route('/rates', methods=['GET'])
+def get_rates():
+    rates = Rating.query.all()
+    return jsonify([rate.serialize() for rate in rates])
+
+
+#Crear nuevo usuario
+@api.route("/add_rate/<int:companion_id>", methods=['POST'])
+def add_rate(companion_id, ad_id, user_id):
+    data = request.json
+    if 'rate' not in data or 'review' not in data:
+        return jsonify({'error': 'Missing data'}), 400
+
+    new_rating = Rating(
+        rate=data['rate'],
+        review=data['review'],
+        companion_id=companion_id,
+        user_id=user_id,
+        ad_id=ad_id
+    )
+
+    db.session.add(new_rating)
+    db.session.commit()
+    
+    return jsonify({
+        "msg": "Reseña creada exitosamente",
+        **new_rating.serialize()}), 201
+
+#Traer reseñas de un solo usuario
+@api.route('/rates/<int:companion_id>', methods=['GET'])
+def get_companion_rates(companion_id):
+    rate = Rating.query.get(companion_id)
+    if rate is None:
+        return jsonify({'error': 'Rate not found'}), 404
+
+    return jsonify(rate.serialize())
+
+
+
 
 
 # #Para borrar una postulación (Cuando se pulsa "Cancelar postulación")
