@@ -22,6 +22,7 @@ export const Anuncios = ({ countFav, companionName }) => {
 
     const verAnuncio = (id) => {
         navigate(`/anuncio/${id}`)
+        window.scrollTo(0, 0);
 
     }
 

@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { useNavigate, useLocation } from "react-router-dom";
 import CardsCompanions from '../../component/cardsCompanions/CardsCompanions.jsx'
 import FilterCompanions from '../../component/filterCompanions/FilterCompanions.jsx';
 import { Jumbotron } from '../../component/Jumbotron/Jumbotron.jsx';
@@ -11,12 +12,20 @@ import profileImg from "../../../img/profileImg.png"
 const ListCompanions = () => {
   const { store, actions } = useContext(Context);
   const [filtroPerfiles, setFiltroPerfiles] = useState([]);
-  const [filtros, setFiltros] = useState({province:"", availability: ""})
-
+  const [filtros, setFiltros] = useState({province:"", type: "", availability: ""})
+  const location = useLocation();
   
   useEffect(() => {
     actions.getCompanions();
   }, [])
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const province = queryParams.get("province") || "";
+    const type = queryParams.get("type") || "";
+
+    setFiltros({ province, type });
+  }, [location.search]);
 
   useEffect(() => {
     // Verificar si 'store.companions' existe antes de proceder

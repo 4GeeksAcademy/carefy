@@ -168,7 +168,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						method: "GET"
 					});
 					const data = await resp.json();
-					console.log("Datos recibidos de la API:", data);
 					setStore({ users: data.users });
 				} catch (error) {
 					console.log(error);
@@ -351,7 +350,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						method: "GET"
 					});
 					const data = await resp.json();
-					console.log("Datos recibidos de la API:", data);
 					if (Array.isArray(data)) {
 						setStore({ ads: data }); // Asegúrate de que sea un array
 						localStorage.setItem('ads', JSON.stringify(data));
@@ -526,7 +524,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						method: "GET"
 					});
 					const data = await resp.json();
-					console.log("Datos recibidos de la API:", data);
 					if (Array.isArray(data)) {
 						setStore({ patients: data }); // Asegúrate de que sea un array
 						localStorage.setItem('patients', JSON.stringify(data));
@@ -677,7 +674,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						method: "GET"
 					});
 					const data = await resp.json();
-					console.log("Datos recibidos de la API:", data);
 					if (Array.isArray(data)) {
 						setStore({ companions: data }); // se guardan los datos en la variable companions
 						localStorage.setItem('companions', JSON.stringify(data)); // Guardar en localStorage
@@ -707,7 +703,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 
 					const data = await response.json();
-					console.log("Datos recibidos:", data);
 					setStore({ oneCompanion: data });
 					localStorage.setItem("oneCompanion", JSON.stringify(data));
 					console.log(getStore().oneCompanion)
@@ -909,7 +904,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					method: "GET"
 				});
 				const data = await resp.json();
-				console.log("Datos recibidos de la API:", data);
 				setStore({ favsCompanion: data.favsCompanion });
 			} catch (error) {
 				console.log(error);

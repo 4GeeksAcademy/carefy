@@ -338,7 +338,7 @@ export const BloqueAnuncio = ({ }) => {
                         <p className="fs-4 fw-bold"><span className="fa-solid fa-person-circle-exclamation pe-3"></span>Observaciones</p>
                         <div className="d-flex fs-5">
                             <div className="pb-3">
-                                <p className="fs-5 ps-4 ms-3">{patientData.description}</p>
+                                <p className="ps-4 ms-3">{patientData.description}</p>
                             </div>
                         </div>
                     </div>
