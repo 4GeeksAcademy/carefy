@@ -3,6 +3,7 @@ import { Context } from "../../store/appContext";
 import styles from "./SliderAds.module.css"
 import Swiper from 'swiper';
 import CardsAds from "../cardsAds/CardsAds.jsx";
+import profileImg from "../../../img/profileImg.png"
 
 export const SliderAds = () => {
     const { store, actions } = useContext(Context);
@@ -61,7 +62,7 @@ export const SliderAds = () => {
                             filteredAds.map((element, index) => (
                                 <div className={`${styles.swiper_slide_paginas} ps-4 pt-3 fade-in`} key={index}>
                                     <CardsAds
-                                        photo={element.photo}
+                                         photo={store.userData.token && element.photo ? element.photo : profileImg}
                                         title={element.title}
                                         date={new Date(element.start_date).toLocaleDateString('es-ES', {
                                             day: '2-digit',

@@ -65,7 +65,7 @@ export const SliderCompanions = () => {
                                     last_name={element?.user?.last_name || ""}
                                     location={element?.user?.location || "Ubicación no especificada"}
                                     province={element.province || "Ubicación no especificada"}
-                                    photo={element.photo ? element.photo : profileImg}
+                                    photo={store.userData.token && element.photo ? element.photo : profileImg}
                                     description={element.description || "Descripción no especificada"}
                                     link={`/perfil-profesional/${element.id}`}
                                 />
