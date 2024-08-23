@@ -374,11 +374,11 @@ export const BloqueAnuncio = ({ }) => {
                                 <tbody>
                                     <tr>
                                         <th scope="row">1</th>
-                                        <td>{nameCompanion}</td>
-                                        <td>{birthdate}</td>
-                                        <td>{experiencia}</td>
-                                        <td>{precio} €</td>
-                                        <td>{valoracion}<span className="ps-2 fa-solid fa-star"></span></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td> €</td>
+                                        <td><span className="ps-2 fa-solid fa-star"></span></td>
                                         <td className="text-end">
                                             <span className="fa-solid fa-eye pe-3"></span>
                                             <span className="fa-solid fa-trash-can pb-2"></span>

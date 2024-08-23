@@ -73,10 +73,10 @@ const ListCompanions = () => {
       
       <FilterCompanions onFilter={handleFilterChange} />
       <div className={`container mb-5 ${styles.card_container}`}>
-        <div className={styles.list_companions}>
+        <div className={`row $styles.list_companions}`}>
           {filtroPerfiles.length > 0 ? (
           filtroPerfiles.map((element, index) => (
-            <div key={index}>
+            <div className='col-12 col-sm-3' key={index}>
               <CardsCompanions
                     name={element?.user?.name || "Nombre no especificado"}
                   last_name={element?.user?.last_name || ""}
