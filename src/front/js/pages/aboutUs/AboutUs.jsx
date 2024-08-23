@@ -8,7 +8,7 @@ const AboutUs = () => {
     			<Jumbotron bgImg={ {backgroundImage: "url('https://media.istockphoto.com/id/1512266456/es/foto/una-anciana-con-la-enfermera-paseando-por-el-jard%C3%ADn-de-una-residencia-de-ancianos-en-silla-de.jpg?s=612x612&w=0&k=20&c=_7ABNTghwi1gB1IxvlLXSW0QcZofNSg88yo4bEK1pxM=')" }} title={"Te contamos un poco más sobre Carefy"} subtitle={"Tres cosas que debes saber"} />
 
     <div className="my-5">
-    <div className="container">
+    <div className={`container bg-light rounded ${styles.aboutus_container}`}>
      
       <div className="row mb-4">
         <div className="col-12 col-md-4">
@@ -23,7 +23,7 @@ const AboutUs = () => {
             </p>
           </div>
         </div>
-        <div className="col-12 col-md-4">
+        <div className="col-12 col-md-4 pt-5">
           <div>
             <img
               className={`${styles.image_lady_armchair} img-fluid rounded`}
@@ -48,7 +48,7 @@ const AboutUs = () => {
           </div>
         </div>
       </div>
-      <div className="row">
+      <div className="row ps-3 pb-3">
         <div className="col-12 col-md-4">
           <div className={styles.row_2}>
             <img

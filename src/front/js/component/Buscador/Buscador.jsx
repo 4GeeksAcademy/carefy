@@ -27,7 +27,7 @@ export const Buscador = () => {
       <div className={styles.jumbotron_content_edit}>
         <div className="container py-5">
           <h1 className="display-5 fw-bold">Nos preocupamos de verdad por el cuidado de tu familia</h1>
-          <p className="col fs-4 text-center">¿Buscas acompañante? ¿Buscas cuidar a alguien? En Carefy podrás encontrar la mejor opción.</p>
+          <p className="col fs-4 text-center">¿Buscas cuidador? ¿Buscas cuidar a alguien? En Carefy podrás encontrar la mejor opción.</p>
         </div>
         <div className="pb-5">
           <div className={`${styles.buscador} container rounded p-2 d-flex gap-2 align-items-center flex-wrap`}>
@@ -91,8 +91,8 @@ export const Buscador = () => {
             <div className="btn-group">
               <select onChange={handleFilterChange} className={`btn ${styles.btn_buscador} ${styles.btn_buscador_companion} ${styles.custom_select} btn-lg form-select`} defaultValue={"¿Qué buscas?"} id="type" aria-label="Selecciona tipo de servicio">
                 <option className="text-dark bg-light" disabled hidden>¿Qué buscas?</option>
-                <option className="text-dark bg-light" value="companion">Busco acompañante</option>
-                <option className="text-dark bg-light pe-4" value="ad">Busco acompañar a alguien</option>
+                <option className="text-dark bg-light" value="companion">Busco un profesional</option>
+                <option className="text-dark bg-light pe-4" value="ad">Busco anuncios para trabajar</option>
                 </select>
             </div>
             <div>

@@ -56,7 +56,12 @@ export const PerfilUsuario = () => {
         <>
             <Jumbotron bgImg={{ backgroundImage: "url('https://images.pexels.com/photos/3791664/pexels-photo-3791664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')" }} title={"Este es tu perfil de usuario"} subtitle={"Aquí puedes modificar tus datos y los de tus familiares que requieren acompañamiento."} />
 
+            <div className={`${style.bg_publicar_anuncio}`}>
+                <div className="py-3 container">
+                    <p className="fs-1 text-light">Crea el perfil de tu familiar y publica tu primer anuncio<button className={`btn btn-primary fs-3 ms-3 text-dark ${style.btn_publicar_anuncio}`} onClick={handleCreateAd}>Publicar anuncio</button></p>
 
+                </div>
+            </div>
             <div className={`${style.paginaContacto}`}>
                 <div className="container mt-5">
 

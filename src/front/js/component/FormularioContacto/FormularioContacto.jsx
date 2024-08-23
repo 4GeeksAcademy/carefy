@@ -33,13 +33,13 @@ export const FormularioContacto = () => {
                 <textarea type="text" cols={30} rows={5} className="form-control" id="mensaje" placeholder="Escribe aquí tu consulta" />
             </div>
 
-            <div className="mb-3 ">
+            <div className="mb-3 text-center">
                 <input type="checkbox" className="form-check-input me-2" id="CheckPrivacidad" />
                 <label className="form-check-label">
                     <span className="fs-5">Acepto la política de privacidad de datos</span>
                 </label>
             </div>
-            <div>
+            <div className="text-center">
                 <button type="submit" className={`${style.botonEnviar} btn fs-5`} >Enviar consulta</button>
             </div>
         </form>
