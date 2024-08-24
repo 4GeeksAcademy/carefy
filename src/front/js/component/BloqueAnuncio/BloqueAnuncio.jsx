@@ -57,30 +57,38 @@ export const BloqueAnuncio = ({ }) => {
      * Si ya estuviese inscrito una vez, aparece alerta 
      */
     const handlePostularseClick = () => {
-
         const userCompId = store.userData.userId;
         const adId = store.singleAd.id;
         const companions = localStorage.getItem('companions');
         const companionsParsed = JSON.parse(companions)
+        setPostularseVisible(false)
 
         companionsParsed.forEach((companion) => {
             if (companion.user.id === userCompId) {
                 const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.companion_id === companion.id && inscripcion.ad_id === adId);
 
                 if (!inscripcionExistente) {
-                    actions.add_inscription(companion.id, adId, userCompId)
-                        .then(() => {
-                            window.location.reload();
-                        })
-                        .catch((error) => {
-                            console.error("Error al crear la inscripción:", error);
-                        });
+                   actions.add_inscription(companion.id, adId, userCompId)
+                    
+                        
                 }
             }
         });
 
     };
 
+
+    // //23/08
+    // useEffect(() => {
+    //     // Verifica si el usuario ya está postulado
+    //     const userAlreadyPostulated = store.inscripciones.some(
+    //         inscripcion => inscripcion.companion_id === store.userData.userId
+    //     );
+    
+    //     // Establece el estado inicial basado en esa lógica
+    //     setPostularseVisible(!userAlreadyPostulated);
+    // }, [store.inscripciones, store.userData.userId]);
+    
 
 
 
@@ -127,7 +135,10 @@ export const BloqueAnuncio = ({ }) => {
         actions.getPatients();
     }, []);
 
+
+
     const patientData = store.patients.find(patient => patient.id === store.singleAd.patient_id);
+
 
     const getAge = (birthdate) => {
         const today = new Date();
@@ -182,7 +193,6 @@ export const BloqueAnuncio = ({ }) => {
         return edadCalculada
     }
 
-
     useEffect(() => {
         const lista = store.inscripciones;
         setListaInscripciones(lista)
@@ -206,6 +216,8 @@ export const BloqueAnuncio = ({ }) => {
     };
 
     const isFavorited = Array.isArray(store.favDataAds) && store.favDataAds.some(fav => fav.ad_id === store.singleAd.id);
+
+
 
     return (
 
@@ -273,21 +285,21 @@ export const BloqueAnuncio = ({ }) => {
                         </div>
                     </div>
                     {/* BOTON POSTULARSE/CANCELAR POSTULACION PARA ACOMPAÑANTES */}
-                    {store.userData.role == "companion" && PostularseVisible ? (
+                    {PostularseVisible ? (
                         <button
                             className={`btn ${styles.btn_postularse} fs-4 fw-bold`}
                             onClick={handlePostularseClick}
                         >
                             POSTULARSE
                         </button>
-                    ) : store.userData.role == "companion" ? (
+                    ) :  (
                         <button
                             className={`btn ${styles.btn_cancel_postularse} fs-4 fw-bold`}
                             onClick={handleCancelarClick}
                         >
                             CANCELAR POSTULACIÓN
                         </button>
-                    ) : store.singleAd.user_id === store.userData.userId ? (
+                    )}  store.singleAd.user_id === store.userData.userId ? (
                         <p className="fs-4 fw-bold">
                             Estado:{" "}
                             {store.singleAd.status === "pending" ? (
@@ -302,7 +314,7 @@ export const BloqueAnuncio = ({ }) => {
                                 ""
                             )}
                         </p>
-                    ) : null}
+                    ) : null
                 </div>
                 <div className="pt-4">
                     <p className="fs-5">{store.singleAd.description}</p>
