@@ -25,7 +25,7 @@ export const Login = () => {
 
     return (
         <>
-            <Jumbotron bgImg={{ backgroundImage: "url('https://images.pexels.com/photos/3768131/pexels-photo-3768131.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')" }} title={"Accede a la comunidad Carefy"} subtitle={"Comienza tu búsqueda de acompañante u ofrécete para acompañar."} />
+            <Jumbotron bgImg={{ backgroundImage: "url('https://images.pexels.com/photos/3768131/pexels-photo-3768131.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')" }} title={"Accede a la comunidad Carefy"} subtitle={"Comienza tu búsqueda de un profesional u ofrécete para dar tus servicios."} />
 
             <div className={`${style.paginaLogin} my-5`}>
                 <div className="container">

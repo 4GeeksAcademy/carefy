@@ -52,9 +52,9 @@ export const FormularioRegistro = () => {
             <div className="mb-3">
                 <label htmlFor="disabledSelect" className="form-label fs-5 pb-2">Seleccione como quiere registrarse</label>
                 <select id="disabledSelect" className="form-select" onChange={(e) => setRole(e.target.value)} value={role}>
-                    <option value="">Seleccione una opción</option>
-                    <option value="user">Busco Acompañante</option>
-                    <option value="companion">Soy Acompañante</option>
+                    <option value="" disabled hidden>Seleccione una opción</option>
+                    <option value="user">Busco un profesional</option>
+                    <option value="companion">Quiero ofrecer mis servicios</option>
                 </select>
             </div>
             <div className="pt-3">

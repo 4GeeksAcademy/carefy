@@ -13,7 +13,7 @@
 }
 
 .swiper_slide_paginas{
-    max-width: 20rem;
+    min-width: 20rem;
 }
 
 .bloque_card_mobile {

@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { useNavigate, useLocation } from "react-router-dom";
 import CardsCompanions from '../../component/cardsCompanions/CardsCompanions.jsx'
 import FilterCompanions from '../../component/filterCompanions/FilterCompanions.jsx';
 import { Jumbotron } from '../../component/Jumbotron/Jumbotron.jsx';
@@ -11,12 +12,20 @@ import profileImg from "../../../img/profileImg.png"
 const ListCompanions = () => {
   const { store, actions } = useContext(Context);
   const [filtroPerfiles, setFiltroPerfiles] = useState([]);
-  const [filtros, setFiltros] = useState({province:"", availability: ""})
-
+  const [filtros, setFiltros] = useState({province:"", type: "", availability: ""})
+  const location = useLocation();
   
   useEffect(() => {
     actions.getCompanions();
   }, [])
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const province = queryParams.get("province") || "";
+    const type = queryParams.get("type") || "";
+
+    setFiltros({ province, type });
+  }, [location.search]);
 
   useEffect(() => {
     // Verificar si 'store.companions' existe antes de proceder
@@ -63,8 +72,6 @@ const ListCompanions = () => {
 
   }
 
- 
-
   return (
     <>
       <Jumbotron bgImg={{ backgroundImage: "url('https://media.istockphoto.com/id/1512266456/es/foto/una-anciana-con-la-enfermera-paseando-por-el-jard%C3%ADn-de-una-residencia-de-ancianos-en-silla-de.jpg?s=612x612&w=0&k=20&c=_7ABNTghwi1gB1IxvlLXSW0QcZofNSg88yo4bEK1pxM=')" }} title={"Conoce a nuestros expertos del cuidado"} subtitle={"Aquí podrás conocer a profesionales que están listos para brindar un cuidado atento y afectuoso."} />
@@ -72,8 +79,8 @@ const ListCompanions = () => {
     <div className={styles.container_main_profile}>
       
       <FilterCompanions onFilter={handleFilterChange} />
-      <div className={`container mb-5 ${styles.card_container}`}>
-        <div className={`row $styles.list_companions}`}>
+      <div className={`container p-4 bg-light rounded mb-5 ${styles.card_container}`}>
+        <div className={`row ${styles.list_companions}`}>
           {filtroPerfiles.length > 0 ? (
           filtroPerfiles.map((element, index) => (
             <div className='col-12 col-sm-3' key={index}>
@@ -82,7 +89,7 @@ const ListCompanions = () => {
                   last_name={element?.user?.last_name || ""}
                   location={element?.user?.location || "Ubicación no especificada"}
                   province={element.province || "Ubicación no especificada"}
-                  photo={element.photo ? element.photo : profileImg}
+                  photo={store.userData.token && element.photo ? element.photo : profileImg}
                   description={element.description || "Descripción no especificada"}
                   link={`/perfil-profesional/${element.id}`}
               />

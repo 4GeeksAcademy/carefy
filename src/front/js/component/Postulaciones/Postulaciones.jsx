@@ -13,6 +13,10 @@ export const Postulaciones = ({ }) => {
         actions.getAdFavs();
     }, []);
 
+    const verAnuncio = () => {
+        window.scrollTo(0, 0);
+    }
+
     return (
         <>
             <div className={`container bg-light p-4 my-5 rounded ${styles.block_postulaciones}`}>
@@ -83,7 +87,7 @@ export const Postulaciones = ({ }) => {
                                             })}</td>
                                             <td>{fav.ad.status === "ok" ? <span className="text-success">Activo</span> : <span className="text-secondary">Finalizado</span>}</td>
                                             <td className="text-end">
-                                                <Link to={`/anuncio/${fav.ad_id}`}>
+                                                <Link onClick={verAnuncio} to={`/anuncio/${fav.ad_id}`}>
                                                     <span className="fa-solid fa-eye pe-3 text-dark"></span>
                                                 </Link>
                                             </td>

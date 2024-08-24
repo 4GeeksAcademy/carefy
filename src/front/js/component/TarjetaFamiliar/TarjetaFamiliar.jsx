@@ -8,7 +8,6 @@ import {ModalEliminarFamiliar} from "./ModalEliminarFamiliar/ModalEliminarFamili
  
 // Recibe también index para que se pueda generar un id diferente en cada botón del modal
 export const TarjetaFamiliar = ({ familiar, index }) => {
-    console.log('familiar card ', familiar);
 
     // Se crean variables dinámicas para controlar el uso de los botones de los modales
     const mostrarFamiliarId = `mostrarFamiliar-${index}`;
