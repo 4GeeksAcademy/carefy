@@ -647,7 +647,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					if (data) {
 
-						const updatedInscriptions = [...store.inscriptions, data];
+						const updatedInscriptions = Array.isArray(store.inscriptions) ? [...store.inscriptions, data] : [data];
 						localStorage.setItem('inscripciones_lista', JSON.stringify(updatedInscriptions));
 
 						setStore({
@@ -664,6 +664,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Network error:", error);
 				}
 			},
+
 
 
 
@@ -826,6 +827,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ ...store, companionId: id })
 
 			},
+
 			addCompanionFav: async (companion_id) => {
 				const store = getStore();
 				try {
@@ -869,6 +871,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Network error:", error);
 				}
 			},
+
 			getCompanionFavs: async () => {
 				const store = getStore();
 				const actions = getActions();
@@ -892,30 +895,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 						localStorage.setItem('favData', JSON.stringify(data));
 
-					console.log("Store actualizado:", store);
+						console.log("Store actualizado:", store);
+					}
+				} catch (error) {
+					console.error('There was an error fetching the ad details!', error);
 				}
-			} catch (error) {
-				console.error('There was an error fetching the ad details!', error);
-			}
-		},
-		getAllFavs: async () => {
-			try {
-				const resp = await fetch(`${process.env.BACKEND_URL}/api/favorite_companion`, {
-					method: "GET"
-				});
-				const data = await resp.json();
-				setStore({ favsCompanion: data.favsCompanion });
-			} catch (error) {
-				console.log(error);
-			}
-		},
-		deleteFavCompanion: async (favId) => {
-			const store = getStore();
-			const actions = getActions();
-			try {
-				const response = await fetch(`${process.env.BACKEND_URL}/api/favorite_companion/delete/${favId}`, {
-					method: 'DELETE',
-				});
+			},
+
+			getAllFavs: async () => {
+				try {
+					const resp = await fetch(`${process.env.BACKEND_URL}/api/favorite_companion`, {
+						method: "GET"
+					});
+					const data = await resp.json();
+					setStore({ favsCompanion: data.favsCompanion });
+				} catch (error) {
+					console.log(error);
+				}
+			},
+
+			deleteFavCompanion: async (favId) => {
+				const store = getStore();
+				const actions = getActions();
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/favorite_companion/delete/${favId}`, {
+						method: 'DELETE',
+					});
 
 					if (response.ok) {
 						console.log('Favorito eliminado con éxito');
@@ -933,6 +938,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('Error en la solicitud de eliminación:', error);
 				}
 			},
+
 			addFavAd: async (ad_id) => {
 				const store = getStore();
 				try {
@@ -976,6 +982,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Network error:", error);
 				}
 			},
+
 			getAdFavs: async () => {
 				const store = getStore();
 				const actions = getActions();
@@ -1005,6 +1012,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('There was an error fetching the ad details!', error);
 				}
 			},
+
 			deleteFavAd: async (favId) => {
 				const store = getStore();
 				const actions = getActions();
@@ -1028,37 +1036,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('Error en la solicitud de eliminación:', error);
 				}
 			},
-			crearInscripcion: async (companion_id, user_id, ad_id) => {
-				const store = getStore();
-				try {
-					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/crearinscripcion`, {
-						method: 'POST',
-						body: JSON.stringify({
-							companion_id,
-							user_id,
-							ad_id
-						}),
-						headers: { "Content-Type": "application/json" }
-					});
-
-					if (respuesta.ok) {
-						const nuevaInscripcion = await respuesta.json();
-
-						localStorage.setItem('lista_postulantes', JSON.stringify(nuevaInscripcion));
-
-						setStore({
-							...store,
-							postulantes: [...store.postulantes, nuevaInscripcion]
-						});
-						return true
-					} else throw new Error(`HTTP error! status: ${response.status}`);
-
-				}
-				catch (error) {
-					// Manejo de errores de red u otros errores
-					console.error("Network error:", error);
-				}
-			},
+		
 			obtenerinscripciones: async () => {
 				try {
 					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/obtenerinscripciones`, {
