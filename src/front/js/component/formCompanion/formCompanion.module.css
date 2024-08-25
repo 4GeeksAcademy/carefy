@@ -6,6 +6,16 @@
     min-height: 100vh;
 }
 
+.img_perfil{
+  width: 170px; 
+  height: 170px; 
+  object-fit: cover;
+  margin-left: auto;
+  border-radius: 5px;
+  filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538));
+  
+}
+
 
 .form_companion {
     border: 1px solid rgb(196, 196, 196);
