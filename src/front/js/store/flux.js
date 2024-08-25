@@ -30,7 +30,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			singleAd: [],
 			postulantes: JSON.parse(localStorage.getItem("lista_postulantes")) || [],
 			inscripciones: JSON.parse(localStorage.getItem('inscripciones_lista')) || [],
-			reviews: JSON.parse(localStorage.getItem('reviews')) || []
+			rates: JSON.parse(localStorage.getItem('rates')) || [],
+			rateData: JSON.parse(localStorage.getItem("rateData")) || [],
 
 		},
 
@@ -1102,6 +1103,62 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				} catch (error) {
 					console.error('Error en la solicitud de la eliminacion: ', error)
+				}
+			},
+
+			getReviews: async () => {
+				try {
+					const resp = await fetch(`${process.env.BACKEND_URL}/api/rates`, {
+						method: "GET"
+					});
+					const data = await resp.json();
+					setStore({ rates: data.rates });
+				} catch (error) {
+					console.log(error);
+				}
+			},
+
+			addRate: async (companion_id, user_id, rate, review) => {
+				const store = getStore();
+				try {
+					const resp = await fetch(`${process.env.BACKEND_URL}/api/add_rate/${companion_id}`, {
+						method: "POST",
+						body: JSON.stringify({
+							user_id: user_id,
+							companion_id: companion_id,
+							rate: rate,
+							review: review
+						}),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					});
+
+					if (!resp.ok) {
+						const errorData = await resp.json();
+						console.error("Error:", errorData);
+						return errorData;
+					}
+
+					const data = await resp.json();
+
+					if (data) {
+						// Agrupar todos los datos del usuario en un objeto
+						// Guardar el objeto en localStorage
+						localStorage.setItem('rateData', JSON.stringify(data));
+
+						// Actualizar el store
+						setStore({
+							...store,
+							rateData: data
+						});
+						console.log("Success:", data);
+					} else {
+						console.error("Datos no recibidos:", data);
+					}
+				} catch (error) {
+					// Manejo de errores de red u otros errores
+					console.error("Network error:", error);
 				}
 			},
 

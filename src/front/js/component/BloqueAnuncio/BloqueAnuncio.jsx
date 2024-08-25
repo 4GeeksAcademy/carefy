@@ -309,7 +309,7 @@ export const BloqueAnuncio = ({ }) => {
                 <div className="d-flex align-items-start justify-content-between flex-wrap">
                     <div className="d-flex align-items-center flex-wrap">
                         <div className={`${styles.avatar} rounded`}>
-                            {patientData.photo ?
+                            {patientData && patientData.photo ?
                                 <img src={patientData.photo} className={`img-fluid`} />
                                 :
                                 <img src={profileImg} className={`img-fluid`} />}
@@ -506,7 +506,7 @@ export const BloqueAnuncio = ({ }) => {
                     <div className="d-flex align-items-start justify-content-between flex-wrap">
                         <div className="d-flex align-items-center flex-wrap">
                             <div className={`${styles.avatar} rounded`}>
-                                {patientData.photo ?
+                                {patientData && patientData.photo ?
                                     <img src={patientData.photo} className={`img-fluid`} />
                                     :
                                     <img src={profileImg} className={`img-fluid`} />}

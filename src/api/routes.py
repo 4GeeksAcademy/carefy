@@ -674,7 +674,7 @@ def get_rates():
 
 #Crear nuevo usuario
 @api.route("/add_rate/<int:companion_id>", methods=['POST'])
-def add_rate(companion_id, ad_id, user_id):
+def add_rate(companion_id):
     data = request.json
     if 'rate' not in data or 'review' not in data:
         return jsonify({'error': 'Missing data'}), 400
@@ -683,8 +683,7 @@ def add_rate(companion_id, ad_id, user_id):
         rate=data['rate'],
         review=data['review'],
         companion_id=companion_id,
-        user_id=user_id,
-        ad_id=ad_id
+        user_id=data['user_id']
     )
 
     db.session.add(new_rating)

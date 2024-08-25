@@ -67,7 +67,7 @@ const Layout = () => {
                         <Route element={<EditAd />} path="/edit-ad/:id" />
                         <Route element={<TermsAndConditions />} path="/terminos-condiciones" />
                         <Route element={<PrivacyPolitics />} path="/politicas-privacidad" />
-                        <Route element={<Rate />} path="/rating" />
+                        <Route element={<Rate />} path="/rating/:id" />
                         
                         <Route element={<h1>Not found!</h1>} path="*"/>
 

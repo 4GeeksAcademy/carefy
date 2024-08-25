@@ -248,13 +248,11 @@ class Rating(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id =db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     companion_id =db.Column(db.Integer, db.ForeignKey('companions.id'), nullable=False)
-    ad_id =db.Column(db.Integer,  db.ForeignKey('ads.id'), nullable=False)
     rate = db.Column(db.Integer, nullable=False)
     review = db.Column(db.Text)
 
     companion = db.relationship("Companion", backref = "ratings")
     user = db.relationship ("User",  backref = "ratings")
-    ad = db.relationship ("Ad", backref = "ratings")
 
     def serialize(self):
         return {
@@ -268,7 +266,6 @@ class Rating(db.Model):
                 "location": self.user.location,
             } if self.user else None,
             "companion_id": self.companion_id,
-            "ad_id": self.ad_id,
             "rate": self.rate,
             "review": self.review
         }

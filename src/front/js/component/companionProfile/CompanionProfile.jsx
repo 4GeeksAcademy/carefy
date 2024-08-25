@@ -2,12 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "./companionProfile.module.css";
 import { MdOutlineCancel } from "react-icons/md";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
-import { FaPhoneAlt } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
 import { FaRegStar } from "react-icons/fa";
-import { FaUserCircle } from "react-icons/fa";
 import { Context } from "../../store/appContext";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 
 
 export const CompanionProfile = ({ }) => {
@@ -54,7 +51,7 @@ export const CompanionProfile = ({ }) => {
 
   const handleEditCompanion = (id) => {
     console.log("Editing ad with ID:", id);
-    
+
     actions.handleEditCompanionOrNewCompanion(id);
     navigate('/formulario-profesional');
   };
@@ -86,8 +83,14 @@ export const CompanionProfile = ({ }) => {
           <span onClick={() => handleEditCompanion(store.oneCompanion?.id)} className="fa-solid fa-pencil fs-1 pe-3"></span>
         </div>
         : ""}
-        
-        {store.userData.role === "user" && (
+      <Link to={`/rating/${store.oneCompanion.id}`}><button
+        className={`btn btn-warning fs-4 fw-bold`}
+      >
+        VALORAR
+      </button>
+      </Link>
+
+      {store.userData.role === "user" && (
         <div>
           {isFavorited ? (
             <span
@@ -133,17 +136,17 @@ export const CompanionProfile = ({ }) => {
         </div>
       </div>
       <div className="pt-4">
-  <p className="fs-4 fw-bold">Descripción</p>
-  <p className="fs-5" style={{ whiteSpace: "pre-wrap", wordWrap: "break-word" }}>
-    {store.oneCompanion?.description}
-  </p>
-</div>
-<div className="pt-4">
-  <p className="fs-4 fw-bold">Experiencia</p>
-  <p className="fs-5" style={{ whiteSpace: "pre-wrap", wordWrap: "break-word" }}>
-    {store.oneCompanion?.experience}
-  </p>
-</div>
+        <p className="fs-4 fw-bold">Descripción</p>
+        <p className="fs-5" style={{ whiteSpace: "pre-wrap", wordWrap: "break-word" }}>
+          {store.oneCompanion?.description}
+        </p>
+      </div>
+      <div className="pt-4">
+        <p className="fs-4 fw-bold">Experiencia</p>
+        <p className="fs-5" style={{ whiteSpace: "pre-wrap", wordWrap: "break-word" }}>
+          {store.oneCompanion?.experience}
+        </p>
+      </div>
       <div className="pt-3 row">
         <div className="col-12 col-md-4">
           <p className="fs-4 fw-bold"><span className="fa-solid fa-calendar-days pe-3"></span>Disponibilidad</p>
@@ -196,65 +199,65 @@ export const CompanionProfile = ({ }) => {
           <p className="fs-4 fw-bold"><span className="fa-solid fa-coins pe-3"></span>Pago (hora)</p>
           <p className="fs-4 ps-4 ms-3">{store.oneCompanion?.service_cost} €</p>
         </div>
-        {store.oneCompanion && 
- (store.oneCompanion?.instagram || 
-  store.oneCompanion?.facebook || 
-  store.oneCompanion?.twitter || 
-  store.oneCompanion?.linkedin) && (
-  <div className="col-12 col-md-4">
-    <p className="fs-4 fw-bold">
-      <span className="pe-2 fa-solid fa-users"></span>
-      Conoce más de mí
-    </p>
-    {/* Instagram */}
-    {store.oneCompanion.instagram ? (
-      <a target="_blank"
-        className={`fs-4 ps-4 ms-3 ${styles.social_icons}`}
-        href={store.oneCompanion?.instagram}
-      >
-        <span className="fa-brands fa-square-instagram fs-4"></span>
-      </a>
-    ) : (
-      <div className={`fs-4 ps-4 ms-3  ${styles.hiddenButSpace}`} />
-    )}
+        {store.oneCompanion &&
+          (store.oneCompanion?.instagram ||
+            store.oneCompanion?.facebook ||
+            store.oneCompanion?.twitter ||
+            store.oneCompanion?.linkedin) && (
+            <div className="col-12 col-md-4">
+              <p className="fs-4 fw-bold">
+                <span className="pe-2 fa-solid fa-users"></span>
+                Conoce más de mí
+              </p>
+              {/* Instagram */}
+              {store.oneCompanion.instagram ? (
+                <a target="_blank"
+                  className={`fs-4 ps-4 ms-3 ${styles.social_icons}`}
+                  href={store.oneCompanion?.instagram}
+                >
+                  <span className="fa-brands fa-square-instagram fs-4"></span>
+                </a>
+              ) : (
+                <div className={`fs-4 ps-4 ms-3  ${styles.hiddenButSpace}`} />
+              )}
 
-    {/* Facebook */}
-    {store.oneCompanion.facebook ? (
-      <a target="_blank"
-        className={`fs-4 ps-4 ms-3 ${styles.social_icons}`}
-        href={store.oneCompanion?.facebook}
-      >
-        <span className="fa-brands fa-facebook-square fs-4"></span>
-      </a>
-    ) : (
-      <div className={`fs-4 ps-4 ms-3 ${styles.hiddenButSpace}`} />
-    )}
+              {/* Facebook */}
+              {store.oneCompanion.facebook ? (
+                <a target="_blank"
+                  className={`fs-4 ps-4 ms-3 ${styles.social_icons}`}
+                  href={store.oneCompanion?.facebook}
+                >
+                  <span className="fa-brands fa-facebook-square fs-4"></span>
+                </a>
+              ) : (
+                <div className={`fs-4 ps-4 ms-3 ${styles.hiddenButSpace}`} />
+              )}
 
-    {/* Twitter */}
-    {store.oneCompanion.twitter ? (
-      <a target="_blank"
-        className={`fs-4 ps-4 ms-3 ${styles.social_icons}`}
-        href={store.oneCompanion?.twitter}
-      >
-        <span className="fa-brands fa-square-x-twitter fs-4"></span>
-      </a>
-    ) : (
-      <div className={`fs-4 ps-4 ms-3 ${styles.hiddenButSpace}`} />
-    )}
+              {/* Twitter */}
+              {store.oneCompanion.twitter ? (
+                <a target="_blank"
+                  className={`fs-4 ps-4 ms-3 ${styles.social_icons}`}
+                  href={store.oneCompanion?.twitter}
+                >
+                  <span className="fa-brands fa-square-x-twitter fs-4"></span>
+                </a>
+              ) : (
+                <div className={`fs-4 ps-4 ms-3 ${styles.hiddenButSpace}`} />
+              )}
 
-    {/* LinkedIn */}
-    {store.oneCompanion.linkedin ? (
-      <a target="_blank"
-        className={`fs-4 ps-4 ms-3 ${styles.social_icons}`}
-        href={store.oneCompanion?.linkedin}
-      >
-        <span className="fa-brands fa-linkedin fs-4"></span>
-      </a>
-    ) : (
-      <div className={`fs-4 ps-4 ms-3 ${styles.hiddenButSpace}`} />
-    )}
-  </div>
-)}
+              {/* LinkedIn */}
+              {store.oneCompanion.linkedin ? (
+                <a target="_blank"
+                  className={`fs-4 ps-4 ms-3 ${styles.social_icons}`}
+                  href={store.oneCompanion?.linkedin}
+                >
+                  <span className="fa-brands fa-linkedin fs-4"></span>
+                </a>
+              ) : (
+                <div className={`fs-4 ps-4 ms-3 ${styles.hiddenButSpace}`} />
+              )}
+            </div>
+          )}
       </div>
     </div>
   );

@@ -4,6 +4,11 @@
   justify-content: center;
   flex-direction: column;
   font-size: 24px;
+
+}
+
+.rating_container{
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538));  
 }
 
 .heart {
@@ -20,7 +25,22 @@
   transition: color 0.2s ease-in-out;
 }
 
-p {
-  margin-top: 10px;
-  font-size: 18px;
+.botonEnviar{
+  background-color: #B76C49 ;
+  color: white
+}
+
+.botonEnviar:hover{
+  background-color: #9a593c;
+  color: white;
+}
+
+.botonEnviar:active{
+  background-color: #9a593c;
+  color: white;
+}
+
+.botonEnviar:focus{
+  background-color: #9a593c !important;
+  color: white !important;
 }

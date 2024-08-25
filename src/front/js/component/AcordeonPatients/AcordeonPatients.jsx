@@ -46,14 +46,14 @@ const AcordeonPatients = ({ alias, firstName, lastName, photo, description, age,
                     </div>
                     <div className='col-9 row'>
                         <div className='col-6'>
-                        <p><span className="fa-solid fa-user pe-2"></span><span className="pe-2">{firstName}</span>{lastName}</p>
-                        <p><span className="fa-solid fa-id-card pe-2"></span>{age} años</p>
-                        <p><span className="fa-solid fa-location-dot pe-2"></span>{location},<span className='ps-1'>{province}</span></p>
+                        <p className='fs-5'><span className="fa-solid fa-user pe-2"></span><span className="pe-2">{firstName}</span>{lastName}</p>
+                        <p className='fs-5'><span className="fa-solid fa-id-card pe-2"></span>{age} años</p>
+                        <p className='fs-5'><span className="fa-solid fa-location-dot pe-2"></span>{location},<span className='ps-1'>{province}</span></p>
                         </div>
                         <div className='col-6'>
-                        <p><span className={styles.content_accordion}>Fecha de nacimiento:</span> {birthdate}</p> 
-                        <p><span className={styles.content_accordion}>Dependencia:</span> {dependency}</p>
-                        <p><span className={styles.content_accordion}>Teléfono:</span> {phone}</p>
+                        <p className='fs-5'><span className={styles.content_accordion}>Fecha de nacimiento:</span> {birthdate}</p> 
+                        <p className='fs-5'><span className={styles.content_accordion}>Dependencia:</span> {dependency}</p>
+                        <p className='fs-5'><span className={styles.content_accordion}>Teléfono:</span> {phone}</p>
                         </div>
                     </div>
                     <p className="fw-bold fs-5">Observaciones</p>
