@@ -21,7 +21,7 @@ export const BloqueAnuncio = ({ }) => {
         }
     }, [id]);
 
-    
+
 
     //Si existe un anuncio y su estado es "pendiente", "rechazado" o "finalizado" y además el id del anuncio no es igual
     // que el usuario logueado --> redirige a listado-anuncios.
@@ -50,44 +50,58 @@ export const BloqueAnuncio = ({ }) => {
      * Función para crear una postulación/inscripción a un ad
      * @param userComId: buscar en el store el id del usuario logueado
      * @param adId busca el Id del anuncio. 
+     * @param patients: obtenemos la lista de pacientes. 
      * @param companions: obtenemos la lista de companions del storage
      * @param companionsParsed: obtiene la lista anterior en un formato JSON
+     * Ponemos el botón "Postularse" en visible para que se pueda pulsar. 
      * -forEach: recorre la lista companionParsed y se valida si el usuario del acompañanante (compain.user.id) es el mismo
      * que el usuario logueado(user.id), nos aseguramos acceder a  los datos del usuario logueado. 
      * Si coincide se crea inscripcionExiste, para verificar si un mismo acompañante ya está inscrito a un mismo ad.
-     * Si no está inscrito se llama a la función para inscribirse y oculta el botón "postularse".
-     * Si ya estuviese inscrito una vez, aparece alerta 
+     * if (paciente.id === store.singleAd.patient_id)  --> de la lista de pacientes, buscamos que el paciente coincida con el del anuncio. 
+     * Si no está inscrito se llama a la función para inscribirse.
      */
     const handlePostularseClick = () => {
-
         const userCompId = store.userData.userId;
         const adId = store.singleAd.id;
+        const patients = store.patients;
         const companions = localStorage.getItem('companions');
         const companionsParsed = JSON.parse(companions)
+        setPostularseVisible(false)
+
+        console.log(('patients...', patients));
 
         companionsParsed.forEach((companion) => {
             if (companion.user.id === userCompId) {
                 const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.companion_id === companion.id && inscripcion.ad_id === adId);
-
-                if (!inscripcionExistente) {
-                    actions.add_inscription(companion.id, adId, userCompId)
-                        .then(() => {
-                            window.location.reload();
-                        })
-                        .catch((error) => {
-                            console.error("Error al crear la inscripción:", error);
-                        });
-                }
+                patients.forEach((paciente) => {
+                    if (paciente.id === store.singleAd.patient_id) {
+                        if (!inscripcionExistente) {
+                            actions.add_inscription(companion.id, adId, userCompId)
+                        }
+                    }
+                })
             }
         });
-
     };
 
+    
 
 
-
+    /**
+     * 
+     * @param adId: obtiene el id del anuncio
+     * @param  userCompId: obtiene el id del usuario que se ha logueado. 
+     * @param inscriptionId:  Obtiene todas las inscripciones desde localStorage. Si no hubiese inscripciones lanza un error. 
+     * @oparam lista_inscripciones: pasa a formato json la lista de inscripciones. Si lo que devuelve no es un array, lanza un error. 
+     * @param inscripcionAEliminar: busca en la lista (dentro de la inscripción) que el id del acompañante de la inscripción sea igual
+     * que el el acompañante logueado, y que el id del anuncio de la inscripción sea igual al del anuncio que estamos viendo. 
+     * Si lo anterior se cumple, llama a la función para eliminar la inscripción, y vuelve a poner el botón de postularse en visible. 
+     */
     const handleCancelarClick = () => {
+        const adId = store.singleAd.id;
         const userCompId = store.userData.userId;
+
+
         const inscriptionId = localStorage.getItem('inscripciones_lista');
         if (!inscriptionId) {
             console.error('No hay datos en localStorage para "inscripciones_lista".');
@@ -100,37 +114,51 @@ export const BloqueAnuncio = ({ }) => {
             return;
         }
 
+        // Buscar la inscripción que corresponda al usuario y al anuncio actual
+        const inscripcionAEliminar = lista_inscripciones.find(inscripcion =>
+            inscripcion.companion_id === userCompId && inscripcion.ad_id === adId
+        );
 
-        lista_inscripciones.forEach((inscripcion) => {
-            const id_Inscripcion = store.inscripciones.find(inscr => inscr.id === inscripcion.id && inscripcion.user_id === userCompId);
-            if (id_Inscripcion) {
-                actions.deleteinscription(inscripcion.id);
-            } else {
-                console.warn(`No se encontró inscripción con ID ${inscripcion.id}`);
-            }
-        });
-        setPostularseVisible(true); // Oculta "CANCELAR POSTULACIÓN"
+        if (inscripcionAEliminar) {
+            // Eliminar la inscripción utilizando la acción correspondiente
+            actions.deleteinscription(inscripcionAEliminar.id);
+            setPostularseVisible(true); // Mostrar "POSTULARSE"
+        } else {
+            console.warn('No se encontró una inscripción que corresponda a este usuario y anuncio.');
+        }
     };
 
 
 
+    /**
+     * Para eliminar un anuncio 
+     */
     const handleDelete = (id) => {
         actions.deleteAd(id);
         navigate('/mis-anuncios')
     }
 
+    /**
+   * Para editar un anuncio 
+   */
     const handleEditAd = (id) => {
         console.log("Editing ad with ID:", id);
         actions.getSingleAd(id);
         navigate(`/edit-ad/${id}`);
     };
 
+    /**
+* Para obtener la lista de pacientes
+*/
     useEffect(() => {
         actions.getPatients();
     }, []);
 
+
+
     const patientData = store.patients.find(patient => patient.id === store.singleAd.patient_id);
 
+    // Función para calcular la edad a partir de la fecha de nacimiento
     const getAge = (birthdate) => {
         const today = new Date();
         const birthDate = new Date(birthdate);
@@ -147,22 +175,29 @@ export const BloqueAnuncio = ({ }) => {
     useEffect(() => {
         actions.obtenerinscripciones();
         const userCompId = store.userData.userId;
-        const adId = store.singleAd.id;
+        const adId = localStorage.getItem('singleAd');
+        const adIdParsed = JSON.parse(adId)
         const companions = localStorage.getItem('companions');
         const companionsParsed = JSON.parse(companions)
 
-        companionsParsed.forEach((companion) => {
-            if (companion.user.id === userCompId) {
-                const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.companion_id === companion.id);
+        if (companionsParsed) {
+            companionsParsed.forEach((companion) => {
+                if (companion.user.id === userCompId) {
+                    const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.ad_id === adIdParsed.id
+                        && inscripcion.companion_id === companion.id);
 
-                if (!inscripcionExistente) {
-                    // Después de inscribirse con éxito, ocultar el botón "POSTULARSE"
-                    setPostularseVisible(true);
-                } else {
-                    setPostularseVisible(false); // Oculta "CANCELAR POSTULACIÓN"
+                    if (!inscripcionExistente) {
+                        // Después de inscribirse con éxito, ocultar el botón "POSTULARSE"
+                        setPostularseVisible(true);
+                    } else {
+                        setPostularseVisible(false); // Oculta "CANCELAR POSTULACIÓN"
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            setPostularseVisible(true);
+        }
+
 
     }, []);
 
@@ -184,13 +219,16 @@ export const BloqueAnuncio = ({ }) => {
         return edadCalculada
     }
 
-
     useEffect(() => {
         const lista = store.inscripciones;
         setListaInscripciones(lista)
         console.log('listado de inscripciones disponibles', listaInscripciones);
     }, [listaInscripciones])
 
+
+    /*
+   * Para añadir un favorito 
+   */
     const handleAddFav = async (ad_id) => {
         console.log('Data de favAd: ', store.favDataAds)
         await actions.addFavAd(ad_id);
@@ -199,6 +237,10 @@ export const BloqueAnuncio = ({ }) => {
         setFavorited(isFavorited);
     };
 
+
+    /**
+   * Para eliminar un favorito 
+   */
     const handleDeleteFav = async (favId) => {
         console.log('Data de favAd: ', store.favDataAds)
         await actions.deleteFavAd(favId);
@@ -207,7 +249,11 @@ export const BloqueAnuncio = ({ }) => {
         setFavorited(isFavorited);
     };
 
+
+
     const isFavorited = Array.isArray(store.favDataAds) && store.favDataAds.some(fav => fav.ad_id === store.singleAd.id);
+
+
 
     return (
 
@@ -275,36 +321,36 @@ export const BloqueAnuncio = ({ }) => {
                         </div>
                     </div>
                     {/* BOTON POSTULARSE/CANCELAR POSTULACION PARA ACOMPAÑANTES */}
-                    {store.userData.role == "companion" && PostularseVisible ? (
+                    {PostularseVisible ? (
                         <button
                             className={`btn ${styles.btn_postularse} fs-4 fw-bold`}
                             onClick={handlePostularseClick}
                         >
                             POSTULARSE
                         </button>
-                    ) : store.userData.role == "companion" ? (
+                    ) : (
                         <button
                             className={`btn ${styles.btn_cancel_postularse} fs-4 fw-bold`}
                             onClick={handleCancelarClick}
                         >
                             CANCELAR POSTULACIÓN
                         </button>
-                    ) : store.singleAd.user_id === store.userData.userId ? (
-                        <p className="fs-4 fw-bold">
-                            Estado:{" "}
-                            {store.singleAd.status === "pending" ? (
-                                <span className="bg-warning p-2 rounded">Pendiente</span>
-                            ) : store.singleAd.status === "ok" ? (
-                                <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
-                            ) : store.singleAd.status === "rejected" ? (
-                                <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
-                            ) : store.singleAd.status === "finish" ? (
-                                <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
-                            ) : (
-                                ""
-                            )}
-                        </p>
-                    ) : null}
+                    )}  store.singleAd.user_id === store.userData.userId ? (
+                    <p className="fs-4 fw-bold">
+                        Estado:{" "}
+                        {store.singleAd.status === "pending" ? (
+                            <span className="bg-warning p-2 rounded">Pendiente</span>
+                        ) : store.singleAd.status === "ok" ? (
+                            <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
+                        ) : store.singleAd.status === "rejected" ? (
+                            <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
+                        ) : store.singleAd.status === "finish" ? (
+                            <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
+                        ) : (
+                            ""
+                        )}
+                    </p>
+                    ) : null
                 </div>
                 <div className="pt-4">
                     <p className="fs-5">{store.singleAd.description}</p>
@@ -573,34 +619,51 @@ export const BloqueAnuncio = ({ }) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {listaInscripciones.map((inscripcion) => {
-                                            // Encuentra el companion correspondiente al companion_id de la inscripción
-                                            const companion = store.companions.find(comp => comp.id === inscripcion.companion_id);
+                                        {listaInscripciones
+                                            .filter(inscripcion => inscripcion.ad_id === store.singleAd.id)
+                                            .map((inscripcion) => {
+                                                // Encuentra el companion correspondiente al companion_id de la inscripción
+                                                const companion = store.companions.find(comp => comp.id === inscripcion.companion_id);
 
-                                            // Si no se encuentra el companion, se omite el rendering de esa fila
-                                            if (!companion) return null;
+                                                // Si no se encuentra el companion, se omite el rendering de esa fila
+                                                if (!companion) return null;
 
-                                            // Asegúrate de obtener estos datos de la manera correcta
-                                            const { id: companion_id, user, birthdate, experiencia, precio, valoracion } = companion;
+                                                // Asegúrate de obtener estos datos de la manera correcta
+                                                const { id: companion_id, user, birthdate, experiencia, precio, valoracion } = companion;
 
-                                            return (
-                                                <tr key={inscripcion.id}>
-                                                    <th scope="row">1</th>
-                                                    <td>{companion?.user?.name}</td>
-                                                    <td>{calcularEdad(companion?.birthdate)}</td>
-                                                    <td>{companion?.experience}</td>
-                                                    <td>{companion?.service_cost}</td>
-                                                    <td>{valoracion}</td>
-                                                    <td className="text-end">
-                                                        <Link to={`/perfil-profesional/${companion_id}`}>
-                                                            <span className="fa-solid fa-eye pe-3 text-dark"></span>
-                                                        </Link>
-                                                        <span className="fa-solid fa-trash-can pb-2"></span>
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })}
+                                                return (
+                                                    <tr key={inscripcion.id}>
+                                                        <th scope="row">1</th>
+                                                        <td>{companion?.user?.name}</td>
+                                                        <td>{calcularEdad(companion?.birthdate)}</td>
+                                                        <td>{companion?.experience}</td>
+                                                        <td>{companion?.service_cost}</td>
+                                                        <td>{valoracion}</td>
+                                                        <td className="text-end">
+                                                            <Link to={`/perfil-profesional/${companion_id}`}>
+                                                                <span className="fa-solid fa-eye pe-3 text-dark"></span>
+                                                            </Link>
+                                                            {/* Papelera para eliminar la postulación */}
+                                                            <span className="fa-regular fa-trash-can" type="button" data-bs-toggle="modal" data-bs-target="#eliminarPostulacion"></span>
+                                                            <div className={`modal fade ${styles.modal_edit}`} data-bs-backdrop="false" id="eliminarPostulacion" tabIndex="-1" aria-labelledby="eliminarPostulacionLabel" aria-hidden="true">
+                                                                <div className="modal-dialog modal-dialog-centered">
+                                                                    <div className="modal-content">
+                                                                        <div className="modal-body fw-bold fs-4 text-start">
+                                                                            ¿Desea eliminar esta postulación?
+                                                                        </div>
+                                                                        <div className="modal-footer">
+                                                                            <button type="button" className="btn btn-secondary fs-5" data-bs-dismiss="modal">Volver</button>
+                                                                            <button type="button" className="btn btn-danger fs-5" data-bs-dismiss="modal" onClick={() => handleCancelarClick()}>Eliminar</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
                                     </tbody>
+
 
                                 </table>
                             </div>
