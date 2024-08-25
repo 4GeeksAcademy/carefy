@@ -33,7 +33,7 @@ const ListAds = () => {
   useEffect(() => {
     if (store.ads && store.patients) {
       const adsPatientData = store.ads
-        .filter(ad => ad.status === "ok")
+      .filter(ad => ad && ad.status === "ok")
         .map(ad => {
           const patient = store.patients.find(patient => patient.id === ad.patient_id);
           return {
@@ -77,7 +77,7 @@ const ListAds = () => {
                 filteredAds.map((element, index) => (
                   <div className="col-12 col-sm-3 mb-4" key={index}>
                     <CardsAds
-                      photo={store.userData.token && element.photo ? element.photo : profileImg}
+                      photo={store.userData?.token && element.photo ? element.photo : profileImg}
                       title={element.title}
                       date={new Date(element.start_date).toLocaleDateString('es-ES', {
                         day: '2-digit',

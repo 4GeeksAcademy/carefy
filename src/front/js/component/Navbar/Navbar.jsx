@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from '../../../img/logo.png'
 import { Context } from "../../store/appContext";
 
-export const Navbar = ({ username }) => {
+export const Navbar = () => {
 
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
@@ -64,7 +64,7 @@ export const Navbar = ({ username }) => {
 
                                     <ul className="dropdown-menu dropdown-menu-end">
                                         {store.userData.role == "companion" ?
-                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to={`/perfil-profesional`}>Mi perfil</Link></li>
+                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to={`/perfil-profesional/${store.oneCompanion.id}`}>Mi perfil</Link></li>
                                             :
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-usuario">Mi perfil</Link></li>
                                         }
