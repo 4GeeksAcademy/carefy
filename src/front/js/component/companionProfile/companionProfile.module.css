@@ -62,25 +62,14 @@
 }
 
 .hiddenButSpace {
+  width: 0; 
+  height: 0; 
   visibility: hidden; /* Oculta el elemento visualmente pero mantiene el espacio que ocupa */
 }
 
-.modal{
-  z-index: 1900;
-}
 
-.boton_cerrar_modal{
-  cursor: pointer;
-  color: #f9faf6;
-  background-color: #5c7728;
-  font-weight: 600;
-}
 
-.icon_modal{
-  font-size: 25px;
-  color: #9a593c ;
 
-}
 
 .fs-5 {
   white-space: pre-wrap; /* Mantiene los saltos de línea y ajusta el texto */

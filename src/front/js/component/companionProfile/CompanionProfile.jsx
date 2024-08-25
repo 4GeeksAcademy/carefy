@@ -101,7 +101,7 @@ export const CompanionProfile = ({ }) => {
         <div className="d-flex align-items-center flex-wrap">
           <div className={`${styles.container_img} rounded`}>
             <img
-              src="https://randomuser.me/api/portraits/men/12.jpg"
+              src={store.oneCompanion?.photo}
               className={`img-fluid ${styles.image}`}
             />
           </div>
@@ -183,10 +183,10 @@ export const CompanionProfile = ({ }) => {
           <p className="fs-4 ps-4 ms-3">{store.oneCompanion?.service_cost} €</p>
         </div>
         {store.oneCompanion && 
- (store.oneCompanion.instagram || 
-  store.oneCompanion.facebook || 
-  store.oneCompanion.twitter || 
-  store.oneCompanion.linkedin) && (
+ (store.oneCompanion?.instagram || 
+  store.oneCompanion?.facebook || 
+  store.oneCompanion?.twitter || 
+  store.oneCompanion?.linkedin) && (
   <div className="col-12 col-md-4">
     <p className="fs-4 fw-bold">
       <span className="pe-2 fa-solid fa-users"></span>
@@ -196,48 +196,48 @@ export const CompanionProfile = ({ }) => {
     {store.oneCompanion.instagram ? (
       <a target="_blank"
         className={`fs-4 ps-4 ms-3 ${styles.social_icons}`}
-        href={store.oneCompanion.instagram}
+        href={store.oneCompanion?.instagram}
       >
         <span className="fa-brands fa-square-instagram fs-4"></span>
       </a>
     ) : (
-      <div className={`${styles.hiddenButSpace}`} />
+      <div className={`fs-4 ps-4 ms-3  ${styles.hiddenButSpace}`} />
     )}
 
     {/* Facebook */}
     {store.oneCompanion.facebook ? (
       <a target="_blank"
-        className={`fs-4 ms-3 ${styles.social_icons}`}
-        href={store.oneCompanion.facebook}
+        className={`fs-4 ps-4 ms-3 ${styles.social_icons}`}
+        href={store.oneCompanion?.facebook}
       >
         <span className="fa-brands fa-facebook-square fs-4"></span>
       </a>
     ) : (
-      <div className={`${styles.hiddenButSpace}`} />
+      <div className={`fs-4 ps-4 ms-3 ${styles.hiddenButSpace}`} />
     )}
 
     {/* Twitter */}
     {store.oneCompanion.twitter ? (
       <a target="_blank"
-        className={`fs-4 ms-3 ${styles.social_icons}`}
-        href={store.oneCompanion.twitter}
+        className={`fs-4 ps-4 ms-3 ${styles.social_icons}`}
+        href={store.oneCompanion?.twitter}
       >
         <span className="fa-brands fa-square-x-twitter fs-4"></span>
       </a>
     ) : (
-      <div className={`${styles.hiddenButSpace}`} />
+      <div className={`fs-4 ps-4 ms-3 ${styles.hiddenButSpace}`} />
     )}
 
     {/* LinkedIn */}
     {store.oneCompanion.linkedin ? (
       <a target="_blank"
-        className={`fs-4 ms-3 ${styles.social_icons}`}
-        href={store.oneCompanion.linkedin}
+        className={`fs-4 ps-4 ms-3 ${styles.social_icons}`}
+        href={store.oneCompanion?.linkedin}
       >
         <span className="fa-brands fa-linkedin fs-4"></span>
       </a>
     ) : (
-      <div className={`${styles.hiddenButSpace}`} />
+      <div className={`fs-4 ps-4 ms-3 ${styles.hiddenButSpace}`} />
     )}
   </div>
 )}

@@ -83,7 +83,7 @@ const ListCompanions = () => {
         <div className={`row ${styles.list_companions}`}>
           {filtroPerfiles.length > 0 ? (
           filtroPerfiles.map((element, index) => (
-            <div className='col-12 col-sm-3' key={index}>
+            <div className='col-12 col-sm-3 mt-3' key={index}>
               <CardsCompanions
                     name={element?.user?.name || "Nombre no especificado"}
                   last_name={element?.user?.last_name || ""}
