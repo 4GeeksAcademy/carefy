@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState} from "react";
 import styles from "./formCompanion.module.css";
 import { Context } from "../../store/appContext";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CompanionForm = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
-
+  const [successMessage, setSuccessMessage] = useState(null);
 
   const [companion, setCompanion] = useState({
     description: "",
@@ -24,7 +24,6 @@ const CompanionForm = () => {
     instagram: "",
     twitter: "",
     linkedin: "",
-    
   });
 
   const [user, setUser] = useState({
@@ -36,10 +35,36 @@ const CompanionForm = () => {
     location: ""
   });
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const [imageUrl, setImageUrl] = useState('');
+  const [photo, setPhoto] = useState('')
+
+  useEffect(() => {
+    
+    if (store.userData) {
+      setUser({
+        name: store.userData?.name || "",
+        lastname: store.userData?.lastname || '',
+        email: store.userData?.email || "",
+        phone: store.userData?.phone || '',
+        location: store.userData?.location || ''
+      });
+    }
+  }, [store.userData]);
   
-    if (name in companion) {
+  useEffect(() => {
+    if (store.userData.userId) {
+        actions.getUserDetails(); // Fetch user details when userId is available
+    }
+}, [store.userData.userId, store.userData.token]);
+
+
+
+  const handleChange = (e) => {
+    const { name, value, type, checked, files } = e.target;
+  
+    if (name === 'photo') {
+      setPhoto(files[0]); // Configura el archivo en el estado `photo`
+    } else if (name in companion) {
       setCompanion(prevState => ({
         ...prevState,
         [name]: type === 'checkbox' ? checked : value
@@ -50,52 +75,78 @@ const CompanionForm = () => {
         [name]: value
       }));
     }
-    
   };
 
-  useEffect(() => {
-    actions.getUserDetails()
-    if (store.userData) {
-      setUser({
-        name: store.userData.name || "",
-        lastname: store.userData.lastname || '',
-        email: store.userData.email || "",
-        phone: store.userData.phone || '',
-        location: store.userData.location || ''
-      });
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const response = await actions.subirfoto(formData);
+        if (response && response.url) {
+          setCompanion(prevState => ({
+            ...prevState,
+            photo: response.url  // Guardar la URL de la foto en el estado de companion
+          }));
+        }
+      } catch (error) {
+        console.error('Error uploading file:', error);
+        setError("Error al subir la foto.");
+      }
     }
-  }, []);
+  };
+ 
 
   useEffect(() => {
-    if (store.oneCompanion?.user_id === store.userData?.userId){
+    if (store.userData) {
+      setUser({
+        name: store.userData?.name || "",
+        lastname: store.userData?.lastname || '',
+        email: store.userData?.email || "",
+        phone: store.userData?.phone || '',
+        location: store.userData?.location || ''
+      });
+    }
+  }, [store.userData]);
+
+  useEffect(() => {
+    if (store.userData.userId) {
+      actions.getUserDetails(); // Fetch user details when userId is available
+    }
+  }, [store.userData.userId, store.userData.token]);
+
+  useEffect(() => {
+    if (store.oneCompanion?.user_id === store.userData?.userId) {
       actions.companion(store.oneCompanion.id)
     }
-      setCompanion({
-        description: store.oneCompanion?.description || "",
-        photo: store.oneCompanion?.photo || "",
-        province: store.oneCompanion?.province || '',
-        birthdate: store.oneCompanion?.birthdate || '',
-        availability_hours: store.oneCompanion?.availability_hours || false,
-        availability_days: store.oneCompanion?.availability_days || false,
-        availability_weeks: store.oneCompanion?.availability_weeks || false,
-        availability_live_in: store.oneCompanion?.availability_live_in || false,
-        experience: store.oneCompanion?.experience || '', 
-        service_cost: store.oneCompanion?.service_cost || '',
-        facebook: store.oneCompanion?.facebook || '',
-        instagram: store.oneCompanion?.instagram || '',
-        twitter: store.oneCompanion?.twitter || '',
-        linkedin: store.oneCompanion?.linkedin || '',
-        
-        
-      });
-    
-  }, []);
+  }, [store.userData.userId, store.oneCompanion.id]);
+
+  useEffect(() => {
+    setCompanion({
+      description: store.oneCompanion?.description || "",
+      photo: store.oneCompanion?.photo || "",
+      province: store.oneCompanion?.province || '',
+      birthdate: store.oneCompanion?.birthdate || '',
+      availability_hours: store.oneCompanion?.availability_hours || false,
+      availability_days: store.oneCompanion?.availability_days || false,
+      availability_weeks: store.oneCompanion?.availability_weeks || false,
+      availability_live_in: store.oneCompanion?.availability_live_in || false,
+      experience: store.oneCompanion?.experience || '', 
+      service_cost: store.oneCompanion?.service_cost || '',
+      facebook: store.oneCompanion?.facebook || '',
+      instagram: store.oneCompanion?.instagram || '',
+      twitter: store.oneCompanion?.twitter || '',
+      linkedin: store.oneCompanion?.linkedin || '',
+    });
+  }, [store.oneCompanion]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
     if (
+      !companion.photo ||
       !user.name ||
       !user.lastname ||
       !user.email ||
@@ -109,16 +160,18 @@ const CompanionForm = () => {
       setError("Por favor, complete todos los campos.");
       return;
     }
-    setError(null); // Limpia cualquier error previo si todo está bien
+   
 
     console.log(companion);
+
+    
     
     try {
       // Primero, actualizar la información del usuario
-      await actions.editUser(user.name, user.lastname, user.email, user.phone, user.location);
+      await actions.editUser(user?.name, user?.lastname, user?.email, user?.phone, user.location);
 
-      // // Luego, añadir o actualizar el acompañante
-      if(store.oneCompanion?.user_id === store.userData?.userId ){
+      // Luego, añadir o actualizar el acompañante
+      if (store.oneCompanion?.user_id === store.userData?.userId) {
         await actions.updateCompanion(
           companion.description,
           companion.photo,
@@ -135,8 +188,7 @@ const CompanionForm = () => {
           companion.twitter,
           companion.linkedin,
         );
-      }
-      else{
+      } else {
         await actions.anadir_companion(
           companion.description,
           companion.photo,
@@ -153,30 +205,37 @@ const CompanionForm = () => {
           companion.twitter,
           companion.linkedin,
           store.userData.userId,  // Utilizar el ID del usuario actual 
-
-        )
+        );
       }
       
-
       // Mostrar un mensaje de éxito o realizar alguna otra acción
       console.log('User and companion data submitted successfully.');
     } catch (error) {
       console.error('There was an error submitting the data:', error);
     }
 
-    navigate('/blog');
-   
-   
+    navigate('/listado-anuncios');
   };
 
   return (
     <div className={styles.container_form_companion}>
       <form className={`m-5 container`} onSubmit={handleSubmit}>
-      {error && <div className="alert alert-danger" role="alert">{error}</div>}
+        {error && <div className="alert alert-danger" role="alert">{error}</div>}
         <div className={`container-fluid p-4 ${styles.form_companion}`}>
           {/* Fila 1: foto y campos básicos */}
           
           <div className="row">
+            <div className="col-12 col-sm-6 d-flex">
+            {companion.photo && (
+                <img
+                  src={companion.photo}
+                  alt="Profile"
+                  className={`${styles.img_perfil}`}
+                
+                />
+              )}
+
+            </div>
             <div className="col-12 col-sm-6">
               <div className="input-group mb-4">
                 <label className="fs-5 mt-1 pe-3" htmlFor="inputGroupFile01">Foto de perfil</label>
@@ -185,12 +244,13 @@ const CompanionForm = () => {
                   className="form-control rounded"
                   id="inputGroupFile01"
                   name="photo"
-                  onChange={handleChange}
+                  onChange={handleFileChange}
+                
                 />
               </div>
             </div>
           </div>
-          <div className="row mb-4">
+          <div className="row mb-4 mt-4">
             <div className="col-md-4">
               <label htmlFor="name" className="form-label fs-5">Nombre</label>
               <input
@@ -485,7 +545,7 @@ const CompanionForm = () => {
                 type="submit"
                 className={`btn btn-primary fs-5 me-2 ${styles.btn_submit}`}
               >
-                Guardar
+                Guardar y publicar perfil
               </button>
             </div>
           </div>
