@@ -54,6 +54,7 @@ export const CompanionProfile = ({ }) => {
 
   const handleEditCompanion = (id) => {
     console.log("Editing ad with ID:", id);
+    
     actions.handleEditCompanionOrNewCompanion(id);
     navigate('/formulario-profesional');
   };
@@ -89,14 +90,27 @@ export const CompanionProfile = ({ }) => {
         {store.userData.role === "user" && (
         <div>
           {isFavorited ? (
-            <span onClick={() => handleDeleteFav(store.favData.find(fav => fav.companion_id === store.oneCompanion.id)?.id)} className={`position-absolute fa-solid fa-heart ${styles.fav_icon} text-danger fs-1`} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"></span>
+            <span
+              onClick={() => handleDeleteFav(store.favData.find(fav => fav.companion_id === store.oneCompanion.id)?.id)}
+              className={`position-absolute fa-solid fa-heart ${styles.fav_icon} text-danger fs-1`}
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            ></span>
           ) : (
-            <span onClick={() => handleAddFav(store.oneCompanion.id)} className={`position-absolute fs-1 fa-regular fa-heart ${styles.fav_icon}`} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"></span>
+            <span
+              onClick={() => handleAddFav(store.oneCompanion.id)}
+              className={`position-absolute fs-1 fa-regular fa-heart ${styles.fav_icon}`}
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            ></span>
           )}
         </div>
       )}
 
-        <h1 className="mb-5 pe-5 me-3">{store.oneCompanion?.user?.name} {store.oneCompanion?.user?.lastname} </h1>
+
+      <h1 className="mb-5 pe-5 me-3">{store.oneCompanion?.user?.name} {store.oneCompanion?.user?.lastname} </h1>
       <div className="d-flex align-items-start justify-content-between flex-wrap">
         <div className="d-flex align-items-center flex-wrap">
           <div className={`${styles.container_img} rounded`}>

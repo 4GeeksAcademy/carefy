@@ -7,6 +7,7 @@ const CompanionForm = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
 
   const [companion, setCompanion] = useState({
     description: "",
@@ -34,10 +35,36 @@ const CompanionForm = () => {
     location: ""
   });
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const [imageUrl, setImageUrl] = useState('');
+  const [photo, setPhoto] = useState('')
+
+  useEffect(() => {
+    
+    if (store.userData) {
+      setUser({
+        name: store.userData?.name || "",
+        lastname: store.userData?.lastname || '',
+        email: store.userData?.email || "",
+        phone: store.userData?.phone || '',
+        location: store.userData?.location || ''
+      });
+    }
+  }, [store.userData]);
   
-    if (name in companion) {
+  useEffect(() => {
+    if (store.userData.userId) {
+        actions.getUserDetails(); // Fetch user details when userId is available
+    }
+}, [store.userData.userId, store.userData.token]);
+
+
+
+  const handleChange = (e) => {
+    const { name, value, type, checked, files } = e.target;
+  
+    if (name === 'photo') {
+      setPhoto(files[0]); // Configura el archivo en el estado `photo`
+    } else if (name in companion) {
       setCompanion(prevState => ({
         ...prevState,
         [name]: type === 'checkbox' ? checked : value
@@ -70,6 +97,7 @@ const CompanionForm = () => {
       }
     }
   };
+ 
 
   useEffect(() => {
     if (store.userData) {
@@ -132,13 +160,15 @@ const CompanionForm = () => {
       setError("Por favor, complete todos los campos.");
       return;
     }
-    setError(null); // Limpia cualquier error previo si todo está bien
+   
 
     console.log(companion);
+
+    
     
     try {
       // Primero, actualizar la información del usuario
-      await actions.editUser(user.name, user.lastname, user.email, user.phone, user.location);
+      await actions.editUser(user?.name, user?.lastname, user?.email, user?.phone, user.location);
 
       // Luego, añadir o actualizar el acompañante
       if (store.oneCompanion?.user_id === store.userData?.userId) {

@@ -68,10 +68,16 @@
 }
 
 
-
-
-
 .fs-5 {
   white-space: pre-wrap; /* Mantiene los saltos de línea y ajusta el texto */
   word-wrap: break-word; /* Corta palabras largas en el ancho disponible */
+}
+.fs-5 {
+  white-space: pre-wrap; /* Mantiene los saltos de línea y ajusta el texto */
+  word-wrap: break-word; /* Corta palabras largas en el ancho disponible */
+}
+.text-description,
+.text-experience {
+  white-space: pre-wrap; /* Respeta los saltos de línea */
+  word-wrap: break-word; /* Corta palabras largas para que no se desborden */
 }
