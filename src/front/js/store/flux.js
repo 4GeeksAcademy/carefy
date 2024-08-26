@@ -29,7 +29,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			adData: JSON.parse(localStorage.getItem("adData")) || [],
 			singleAd: [],
 			postulantes: JSON.parse(localStorage.getItem("lista_postulantes")) || [],
-			inscripciones: JSON.parse(localStorage.getItem('inscripciones_lista')) || []
+			inscripciones: JSON.parse(localStorage.getItem('inscripciones_lista')) || [],
+			// new_inscription: false,
+			// inscripciones_lista : null
+
 
 		},
 
@@ -380,7 +383,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			editAd: async (id, type, startDate, endDate, price, title, description, patient_id) => {
+			editAd: async (id, type, startDate, endDate, price, title, description, patient_id, companion_id) => {
 				const store = getStore();
 				const actions = getActions();
 
@@ -394,7 +397,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 							max_cost: price,
 							title: title,
 							description: description,
-							patient_id: patient_id
+							patient_id: patient_id,
+							hired: companion_id
 						}),
 						headers: {
 							"Content-Type": "application/json"
@@ -627,6 +631,45 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			// Crea una inscripción
+			// add_inscription: async (companion_id, ad_id, user_id) => {
+			// 	const store = getStore();
+			// 	try {
+			// 		const resp = await fetch(`${process.env.BACKEND_URL}/api/inscripcion/add/${companion_id}/${ad_id}/${user_id}`, {
+			// 			method: "POST",
+			// 			headers: {
+			// 				"Content-Type": "application/json"
+			// 			}
+			// 		});
+
+			// 		if (resp.ok) {
+			// 			const errorData = await resp.json();
+			// 			console.error("Error:", errorData);
+			// 			setStore({...store, new_inscription:true});
+			// 		}
+
+			// 		const data = await resp.json();
+
+			// 		if (data) {
+
+			// 			const updatedInscriptions = Array.isArray(store.inscriptions) ? [...store.inscriptions, data] : [data];
+			// 			localStorage.setItem('inscripciones_lista', JSON.stringify(updatedInscriptions));
+
+			// 			setStore({
+			// 				...store,
+			// 				inscriptions: updatedInscriptions
+			// 			});
+
+			// 			console.log("Dato ok", data);
+						
+			// 		} else {
+			// 			console.error("Datos no recibidos:", data);
+			// 		}
+			// 	} catch (error) {
+			// 		// Manejo de errores de red u otros errores
+			// 		console.error("Network error:", error);
+			// 	}
+			// },
+
 			add_inscription: async (companion_id, ad_id, user_id) => {
 				const store = getStore();
 				try {
@@ -1037,6 +1080,27 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 		
+			// obtenerinscripciones: async () => {
+			// 	try {
+			// 		const respuesta = await fetch(`${process.env.BACKEND_URL}/api/obtenerinscripciones`, {
+			// 			method: "GET"
+			// 		});
+			// 		const data = await respuesta.json();
+			// 		console.log("postulaciones", data);
+
+			// 		if (Array.isArray(data)) {
+			// 			setStore({ ...store, inscripciones_lista: data })
+			// 			localStorage.setItem('inscripciones_lista', JSON.stringify(data))
+			// 		} else {
+			// 			console.error.apply('Datos erroneos, no es un array')
+			// 		}
+			// 	}
+			// 	catch (error) {
+			// 		console.log(error);
+			// 	}
+
+			// },
+
 			obtenerinscripciones: async () => {
 				try {
 					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/obtenerinscripciones`, {
@@ -1057,6 +1121,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 
 			},
+
 
 			deleteinscription: async (id) => {
 				const store = getStore();

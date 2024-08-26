@@ -224,6 +224,8 @@ def edit_ad(ad_id):
             ad.max_cost = data['max_cost']
         if 'patient_id' in data:
             ad.patient_id = data['patient_id']
+        if 'hired' in data:
+            ad.hired = data['hired']
 
         db.session.commit()  # Guarda los cambios en la base de datos
 
