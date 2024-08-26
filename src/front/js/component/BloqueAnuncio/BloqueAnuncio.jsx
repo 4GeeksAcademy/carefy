@@ -60,7 +60,7 @@ export const BloqueAnuncio = ({ }) => {
      * if (paciente.id === store.singleAd.patient_id)  --> de la lista de pacientes, buscamos que el paciente coincida con el del anuncio. 
      * Si no está inscrito se llama a la función para inscribirse.
      */
-    const handlePostularseClick = () => {
+    const handlePostularseClick = async () => {
         const userCompId = store.userData.userId;
         const adId = store.singleAd.id;
         const patients = store.patients;
@@ -69,20 +69,25 @@ export const BloqueAnuncio = ({ }) => {
         setPostularseVisible(false)
 
         console.log(('patients...', patients));
+        const companionExistente = companionsParsed.find(companion => 
+            companion.user_id === userCompId
+        )
+        const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.user_id === userCompId && inscripcion.ad_id === adId);
+        const pacienteExistente = store.patients.find(patient => patient.id === store.singleAd.patient_id)
 
-        companionsParsed.forEach((companion) => {
-            if (companion.user.id === userCompId) {
-                const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.companion_id === companion.id && inscripcion.ad_id === adId);
-                patients.forEach((paciente) => {
-                    if (paciente.id === store.singleAd.patient_id) {
-                        if (!inscripcionExistente) {
-                            actions.add_inscription(companion.id, adId, userCompId)
-                        }
-                    }
-                })
+        if (companionExistente && !inscripcionExistente){
+            try{
+                await actions.add_inscription(companionExistente.id, adId, userCompId)
+
+            }catch(error){
+                console.error('Error al añadir la inscripcion', error)
+            }finally {
+                window.location.reload()
             }
-        });
+        }            
     };
+    
+
 
 
 
@@ -97,11 +102,9 @@ export const BloqueAnuncio = ({ }) => {
      * que el el acompañante logueado, y que el id del anuncio de la inscripción sea igual al del anuncio que estamos viendo. 
      * Si lo anterior se cumple, llama a la función para eliminar la inscripción, y vuelve a poner el botón de postularse en visible. 
      */
-    const handleCancelarClick = () => {
+    const handleCancelarClick = async () => {
         const adId = store.singleAd.id;
         const userCompId = store.userData.userId;
-
-
         const inscriptionId = localStorage.getItem('inscripciones_lista');
         if (!inscriptionId) {
             console.error('No hay datos en localStorage para "inscripciones_lista".');
@@ -116,13 +119,33 @@ export const BloqueAnuncio = ({ }) => {
 
         // Buscar la inscripción que corresponda al usuario y al anuncio actual
         const inscripcionAEliminar = lista_inscripciones.find(inscripcion =>
-            inscripcion.companion_id === userCompId && inscripcion.ad_id === adId
+            inscripcion.user_id === userCompId && inscripcion.ad_id === adId
         );
 
         if (inscripcionAEliminar) {
-            // Eliminar la inscripción utilizando la acción correspondiente
-            actions.deleteinscription(inscripcionAEliminar.id);
-            setPostularseVisible(true); // Mostrar "POSTULARSE"
+            try {
+
+                await actions.deleteinscription(inscripcionAEliminar.id);
+
+                const updatedInscriptions = lista_inscripciones.filter(inscripcion =>
+                    inscripcion.id !== inscripcionAEliminar.id
+                );
+                localStorage.setItem('inscripciones_lista', JSON.stringify(updatedInscriptions));
+
+                // Actualizar el estado de la tienda
+                setStore({
+                    ...store,
+                    inscriptions: updatedInscriptions
+                });
+
+                // Opcionalmente, puedes mostrar una notificación de éxito aquí
+
+            } catch (error) {
+                console.error("Error al eliminar la inscripción:", error);
+            } finally {
+                // Recargar la página solo después de que la acción se haya completado
+                window.location.reload();
+            }
         } else {
             console.warn('No se encontró una inscripción que corresponda a este usuario y anuncio.');
         }
@@ -171,7 +194,7 @@ export const BloqueAnuncio = ({ }) => {
         return age;
     };
 
-    // Obtiene todas las inscripciones
+    // Obtiene todas las inscripciones y cambiar el botón de Postularse
     useEffect(() => {
         actions.obtenerinscripciones();
         const userCompId = store.userData.userId;
@@ -218,13 +241,6 @@ export const BloqueAnuncio = ({ }) => {
         }
         return edadCalculada
     }
-
-    useEffect(() => {
-        const lista = store.inscripciones;
-        setListaInscripciones(lista)
-        console.log('listado de inscripciones disponibles', listaInscripciones);
-    }, [listaInscripciones])
-
 
     /*
    * Para añadir un favorito 
@@ -420,34 +436,50 @@ export const BloqueAnuncio = ({ }) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {listaInscripciones.map((inscripcion) => {
-                                        // Encuentra el companion correspondiente al companion_id de la inscripción
-                                        const companion = store.companions.find(comp => comp.id === inscripcion.companion_id);
+                                        {store.inscripciones
+                                            .filter(inscripcion => inscripcion.ad_id === store.singleAd.id)
+                                            .map((inscripcion) => {
+                                                // Encuentra el companion correspondiente al companion_id de la inscripción
+                                                const companion = store.companions.find(comp => comp.id === inscripcion.companion_id);
 
-                                        // Si no se encuentra el companion, se omite el rendering de esa fila
-                                        if (!companion) return null;
+                                                // Si no se encuentra el companion, se omite el rendering de esa fila
+                                                if (!companion) return null;
 
-                                        // Asegúrate de obtener estos datos de la manera correcta
-                                        const { id: companion_id, user, birthdate, experiencia, precio, valoracion } = companion;
+                                                // Asegúrate de obtener estos datos de la manera correcta
+                                                const { id: companion_id, user, birthdate, experiencia, precio, valoracion } = companion;
 
-                                        return (
-                                            <tr key={inscripcion.id}>
-                                                <th scope="row">1</th>
-                                                <td>{companion?.user?.name}</td>
-                                                <td>{calcularEdad(companion?.birthdate)}</td>
-                                                <td>{companion?.experience}</td>
-                                                <td>{companion?.service_cost}</td>
-                                                <td>{valoracion}</td>
-                                                <td className="text-end">
-                                                    <Link to={`/perfil-profesional/${companion_id}`}>
-                                                        <span className="fa-solid fa-eye pe-3 text-dark"></span>
-                                                    </Link>
-                                                    <span className="fa-solid fa-trash-can pb-2"></span>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
+                                                return (
+                                                    <tr key={inscripcion.id}>
+                                                        <th scope="row">1</th>
+                                                        <td>{companion?.user?.name}</td>
+                                                        <td>{calcularEdad(companion?.birthdate)}</td>
+                                                        <td>{companion?.experience}</td>
+                                                        <td>{companion?.service_cost}</td>
+                                                        <td>{valoracion}</td>
+                                                        <td className="text-end">
+                                                            <Link to={`/perfil-profesional/${companion_id}`}>
+                                                                <span className="fa-solid fa-eye pe-3 text-dark"></span>
+                                                            </Link>
+                                                            {/* Papelera para eliminar la postulación */}
+                                                            <span className="fa-regular fa-trash-can" type="button" data-bs-toggle="modal" data-bs-target="#eliminarPostulacion"></span>
+                                                            <div className={`modal fade ${styles.modal_edit}`} data-bs-backdrop="false" id="eliminarPostulacion" tabIndex="-1" aria-labelledby="eliminarPostulacionLabel" aria-hidden="true">
+                                                                <div className="modal-dialog modal-dialog-centered">
+                                                                    <div className="modal-content">
+                                                                        <div className="modal-body fw-bold fs-4 text-start">
+                                                                            ¿Desea eliminar esta postulación?
+                                                                        </div>
+                                                                        <div className="modal-footer">
+                                                                            <button type="button" className="btn btn-secondary fs-5" data-bs-dismiss="modal">Volver</button>
+                                                                            <button type="button" className="btn btn-danger fs-5" data-bs-dismiss="modal" onClick={() => handleCancelarClick()}>Eliminar</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
+                                    </tbody>
                             </table>
                         </div>
                     </> : ""
@@ -619,7 +651,7 @@ export const BloqueAnuncio = ({ }) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {listaInscripciones
+                                        {store.inscripciones
                                             .filter(inscripcion => inscripcion.ad_id === store.singleAd.id)
                                             .map((inscripcion) => {
                                                 // Encuentra el companion correspondiente al companion_id de la inscripción
@@ -627,8 +659,7 @@ export const BloqueAnuncio = ({ }) => {
 
                                                 // Si no se encuentra el companion, se omite el rendering de esa fila
                                                 if (!companion) return null;
-
-                                                // Asegúrate de obtener estos datos de la manera correcta
+                                               
                                                 const { id: companion_id, user, birthdate, experiencia, precio, valoracion } = companion;
 
                                                 return (
