@@ -29,7 +29,6 @@ export const CardReviews = () => {
                                 <span className={`${styles.fa_star_edit} fa-solid fa-star fs-5`}></span>
                             </div>
                             <p className="card-text fs-5 fst-italic">{rate.review}</p>
-                            {/* <p className="text-secondary">25 años de experiencia</p> */}
                         </div>
                     </div>
                 ))

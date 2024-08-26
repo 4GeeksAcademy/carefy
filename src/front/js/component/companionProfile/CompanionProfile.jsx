@@ -251,12 +251,6 @@ export const CompanionProfile = ({ }) => {
               )}
             </div>
           )}
-           <Link to={`/rating/${store.oneCompanion.id}`}><button
-        className={`btn btn-warning fs-4 fw-bold`}
-      >
-        VALORAR
-      </button>
-      </Link>
         <div className="accordion mt-4" id="accordionExample">
           <div className="accordion-item">
             <h2 className="accordion-header">
