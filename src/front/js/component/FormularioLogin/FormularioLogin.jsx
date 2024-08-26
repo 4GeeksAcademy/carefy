@@ -13,20 +13,26 @@ export const FormularioLogin = () => {
     const [error, setError] = useState(null);
 
     const logIn = async (email, password) => {
-
         if (!email || !password) {
             setError("Por favor, complete todos los campos.");
             return;
         }
 
-        await actions.logIn(email, password);
-        if (store.userData.role == "companion") {
-            navigate('/mis-postulaciones')
+        try {
+            await actions.logIn(email, password);
+            if (store.userData && store.userData.role) {
+                if (store.userData.role === "companion") {
+                    navigate('/mis-postulaciones');
+                } else {
+                    navigate('/perfil-usuario');
+                }
+            } else {
+                setError("Los datos ingresado no coinciden con los de un usuario existente.");
+            }
+        } catch (err) {
+            setError("Error al iniciar sesión. Por favor, verifique sus credenciales.");
         }
-        else {
-            navigate('/perfil-usuario')
-        }
-    }
+    };
 
     return (
         <div className="form p-4">

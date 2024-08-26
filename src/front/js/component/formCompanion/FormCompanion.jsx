@@ -209,17 +209,7 @@ console.log(`---------------------estoyaquíestoyaqui---------------------------
           {/* Fila 1: foto y campos básicos */}
           
           <div className="row">
-            <div className="col-12 col-sm-6 d-flex">
-            {companion.photo && (
-                <img
-                  src={companion.photo}
-                  alt="Profile"
-                  className={`${styles.img_perfil}`}
-                
-                />
-              )}
 
-            </div>
             <div className="col-12 col-sm-6">
               <div className="input-group mb-4">
                 <label className="fs-5 mt-1 pe-3" htmlFor="inputGroupFile01">Foto de perfil</label>
@@ -232,6 +222,17 @@ console.log(`---------------------estoyaquíestoyaqui---------------------------
                 
                 />
               </div>
+            </div>
+            <div className="col-12 col-sm-6 text-start">
+            {companion.photo && (
+                <img
+                  src={companion.photo}
+                  alt="Profile"
+                  className={`${styles.img_perfil}`}
+                
+                />
+              )}
+
             </div>
           </div>
           <div className="row mb-4 mt-4">

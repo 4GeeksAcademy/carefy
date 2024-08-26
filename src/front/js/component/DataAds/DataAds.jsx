@@ -16,13 +16,42 @@ const DataAds = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [selectedPatient, setSelectedPatient] = useState('');
+  const [fechaInicio, setFechaInicio] = useState('');
+  const [tooltipVisible, setTooltipVisible] = useState(false);
+
+
 
   const navigate = useNavigate();
   const [error, setError] = useState(null);
 
+  const hoy = new Date().toISOString().split('T')[0];
+
+
+  const handleDateChange = (event) => {
+    const selectedDate = event.target.value;
+    setStartDate(selectedDate);
+  }
+
+  const handleEndDataChange = (event) => {
+    const selectedEndDate = event.target.value;
+    setEndDate(selectedEndDate)
+
+    if (selectedEndDate && (selectedEndDate < startDate)) {
+      setTooltipVisible(true)
+    }else {
+      setTooltipVisible(false)
+    }
+  }
+
+  const handlePriceChange = (event) =>{
+    if (endDate && endDate < startDate) {
+      setTooltipVisible(false);
+      setPrice(event.target.value);
+    }
+  }
+
+
   const createAd = async () => {
-
-
     if (!title || !description || !selectedPatient) {
       setError("Por favor, complete título y descripción.");
       return;
@@ -52,7 +81,7 @@ const DataAds = () => {
   function capitalizeFirstLetter(string) {
     if (string.length === 0) return '';
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-}
+  }
 
 
   return (
@@ -120,9 +149,16 @@ const DataAds = () => {
             className="form-control"
             id="fechaInicio"
             name="fechaInicio"
+            min={hoy}
             value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
+            onChange={handleDateChange} 
           />
+          {/* {tooltipVisible && (
+            <div style={{ color: 'red', marginTop: '5px' }}>
+              <p>La fecha no puede ser anterior a la fecha actual.</p>
+            </div>
+          )} */}
+
         </div>
         <div className="col-12 col-md-3">
           <label className="form-label fs-5">Fecha de fin</label>
@@ -130,10 +166,17 @@ const DataAds = () => {
             type="date"
             className="form-control"
             id="fechaFin"
+            min={hoy}
             name="fechaFin"
             value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
+            // onChange={(e) => setEndDate(e.target.value)}
+            onChange={handleEndDataChange} 
           />
+           {tooltipVisible && (
+            <div style={{ color: 'red', marginTop: '5px' }}>
+              <p>La fecha de fin no puede ser anterior a la fecha de inicio.</p>
+            </div>
+          )}
         </div>
         <div className="col-12 col-md-3">
           <label className="form-label fs-5">Precio por hora</label>

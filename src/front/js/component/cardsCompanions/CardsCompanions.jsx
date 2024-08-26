@@ -2,7 +2,7 @@ import React from 'react'
 import styles from "./cardCompanions.module.css"
 import { Link } from 'react-router-dom';
 
-const CardsCompanions = ({ name, last_name, description, photo, location, province, link, ratings }) => {
+const CardsCompanions = ({ name, last_name, description, photo, location, province, link }) => {
 
   const verMas = () => {
     window.scrollTo(0, 0);
@@ -32,7 +32,6 @@ const CardsCompanions = ({ name, last_name, description, photo, location, provin
         <h4 className={`${styles.card_name}`}>{name} {last_name}</h4>
         <div className='d-flex justify-content-between'>
           <p className={styles.card_location}><span className="fa-solid fa-location-dot pe-1"></span>{location}, {province}</p>
-          <p className={styles.card_ratings}><span className="fa-solid fa-star pe-1"></span>{ratings}</p>
         </div>
         <p className={`card-text ${styles.card_description}`}>{description}</p>
         <div className={`d-flex justify-content-center ${styles.card_buttons}`}>
