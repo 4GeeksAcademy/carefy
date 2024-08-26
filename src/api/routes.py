@@ -98,21 +98,28 @@ def edit_user(user_id):
 def create_token():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
-
+  
     # Consulta la base de datos por el nombre de usuario y la contraseña
-    user = User.query.filter_by(email=email).first()
-
-    if user is None:
+    users = User.query.filter_by(email=email).first()
+    
+    if users is None:
         # el usuario no se encontró en la base de datos
         return jsonify({"msg": "Bad username or password"}), 401
 
-    if not check_password_hash(user.password, password):
+    if not check_password_hash(users.password, password):
         # Incorrect password
         return jsonify({"msg": "Bad username or password"}), 401
-
+    
     # Crea un nuevo token con el id de usuario dentro
-    access_token = create_access_token(identity=user.id)
-    return jsonify({ "token": access_token, "email":user.email, "username": user.username, 'id': user.id, 'role': user.role  })
+    access_token = create_access_token(identity=users.id)
+    
+    if users.role == 'companion':
+        print('-------------------------------------------------------------')
+        companion = Companion.query.filter_by(user_id=users.id).first()
+        print(companion)
+        return jsonify({ "token": access_token, "email":users.email, "username": users.username, 'id': users.id, 'role': users.role, "companion": companion.serialize()  }) 
+    
+    return jsonify({ "token": access_token, "email":users.email, "username": users.username, 'id': users.id, 'role': users.role })
 
 
 #### ANUNCIOS ####
@@ -400,60 +407,23 @@ def companion(id):
 def anadir_companion():
     data = request.json
 
-    # Definir los campos requeridos
-    campos_requeridos = [
-        'description', 'photo', 'province', 
-        'birthdate', 'experience', 'service_cost', 'user_id'
-    ]
+    # Verificamos que 'user_id' está presente en la solicitud
+    if 'user_id' not in data:
+        return jsonify({'ERROR': "Falta el campo requerido: user_id"}), 400
 
-    # Verificamos que todos los campos requeridos están presentes en la solicitud
-    for campo in campos_requeridos:
-        if campo not in data:
-            return jsonify({'ERROR': f"Falta el campo requerido: {campo}"}), 400
-
-    # Creamos una nueva instancia de Companion
-    nuevo_companion = Companion(
-        description=data['description'],
-        photo=data['photo'],
-        province=data['province'],
-        birthdate=data['birthdate'],
-        availability_hours=data.get('availability_hours', False),
-        availability_days=data.get('availability_days', False),
-        availability_weeks=data.get('availability_weeks', False),
-        availability_live_in=data.get('availability_live_in', False),
-        experience=data['experience'],
-        service_cost=data['service_cost'],
-        facebook=data.get('facebook'),
-        instagram=data.get('instagram'),
-        twitter=data.get('twitter'),
-        linkedin=data.get('linkedin'),
-        user_id=data['user_id']
-    )
+    # Creamos una nueva instancia de Companion solo con 'user_id'
+    nuevo_companion = Companion(user_id=data['user_id'])
 
     # Guardamos el nuevo Companion en la base de datos
     try:
         db.session.add(nuevo_companion)
         db.session.commit()
 
-        # Respondemos con los datos del Companion creado
+        # Respondemos con los datos básicos del Companion creado
         return jsonify({
             "msg": "Companion creado exitosamente",
             'id': nuevo_companion.id,
-            "description": nuevo_companion.description,
-            "photo": nuevo_companion.photo,
-            "province": nuevo_companion.province,
-            "birthdate": nuevo_companion.birthdate,
-            "availability_hours": nuevo_companion.availability_hours,
-            "availability_days": nuevo_companion.availability_days,
-            "availability_weeks": nuevo_companion.availability_weeks,
-            "availability_live_in": nuevo_companion.availability_live_in,
-            "experience": nuevo_companion.experience,
-            "service_cost": nuevo_companion.service_cost,
-            "facebook": nuevo_companion.facebook,
-            "instagram": nuevo_companion.instagram,
-            "twitter": nuevo_companion.twitter,
-            "linkedin": nuevo_companion.linkedin,
-            "user_id": nuevo_companion.user_id
+            'user_id': nuevo_companion.user_id
         }), 200
 
     except Exception as e:
@@ -461,9 +431,11 @@ def anadir_companion():
         print(f'Error al añadir nuevo companion: {str(e)}')
         return jsonify({'Error': f'Error al añadir nuevo companion: {str(e)}'}), 400
 
+
 @api.route("/actualizar_companion/<int:id>", methods=["PUT"])
 def actualizar_companion(id):
     data=request.json
+    print(data)
 
     # Verificar que el Companion existe
     companion = Companion.query.get(id)

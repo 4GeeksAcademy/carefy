@@ -29,7 +29,7 @@ export const FormularioRegistro = () => {
             navigate('/perfil-usuario')
         }
         else {
-            navigate('/perfil-profesional')
+            navigate('/formulario-profesional')
         }
     }
 

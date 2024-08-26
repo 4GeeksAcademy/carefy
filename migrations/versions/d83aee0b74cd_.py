@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 50b06e6df886
+Revision ID: d83aee0b74cd
 Revises: 
-Create Date: 2024-08-24 11:34:08.087279
+Create Date: 2024-08-26 16:48:56.303798
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '50b06e6df886'
+revision = 'd83aee0b74cd'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -35,17 +35,17 @@ def upgrade():
     )
     op.create_table('companions',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('description', sa.Text(), nullable=False),
-    sa.Column('photo', sa.String(length=250), nullable=False),
+    sa.Column('description', sa.Text(), nullable=True),
+    sa.Column('photo', sa.String(length=250), nullable=True),
     sa.Column('rating', sa.Integer(), nullable=True),
-    sa.Column('province', sa.String(length=250), nullable=False),
-    sa.Column('birthdate', sa.String(length=250), nullable=False),
+    sa.Column('province', sa.String(length=250), nullable=True),
+    sa.Column('birthdate', sa.String(length=250), nullable=True),
     sa.Column('availability_hours', sa.Boolean(), nullable=True),
     sa.Column('availability_days', sa.Boolean(), nullable=True),
     sa.Column('availability_weeks', sa.Boolean(), nullable=True),
     sa.Column('availability_live_in', sa.Boolean(), nullable=True),
-    sa.Column('experience', sa.Text(), nullable=False),
-    sa.Column('service_cost', sa.Integer(), nullable=False),
+    sa.Column('experience', sa.Text(), nullable=True),
+    sa.Column('service_cost', sa.Integer(), nullable=True),
     sa.Column('facebook', sa.String(length=250), nullable=True),
     sa.Column('instagram', sa.String(length=250), nullable=True),
     sa.Column('twitter', sa.String(length=250), nullable=True),

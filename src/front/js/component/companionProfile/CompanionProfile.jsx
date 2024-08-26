@@ -52,10 +52,10 @@ export const CompanionProfile = ({ }) => {
 
   const birthdate = store.oneCompanion?.birthdate;
 
-  const handleEditCompanion = (id) => {
+  const handleEditCompanion = () => {
     console.log("Editing ad with ID:", id);
     
-    actions.handleEditCompanionOrNewCompanion(id);
+    
     navigate('/formulario-profesional');
   };
 
@@ -83,7 +83,7 @@ export const CompanionProfile = ({ }) => {
 
       {store.oneCompanion?.user_id === store.userData?.userId ?
         <div className={`position-absolute ${styles.fav_icon}`}>
-          <span onClick={() => handleEditCompanion(store.oneCompanion?.id)} className="fa-solid fa-pencil fs-1 pe-3"></span>
+          <span onClick={() => handleEditCompanion()} className="fa-solid fa-pencil fs-1 pe-3"></span>
         </div>
         : ""}
         
@@ -251,7 +251,9 @@ export const CompanionProfile = ({ }) => {
         <span className="fa-brands fa-linkedin fs-4"></span>
       </a>
     ) : (
-      <div className={`fs-4 ps-4 ms-3 ${styles.hiddenButSpace}`} />
+      <a className={`fs-4 ps-4 ms-3 ${styles.hiddenButSpace}`} >
+         <span className={`fa-brands fa-linkedin fs-4${styles.hiddenButSpace}`}></span>
+         </a>
     )}
   </div>
 )}
