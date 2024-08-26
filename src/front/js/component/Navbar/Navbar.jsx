@@ -38,9 +38,6 @@ export const Navbar = () => {
                                     <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/faq">FAQ</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/blog">Blog</Link>
-                                </li>
-                                <li className="nav-item">
                                     <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/contacto">Contacto</Link>
                                 </li>
                             </ul>
@@ -118,9 +115,6 @@ export const Navbar = () => {
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/faq">FAQ</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/blog">Blog</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/contacto">Contacto</Link>

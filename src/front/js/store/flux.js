@@ -1090,7 +1090,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						method: "GET"
 					});
 					const data = await resp.json();
-					setStore({ rates: data.rates });
+					setStore({ rates: data });
 				} catch (error) {
 					console.log(error);
 				}
