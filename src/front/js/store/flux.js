@@ -29,7 +29,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			adData: JSON.parse(localStorage.getItem("adData")) || [],
 			singleAd: [],
 			postulantes: JSON.parse(localStorage.getItem("lista_postulantes")) || [],
-			inscripciones: JSON.parse(localStorage.getItem('inscripciones_lista')) || []
+			inscripciones: JSON.parse(localStorage.getItem('inscripciones_lista')) || [],
+			rates: JSON.parse(localStorage.getItem('rates')) || [],
+			rateData: JSON.parse(localStorage.getItem("rateData")) || [],
 
 		},
 
@@ -1081,6 +1083,97 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('Error en la solicitud de la eliminacion: ', error)
 				}
 			},
+
+			getReviews: async () => {
+				try {
+					const resp = await fetch(`${process.env.BACKEND_URL}/api/rates`, {
+						method: "GET"
+					});
+					const data = await resp.json();
+					setStore({ rates: data });
+				} catch (error) {
+					console.log(error);
+				}
+			},
+
+			addRate: async (companion_id, user_id, rate, review) => {
+				const store = getStore();
+				try {
+					const resp = await fetch(`${process.env.BACKEND_URL}/api/add_rate/${companion_id}`, {
+						method: "POST",
+						body: JSON.stringify({
+							user_id: user_id,
+							companion_id: companion_id,
+							rate: rate,
+							review: review
+						}),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					});
+
+					if (!resp.ok) {
+						const errorData = await resp.json();
+						console.error("Error:", errorData);
+						return errorData;
+					}
+
+					const data = await resp.json();
+
+					if (data) {
+						// Agrupar todos los datos del usuario en un objeto
+						// Guardar el objeto en localStorage
+						localStorage.setItem('rateData', JSON.stringify(data));
+
+						// Actualizar el store
+						setStore({
+							...store,
+							rateData: data
+						});
+						console.log("Success:", data);
+					} else {
+						console.error("Datos no recibidos:", data);
+					}
+				} catch (error) {
+					// Manejo de errores de red u otros errores
+					console.error("Network error:", error);
+				}
+			},
+			getCompanionRate: async (companion_id) => {
+				const store = getStore();
+
+				setStore({
+					...store,
+					rateData: []
+				});
+
+				if (!store.userData.userId) {
+					console.error('User ID is not available');
+					return;
+				}
+
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/rates/${companion_id}`);
+					if (!response.ok) {
+						throw new Error(`HTTP error! status: ${response.status}`);
+					}
+					const data = await response.json();
+					console.log("Datos del rating recibido:", data);
+			
+					// Si data es un array de rates, guardarlo en el store
+					if (Array.isArray(data)) {
+						setStore({
+							...store,
+							rateData: data
+						});
+						localStorage.setItem('rateData', JSON.stringify(data));
+						console.log("Store actualizado:", store);
+					}
+				} catch (error) {
+					console.error('There was an error fetching the rating details!', error);
+				}
+			},
+			
 
 
 		}

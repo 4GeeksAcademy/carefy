@@ -97,7 +97,7 @@ export const Buscador = () => {
               <select onChange={handleFilterChange} className={`btn ${styles.btn_buscador} ${styles.btn_buscador_companion} ${styles.custom_select} btn-lg form-select`} defaultValue={"¿Qué buscas?"} id="type" aria-label="Selecciona tipo de servicio">
                 <option className="text-dark bg-light" disabled hidden>¿Qué buscas?</option>
                 <option className="text-dark bg-light" value="companion">Busco un profesional</option>
-                <option className="text-dark bg-light pe-4" value="ad">Busco anuncios para trabajar</option>
+                <option className="text-dark bg-light pe-4" value="ad">Busco trabajar como cuidador</option>
                 </select>
             </div>
             <div>

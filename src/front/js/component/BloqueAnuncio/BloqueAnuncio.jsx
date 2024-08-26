@@ -91,6 +91,7 @@ export const BloqueAnuncio = ({ }) => {
 
 
 
+
     /**
      * 
      * @param adId: obtiene el id del anuncio
@@ -249,7 +250,6 @@ export const BloqueAnuncio = ({ }) => {
         await actions.addFavAd(ad_id);
         const updatedFavData = await actions.getAdFavs();
         const isFavorited = Array.isArray(updatedFavData) && updatedFavData.some(fav => fav.ad_id === store.singleAd.id);
-        setFavorited(isFavorited);
     };
 
 
@@ -261,14 +261,13 @@ export const BloqueAnuncio = ({ }) => {
         await actions.deleteFavAd(favId);
         const updatedFavData = await actions.getAdFavs();
         const isFavorited = Array.isArray(updatedFavData) && updatedFavData.some(fav => fav.ad_id === store.singleAd.id);
-        setFavorited(isFavorited);
     };
-
-
 
     const isFavorited = Array.isArray(store.favDataAds) && store.favDataAds.some(fav => fav.ad_id === store.singleAd.id);
 
-
+    const averageRate = store.rateData.length > 0
+        ? store.rateData.reduce((acc, rate) => acc + rate.rate, 0) / store.rateData.length
+        : 0;
 
     return (
 
@@ -284,16 +283,12 @@ export const BloqueAnuncio = ({ }) => {
                             }}
                             className={`position-absolute fa-solid fa-heart ${styles.fav_icon} text-danger fs-1`}
                             type="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
                         ></span>
                     ) : (
                         <span
                             onClick={() => handleAddFav(store.singleAd.id)}
                             className={`position-absolute fs-1 fa-regular fa-heart ${styles.fav_icon}`}
                             type="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
                         ></span>
                     )
                 )}
@@ -324,7 +319,7 @@ export const BloqueAnuncio = ({ }) => {
                 <div className="d-flex align-items-start justify-content-between flex-wrap">
                     <div className="d-flex align-items-center flex-wrap">
                         <div className={`${styles.avatar} rounded`}>
-                            {patientData.photo ?
+                            {patientData && patientData.photo ?
                                 <img src={patientData.photo} className={`img-fluid`} />
                                 :
                                 <img src={profileImg} className={`img-fluid`} />}
@@ -336,36 +331,36 @@ export const BloqueAnuncio = ({ }) => {
                         </div>
                     </div>
                     {/* BOTON POSTULARSE/CANCELAR POSTULACION PARA ACOMPAÑANTES */}
-                    {PostularseVisible ? (
+                    {store.userData.role == "companion" && PostularseVisible ? (
                         <button
                             className={`btn ${styles.btn_postularse} fs-4 fw-bold`}
                             onClick={handlePostularseClick}
                         >
                             POSTULARSE
                         </button>
-                    ) : (
+                    ) : store.userData.role == "companion" ? (
                         <button
                             className={`btn ${styles.btn_cancel_postularse} fs-4 fw-bold`}
                             onClick={handleCancelarClick}
                         >
                             CANCELAR POSTULACIÓN
                         </button>
-                    )}  store.singleAd.user_id === store.userData.userId ? (
-                    <p className="fs-4 fw-bold">
-                        Estado:{" "}
-                        {store.singleAd.status === "pending" ? (
-                            <span className="bg-warning p-2 rounded">Pendiente</span>
-                        ) : store.singleAd.status === "ok" ? (
-                            <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
-                        ) : store.singleAd.status === "rejected" ? (
-                            <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
-                        ) : store.singleAd.status === "finish" ? (
-                            <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
-                        ) : (
-                            ""
-                        )}
-                    </p>
-                    ) : null
+                    ) : store.singleAd.user_id === store.userData.userId ? (
+                        <p className="fs-4 fw-bold">
+                            Estado:{" "}
+                            {store.singleAd.status === "pending" ? (
+                                <span className="bg-warning p-2 rounded">Pendiente</span>
+                            ) : store.singleAd.status === "ok" ? (
+                                <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
+                            ) : store.singleAd.status === "rejected" ? (
+                                <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
+                            ) : store.singleAd.status === "finish" ? (
+                                <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
+                            ) : (
+                                ""
+                            )}
+                        </p>
+                    ) : null}
                 </div>
                 <div className="pt-4">
                     <p className="fs-5">{store.singleAd.description}</p>
@@ -537,7 +532,7 @@ export const BloqueAnuncio = ({ }) => {
                     <div className="d-flex align-items-start justify-content-between flex-wrap">
                         <div className="d-flex align-items-center flex-wrap">
                             <div className={`${styles.avatar} rounded`}>
-                                {patientData.photo ?
+                                {patientData && patientData.photo ?
                                     <img src={patientData.photo} className={`img-fluid`} />
                                     :
                                     <img src={profileImg} className={`img-fluid`} />}
@@ -668,26 +663,12 @@ export const BloqueAnuncio = ({ }) => {
                                                         <td>{calcularEdad(companion?.birthdate)}</td>
                                                         <td>{companion?.experience}</td>
                                                         <td>{companion?.service_cost}</td>
-                                                        <td>{valoracion}</td>
+                                                        <td><span className="ps-2 fa-solid fa-star pe-1"></span> {store.rateData.length > 0 ? averageRate.toFixed(2) + " / 5" : "Sin valoraciones"}</td>
                                                         <td className="text-end">
                                                             <Link to={`/perfil-profesional/${companion_id}`}>
                                                                 <span className="fa-solid fa-eye pe-3 text-dark"></span>
                                                             </Link>
-                                                            {/* Papelera para eliminar la postulación */}
-                                                            <span className="fa-regular fa-trash-can" type="button" data-bs-toggle="modal" data-bs-target="#eliminarPostulacion"></span>
-                                                            <div className={`modal fade ${styles.modal_edit}`} data-bs-backdrop="false" id="eliminarPostulacion" tabIndex="-1" aria-labelledby="eliminarPostulacionLabel" aria-hidden="true">
-                                                                <div className="modal-dialog modal-dialog-centered">
-                                                                    <div className="modal-content">
-                                                                        <div className="modal-body fw-bold fs-4 text-start">
-                                                                            ¿Desea eliminar esta postulación?
-                                                                        </div>
-                                                                        <div className="modal-footer">
-                                                                            <button type="button" className="btn btn-secondary fs-5" data-bs-dismiss="modal">Volver</button>
-                                                                            <button type="button" className="btn btn-danger fs-5" data-bs-dismiss="modal" onClick={() => handleCancelarClick()}>Eliminar</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                            
                                                         </td>
                                                     </tr>
                                                 );

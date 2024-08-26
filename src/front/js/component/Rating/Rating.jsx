@@ -1,23 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import style from "../Rating/rating.module.css";
 import { Hearts } from "./Hearts.jsx";
+import { Context } from "../../store/appContext";
 
 export const Rating = () => {
+    const { store, actions } = useContext(Context);
+
     const [puntuacion, setPuntuacion] = useState(0);
+    const [review, setReview] = useState('');
     const [indexAnterior, setIndexAnterior] = useState(null);
 
+    const navigate = useNavigate();
+    const [error, setError] = useState(null);
+
     /**
-     * Función para validar la pulsación de los iconos.
-     * Se va a validar el index y el indexAnterior. 
-     * indexAnterior --> almacena la pulsación que se haya hecho anteriormente al icono
-     * La primera vez que se entra en la función indexAnterior es null, con lo cual entraría en el else
-     * y suma la puntuación directamente. 
-     * Para las siguientes pulsaciones de los iconos, ya se validaría tanto index como indexAnterior. 
-     * Si coinciden se setea el valor de index en la variable puntuación y en la variable indexAnterior.
-     * En este momento el booleano "pulsado" pasaría a true. 
-     * Si se vuelve a pulsar otra vez el mismo icono entraría en la validación del booleando "pulsado" y
-     * en este caso en el indexAnterior se le hace -1. 
-     * 
      * @param {index}  Posición en el array del icono que se haya pulsado
      */
 
@@ -41,8 +38,22 @@ export const Rating = () => {
         }
     };
 
+    const addRate = async (companion_id, user_id, rate, review) => {
+        
+
+        if (!review) {
+            setError("Por favor, escriba una reseña.");
+            return;
+        }
+        await actions.addRate(companion_id, user_id, rate, review);
+        navigate(`/perfil-profesional/${store.oneCompanion.id}`)
+        window.scrollTo(0, 0);
+    }
+
+
     return (
-        <div className={style.rating}>
+        <div className={`${style.rating_container} container bg-light rounded my-5 p-4`}>
+        <div className={`${style.rating}`}>
             <div className="row">
                 {[...Array(5)].map((_, index) => (
                     <div className="col" key={index}>
@@ -53,7 +64,15 @@ export const Rating = () => {
                     </div>
                 ))}
             </div>
-            <p>Tu puntuación: {puntuacion}</p>
+            <p className="fs-4 pt-2">Tu puntuación: {puntuacion}</p>
+            </div>
+            <div className="mb-3">
+                <label htmlFor="mensaje" className="form-label fs-4">Escribe tu reseña</label>
+                <textarea value={review} onChange={(e) => setReview(e.target.value)} type="text" cols={30} rows={5} className="form-control fs-5" id="mensaje" placeholder="Cuentános cómo valoras la experiencia con el profesional" />
+            </div>
+            <div className="text-center">
+                <button onClick={() => addRate(store.oneCompanion.id, store.userData.userId, puntuacion, review)} type="button" className={`${style.botonEnviar} btn fs-5`} >Publicar reseña</button>
+            </div>
         </div>
     );
 };

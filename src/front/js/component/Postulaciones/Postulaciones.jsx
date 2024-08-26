@@ -74,8 +74,7 @@ export const Postulaciones = ({ }) => {
                                                     year: 'numeric'
                                                 })}</td>
                                                 <td className="">
-                                                    <span className="fa-solid fa-eye pe-3"></span>
-                                                    <span className="fa-solid fa-trash-can pb-2"></span>
+                                                    <Link to={`/anuncio/${anuncio.id}`}><span className="fa-solid fa-eye pe-3 text-dark text-end"></span></Link>
                                                 </td>
                                             </tr>
                                         )

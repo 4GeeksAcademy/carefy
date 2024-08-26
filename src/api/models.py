@@ -242,3 +242,31 @@ class Ad (db.Model):
             "user_id": self.user_id,
             "hired": self.hired 
         }
+        
+class Rating(db.Model): 
+    __tablename__ ="ratings"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id =db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
+    companion_id =db.Column(db.Integer, db.ForeignKey('companions.id'), nullable=False)
+    rate = db.Column(db.Integer, nullable=False)
+    review = db.Column(db.Text)
+
+    companion = db.relationship("Companion", backref = "ratings")
+    user = db.relationship ("User",  backref = "ratings")
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user": {
+                "id": self.user.id,
+                "name": self.user.name,
+                "lastname": self.user.lastname,
+                "email": self.user.email,
+                "phone": self.user.phone,
+                "location": self.user.location,
+            } if self.user else None,
+            "companion_id": self.companion_id,
+            "rate": self.rate,
+            "review": self.review
+        }
+    
