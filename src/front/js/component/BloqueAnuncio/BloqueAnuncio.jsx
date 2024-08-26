@@ -250,7 +250,6 @@ export const BloqueAnuncio = ({ }) => {
         await actions.addFavAd(ad_id);
         const updatedFavData = await actions.getAdFavs();
         const isFavorited = Array.isArray(updatedFavData) && updatedFavData.some(fav => fav.ad_id === store.singleAd.id);
-        setFavorited(isFavorited);
     };
 
 
@@ -262,14 +261,13 @@ export const BloqueAnuncio = ({ }) => {
         await actions.deleteFavAd(favId);
         const updatedFavData = await actions.getAdFavs();
         const isFavorited = Array.isArray(updatedFavData) && updatedFavData.some(fav => fav.ad_id === store.singleAd.id);
-        setFavorited(isFavorited);
     };
-
-
 
     const isFavorited = Array.isArray(store.favDataAds) && store.favDataAds.some(fav => fav.ad_id === store.singleAd.id);
 
-
+    const averageRate = store.rateData.length > 0
+        ? store.rateData.reduce((acc, rate) => acc + rate.rate, 0) / store.rateData.length
+        : 0;
 
     return (
 
@@ -285,16 +283,12 @@ export const BloqueAnuncio = ({ }) => {
                             }}
                             className={`position-absolute fa-solid fa-heart ${styles.fav_icon} text-danger fs-1`}
                             type="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
                         ></span>
                     ) : (
                         <span
                             onClick={() => handleAddFav(store.singleAd.id)}
                             className={`position-absolute fs-1 fa-regular fa-heart ${styles.fav_icon}`}
                             type="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
                         ></span>
                     )
                 )}
@@ -669,26 +663,12 @@ export const BloqueAnuncio = ({ }) => {
                                                         <td>{calcularEdad(companion?.birthdate)}</td>
                                                         <td>{companion?.experience}</td>
                                                         <td>{companion?.service_cost}</td>
-                                                        <td>{valoracion}</td>
+                                                        <td><span className="ps-2 fa-solid fa-star pe-1"></span> {store.rateData.length > 0 ? averageRate.toFixed(2) + " / 5" : "Sin valoraciones"}</td>
                                                         <td className="text-end">
                                                             <Link to={`/perfil-profesional/${companion_id}`}>
                                                                 <span className="fa-solid fa-eye pe-3 text-dark"></span>
                                                             </Link>
-                                                            {/* Papelera para eliminar la postulación */}
-                                                            <span className="fa-regular fa-trash-can" type="button" data-bs-toggle="modal" data-bs-target="#eliminarPostulacion"></span>
-                                                            <div className={`modal fade ${styles.modal_edit}`} data-bs-backdrop="false" id="eliminarPostulacion" tabIndex="-1" aria-labelledby="eliminarPostulacionLabel" aria-hidden="true">
-                                                                <div className="modal-dialog modal-dialog-centered">
-                                                                    <div className="modal-content">
-                                                                        <div className="modal-body fw-bold fs-4 text-start">
-                                                                            ¿Desea eliminar esta postulación?
-                                                                        </div>
-                                                                        <div className="modal-footer">
-                                                                            <button type="button" className="btn btn-secondary fs-5" data-bs-dismiss="modal">Volver</button>
-                                                                            <button type="button" className="btn btn-danger fs-5" data-bs-dismiss="modal" onClick={() => handleCancelarClick()}>Eliminar</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                            
                                                         </td>
                                                     </tr>
                                                 );

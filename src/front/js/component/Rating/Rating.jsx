@@ -46,7 +46,8 @@ export const Rating = () => {
             return;
         }
         await actions.addRate(companion_id, user_id, rate, review);
-        
+        navigate(`/perfil-profesional/${store.oneCompanion.id}`)
+        window.scrollTo(0, 0);
     }
 
 
@@ -70,7 +71,7 @@ export const Rating = () => {
                 <textarea value={review} onChange={(e) => setReview(e.target.value)} type="text" cols={30} rows={5} className="form-control fs-5" id="mensaje" placeholder="Cuentános cómo valoras la experiencia con el profesional" />
             </div>
             <div className="text-center">
-                <button onClick={() => addRate(1, store.userData.userId, puntuacion, review)} type="button" className={`${style.botonEnviar} btn fs-5`} >Publicar reseña</button>
+                <button onClick={() => addRate(store.oneCompanion.id, store.userData.userId, puntuacion, review)} type="button" className={`${style.botonEnviar} btn fs-5`} >Publicar reseña</button>
             </div>
         </div>
     );

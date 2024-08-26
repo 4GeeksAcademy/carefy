@@ -153,11 +153,11 @@ const DataAds = () => {
             value={startDate}
             onChange={handleDateChange} 
           />
-          {tooltipVisible && (
+          {/* {tooltipVisible && (
             <div style={{ color: 'red', marginTop: '5px' }}>
               <p>La fecha no puede ser anterior a la fecha actual.</p>
             </div>
-          )}
+          )} */}
 
         </div>
         <div className="col-12 col-md-3">
@@ -166,6 +166,7 @@ const DataAds = () => {
             type="date"
             className="form-control"
             id="fechaFin"
+            min={hoy}
             name="fechaFin"
             value={endDate}
             // onChange={(e) => setEndDate(e.target.value)}

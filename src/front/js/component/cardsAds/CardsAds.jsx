@@ -33,11 +33,11 @@ const CardsAds = ({ photo, title, location, date, description, link, province })
       </div>
       <div className={styles.card_body}>
         <h5 className={styles.card_title}>{title}</h5>
-        <p className={styles.card_location}><span className="fa-solid fa-location-dot pe-1"></span>{location}, {province}</p>
-        <p className={styles.card_date}><span className="fa-solid fa-calendar-days pe-1"></span><span className="pe-2 fw-bold">Fecha de inicio:</span>{date}</p>
+        <p className={`${styles.card_location} mt-2`}><span className="fa-solid fa-location-dot pe-1"></span>{location}, {province}</p>
+        <p className={`${styles.card_date} mt-2`}><span className="fa-solid fa-calendar-days pe-1"></span><span className="pe-2 fw-bold">Fecha de inicio:</span>{date}</p>
         <p className={`${styles.card_description}`}>{description}</p>
         <div className={`d-flex justify-content-center ${styles.card_buttons}`}>
-          <Link onClick={verMas} to={link} className={`btn ${styles.boton_ver_mas}`}>
+          <Link onClick={verMas} to={link} className={`btn mt-3 ${styles.boton_ver_mas}`}>
             VER MÁS
           </Link>
         </div>

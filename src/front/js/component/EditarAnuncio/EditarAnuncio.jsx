@@ -18,6 +18,8 @@ export const EditarAnuncio = () => {
   const [description, setDescription] = useState('');
   const [adId, setAdId] = useState(null);
   const [selectedPatient, setSelectedPatient] = useState('');
+  
+  const hoy = new Date().toISOString().split('T')[0];
 
   const navigate = useNavigate();
 
@@ -147,6 +149,7 @@ export const EditarAnuncio = () => {
             className="form-control"
             id="fechaInicio"
             name="fechaInicio"
+            min={hoy}
             value={startDate}
             onChange={handleChangeStartDate}
           />
@@ -158,6 +161,7 @@ export const EditarAnuncio = () => {
             className="form-control"
             id="fechaFin"
             name="fechaFin"
+            min={hoy}
             value={endDate}
             onChange={handleChangeEndDate}
           />

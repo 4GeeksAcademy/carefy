@@ -1139,6 +1139,41 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Network error:", error);
 				}
 			},
+			getCompanionRate: async (companion_id) => {
+				const store = getStore();
+
+				setStore({
+					...store,
+					rateData: []
+				});
+
+				if (!store.userData.userId) {
+					console.error('User ID is not available');
+					return;
+				}
+
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/rates/${companion_id}`);
+					if (!response.ok) {
+						throw new Error(`HTTP error! status: ${response.status}`);
+					}
+					const data = await response.json();
+					console.log("Datos del rating recibido:", data);
+			
+					// Si data es un array de rates, guardarlo en el store
+					if (Array.isArray(data)) {
+						setStore({
+							...store,
+							rateData: data
+						});
+						localStorage.setItem('rateData', JSON.stringify(data));
+						console.log("Store actualizado:", store);
+					}
+				} catch (error) {
+					console.error('There was an error fetching the rating details!', error);
+				}
+			},
+			
 
 
 		}

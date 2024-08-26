@@ -696,11 +696,13 @@ def add_rate(companion_id):
 #Traer reseñas de un solo usuario
 @api.route('/rates/<int:companion_id>', methods=['GET'])
 def get_companion_rates(companion_id):
-    rate = Rating.query.get(companion_id)
-    if rate is None:
+    rates = Rating.query.filter_by(companion_id=companion_id).all()
+    if not rates:
         return jsonify({'error': 'Rate not found'}), 404
 
-    return jsonify(rate.serialize())
+    # Serializa cada rate en la lista
+    rates_serialized = [rate.serialize() for rate in rates]
+    return jsonify(rates_serialized)
 
 
 

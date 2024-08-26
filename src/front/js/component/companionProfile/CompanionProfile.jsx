@@ -22,12 +22,14 @@ export const CompanionProfile = ({ }) => {
   }
 
   useEffect(() => {
+
     actions.getUserDetails();
     actions.companion(id);
     actions.getCompanionFavs();
     actions.getAllFavs();
-    console.log('Favoritos en el store:', store.favData);
+    actions.getCompanionRate(id);  // Usa 'id' para asegurarte de que se obtienen las valoraciones correctas
 
+    console.log('Datos de rate en el store:', store.rateData);
   }, [id]);
 
 
@@ -72,6 +74,10 @@ export const CompanionProfile = ({ }) => {
 
   const isFavorited = Array.isArray(store.favData) && store.favData.some(fav => fav.companion_id === store.oneCompanion.id);
 
+  const averageRate = store.rateData.length > 0
+    ? store.rateData.reduce((acc, rate) => acc + rate.rate, 0) / store.rateData.length
+    : 0;
+
   return (
 
     <div className={`container bg-light p-4 my-5 rounded position-relative ${styles.container_profile}`}>
@@ -83,12 +89,6 @@ export const CompanionProfile = ({ }) => {
           <span onClick={() => handleEditCompanion(store.oneCompanion?.id)} className="fa-solid fa-pencil fs-1 pe-3"></span>
         </div>
         : ""}
-      <Link to={`/rating/${store.oneCompanion.id}`}><button
-        className={`btn btn-warning fs-4 fw-bold`}
-      >
-        VALORAR
-      </button>
-      </Link>
 
       {store.userData.role === "user" && (
         <div>
@@ -97,16 +97,12 @@ export const CompanionProfile = ({ }) => {
               onClick={() => handleDeleteFav(store.favData.find(fav => fav.companion_id === store.oneCompanion.id)?.id)}
               className={`position-absolute fa-solid fa-heart ${styles.fav_icon} text-danger fs-1`}
               type="button"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
             ></span>
           ) : (
             <span
               onClick={() => handleAddFav(store.oneCompanion.id)}
               className={`position-absolute fs-1 fa-regular fa-heart ${styles.fav_icon}`}
               type="button"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
             ></span>
           )}
         </div>
@@ -124,11 +120,8 @@ export const CompanionProfile = ({ }) => {
           </div>
           <div className="ms-3 fs-4 mt-3">
             <p>
-              <FaRegStar className="fs-4" />
-              <FaRegStar className="fs-4" />
-              <FaRegStar className="fs-4" />
-              <FaRegStar className="fs-4" />
-              <FaRegStar className="fs-4" />
+              <span class="fa-solid fa-star fs-4 pe-3"></span>
+              {store.rateData.length > 0 ? averageRate.toFixed(2) + " / 5" : "Sin valoraciones"}
             </p>
             <p className="fs-4"><span className="fa-solid fa-id-card pe-3"></span>{calculateAge(birthdate)} años</p>
             <p className="fs-4"><span className="fa-solid fa-location-dot pe-3"></span>{store.oneCompanion?.user?.location}, {store.oneCompanion?.province}</p>
@@ -258,6 +251,33 @@ export const CompanionProfile = ({ }) => {
               )}
             </div>
           )}
+           <Link to={`/rating/${store.oneCompanion.id}`}><button
+        className={`btn btn-warning fs-4 fw-bold`}
+      >
+        VALORAR
+      </button>
+      </Link>
+        <div className="accordion mt-4" id="accordionExample">
+          <div className="accordion-item">
+            <h2 className="accordion-header">
+              <button className="accordion-button fs-5 border border-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Valoraciones y reseñas
+              </button>
+            </h2>
+            <div id="collapseOne" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
+              <div className="accordion-body">
+                {Array.isArray(store.rateData) && store.rateData.map((data, index) => (
+                  <div>
+                  <p key={index}><span className="fa-solid fa-star pe-2"></span>{data.rate} / 5</p>
+                  <p key={index}>{data.review}</p>
+                  <hr/>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   );
