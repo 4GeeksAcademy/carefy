@@ -17,6 +17,7 @@ const ListCompanions = () => {
   
   useEffect(() => {
     actions.getCompanions();
+    actions.getReviews();
   }, [])
 
   useEffect(() => {
@@ -71,6 +72,10 @@ const ListCompanions = () => {
     setFiltros(newFilters)
 
   }
+
+  const averageRate = store.rateData.length > 0
+  ? store.rateData.reduce((acc, rate) => acc + rate.rate, 0) / store.rateData.length
+  : 0;
 
   return (
     <>

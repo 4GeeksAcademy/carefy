@@ -111,7 +111,6 @@ export const Anuncios = ({ countFav, companionName }) => {
                                     <th scope="col">#</th>
                                     <th scope="col">Nombre</th>
                                     <th scope="col">Email</th>
-                                    <th scope="col">Valoración</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
@@ -122,8 +121,6 @@ export const Anuncios = ({ countFav, companionName }) => {
                                             <th scope="row">{index + 1}</th>
                                             <td>{fav.companion?.user?.name} {fav.companion?.user?.lastname}</td>
                                             <td>{fav.companion?.user?.email}</td>
-                                            <td><span className="ps-2 fa-solid fa-star pe-1"></span> {store.rateData.length > 0 ? averageRate.toFixed(2) + " / 5" : "Sin valoraciones"}
-                                                </td>
                                             <td className="text-end">
                                                 <Link onClick={verPerfil} to={`/perfil-profesional/${fav.companion_id}`}>
                                                     <span className="fa-solid fa-eye pe-3 text-dark"></span>
