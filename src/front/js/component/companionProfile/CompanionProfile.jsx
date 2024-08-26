@@ -51,7 +51,7 @@ export const CompanionProfile = ({ }) => {
 
   const birthdate = store.oneCompanion?.birthdate;
 
-  const handleEditCompanion = (id) => {
+  const handleEditCompanion = () => {
     console.log("Editing ad with ID:", id);
 
     actions.handleEditCompanionOrNewCompanion(id);
@@ -86,7 +86,7 @@ export const CompanionProfile = ({ }) => {
 
       {store.oneCompanion?.user_id === store.userData?.userId ?
         <div className={`position-absolute ${styles.fav_icon}`}>
-          <span onClick={() => handleEditCompanion(store.oneCompanion?.id)} className="fa-solid fa-pencil fs-1 pe-3"></span>
+          <span onClick={() => handleEditCompanion()} className="fa-solid fa-pencil fs-1 pe-3"></span>
         </div>
         : ""}
 
