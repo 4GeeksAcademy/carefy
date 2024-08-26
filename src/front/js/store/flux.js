@@ -16,8 +16,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			familiares: JSON.parse(localStorage.getItem("userFamily")) || [],
-			companions: JSON.parse(localStorage.getItem("companions")) || [],
-			oneCompanion: JSON.parse(localStorage.getItem("oneCompanion")) || [],
+			nuevoCompanion: JSON.parse(localStorage.getItem("nuevoCompanion")) || [], //companion que se crea al hacer el registro del usuario, solo tiene el id y el user_id
+			companions: JSON.parse(localStorage.getItem("companions")) || [], //todos los companions
+			oneCompanion: JSON.parse(localStorage.getItem("oneCompanion")) || [], 
 
 
 
@@ -30,9 +31,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			singleAd: [],
 			postulantes: JSON.parse(localStorage.getItem("lista_postulantes")) || [],
 			inscripciones: JSON.parse(localStorage.getItem('inscripciones_lista')) || [],
-			// new_inscription: false,
-			// inscripciones_lista : null
-
+			rates: JSON.parse(localStorage.getItem('rates')) || [],
+			rateData: JSON.parse(localStorage.getItem("rateData")) || [],
 
 		},
 
@@ -71,7 +71,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						setStore({
 							...store,
 							userData: userData,
-							adData: []
+							adData: [],
+							nuevoCompanion: data.companion
 						});
 
 						console.log("Success:", data);
@@ -85,6 +86,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			signUp: async (email, password, username, role) => {
 				const store = getStore();
+				const actions = getActions();
 				try {
 					const resp = await fetch(`${process.env.BACKEND_URL}/api/signup`, {
 						method: "POST",
@@ -121,6 +123,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 							userData: userData
 						});
 						console.log("Success:", data);
+
+						if (data.role === "companion") {
+					
+							await actions.anadir_companion(data.id);
+							console.log(data.id)
+						}
+
+
 					} else {
 						console.error("Token no recibido:", data);
 					}
@@ -137,6 +147,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				localStorage.removeItem("userData");
 				localStorage.removeItem("adData");
 				localStorage.removeItem("oneCompanion");
+				localStorage.removeItem("nuevoCompanion")
 
 				localStorage.removeItem("favData");
 				localStorage.removeItem("favDataAds");
@@ -158,6 +169,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					},
 					adData: [],
 					oneCompanion: [],
+					nuevoCompanion: [],
 					favData: [],
 					favDataAds: [],
 					inscripciones: [],
@@ -763,64 +775,47 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 			//publicar perfil acompanante
-			anadir_companion: async (description, photo, province, birthdate,
-				availability_hours = false,
-				availability_days = false,
-				availability_weeks = false,
-				availability_live_in = false,
-				experience,
-				service_cost,
-				facebook = '',
-				instagram = '',
-				twitter = '',
-				linkedin = '',
-				user_id,
-			) => {
+			anadir_companion: async (user_id) => {
 				const store = getStore();
 				try {
+					// Realizamos la petición POST al backend
 					const response = await fetch(`${process.env.BACKEND_URL}/api/anadir_companion`, {
 						method: 'POST',
 						body: JSON.stringify({
-							description,
-							photo,
-							province,
-							birthdate,
-							availability_hours,
-							availability_days,
-							availability_weeks,
-							availability_live_in,
-							experience,
-							service_cost,
-							facebook,
-							instagram,
-							twitter,
-							linkedin,
-							user_id,
-
-
-
+							user_id
 						}),
 						headers: {
 							"Content-Type": "application/json"
 						}
 					});
 
+					// Si la respuesta no es exitosa, lanzamos un error
 					if (!response.ok) {
 						throw new Error(`HTTP error! status: ${response.status}`);
 					}
 
+					// Parseamos la respuesta a JSON
 					const nuevoCompanion = await response.json();
 
+					// Guardamos solo el id del nuevo companion en localStorage
+
+					localStorage.setItem('nuevoCompanion', JSON.stringify(nuevoCompanion));
+
+					// Actualizamos el estado global con el nuevo companion
 					setStore({
 						...store,
-						companions: [...store.companions, nuevoCompanion] // Añade el nuevo companion a la lista
+						companions: [...store.companions, nuevoCompanion], // Añadimos el nuevo companion a la lista
+						nuevoCompanion: nuevoCompanion
 					});
-				}
-				catch (error) {
+
+					console.log("Companion creado exitosamente:", nuevoCompanion);
+					console.log(nuevoCompanion.id)
+				} catch (error) {
 					// Manejo de errores de red u otros errores
 					console.error("Network error:", error);
 				}
 			},
+
 
 			//modificar acompanante
 
@@ -831,7 +826,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			) => {
 				const store = getStore();
 				const actions = getActions();
-				const companionId = store.companionId; // Asegúrate de tener el ID correcto
+				const companionId = store.nuevoCompanion.id; // Asegúrate de tener el ID correcto
 
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/actualizar_companion/${companionId}`, {
@@ -944,7 +939,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('There was an error fetching the ad details!', error);
 				}
 			},
-
 			getAllFavs: async () => {
 				try {
 					const resp = await fetch(`${process.env.BACKEND_URL}/api/favorite_companion`, {
@@ -956,7 +950,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log(error);
 				}
 			},
-
 			deleteFavCompanion: async (favId) => {
 				const store = getStore();
 				const actions = getActions();
@@ -1146,6 +1139,97 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('Error en la solicitud de la eliminacion: ', error)
 				}
 			},
+
+			getReviews: async () => {
+				try {
+					const resp = await fetch(`${process.env.BACKEND_URL}/api/rates`, {
+						method: "GET"
+					});
+					const data = await resp.json();
+					setStore({ rates: data });
+				} catch (error) {
+					console.log(error);
+				}
+			},
+
+			addRate: async (companion_id, user_id, rate, review) => {
+				const store = getStore();
+				try {
+					const resp = await fetch(`${process.env.BACKEND_URL}/api/add_rate/${companion_id}`, {
+						method: "POST",
+						body: JSON.stringify({
+							user_id: user_id,
+							companion_id: companion_id,
+							rate: rate,
+							review: review
+						}),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					});
+
+					if (!resp.ok) {
+						const errorData = await resp.json();
+						console.error("Error:", errorData);
+						return errorData;
+					}
+
+					const data = await resp.json();
+
+					if (data) {
+						// Agrupar todos los datos del usuario en un objeto
+						// Guardar el objeto en localStorage
+						localStorage.setItem('rateData', JSON.stringify(data));
+
+						// Actualizar el store
+						setStore({
+							...store,
+							rateData: data
+						});
+						console.log("Success:", data);
+					} else {
+						console.error("Datos no recibidos:", data);
+					}
+				} catch (error) {
+					// Manejo de errores de red u otros errores
+					console.error("Network error:", error);
+				}
+			},
+			getCompanionRate: async (companion_id) => {
+				const store = getStore();
+
+				setStore({
+					...store,
+					rateData: []
+				});
+
+				if (!store.userData.userId) {
+					console.error('User ID is not available');
+					return;
+				}
+
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/rates/${companion_id}`);
+					if (!response.ok) {
+						throw new Error(`HTTP error! status: ${response.status}`);
+					}
+					const data = await response.json();
+					console.log("Datos del rating recibido:", data);
+			
+					// Si data es un array de rates, guardarlo en el store
+					if (Array.isArray(data)) {
+						setStore({
+							...store,
+							rateData: data
+						});
+						localStorage.setItem('rateData', JSON.stringify(data));
+						console.log("Store actualizado:", store);
+					}
+				} catch (error) {
+					console.error('There was an error fetching the rating details!', error);
+				}
+			},
+			
 
 
 		}

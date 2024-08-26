@@ -13,7 +13,7 @@ export const Login = () => {
 
     useEffect(() => {
         if (store.userData.token && store.userData.role == "companion") {
-            navigate('/perfil-profesional');
+            navigate(`/perfil-profesional/${store.nuevoCompanion?.id}`);;
         }
         else if (store.userData.token && store.userData.role == "user") {
             navigate('/perfil-usuario');

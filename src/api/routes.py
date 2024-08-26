@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Patient, Ad, Status, Type, Companion, Favorite_companion, Inscription, Favorite_ad
+from api.models import db, User, Patient, Ad, Status, Type, Companion, Favorite_companion, Inscription, Favorite_ad, Rating
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -98,21 +98,28 @@ def edit_user(user_id):
 def create_token():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
-
+  
     # Consulta la base de datos por el nombre de usuario y la contraseña
-    user = User.query.filter_by(email=email).first()
-
-    if user is None:
+    users = User.query.filter_by(email=email).first()
+    
+    if users is None:
         # el usuario no se encontró en la base de datos
         return jsonify({"msg": "Bad username or password"}), 401
 
-    if not check_password_hash(user.password, password):
+    if not check_password_hash(users.password, password):
         # Incorrect password
         return jsonify({"msg": "Bad username or password"}), 401
-
+    
     # Crea un nuevo token con el id de usuario dentro
-    access_token = create_access_token(identity=user.id)
-    return jsonify({ "token": access_token, "email":user.email, "username": user.username, 'id': user.id, 'role': user.role  })
+    access_token = create_access_token(identity=users.id)
+    
+    if users.role == 'companion':
+        print('-------------------------------------------------------------')
+        companion = Companion.query.filter_by(user_id=users.id).first()
+        print(companion)
+        return jsonify({ "token": access_token, "email":users.email, "username": users.username, 'id': users.id, 'role': users.role, "companion": companion.serialize()  }) 
+    
+    return jsonify({ "token": access_token, "email":users.email, "username": users.username, 'id': users.id, 'role': users.role })
 
 
 #### ANUNCIOS ####
@@ -402,60 +409,23 @@ def companion(id):
 def anadir_companion():
     data = request.json
 
-    # Definir los campos requeridos
-    campos_requeridos = [
-        'description', 'photo', 'province', 
-        'birthdate', 'experience', 'service_cost', 'user_id'
-    ]
+    # Verificamos que 'user_id' está presente en la solicitud
+    if 'user_id' not in data:
+        return jsonify({'ERROR': "Falta el campo requerido: user_id"}), 400
 
-    # Verificamos que todos los campos requeridos están presentes en la solicitud
-    for campo in campos_requeridos:
-        if campo not in data:
-            return jsonify({'ERROR': f"Falta el campo requerido: {campo}"}), 400
-
-    # Creamos una nueva instancia de Companion
-    nuevo_companion = Companion(
-        description=data['description'],
-        photo=data['photo'],
-        province=data['province'],
-        birthdate=data['birthdate'],
-        availability_hours=data.get('availability_hours', False),
-        availability_days=data.get('availability_days', False),
-        availability_weeks=data.get('availability_weeks', False),
-        availability_live_in=data.get('availability_live_in', False),
-        experience=data['experience'],
-        service_cost=data['service_cost'],
-        facebook=data.get('facebook'),
-        instagram=data.get('instagram'),
-        twitter=data.get('twitter'),
-        linkedin=data.get('linkedin'),
-        user_id=data['user_id']
-    )
+    # Creamos una nueva instancia de Companion solo con 'user_id'
+    nuevo_companion = Companion(user_id=data['user_id'])
 
     # Guardamos el nuevo Companion en la base de datos
     try:
         db.session.add(nuevo_companion)
         db.session.commit()
 
-        # Respondemos con los datos del Companion creado
+        # Respondemos con los datos básicos del Companion creado
         return jsonify({
             "msg": "Companion creado exitosamente",
             'id': nuevo_companion.id,
-            "description": nuevo_companion.description,
-            "photo": nuevo_companion.photo,
-            "province": nuevo_companion.province,
-            "birthdate": nuevo_companion.birthdate,
-            "availability_hours": nuevo_companion.availability_hours,
-            "availability_days": nuevo_companion.availability_days,
-            "availability_weeks": nuevo_companion.availability_weeks,
-            "availability_live_in": nuevo_companion.availability_live_in,
-            "experience": nuevo_companion.experience,
-            "service_cost": nuevo_companion.service_cost,
-            "facebook": nuevo_companion.facebook,
-            "instagram": nuevo_companion.instagram,
-            "twitter": nuevo_companion.twitter,
-            "linkedin": nuevo_companion.linkedin,
-            "user_id": nuevo_companion.user_id
+            'user_id': nuevo_companion.user_id
         }), 200
 
     except Exception as e:
@@ -463,9 +433,11 @@ def anadir_companion():
         print(f'Error al añadir nuevo companion: {str(e)}')
         return jsonify({'Error': f'Error al añadir nuevo companion: {str(e)}'}), 400
 
+
 @api.route("/actualizar_companion/<int:id>", methods=["PUT"])
 def actualizar_companion(id):
     data=request.json
+    print(data)
 
     # Verificar que el Companion existe
     companion = Companion.query.get(id)
@@ -659,14 +631,55 @@ def delete_inscription(inscription_id):
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-
-   
-
-
 @api.route('/obtenerinscripciones', methods=['GET'])
 def obtenerinscripciones():
     postulantes = Inscription.query.all()
     return jsonify([postulante.serialize() for postulante in postulantes])
+
+
+#VALORACIONES Y RESEÑAS
+
+# Traer todos las reseñas
+@api.route('/rates', methods=['GET'])
+def get_rates():
+    rates = Rating.query.all()
+    return jsonify([rate.serialize() for rate in rates])
+
+
+#Crear nuevo usuario
+@api.route("/add_rate/<int:companion_id>", methods=['POST'])
+def add_rate(companion_id):
+    data = request.json
+    if 'rate' not in data or 'review' not in data:
+        return jsonify({'error': 'Missing data'}), 400
+
+    new_rating = Rating(
+        rate=data['rate'],
+        review=data['review'],
+        companion_id=companion_id,
+        user_id=data['user_id']
+    )
+
+    db.session.add(new_rating)
+    db.session.commit()
+    
+    return jsonify({
+        "msg": "Reseña creada exitosamente",
+        **new_rating.serialize()}), 201
+
+#Traer reseñas de un solo usuario
+@api.route('/rates/<int:companion_id>', methods=['GET'])
+def get_companion_rates(companion_id):
+    rates = Rating.query.filter_by(companion_id=companion_id).all()
+    if not rates:
+        return jsonify({'error': 'Rate not found'}), 404
+
+    # Serializa cada rate en la lista
+    rates_serialized = [rate.serialize() for rate in rates]
+    return jsonify(rates_serialized)
+
+
+
 
 
 # #Para borrar una postulación (Cuando se pulsa "Cancelar postulación")

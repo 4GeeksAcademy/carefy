@@ -9,6 +9,7 @@ const CompanionForm = () => {
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
 
+console.log(`---------------------estoyaquíestoyaqui----------------------------------${store.nuevoCompanion?.id}`)
   const [companion, setCompanion] = useState({
     description: "",
     photo: "",
@@ -52,10 +53,10 @@ const CompanionForm = () => {
   }, [store.userData]);
   
   useEffect(() => {
-    if (store.userData.userId) {
+    if (store.userData?.userId) {
         actions.getUserDetails(); // Fetch user details when userId is available
     }
-}, [store.userData.userId, store.userData.token]);
+}, [store.userData?.userId, store.userData?.token]);
 
 
 
@@ -112,16 +113,16 @@ const CompanionForm = () => {
   }, [store.userData]);
 
   useEffect(() => {
-    if (store.userData.userId) {
-      actions.getUserDetails(); // Fetch user details when userId is available
+    if (store.userData) {
+      actions.getUserDetails(); 
     }
   }, [store.userData.userId, store.userData.token]);
 
   useEffect(() => {
-    if (store.oneCompanion?.user_id === store.userData?.userId) {
-      actions.companion(store.oneCompanion.id)
+    if (store.nuevoCompanion?.id === store.userData?.userId) {
+      actions.companion(store.nuevoCompanion?.id)
     }
-  }, [store.userData.userId, store.oneCompanion.id]);
+  }, [store.userData?.userId, store.nuevoCompanion?.id]);
 
   useEffect(() => {
     setCompanion({
@@ -168,10 +169,10 @@ const CompanionForm = () => {
     
     try {
       // Primero, actualizar la información del usuario
-      await actions.editUser(user?.name, user?.lastname, user?.email, user?.phone, user.location);
+      await actions.editUser(user.name, user.lastname, user.email, user.phone, user.location);
 
       // Luego, añadir o actualizar el acompañante
-      if (store.oneCompanion?.user_id === store.userData?.userId) {
+       
         await actions.updateCompanion(
           companion.description,
           companion.photo,
@@ -188,25 +189,8 @@ const CompanionForm = () => {
           companion.twitter,
           companion.linkedin,
         );
-      } else {
-        await actions.anadir_companion(
-          companion.description,
-          companion.photo,
-          companion.province,
-          companion.birthdate,
-          companion.availability_hours,
-          companion.availability_days,
-          companion.availability_weeks,
-          companion.availability_live_in,
-          companion.experience,
-          companion.service_cost,
-          companion.facebook,
-          companion.instagram,
-          companion.twitter,
-          companion.linkedin,
-          store.userData.userId,  // Utilizar el ID del usuario actual 
-        );
-      }
+      
+      
       
       // Mostrar un mensaje de éxito o realizar alguna otra acción
       console.log('User and companion data submitted successfully.');
@@ -214,7 +198,7 @@ const CompanionForm = () => {
       console.error('There was an error submitting the data:', error);
     }
 
-    navigate('/listado-anuncios');
+    navigate(`/perfil-profesional/${store.nuevoCompanion?.id}`);
   };
 
   return (
@@ -225,17 +209,7 @@ const CompanionForm = () => {
           {/* Fila 1: foto y campos básicos */}
           
           <div className="row">
-            <div className="col-12 col-sm-6 d-flex">
-            {companion.photo && (
-                <img
-                  src={companion.photo}
-                  alt="Profile"
-                  className={`${styles.img_perfil}`}
-                
-                />
-              )}
 
-            </div>
             <div className="col-12 col-sm-6">
               <div className="input-group mb-4">
                 <label className="fs-5 mt-1 pe-3" htmlFor="inputGroupFile01">Foto de perfil</label>
@@ -248,6 +222,17 @@ const CompanionForm = () => {
                 
                 />
               </div>
+            </div>
+            <div className="col-12 col-sm-6 text-start">
+            {companion.photo && (
+                <img
+                  src={companion.photo}
+                  alt="Profile"
+                  className={`${styles.img_perfil}`}
+                
+                />
+              )}
+
             </div>
           </div>
           <div className="row mb-4 mt-4">

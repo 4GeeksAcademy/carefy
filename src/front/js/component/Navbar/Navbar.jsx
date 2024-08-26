@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from '../../../img/logo.png'
 import { Context } from "../../store/appContext";
 
-export const Navbar = ({ username }) => {
+export const Navbar = () => {
 
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
@@ -38,9 +38,6 @@ export const Navbar = ({ username }) => {
                                     <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/faq">FAQ</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/blog">Blog</Link>
-                                </li>
-                                <li className="nav-item">
                                     <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/contacto">Contacto</Link>
                                 </li>
                             </ul>
@@ -64,7 +61,7 @@ export const Navbar = ({ username }) => {
 
                                     <ul className="dropdown-menu dropdown-menu-end">
                                         {store.userData.role == "companion" ?
-                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to={`/perfil-profesional`}>Mi perfil</Link></li>
+                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to={`/perfil-profesional/${store.nuevoCompanion?.id}`}>Mi perfil</Link></li>
                                             :
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-usuario">Mi perfil</Link></li>
                                         }
@@ -118,9 +115,6 @@ export const Navbar = ({ username }) => {
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/faq">FAQ</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/blog">Blog</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/contacto">Contacto</Link>

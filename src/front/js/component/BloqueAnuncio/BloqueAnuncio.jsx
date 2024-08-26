@@ -14,7 +14,7 @@ export const BloqueAnuncio = ({ }) => {
     const [listaInscripciones, setListaInscripciones] = useState([])
     const [companion_id, setCompanion_id] = useState(0)
     const [change, setChange] = useState(false)
-    const [botonValorarVisible, setBotonValorarVisible] = useState (false)
+    const [botonValorarVisible, setBotonValorarVisible] = useState(false)
 
     //Obtiene un anuncio a través del id
     useEffect(() => {
@@ -48,49 +48,8 @@ export const BloqueAnuncio = ({ }) => {
         return <p>Cargando...</p>;
     }
 
-    /**
-     * Función para crear una postulación/inscripción a un ad
-     * @param userComId: buscar en el store el id del usuario logueado
-     * @param adId busca el Id del anuncio. 
-     * @param patients: obtenemos la lista de pacientes. 
-     * @param companions: obtenemos la lista de companions del storage
-     * @param companionsParsed: obtiene la lista anterior en un formato JSON
-     * Ponemos el botón "Postularse" en visible para que se pueda pulsar. 
-     * -forEach: recorre la lista companionParsed y se valida si el usuario del acompañanante (compain.user.id) es el mismo
-     * que el usuario logueado(user.id), nos aseguramos acceder a  los datos del usuario logueado. 
-     * Si coincide se crea inscripcionExiste, para verificar si un mismo acompañante ya está inscrito a un mismo ad.
-     * if (paciente.id === store.singleAd.patient_id)  --> de la lista de pacientes, buscamos que el paciente coincida con el del anuncio. 
-     * Si no está inscrito se llama a la función para inscribirse.
-     */
-    // const handlePostularseClick = async () => {
-    //     const userCompId = store.userData.userId;
-    //     const adId = store.singleAd.id;
-    //     const patients = store.patients;
-    //     const companions = localStorage.getItem('companions');
-    //     const companionsParsed = JSON.parse(companions)
-    //     setPostularseVisible(false)
 
-    //     console.log(('patients...', patients));
-    //     const companionExistente = companionsParsed.find(companion =>
-    //         companion.user_id === userCompId
-    //     )
-    //     const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.user_id === userCompId && inscripcion.ad_id === adId);
-    //     const pacienteExistente = store.patients.find(patient => patient.id === store.singleAd.patient_id)
-
-    //     if (companionExistente && !inscripcionExistente) {
-    //         try {
-    //             await actions.add_inscription(companionExistente.id, adId, userCompId)
-
-
-    //         } catch (error) {
-    //             console.error('Error al añadir la inscripcion', error)
-    //         }
-    //     }
-    // };
-
-    //Función desde repositorio
-    
-    
+    // FUNCIONA //  
     const handlePostularseClick = async () => {
         const userCompId = store.userData.userId;
         const adId = store.singleAd.id;
@@ -118,7 +77,7 @@ export const BloqueAnuncio = ({ }) => {
         }
     };
 
-    //useEffect desde repositorio
+    // FUNCIONA //  Obtiene todas las inscripciones y cambiar el botón de Postularse
     useEffect(() => {
         actions.obtenerinscripciones();
         const userCompId = store.userData.userId;
@@ -147,7 +106,6 @@ export const BloqueAnuncio = ({ }) => {
 
 
     }, []);
-
 
 
 
@@ -216,7 +174,7 @@ export const BloqueAnuncio = ({ }) => {
     const handleContratarClick = async (companion_id) => {
         console.log('id del acompañante,', companion_id);
         console.log('id del ad,', id);
-        
+
         try {
             await actions.editAd(id, store.singleAd.type, store.singleAd.startDate, store.singleAd.endDate, store.singleAd.price, store.singleAd.title, store.singleAd.description, store.singleAd.patient_id, companion_id);
 
@@ -268,42 +226,6 @@ export const BloqueAnuncio = ({ }) => {
         return age;
     };
 
-    // Obtiene todas las inscripciones y cambiar el botón de Postularse//////////
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         await actions.obtenerinscripciones();  // Hacemos que la función espere a obtener las inscripciones.
-    //         const userCompId = store.userData.userId;
-    //         const adId = localStorage.getItem('singleAd');
-    //         const adIdParsed = JSON.parse(adId);
-    //         const companions = localStorage.getItem('companions');
-    //         const companionsParsed = JSON.parse(companions);
-    //         if (companionsParsed) {
-    //             companionsParsed.forEach((companion) => {
-    //                 if (companion.user.id === userCompId) {
-    //                     const inscripcionExistente = store.inscripciones_lista.find(inscripcion => inscripcion.ad_id === adIdParsed.id
-    //                         && inscripcion.companion_id === companion.id);
-    //                     if (!inscripcionExistente) {
-    //                         // Después de inscribirse con éxito, ocultar el botón "POSTULARSE"
-    //                         console.log('primer if');
-    //                         setPostularseVisible(true);
-    //                     } else {
-    //                         setPostularseVisible(false); // Oculta "CANCELAR POSTULACIÓN"
-    //                     }
-    //                 }
-    //             });
-    //         } else {
-    //             console.log('segundo if');
-    //             setPostularseVisible(true);
-    //         }
-    //     };
-    //     fetchData();  // Llamamos a la función asíncrona que maneja la lógica
-    // }, [store.new_inscription]);
-
-
-
-
-
-
 
 
     useEffect(() => {
@@ -328,11 +250,12 @@ export const BloqueAnuncio = ({ }) => {
    * Para añadir un favorito 
    */
     const handleAddFav = async (ad_id) => {
+        console.log('Data de favAd: ', store.favDataAds)
         await actions.addFavAd(ad_id);
         const updatedFavData = await actions.getAdFavs();
         const isFavorited = Array.isArray(updatedFavData) && updatedFavData.some(fav => fav.ad_id === store.singleAd.id);
-        setFavorited(isFavorited);
     };
+
 
 
     /**
@@ -343,14 +266,51 @@ export const BloqueAnuncio = ({ }) => {
         await actions.deleteFavAd(favId);
         const updatedFavData = await actions.getAdFavs();
         const isFavorited = Array.isArray(updatedFavData) && updatedFavData.some(fav => fav.ad_id === store.singleAd.id);
-        setFavorited(isFavorited);
     };
-
-
 
     const isFavorited = Array.isArray(store.favDataAds) && store.favDataAds.some(fav => fav.ad_id === store.singleAd.id);
 
+    const averageRate = store.rateData.length > 0
+        ? store.rateData.reduce((acc, rate) => acc + rate.rate, 0) / store.rateData.length
+        : 0;
 
+
+
+
+    const [contractedCompanions, setContractedCompanions] = useState(() => {
+        // Inicializamos el estado con los companions ya contratados desde localStorage
+        const initialContracted = [];
+        store.companions.forEach(companion => {
+            if (localStorage.getItem(`contracted_${companion.id}`)) {
+                initialContracted.push(companion.id);
+            }
+        });
+        return initialContracted;
+    });
+
+    // Función para manejar el contrato
+    const handleContract = async (companion_id) => {
+        localStorage.setItem(`contracted_${companion_id}`, true);
+        setContractedCompanions([...contractedCompanions, companion_id]);
+
+        try {
+            await actions.editAd(id, store.singleAd.type, store.singleAd.startDate, store.singleAd.endDate, store.singleAd.price, store.singleAd.title, store.singleAd.description, store.singleAd.patient_id, companion_id);
+        } catch (error) {
+            console.error("Error al contratar anuncio:", error);
+        }
+
+    };
+
+    // Función para manejar la cancelación
+    const handleCancel = (companion_id) => {
+        localStorage.removeItem(`contracted_${companion_id}`);
+        setContractedCompanions(contractedCompanions.filter(id => id !== companion_id));
+    };
+
+
+    const valorar = () => {
+        window.scrollTo(0, 0)
+    }
 
     return (
 
@@ -366,16 +326,12 @@ export const BloqueAnuncio = ({ }) => {
                             }}
                             className={`position-absolute fa-solid fa-heart ${styles.fav_icon} text-danger fs-1`}
                             type="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
                         ></span>
                     ) : (
                         <span
                             onClick={() => handleAddFav(store.singleAd.id)}
                             className={`position-absolute fs-1 fa-regular fa-heart ${styles.fav_icon}`}
                             type="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
                         ></span>
                     )
                 )}
@@ -406,7 +362,7 @@ export const BloqueAnuncio = ({ }) => {
                 <div className="d-flex align-items-start justify-content-between flex-wrap">
                     <div className="d-flex align-items-center flex-wrap">
                         <div className={`${styles.avatar} rounded`}>
-                            {patientData.photo ?
+                            {patientData && patientData.photo ?
                                 <img src={patientData.photo} className={`img-fluid`} />
                                 :
                                 <img src={profileImg} className={`img-fluid`} />}
@@ -418,36 +374,37 @@ export const BloqueAnuncio = ({ }) => {
                         </div>
                     </div>
                     {/* BOTON POSTULARSE/CANCELAR POSTULACION PARA ACOMPAÑANTES */}
-                    {PostularseVisible ? (
+                    {store.userData.role == "companion" && PostularseVisible ? (
                         <button
                             className={`btn ${styles.btn_postularse} fs-4 fw-bold`}
                             onClick={handlePostularseClick}
                         >
                             POSTULARSE
                         </button>
-                    ) : (
+
+                    ) : store.userData.role == "companion" ? (
                         <button
                             className={`btn ${styles.btn_cancel_postularse} fs-4 fw-bold`}
                             onClick={handleCancelarClick}
                         >
                             CANCELAR POSTULACIÓN
                         </button>
-                    )}  store.singleAd.user_id === store.userData.userId ? (
-                    <p className="fs-4 fw-bold">
-                        Estado:{" "}
-                        {store.singleAd.status === "pending" ? (
-                            <span className="bg-warning p-2 rounded">Pendiente</span>
-                        ) : store.singleAd.status === "ok" ? (
-                            <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
-                        ) : store.singleAd.status === "rejected" ? (
-                            <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
-                        ) : store.singleAd.status === "finish" ? (
-                            <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
-                        ) : (
-                            ""
-                        )}
-                    </p>
-                    ) : null
+                    ) : store.singleAd.user_id === store.userData.userId ? (
+                        <p className="fs-4 fw-bold">
+                            Estado:{" "}
+                            {store.singleAd.status === "pending" ? (
+                                <span className="bg-warning p-2 rounded">Pendiente</span>
+                            ) : store.singleAd.status === "ok" ? (
+                                <span className={`${styles.status_ok} p-2 rounded text-light`}>Publicado</span>
+                            ) : store.singleAd.status === "rejected" ? (
+                                <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>
+                            ) : store.singleAd.status === "finish" ? (
+                                <span className="bg-secondary p-2 rounded text-light">Finalizado</span>
+                            ) : (
+                                ""
+                            )}
+                        </p>
+                    ) : null}
                 </div>
                 <div className="pt-4">
                     <p className="fs-5">{store.singleAd.description}</p>
@@ -500,6 +457,7 @@ export const BloqueAnuncio = ({ }) => {
                         </p>
                     </div>
                 </div>
+
                 {store.singleAd.user_id === store.userData.userId ?
                     <>
                         <p className="fs-4 fw-bold">Solicitudes</p>
@@ -619,7 +577,7 @@ export const BloqueAnuncio = ({ }) => {
                     <div className="d-flex align-items-start justify-content-between flex-wrap">
                         <div className="d-flex align-items-center flex-wrap">
                             <div className={`${styles.avatar} rounded`}>
-                                {patientData.photo ?
+                                {patientData && patientData.photo ?
                                     <img src={patientData.photo} className={`img-fluid`} />
                                     :
                                     <img src={profileImg} className={`img-fluid`} />}
@@ -743,6 +701,8 @@ export const BloqueAnuncio = ({ }) => {
 
                                                 const { id: companion_id, user, birthdate, experiencia, precio, valoracion } = companion;
 
+                                                const isContracted = localStorage.getItem(`contracted_${companion_id}`);
+
                                                 return (
                                                     <tr key={inscripcion.id}>
                                                         <th scope="row">1</th>
@@ -750,43 +710,24 @@ export const BloqueAnuncio = ({ }) => {
                                                         <td>{calcularEdad(companion?.birthdate)}</td>
                                                         <td>{companion?.experience}</td>
                                                         <td>{companion?.service_cost}</td>
-                                                        <td>{valoracion}</td>
+                                                        <td><span className="ps-2 fa-solid fa-star pe-1"></span> {store.rateData.length > 0 ? averageRate.toFixed(2) + " / 5" : "Sin valoraciones"}</td>
                                                         <td className="text-end">
+                                                            {isContracted ? (
+                                                                <>
+                                                                    <button className="btn btn-danger me-3" onClick={() => handleCancel(companion_id)}>CANCELAR</button>
+                                                                    <Link to={`/rating/${companion_id}`}><button onClick={valorar} className="btn btn-warning me-3">VALORAR</button></Link>
+                                                                </>
+                                                            ) : (
+                                                                <button className="btn btn-success me-3" onClick={() => handleContract(companion_id)}>CONTRATAR</button>
+                                                            )}
                                                             <Link to={`/perfil-profesional/${companion_id}`}>
                                                                 <span className="fa-solid fa-eye pe-3 text-dark"></span>
                                                             </Link>
-
-                                                            {/* Botón "Contratar" */}
-                                                            <button
-                                                                type="button"
-                                                                className="btn btn-primary me-3"
-                                                                onClick={() => handleContratarClick(companion.id)}
-                                                            >
-                                                                Contratar
-                                                            </button>
-
-                                                            {/* Papelera para eliminar la postulación */}
-                                                            <span className="fa-regular fa-trash-can" type="button" data-bs-toggle="modal" data-bs-target="#eliminarPostulacion"></span>
-                                                            <div className={`modal fade ${styles.modal_edit}`} data-bs-backdrop="false" id="eliminarPostulacion" tabIndex="-1" aria-labelledby="eliminarPostulacionLabel" aria-hidden="true">
-                                                                <div className="modal-dialog modal-dialog-centered">
-                                                                    <div className="modal-content">
-                                                                        <div className="modal-body fw-bold fs-4 text-start">
-                                                                            ¿Desea eliminar esta postulación?
-                                                                        </div>
-                                                                        <div className="modal-footer">
-                                                                            <button type="button" className="btn btn-secondary fs-5" data-bs-dismiss="modal">Volver</button>
-                                                                            <button type="button" className="btn btn-danger fs-5" data-bs-dismiss="modal" onClick={() => handleCancelarClick()}>Eliminar</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
                                                         </td>
                                                     </tr>
                                                 );
                                             })}
                                     </tbody>
-
-
                                 </table>
                             </div>
                         </> : ""
@@ -794,3 +735,6 @@ export const BloqueAnuncio = ({ }) => {
                 </div>) : ""
     )
 }
+
+
+
