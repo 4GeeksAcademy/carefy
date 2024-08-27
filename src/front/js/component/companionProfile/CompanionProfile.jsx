@@ -12,6 +12,7 @@ export const CompanionProfile = ({ }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [favorited, setFavorited] = useState(false);
+  const [loading, setLoading] = useState(true); 
 
   const perfil = store.oneCompanion;
 
@@ -22,12 +23,17 @@ export const CompanionProfile = ({ }) => {
   }
 
   useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      await actions.getUserDetails();
+      await actions.companion(id);
+      await actions.getCompanionFavs();
+      await actions.getAllFavs();
+      await actions.getCompanionRate(id);
+      setLoading(false); // Datos cargados, detener la carga
+    };
 
-    actions.getUserDetails();
-    actions.companion(id);
-    actions.getCompanionFavs();
-    actions.getAllFavs();
-    actions.getCompanionRate(id);  // Usa 'id' para asegurarte de que se obtienen las valoraciones correctas
+    fetchData();
   }, [id]);
 
 
@@ -119,7 +125,7 @@ export const CompanionProfile = ({ }) => {
           <div className="ms-3 fs-4 mt-3">
             <p>
               <span className="fa-solid fa-star fs-4 pe-3"></span>
-              {store.rateData.length > 0
+              {store.rateData && store.rateData.length > 0
                 ? (Number.isInteger(averageRate)
                   ? averageRate
                   : averageRate.toFixed(2)) + " / 5"
