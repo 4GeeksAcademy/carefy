@@ -59,18 +59,21 @@ export const EditarAnuncio = () => {
 
   const handleEdit = async () => {
 
-      if (!title || !description || !selectedPatient) {
-        setError("Por favor, seleccione una persona, complete el título y la descripción.");
-        return;
-      }
-      if (startDate > endDate) {
-        setError("La fecha de fin no puede ser menor a la de inicio.");
-        return;
-      }
+    if (!title || !description || !selectedPatient || !startDate) {
+      setError("Por favor, seleccione una persona, complete la fecha de inicio, título y descripción.");
+      return;
+    }
+    if (endDate && startDate > endDate) {
+      setError("La fecha de fin no puede ser menor a la de inicio.");
+      return;
+    }
 
-    await actions.editAd(adId, type, startDate, endDate, price, title, description, selectedPatient);
-    navigate("/mis-anuncios");
-  };
+    const finalEndDate = endDate || "4000-01-01";
+
+    await actions.editAd(adId, type, startDate, finalEndDate, price, title, description, selectedPatient);
+    navigate(`/mis-anuncios`)
+
+  }
 
   useEffect(() => {
     actions.getFamiliarDetalles();
