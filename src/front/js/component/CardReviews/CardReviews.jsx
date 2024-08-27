@@ -9,7 +9,7 @@ export const CardReviews = () => {
 
     useEffect(() => {
         actions.getReviews();
-    }, [actions]);
+    }, []);
 
     const filteredReviews = Array.isArray(store.rates)
         ? store.rates.filter(rate => rate.rate === 5).slice(0, 3)

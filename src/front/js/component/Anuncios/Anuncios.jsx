@@ -54,7 +54,6 @@ export const Anuncios = ({ countFav, companionName }) => {
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Anuncio</th>
-                                    <th scope="col">Solicitudes</th>
                                     <th scope="col">Fecha</th>
                                     <th scope="col">Estado</th>
                                     <th scope="col"></th>
@@ -67,7 +66,6 @@ export const Anuncios = ({ countFav, companionName }) => {
                                         <tr key={ad.id}>
                                             <th scope="row">{index + 1}</th>
                                             <td>{ad.title}</td>
-                                            <td>{ad.id}</td>
                                             <td>{new Date(ad.created_at).toLocaleDateString('es-ES', {
                                                 day: '2-digit',
                                                 month: '2-digit',

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState} from "react";
 import styles from "./formCompanion.module.css";
 import { Context } from "../../store/appContext";
 import { useNavigate } from "react-router-dom";
+import { BsWindowSidebar } from "react-icons/bs";
 
 const CompanionForm = () => {
   const { store, actions } = useContext(Context);
@@ -199,6 +200,7 @@ console.log(`---------------------estoyaquíestoyaqui---------------------------
     }
 
     navigate(`/perfil-profesional/${store.nuevoCompanion?.id}`);
+    window.scrollTo(0,0);
   };
 
   return (

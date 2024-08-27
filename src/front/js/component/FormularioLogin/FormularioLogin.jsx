@@ -50,9 +50,9 @@ export const FormularioLogin = () => {
             </div>
 
 
-            <div className="mb-3">
+            {/* <div className="mb-3">
                 <p className="text-secondary fst-italic">¿Has olvidado la contraseña? <button className="btn text-primary fw-bold">Restaurar</button></p>
-            </div>
+            </div> */}
 
 
             <div className="">
