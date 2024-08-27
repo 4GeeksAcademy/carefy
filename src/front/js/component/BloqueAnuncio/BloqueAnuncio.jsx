@@ -15,6 +15,7 @@ export const BloqueAnuncio = ({ }) => {
     const [companion_id, setCompanion_id] = useState(0)
     const [change, setChange] = useState(false)
     const [botonValorarVisible, setBotonValorarVisible] = useState(false)
+    const [contratoActivo, setContratoActivo] = useState(null)
 
     //Obtiene un anuncio a través del id
     useEffect(() => {
@@ -171,39 +172,36 @@ export const BloqueAnuncio = ({ }) => {
         }
     };
 
-    const handleContratarClick = async (companion_id) => {
-        console.log('id del acompañante,', companion_id);
-        console.log('id del ad,', id);
+    // const handleContratarClick = async (companion_id) => {
+    //     console.log('id del acompañante,', companion_id);
+    //     console.log('id del ad,', id);
 
-        try {
-            await actions.editAd(id, store.singleAd.type, store.singleAd.startDate, store.singleAd.endDate, store.singleAd.price, store.singleAd.title, store.singleAd.description, store.singleAd.patient_id, companion_id);
+    //     try {
+    //         await actions.editAd(id, store.singleAd.type, store.singleAd.startDate, store.singleAd.endDate, store.singleAd.price, store.singleAd.title, store.singleAd.description, store.singleAd.patient_id, companion_id);
 
-        } catch (error) {
-            console.error("Error al contratar anuncio:", error);
-        }
-    }
+    //     } catch (error) {
+    //         console.error("Error al contratar anuncio:", error);
+    //     }
+    // }
 
 
-    /**
-     * Para eliminar un anuncio 
-     */
+
+    //Para eliminar un anuncio   
     const handleDelete = (id) => {
         actions.deleteAd(id);
         navigate('/mis-anuncios')
     }
 
-    /**
-   * Para editar un anuncio 
-   */
+
+    //Para editar un anuncio 
     const handleEditAd = (id) => {
         console.log("Editing ad with ID:", id);
         actions.getSingleAd(id);
         navigate(`/edit-ad/${id}`);
     };
 
-    /**
-    * Para obtener la lista de pacientes
-    */
+
+    //Para obtener la lista de pacientes
     useEffect(() => {
         actions.getPatients();
         actions.getCompanions();
@@ -227,13 +225,14 @@ export const BloqueAnuncio = ({ }) => {
     };
 
 
-
+    //Obtiene todos los acompañantes
     useEffect(() => {
         actions.getCompanions();
 
     }, []);
 
-    // Función para calcular la edad a partir de la fecha de nacimiento
+
+    //Calcula la edad a partir de la fecha de nacimiento
     const calcularEdad = (fechaNacimiento) => {
         const hoy = new Date()
         const fechaNac = new Date(fechaNacimiento);
@@ -246,9 +245,7 @@ export const BloqueAnuncio = ({ }) => {
         return edadCalculada
     }
 
-    /*
-   * Para añadir un favorito 
-   */
+    //Añade un favorito a la lista    
     const handleAddFav = async (ad_id) => {
         console.log('Data de favAd: ', store.favDataAds)
         await actions.addFavAd(ad_id);
@@ -258,9 +255,7 @@ export const BloqueAnuncio = ({ }) => {
 
 
 
-    /**
-   * Para eliminar un favorito 
-   */
+    //Elimina un favorito de la lista
     const handleDeleteFav = async (favId) => {
         console.log('Data de favAd: ', store.favDataAds)
         await actions.deleteFavAd(favId);
@@ -270,11 +265,10 @@ export const BloqueAnuncio = ({ }) => {
 
     const isFavorited = Array.isArray(store.favDataAds) && store.favDataAds.some(fav => fav.ad_id === store.singleAd.id);
 
+    //Calcula la nota media de las evaluaciones
     const averageRate = store.rateData.length > 0
         ? store.rateData.reduce((acc, rate) => acc + rate.rate, 0) / store.rateData.length
         : 0;
-
-
 
 
     const [contractedCompanions, setContractedCompanions] = useState(() => {
@@ -288,23 +282,43 @@ export const BloqueAnuncio = ({ }) => {
         return initialContracted;
     });
 
+
     // Función para manejar el contrato.
-    const handleContract = async (companion_id) => {
+    const handleContract = async (companion_id, inscripcion_id) => {
         localStorage.setItem(`contracted_${companion_id}`, true);
         setContractedCompanions([...contractedCompanions, companion_id]);
+        setContratoActivo(companion_id)
 
         try {
             await actions.editAd(id, store.singleAd.type, store.singleAd.startDate, store.singleAd.endDate, store.singleAd.price, store.singleAd.title, store.singleAd.description, store.singleAd.patient_id, companion_id);
+
+            await actions.editarInscripcion(inscripcion_id, 'OK');
         } catch (error) {
             console.error("Error al contratar anuncio:", error);
         }
 
     };
 
-    // Función para manejar la cancelación
-    const handleCancel = (companion_id) => {
+    // Función para manejar la cancelación de la contratación
+    const handleCancel = async (companion_id) => {
         localStorage.removeItem(`contracted_${companion_id}`);
         setContractedCompanions(contractedCompanions.filter(id => id !== companion_id));
+        setContratoActivo(null)
+        try {
+            await actions.editAd(
+                id,
+                store.singleAd.type,
+                store.singleAd.startDate,
+                store.singleAd.endDate,
+                store.singleAd.price,
+                store.singleAd.title,
+                store.singleAd.description,
+                store.singleAd.patient_id,
+                null // --> con esto eliminamos el id del companion que se había asociado al anuncio
+            );
+        } catch (error) {
+            console.error("Error al cancelar el contrato del anuncio:", error);
+        }
     };
 
 
@@ -692,7 +706,7 @@ export const BloqueAnuncio = ({ }) => {
                                     <tbody>
                                         {store.inscripciones
                                             .filter(inscripcion => inscripcion.ad_id === store.singleAd.id)
-                                            .map((inscripcion) => {
+                                            .map((inscripcion, index) => {
                                                 // Encuentra el companion correspondiente al companion_id de la inscripción
                                                 const companion = store.companions.find(comp => comp.id === inscripcion.companion_id);
 
@@ -701,11 +715,18 @@ export const BloqueAnuncio = ({ }) => {
 
                                                 const { id: companion_id, user, birthdate, experiencia, precio, valoracion } = companion;
 
-                                                const isContracted = localStorage.getItem(`contracted_${companion_id}`);
+                                                const isContracted = localStorage.getItem(`contracted_${companion_id}`) || contractedCompanions.includes(companion_id);
+                                                const isActiveContract = contratoActivo === companion_id // --> esto verifica si la fila está contratada o no. 
+
 
                                                 return (
-                                                    <tr key={inscripcion.id}>
-                                                        <th scope="row">1</th>
+                                                    <tr key={inscripcion.id}
+                                                        style={{ //-->estilo para poner el resto de columnas casi invisibles
+                                                            opacity: contratoActivo && contratoActivo !== companion_id ? 0.5 : 1,
+                                                            pointerEvents: contratoActivo && contratoActivo !== companion_id ? 'none' : 'auto',
+                                                        }}
+                                                    >
+                                                        <th scope="row">{index+1}1</th>
                                                         <td>{companion?.user?.name}</td>
                                                         <td>{calcularEdad(companion?.birthdate)}</td>
                                                         <td>{companion?.experience}</td>
@@ -718,7 +739,7 @@ export const BloqueAnuncio = ({ }) => {
                                                                     <Link to={`/rating/${companion_id}`}><button onClick={valorar} className="btn btn-warning me-3">VALORAR</button></Link>
                                                                 </>
                                                             ) : (
-                                                                <button className="btn btn-success me-3" onClick={() => handleContract(companion_id)}>CONTRATAR</button>
+                                                                <button className="btn btn-success me-3" onClick={() => handleContract(companion_id, inscripcion.id)}>CONTRATAR</button>
                                                             )}
                                                             <Link to={`/perfil-profesional/${companion_id}`}>
                                                                 <span className="fa-solid fa-eye pe-3 text-dark"></span>

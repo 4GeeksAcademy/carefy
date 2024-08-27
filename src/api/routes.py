@@ -605,6 +605,7 @@ def add_inscription(companion_id, ad_id, user_id):
         companion_id = companion_id,
         ad_id = ad_id,
         user_id = user_id,
+        statusContract = 'pending',
         is_active = True
     )
 
@@ -678,25 +679,26 @@ def get_companion_rates(companion_id):
     rates_serialized = [rate.serialize() for rate in rates]
     return jsonify(rates_serialized)
 
+# Para modificar el estado de la contratación de la inscripción 
+@api.route('/inscripcion/edit/<int:inscription_id>', methods=['PUT'])
+def editar_inscripcion(inscription_id):
+    data=request.json
+    inscripcion = Inscription.query.get(inscription_id)
+    if not inscripcion:
+        return jsonify({"Error":"La inscripción no existe"}),404
+     
+    inscripcion.statusContract = data.get('statusContract', inscripcion.statusContract)
 
-
-
-
-# #Para borrar una postulación (Cuando se pulsa "Cancelar postulación")
-# @api.route('/cancelarinscripcion/<int:id>', methods=['DELETE'])
-# def borrarinscripcion(id):
-#     inscripcion=Inscription.query.filter_by(id=id).first()
-#     if inscripcion is None:
-#         return jsonify({'Error': 'inscripción no encontrada'}), 404
+    try:
+        db.session.commit()
+        return jsonify({
+            "msg": "Inscripción actualizado exitosamente",
+            "Inscripción": inscripcion.serialize()
+        }), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"ERROR": f"Ocurrió un error al actualizar la Inscripción: {str(e)}"}), 500
+        
     
-#     try: 
-#         db.session.delete(inscripcion)
-#         db.session.commit()
-#         return jsonify ({'mensaje': 'inscripción borrada correctamente'}), 200
-#     except Exception as e:
-#         db.session.rollback()
-#         return jsonify({"error": str(e)}), 500
-    
-
 
  

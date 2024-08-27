@@ -8,7 +8,10 @@ export const Postulaciones = ({ }) => {
 
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
-    const [inscripcionesMias, setInscripcionesMias] = useState ([])
+    const [inscripcionesMias, setInscripcionesMias] = useState([])
+    const [contrAceptado, setContrAceptado] = useState(false)
+    const [contrPendiente, setContrPendiente] = useState(true)
+    const [contrRechazado, setContrRechazado] = useState(false)
 
     useEffect(() => {
         actions.getAdFavs();
@@ -16,12 +19,34 @@ export const Postulaciones = ({ }) => {
     }, []);
 
     useEffect(() => {
-        setInscripcionesMias(store.inscripciones.filter(misinscripciones => misinscripciones.user_id === store.userData.userId));
+        setInscripcionesMias(store.inscripciones.filter(misinscripciones => misinscripciones.user_id === store.userData.userId))
+        inscripcionesMias.forEach((inscripcion) => {
+            if (inscripcion.statusContract === 'pending') {
+                setContrPendiente(true)
+                setContrRechazado(false)
+                setContrAceptado(false)
+            }
+            else if (inscripcion.statusContract === 'rejected') {
+                setContrRechazado(true)
+                setContrPendiente(false)
+                setContrAceptado(false)
+
+            } else if (inscripcion.statusContract === 'ok') {
+                setContrAceptado(true)
+                setContrRechazado(false)
+                setContrPendiente(false)
+            }
+        })
+
+
     }, [store.inscripciones, store.userData.userId]);
 
     const verAnuncio = () => {
         window.scrollTo(0, 0);
     }
+
+
+
 
     return (
         <>
@@ -47,39 +72,63 @@ export const Postulaciones = ({ }) => {
                         {/* Tabla Mis Postulaciones */}
                         <table className="table table-light table-hover">
                             <thead>
-                                <tr>
-                                    <th scope="col">#</th>
+                                <tr className="text-center">
+                                    <th scope="col ">#</th>
                                     <th scope="col">Anuncio</th>
                                     <th scope="col">Ubicación</th>
                                     <th scope="col">Fecha</th>
+                                    <th scope="col">Ver anuncio</th>
+                                    <th scope="col">Estado postulacion</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody >
                                 {inscripcionesMias.map((misinscripciones, index) => {
-                                        const anuncio = store.ads.find(ad => ad.id === misinscripciones.ad_id)
-                                        const paciente = store.patients.find(patient => patient.id === anuncio.patient_id)
-                                        
-                                        if (!anuncio) return null;
-                                        if (!paciente) return null;
+                                    const anuncio = store.ads.find(ad => ad.id === misinscripciones.ad_id)
+                                    const paciente = store.patients.find(patient => patient.id === anuncio.patient_id)
 
-                                        return (
-                                            <tr key={misinscripciones.id} >
-                                                <th scope="row">{index+1}</th>
-                                                <td>{anuncio.title}</td>
-                                                <td>{paciente.province}</td>
-                                                <td>{new Date(anuncio.start_date).toLocaleDateString('es-ES', {
-                                                    day: '2-digit',
-                                                    month: '2-digit',
-                                                    year: 'numeric'
-                                                })}</td>
-                                                <td className="">
-                                                    <Link to={`/anuncio/${anuncio.id}`}><span className="fa-solid fa-eye pe-3 text-dark text-end"></span></Link>
-                                                </td>
-                                            </tr>
-                                        )
+                                    if (!anuncio) return null;
+                                    if (!paciente) return null;
 
-                                    })
+                                    return (
+                                        <tr key={misinscripciones.id} className="text-center" >
+                                            <th scope="row">{index + 1}</th>
+                                            <td>{anuncio.title}</td>
+
+                                            <td>{paciente.province}</td>
+
+                                            <td>{new Date(anuncio.start_date).toLocaleDateString('es-ES', {
+                                                day: '2-digit',
+                                                month: '2-digit',
+                                                year: 'numeric'
+                                            })}</td>
+
+                                            <td className="text-center">
+                                                <Link to={`/anuncio/${anuncio.id}`}><span className="fa-solid fa-eye pe-3 text-dark text-end"></span></Link>
+                                            </td>
+
+
+                                            <td>
+                                                {contrPendiente ? (
+                                                    <>
+                                                        <div className={`${styles.btn} btn btn-warning`} >PENDIENTE</div>
+                                                    </>
+                                                ) : contrRechazado ? (
+                                                    <>
+                                                        <button className={`${styles.btn} btn btn-danger`} >RECHAZADO</button>
+                                                    </>
+                                                ) : contrAceptado ? (
+                                                    <>
+                                                        <button className={`${styles.btn} btn btn-success`}>CONTRATADO</button>
+                                                    </>
+                                                ) : ''
+                                                }
+
+                                            </td>
+                                        </tr>
+                                    )
+
+                                })
 
                                 }
 

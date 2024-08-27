@@ -5,3 +5,8 @@
 .button_tab{
     color: #B76C49;
 }
+
+.btn{
+    cursor: default;
+    pointer-events: none;
+}
