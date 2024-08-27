@@ -270,13 +270,13 @@ export const CompanionProfile = ({ }) => {
             </h2>
             <div id="collapseOne" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
               <div className="accordion-body">
-                {Array.isArray(store.rateData) && store.rateData.map((data, index) => (
+                {Array.isArray(store.rateData) && store.rateData.length > 0 ? store.rateData.map((data, index) => (
                   <div>
                     <p key={index}><span className="fa-solid fa-star pe-2"></span>{data.rate} / 5</p>
                     <p>{data.review}</p>
                     <hr />
                   </div>
-                ))}
+                )) : <span className="fs-5">Sin valoraciones</span>}
               </div>
             </div>
           </div>
