@@ -28,8 +28,6 @@ export const CompanionProfile = ({ }) => {
     actions.getCompanionFavs();
     actions.getAllFavs();
     actions.getCompanionRate(id);  // Usa 'id' para asegurarte de que se obtienen las valoraciones correctas
-
-    console.log('Datos de rate en el store:', store.rateData);
   }, [id]);
 
 
@@ -120,7 +118,7 @@ export const CompanionProfile = ({ }) => {
           </div>
           <div className="ms-3 fs-4 mt-3">
             <p>
-              <span class="fa-solid fa-star fs-4 pe-3"></span>
+              <span className="fa-solid fa-star fs-4 pe-3"></span>
               {store.rateData.length > 0 ? averageRate.toFixed(2) + " / 5" : "Sin valoraciones"}
             </p>
             <p className="fs-4"><span className="fa-solid fa-id-card pe-3"></span>{calculateAge(birthdate)} años</p>
@@ -263,7 +261,7 @@ export const CompanionProfile = ({ }) => {
                 {Array.isArray(store.rateData) && store.rateData.map((data, index) => (
                   <div>
                   <p key={index}><span className="fa-solid fa-star pe-2"></span>{data.rate} / 5</p>
-                  <p key={index}>{data.review}</p>
+                  <p>{data.review}</p>
                   <hr/>
                   </div>
                 ))}

@@ -224,9 +224,8 @@ export const BloqueAnuncio = ({ }) => {
 
     }, []);
 
-    useEffect(() => {
+    useEffect(() => {  
         actions.getCompanions();
-
     }, []);
 
     // Función para calcular la edad a partir de la fecha de nacimiento
@@ -469,8 +468,8 @@ export const BloqueAnuncio = ({ }) => {
                                                 <tr key={inscripcion.id}>
                                                     <th scope="row">1</th>
                                                     <td>{companion?.user?.name}</td>
-                                                    <td>{calcularEdad(companion?.birthdate)}</td>
-                                                    <td>{companion?.service_cost}</td>
+                                                    <td>{calcularEdad(companion?.birthdate)} años</td>
+                                                    <td>{companion?.service_cost} €</td>
                                                     <td className="text-end">
                                                         <Link to={`/perfil-profesional/${companion_id}`}>
                                                             <span className="fa-solid fa-eye pe-3 text-dark"></span>
@@ -663,12 +662,14 @@ export const BloqueAnuncio = ({ }) => {
 
                                                 const isContracted = localStorage.getItem(`contracted_${companion_id}`);
 
+                                    
+
                                                 return (
                                                     <tr key={inscripcion.id}>
                                                         <th scope="row">1</th>
-                                                        <td>{companion?.user?.name}</td>
-                                                        <td>{calcularEdad(companion?.birthdate)}</td>
-                                                        <td>{companion?.service_cost}</td>
+                                                        <td>{companion?.user?.name} {companion?.user?.lastname}</td>
+                                                        <td>{calcularEdad(companion?.birthdate)} años</td>
+                                                        <td>{companion?.service_cost} €</td>
                                                         <td className="text-end">
                                                             {isContracted ? (
                                                                 <>
