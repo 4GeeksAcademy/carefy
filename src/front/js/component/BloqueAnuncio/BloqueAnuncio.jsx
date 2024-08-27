@@ -288,7 +288,7 @@ export const BloqueAnuncio = ({ }) => {
         return initialContracted;
     });
 
-    // Función para manejar el contrato
+    // Función para manejar el contrato.
     const handleContract = async (companion_id) => {
         localStorage.setItem(`contracted_${companion_id}`, true);
         setContractedCompanions([...contractedCompanions, companion_id]);
