@@ -18,7 +18,7 @@ const FilterAds = ({ onFilter }) => {
           <div className="btn-group">
             <select value={province}
               onChange={(e) => setProvince(e.target.value)} className={`btn  ${styles.btn_buscador} ${styles.custom_select} btn-lg form-select`} id="provincia" defaultValue={"Ubicación"} aria-label="Selecciona la provincia">
-              <option className="text-dark bg-light" disabled value="">Ubicación</option>
+              <option className="text-dark bg-light" value="">Ubicación</option>
               <option className="text-dark bg-light" value="A Coruna">A Coruña</option>
               <option className="text-dark bg-light" value="Alava">Álava</option>
               <option className="text-dark bg-light" value="Albacete">Albacete</option>
