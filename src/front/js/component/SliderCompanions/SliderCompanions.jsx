@@ -62,7 +62,7 @@ export const SliderCompanions = () => {
                             <div className={`${styles.swiper_slide_paginas} ps-4 pt-3 fade-in`} key={index}>
                                 <CardsCompanions
                                     name={element?.user?.name || "Nombre no especificado"}
-                                    last_name={element?.user?.last_name || ""}
+                                    last_name={element?.user?.lastname || ""}
                                     location={element?.user?.location || "Ubicación no especificada"}
                                     province={element.province || "Ubicación no especificada"}
                                     photo={store.userData.token && element.photo ? element.photo : profileImg}
