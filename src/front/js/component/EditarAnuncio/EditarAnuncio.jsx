@@ -58,6 +58,16 @@ export const EditarAnuncio = () => {
   const handleChangeDescription = (e) => setDescription(e.target.value);
 
   const handleEdit = async () => {
+
+      if (!title || !description || !selectedPatient) {
+        setError("Por favor, seleccione una persona, complete el título y la descripción.");
+        return;
+      }
+      if (startDate > endDate) {
+        setError("La fecha de fin no puede ser menor a la de inicio.");
+        return;
+      }
+
     await actions.editAd(adId, type, startDate, endDate, price, title, description, selectedPatient);
     navigate("/mis-anuncios");
   };
@@ -193,8 +203,8 @@ export const EditarAnuncio = () => {
           <textarea className="form-control" rows={4} value={description} onChange={handleChangeDescription}></textarea>
         </div>
       </div>
-
-      <div className="d-flex justify-content-end mt-4">
+      <div className="d-flex justify-content-end align-items-start mt-4 gap-5">
+      {error && <div className="alert alert-danger" role="alert">{error}</div>}
         <button onClick={() => handleEdit(adId, type, startDate, endDate, price, title, description)} className={`${styles.btn_publicar} me-2 fs-5 btn`}>Publicar</button>
       </div>
     </div>
