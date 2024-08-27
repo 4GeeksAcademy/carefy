@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
 import styles from "./BloqueAnuncio.module.css"
 import { Context } from "../../store/appContext";
 import profileImg from "../../../img/profileImg.png"
@@ -9,6 +9,7 @@ export const BloqueAnuncio = ({ }) => {
     const { store, actions } = useContext(Context);
     const { id } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [PostularseVisible, setPostularseVisible] = useState(true);
     const [listaInscripciones, setListaInscripciones] = useState([])
@@ -104,12 +105,7 @@ export const BloqueAnuncio = ({ }) => {
         } else {
             setPostularseVisible(true);
         }
-
-
     }, []);
-
-
-
 
 
 
@@ -172,19 +168,6 @@ export const BloqueAnuncio = ({ }) => {
         }
     };
 
-    // const handleContratarClick = async (companion_id) => {
-    //     console.log('id del acompañante,', companion_id);
-    //     console.log('id del ad,', id);
-
-    //     try {
-    //         await actions.editAd(id, store.singleAd.type, store.singleAd.startDate, store.singleAd.endDate, store.singleAd.price, store.singleAd.title, store.singleAd.description, store.singleAd.patient_id, companion_id);
-
-    //     } catch (error) {
-    //         console.error("Error al contratar anuncio:", error);
-    //     }
-    // }
-
-
 
     //Para eliminar un anuncio   
     const handleDelete = (id) => {
@@ -224,12 +207,6 @@ export const BloqueAnuncio = ({ }) => {
         return age;
     };
 
-
-    //Obtiene todos los acompañantes
-    useEffect(() => {
-        actions.getCompanions();
-
-    }, []);
 
 
     //Calcula la edad a partir de la fecha de nacimiento
@@ -300,7 +277,7 @@ export const BloqueAnuncio = ({ }) => {
     };
 
     // Función para manejar la cancelación de la contratación
-    const handleCancel = async (companion_id) => {
+    const handleCancel = async (companion_id, inscripcion_id) => {
         localStorage.removeItem(`contracted_${companion_id}`);
         setContractedCompanions(contractedCompanions.filter(id => id !== companion_id));
         setContratoActivo(null)
@@ -316,6 +293,7 @@ export const BloqueAnuncio = ({ }) => {
                 store.singleAd.patient_id,
                 null // --> con esto eliminamos el id del companion que se había asociado al anuncio
             );
+            await actions.editarInscripcion(inscripcion_id, 'REJECTED');
         } catch (error) {
             console.error("Error al cancelar el contrato del anuncio:", error);
         }
@@ -735,7 +713,7 @@ export const BloqueAnuncio = ({ }) => {
                                                         <td className="text-end">
                                                             {isContracted ? (
                                                                 <>
-                                                                    <button className="btn btn-danger me-3" onClick={() => handleCancel(companion_id)}>CANCELAR</button>
+                                                                    <button className="btn btn-danger me-3" onClick={() => handleCancel(companion_id, inscripcion.id)}>CANCELAR</button>
                                                                     <Link to={`/rating/${companion_id}`}><button onClick={valorar} className="btn btn-warning me-3">VALORAR</button></Link>
                                                                 </>
                                                             ) : (

@@ -597,45 +597,7 @@ def subirfoto():
 
 
 
-# Nuevo crear inscripción desde acompañante botón POSTULARSE
-@api.route("/inscripcion/add/<int:companion_id>/<int:ad_id>/<int:user_id>", methods=['POST'])
-def add_inscription(companion_id, ad_id, user_id):
 
-    new_inscription = Inscription(
-        companion_id = companion_id,
-        ad_id = ad_id,
-        user_id = user_id,
-        statusContract = 'pending',
-        is_active = True
-    )
-
-    db.session.add(new_inscription)
-    db.session.commit()
-
-    return jsonify({
-        "msg": "inscripcion creada correctamente",
-        **new_inscription.serialize()}), 201
-
-# Nuevo borrar inscripcion
-@api.route('inscripcion/delete/<int:inscription_id>', methods=['DELETE'])
-def delete_inscription(inscription_id):
-    inscription = Inscription.query.get(inscription_id)
-
-    if inscription is None:
-        return jsonify ({'message': 'Inscripción no encontrada'}), 400
-    
-    try:     
-        db.session.delete(inscription)
-        db.session.commit()
-        return jsonify({"message":"Inscripcion borrada correctamente"}), 200
-    except Exception as e:
-        db.session.rollback()
-        return jsonify({'error': str(e)}), 500
-
-@api.route('/obtenerinscripciones', methods=['GET'])
-def obtenerinscripciones():
-    postulantes = Inscription.query.all()
-    return jsonify([postulante.serialize() for postulante in postulantes])
 
 
 #VALORACIONES Y RESEÑAS
@@ -678,6 +640,53 @@ def get_companion_rates(companion_id):
     # Serializa cada rate en la lista
     rates_serialized = [rate.serialize() for rate in rates]
     return jsonify(rates_serialized)
+
+
+
+
+
+######### INSCRIPCIONES ##########
+
+
+# Nuevo crear inscripción desde acompañante botón POSTULARSE
+@api.route("/inscripcion/add/<int:companion_id>/<int:ad_id>/<int:user_id>", methods=['POST'])
+def add_inscription(companion_id, ad_id, user_id):
+
+    new_inscription = Inscription(
+        companion_id = companion_id,
+        ad_id = ad_id,
+        user_id = user_id,
+        statusContract = 'PENDING',
+        is_active = True
+    )
+    db.session.add(new_inscription)
+    db.session.commit()
+
+    return jsonify({
+        "msg": "inscripcion creada correctamente",
+        **new_inscription.serialize()}), 201
+
+# Nuevo borrar inscripcion
+@api.route('inscripcion/delete/<int:inscription_id>', methods=['DELETE'])
+def delete_inscription(inscription_id):
+    inscription = Inscription.query.get(inscription_id)
+
+    if inscription is None:
+        return jsonify ({'message': 'Inscripción no encontrada'}), 400
+    
+    try:     
+        db.session.delete(inscription)
+        db.session.commit()
+        return jsonify({"message":"Inscripcion borrada correctamente"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+
+@api.route('/obtenerinscripciones', methods=['GET'])
+def obtenerinscripciones():
+    postulantes = Inscription.query.all()
+    return jsonify([postulante.serialize() for postulante in postulantes])
+
 
 # Para modificar el estado de la contratación de la inscripción 
 @api.route('/inscripcion/edit/<int:inscription_id>', methods=['PUT'])

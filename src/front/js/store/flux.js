@@ -1035,26 +1035,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 		
-			// obtenerinscripciones: async () => {
-			// 	try {
-			// 		const respuesta = await fetch(`${process.env.BACKEND_URL}/api/obtenerinscripciones`, {
-			// 			method: "GET"
-			// 		});
-			// 		const data = await respuesta.json();
-			// 		console.log("postulaciones", data);
-
-			// 		if (Array.isArray(data)) {
-			// 			setStore({ ...store, inscripciones_lista: data })
-			// 			localStorage.setItem('inscripciones_lista', JSON.stringify(data))
-			// 		} else {
-			// 			console.error.apply('Datos erroneos, no es un array')
-			// 		}
-			// 	}
-			// 	catch (error) {
-			// 		console.log(error);
-			// 	}
-
-			// },
+			
 
 			obtenerinscripciones: async () => {
 				try {
