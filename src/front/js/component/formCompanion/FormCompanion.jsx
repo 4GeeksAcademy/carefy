@@ -119,10 +119,10 @@ console.log(`---------------------estoyaquíestoyaqui---------------------------
   }, [store.userData.userId, store.userData.token]);
 
   useEffect(() => {
-    if (store.nuevoCompanion?.id === store.userData?.userId) {
+    if (store.oneCompanion?.user_id === store.userData?.userId) {
       actions.companion(store.nuevoCompanion?.id)
     }
-  }, [store.userData?.userId, store.nuevoCompanion?.id]);
+  }, [store.userData?.userId, store.nuevoCompanion?.user_id]);
 
   useEffect(() => {
     setCompanion({

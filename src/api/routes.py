@@ -6,9 +6,16 @@ from api.models import db, User, Patient, Ad, Status, Type, Companion, Favorite_
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, decode_token
 import cloudinary
 import cloudinary.uploader
+
+
+from sendgrid import SendGridAPIClient  # Importamos el cliente de SendGrid para enviar correos electrónicos
+from sendgrid.helpers.mail import Mail  # Importamos la clase Mail para construir el correo
+import os  # Importamos os para acceder a variables de entorno
+
+
 
 api = Blueprint('api', __name__)
 
@@ -696,5 +703,59 @@ def get_companion_rates(companion_id):
 #         return jsonify({"error": str(e)}), 500
     
 
+ #### RECUPERAR CONTRASENA ###
+# Obtenemos la API Key de SendGrid desde las variables de entorno
+SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
 
- 
+## Ruta para manejar las solicitudes de restablecimiento de contraseña
+@api.route('/request-password-reset', methods=['POST'])
+def request_password_reset():
+    data = request.json # Obtenemos los datos del cuerpo de la solicitud, que deberían incluir el email
+    user = User.query.filter_by(email=data['email']).first()  # Buscamos al usuario en la base de datos por su email
+    if user:  # Si encontramos un usuario con ese email
+        token = create_access_token(identity=user.email, expires_delta=3600) # Generamos el token con el email del usuario
+        reset_url = f"https://fuzzy-waddle-pjv76xj46r375vj-3000.app.github.dev/reset-password/{token}"  # Construimos la URL de restablecimiento usando el token
+
+        # Enviamos el correo electrónico con SendGrid
+        sg = SendGridAPIClient(SENDGRID_API_KEY)  # Inicializamos el cliente de SendGrid con la API Key
+        message = Mail(
+            from_email='wecarefy@gmail.com',  # Dirección de correo desde la cual se envía el mensaje
+            to_emails=user.email,  # Dirección de correo del usuario que solicitó el restablecimiento
+            subject='Carefy: Restablece tu contraseña',  # Asunto del correo
+            html_content=f'<p>Para restablecer tu contraseña, haz clic en el siguiente enlace:</p><p><a href="{reset_url}">Restablecer Contraseña</a></p>'  # Contenido HTML del correo
+        )
+        sg.send(message)  # Enviamos el correo
+
+    # Devolvemos una respuesta genérica para evitar que se pueda determinar si el email existe o no
+    return jsonify({'message': 'Si el correo existe en nuestra base de datos, recibirás un enlace para restablecer tu contraseña.'}), 200
+
+## Ruta que se envía por email
+
+@api.route('/reset-password/<token>', methods=['POST'])
+def reset_password(token):
+    try:
+        # Decodificamos el token JWT para obtener el email del usuario
+        decoded_token = decode_token(token)
+        email = decoded_token['identity']
+    except Exception as e:
+        # En caso de error durante la decodificación del token, devolvemos un error
+        return jsonify({'message': 'El enlace es inválido o ha expirado'}), 400
+
+    # Buscamos al usuario en la base de datos por su email
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        # Si el usuario no se encuentra, devolvemos un error
+        return jsonify({'message': 'Usuario no encontrado'}), 404
+
+    data = request.json
+    if 'password' not in data:
+        # Si no se proporciona una nueva contraseña, devolvemos un error
+        return jsonify({'message': 'No se proporcionó una nueva contraseña'}), 400
+
+    # Generamos el hash de la nueva contraseña
+    hashed_password = generate_password_hash(data['password'])
+    user.password = hashed_password  # Actualizamos la contraseña del usuario
+    db.session.commit()  # Guardamos los cambios en la base de datos
+
+    # Devolvemos una respuesta indicando que el restablecimiento fue exitoso
+    return jsonify({'message': 'Contraseña restablecida con éxito'}), 200

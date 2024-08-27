@@ -30,6 +30,8 @@ import { EditAd } from "./pages/EditAd/EditAd.jsx"
 import { TermsAndConditions } from "./pages/TermsAndConditions/TermsAndConditions.jsx";
 import { PrivacyPolitics } from "./pages/PrivacyPolitics/PrivacyPolitics.jsx";
 import { Rate } from "./pages/Rate/Rate.jsx";
+import { FormularioRestablecerContrasena } from "./pages/formularioRestablecerContrasena/FormularioRestablecerContasena.jsx";
+import { FormularioEnviarNuevaContrasena } from "./pages/formularioEnviarNuevaContrasena/FormularioEnviarNuevaContrasena.jsx";
 
 
 //create your first component
@@ -68,6 +70,8 @@ const Layout = () => {
                         <Route element={<TermsAndConditions />} path="/terminos-condiciones" />
                         <Route element={<PrivacyPolitics />} path="/politicas-privacidad" />
                         <Route element={<Rate />} path="/rating/:id" />
+                        <Route element={<FormularioRestablecerContrasena />} path="/restablecer-contrasena" />
+                        <Route element={<FormularioEnviarNuevaContrasena />} path="/reset-password/:token" />
                         
                         <Route element={<h1>Not found!</h1>} path="*"/>
 

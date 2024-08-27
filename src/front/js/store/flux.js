@@ -143,17 +143,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			logOut: () => {
 				const store = getStore();
 
-				// Elimina el objeto completo de userData del localStorage
-				localStorage.removeItem("userData");
-				localStorage.removeItem("adData");
-				localStorage.removeItem("oneCompanion");
-				localStorage.removeItem("nuevoCompanion")
-
-				localStorage.removeItem("favData");
-				localStorage.removeItem("favDataAds");
-				localStorage.removeItem("inscripciones");
-				localStorage.removeItem("postulantes");
-
+				// Elimina todo el localStorage
+				localStorage.clear();
+				
+				// Restablece el estado de la aplicación a valores predeterminados
 				setStore({
 					...store,
 					userData: {
@@ -1167,6 +1160,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('There was an error fetching the rating details!', error);
 				}
 			},
+
+			handlePasswordResetRequest: async (email) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/request-password-reset`, {
+						method: "POST",
+						body: JSON.stringify({email}),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					});
+					if (response.ok){
+						return console.log('Se ha enviado un enlace para restablecer la contraseña del usuario');
+					}
+					else {
+						console.error('Error al enviar mensaje de restablecer contraseña');
+					}
+				} catch (error) {
+					console.error('Error en reseteo contraseña: ', error)
+				}
+
+			},
+			
+
+
 			
 
 
