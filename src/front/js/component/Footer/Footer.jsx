@@ -16,7 +16,6 @@ export const Footer = () => {
             <li className="nav-item mb-2"><Link onClick={scrollTop} to="/" className="nav-link p-0 text-light">Inicio</Link></li>
             <li className="nav-item mb-2"><Link onClick={scrollTop} to="/nosotros" className="nav-link p-0 text-light">Nosotros</Link></li>
             <li className="nav-item mb-2"><Link onClick={scrollTop} to="/faq" className="nav-link p-0 text-light">FAQ</Link></li>
-            <li className="nav-item mb-2"><Link onClick={scrollTop} to="/blog" className="nav-link p-0 text-light">Blog</Link></li>
             <li className="nav-item mb-2"><Link onClick={scrollTop} to="/contacto" className="nav-link p-0 text-light">Contacto</Link></li>
           </ul>
         </div>
