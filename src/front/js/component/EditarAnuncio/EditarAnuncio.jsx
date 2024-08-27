@@ -70,7 +70,7 @@ export const EditarAnuncio = () => {
 
     const finalEndDate = endDate || "4000-01-01";
 
-    await actions.createAd(type, startDate, finalEndDate, price, title, description, selectedPatient);
+    await actions.editAd(adId, type, startDate, finalEndDate, price, title, description, selectedPatient);
     navigate(`/mis-anuncios`)
 
   }

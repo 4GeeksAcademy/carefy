@@ -73,7 +73,7 @@ export const BloqueAnuncio = ({ }) => {
             companion.user_id === userCompId
         )
         const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.user_id === userCompId && inscripcion.ad_id === adId);
-        const pacienteExistente = store.patients.find(patient => patient.id === store.singleAd.patient_id)
+        const pacienteExistente = store.patients.find(patient => patient.id === store.singleAd?.patient_id)
 
         if (companionExistente && !inscripcionExistente) {
             try {
@@ -206,7 +206,7 @@ export const BloqueAnuncio = ({ }) => {
         if (companionsParsed) {
             companionsParsed.forEach((companion) => {
                 if (companion.user?.id === userCompId) {
-                    const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.ad_id === adIdParsed.id
+                    const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.ad_id === adIdParsed?.id
                         && inscripcion.companion_id === companion.id);
 
                     if (!inscripcionExistente) {
@@ -302,7 +302,7 @@ export const BloqueAnuncio = ({ }) => {
                     isFavorited ? (
                         <span
                             onClick={() => {
-                                const favId = store.favDataAds.find(fav => fav.ad_id === store.singleAd.id);
+                                const favId = store.favDataAds.find(fav => fav.ad_id === store.singleAd?.id);
                                 if (favId) handleDeleteFav(favId);
                             }}
                             className={`position-absolute fa-solid fa-heart ${styles.fav_icon} text-danger fs-1`}
@@ -462,7 +462,7 @@ export const BloqueAnuncio = ({ }) => {
                                 <tbody>
                                     {store.inscripciones
                                         .filter(inscripcion => inscripcion.ad_id === store.singleAd.id)
-                                        .map((inscripcion) => {
+                                        .map((inscripcion, index) => {
                                             // Encuentra el companion correspondiente al companion_id de la inscripción
                                             const companion = store.companions.find(comp => comp.id === inscripcion.companion_id);
 
@@ -474,7 +474,7 @@ export const BloqueAnuncio = ({ }) => {
 
                                             return (
                                                 <tr key={inscripcion.id}>
-                                                    <th scope="row">1</th>
+                                                    <th scope="row">{index + 1}</th>
                                                     <td>{companion?.user?.name}</td>
                                                     <td>{calcularEdad(companion?.birthdate)} años</td>
                                                     <td>{companion?.service_cost} €</td>
@@ -501,7 +501,7 @@ export const BloqueAnuncio = ({ }) => {
                         isFavorited ? (
                             <span
                                 onClick={() => {
-                                    const fav = store.favDataAds.find(fav => fav.ad_id === store.singleAd.id);
+                                    const fav = store.favDataAds.find(fav => fav.ad_id === store.singleAd?.id);
                                     if (fav && fav.id) handleDeleteFav(fav.id);
                                 }}
                                 className={`position-absolute fa-solid fa-heart ${styles.fav_icon} text-danger fs-1`}
@@ -596,18 +596,25 @@ export const BloqueAnuncio = ({ }) => {
                         <div className="col-12 col-sm-7">
                             <p className="fs-4 fw-bold"><span className="fa-solid fa-calendar-days pe-3"></span>Disponibilidad</p>
                             <div className="d-flex fs-5 gap-5 align-items-baseline">
-                                <div className="d-flex gap-4 flex-wrap">
+                                <div className="d-flex flex-column flex-wrap">
                                     <p className="ps-4 ms-3">Tipo de servicio: <span className="text-secondary">{store.singleAd.type}</span></p>
-                                    <p>Inicio: <span className="text-secondary">{new Date(store.singleAd.start_date).toLocaleDateString('es-ES', {
+                                    <p className="ps-4 ms-3">Inicio: <span className="text-secondary">{new Date(store.singleAd.start_date).toLocaleDateString('es-ES', {
                                         day: '2-digit',
                                         month: '2-digit',
                                         year: 'numeric'
                                     })}</span></p>
-                                    <p>Finalización: <span className="text-secondary">{new Date(store.singleAd.end_date).toLocaleDateString('es-ES', {
-                                        day: '2-digit',
-                                        month: '2-digit',
-                                        year: 'numeric'
-                                    })}</span></p>
+                                    <p className="ps-4 ms-3">Finalización:
+                                    {store.singleAd.end_date && new Date(store.singleAd.end_date).toISOString().split('T')[0] !== "4000-01-01" ? (
+                                        <span className="text-secondary ps-2">
+                                            {new Date(store.singleAd.end_date).toLocaleDateString('es-ES', {
+                                                day: '2-digit',
+                                                month: '2-digit',
+                                                year: 'numeric'
+                                            })}
+                                        </span>
+                                    ) : (
+                                        <span className="text-secondary ps-2">sin fecha de fin</span>
+                                    )}</p>
                                 </div>
                             </div>
                         </div>
@@ -659,7 +666,7 @@ export const BloqueAnuncio = ({ }) => {
                                     <tbody>
                                         {store.inscripciones
                                             .filter(inscripcion => inscripcion.ad_id === store.singleAd.id)
-                                            .map((inscripcion) => {
+                                            .map((inscripcion, index) => {
                                                 // Encuentra el companion correspondiente al companion_id de la inscripción
                                                 const companion = store.companions.find(comp => comp.id === inscripcion.companion_id);
 
@@ -674,7 +681,7 @@ export const BloqueAnuncio = ({ }) => {
 
                                                 return (
                                                     <tr key={inscripcion.id}>
-                                                        <th scope="row">1</th>
+                                                        <th scope="row">{index + 1}</th>
                                                         <td>{companion?.user?.name} {companion?.user?.lastname}</td>
                                                         <td>{calcularEdad(companion?.birthdate)} años</td>
                                                         <td>{companion?.service_cost} €</td>

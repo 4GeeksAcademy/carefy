@@ -12,6 +12,7 @@ export const CompanionProfile = ({ }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [favorited, setFavorited] = useState(false);
+  const [loading, setLoading] = useState(true); 
 
   const perfil = store.oneCompanion;
 
@@ -22,12 +23,17 @@ export const CompanionProfile = ({ }) => {
   }
 
   useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      await actions.getUserDetails();
+      await actions.companion(id);
+      await actions.getCompanionFavs();
+      await actions.getAllFavs();
+      await actions.getCompanionRate(id);
+      setLoading(false); // Datos cargados, detener la carga
+    };
 
-    actions.getUserDetails();
-    actions.companion(id);
-    actions.getCompanionFavs();
-    actions.getAllFavs();
-    actions.getCompanionRate(id);  // Usa 'id' para asegurarte de que se obtienen las valoraciones correctas
+    fetchData();
   }, [id]);
 
 
@@ -119,7 +125,11 @@ export const CompanionProfile = ({ }) => {
           <div className="ms-3 fs-4 mt-3">
             <p>
               <span className="fa-solid fa-star fs-4 pe-3"></span>
-              {store.rateData.length > 0 ? averageRate.toFixed(2) + " / 5" : "Sin valoraciones"}
+              {store.rateData && store.rateData.length > 0
+                ? (Number.isInteger(averageRate)
+                  ? averageRate
+                  : averageRate.toFixed(2)) + " / 5"
+                : "Sin valoraciones"}
             </p>
             <p className="fs-4"><span className="fa-solid fa-id-card pe-3"></span>{calculateAge(birthdate)} años</p>
             <p className="fs-4"><span className="fa-solid fa-location-dot pe-3"></span>{store.oneCompanion?.user?.location}, {store.oneCompanion?.province}</p>
@@ -201,52 +211,54 @@ export const CompanionProfile = ({ }) => {
                 Conoce más de mí
               </p>
               {/* Instagram */}
+              <div className="d-flex ps-4 ms-3 gap-3">
               {store.oneCompanion.instagram ? (
                 <a target="_blank"
-                  className={`fs-4 ps-4 ms-3 ${styles.social_icons}`}
+                  className={`fs-4 ${styles.social_icons}`}
                   href={store.oneCompanion?.instagram}
                 >
                   <span className="fa-brands fa-square-instagram fs-4"></span>
                 </a>
               ) : (
-                <div className={`fs-4 ps-4 ms-3  ${styles.hiddenButSpace}`} />
+                <div className={`fs-4 ${styles.hiddenButSpace}`} />
               )}
 
               {/* Facebook */}
               {store.oneCompanion.facebook ? (
                 <a target="_blank"
-                  className={`fs-4 ps-4 ms-3 ${styles.social_icons}`}
+                  className={`fs-4 ${styles.social_icons}`}
                   href={store.oneCompanion?.facebook}
                 >
                   <span className="fa-brands fa-facebook-square fs-4"></span>
                 </a>
               ) : (
-                <div className={`fs-4 ps-4 ms-3 ${styles.hiddenButSpace}`} />
+                <div className={`fs-4 ${styles.hiddenButSpace}`} />
               )}
 
               {/* Twitter */}
               {store.oneCompanion.twitter ? (
                 <a target="_blank"
-                  className={`fs-4 ps-4 ms-3 ${styles.social_icons}`}
+                  className={`fs-4 ${styles.social_icons}`}
                   href={store.oneCompanion?.twitter}
                 >
                   <span className="fa-brands fa-square-x-twitter fs-4"></span>
                 </a>
               ) : (
-                <div className={`fs-4 ps-4 ms-3 ${styles.hiddenButSpace}`} />
+                <div className={`fs-4 ${styles.hiddenButSpace}`} />
               )}
 
               {/* LinkedIn */}
               {store.oneCompanion.linkedin ? (
                 <a target="_blank"
-                  className={`fs-4 ps-4 ms-3 ${styles.social_icons}`}
+                  className={`fs-4 ${styles.social_icons}`}
                   href={store.oneCompanion?.linkedin}
                 >
                   <span className="fa-brands fa-linkedin fs-4"></span>
                 </a>
               ) : (
-                <div className={`fs-4 ps-4 ms-3 ${styles.hiddenButSpace}`} />
+                <div className={`fs-4 ${styles.hiddenButSpace}`} />
               )}
+            </div>
             </div>
           )}
         <div className="accordion mt-4" id="accordionExample">
@@ -260,9 +272,9 @@ export const CompanionProfile = ({ }) => {
               <div className="accordion-body">
                 {Array.isArray(store.rateData) && store.rateData.map((data, index) => (
                   <div>
-                  <p key={index}><span className="fa-solid fa-star pe-2"></span>{data.rate} / 5</p>
-                  <p>{data.review}</p>
-                  <hr/>
+                    <p key={index}><span className="fa-solid fa-star pe-2"></span>{data.rate} / 5</p>
+                    <p>{data.review}</p>
+                    <hr />
                   </div>
                 ))}
               </div>
