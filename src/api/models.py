@@ -118,6 +118,7 @@ class Companion(db.Model):
             "twitter": self.twitter,
             "linkedin": self.linkedin,
             "user_id":self.user_id,
+            "hired": [ad.serialize() for ad in self.hired],
             "user": {
                 "id": self.user.id,
                 "name": self.user.name,
@@ -129,12 +130,20 @@ class Companion(db.Model):
         }
 
 
+
+class StatusContract(Enum):
+    PENDING = "pending"
+    REJECTED = "rejected"
+    OK = "ok"
+
+
 class Inscription(db.Model): 
     __tablename__ ="inscriptions"
     id = db.Column(db.Integer, primary_key=True)
     user_id =db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     companion_id =db.Column(db.Integer, db.ForeignKey('companions.id'), nullable=False)
     ad_id =db.Column(db.Integer,  db.ForeignKey('ads.id'), nullable=False)
+    statusContract = db.Column(db.Enum(StatusContract))
     is_active =db.Column(db.Boolean(), nullable=False) 
 
     companions = db.relationship("Companion", backref = "inscriptions")
@@ -147,6 +156,7 @@ class Inscription(db.Model):
             "user_id": self.user_id,
             "companion_id": self.companion_id,
             "ad_id": self.ad_id,
+            "statusContract": self.statusContract.value if self.statusContract else None,
             "is_active": self.is_active
         }
     

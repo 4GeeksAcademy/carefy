@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
 import styles from "./BloqueAnuncio.module.css"
 import { Context } from "../../store/appContext";
 import profileImg from "../../../img/profileImg.png"
@@ -9,10 +9,14 @@ export const BloqueAnuncio = ({ }) => {
     const { store, actions } = useContext(Context);
     const { id } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [PostularseVisible, setPostularseVisible] = useState(true);
     const [listaInscripciones, setListaInscripciones] = useState([])
     const [companion_id, setCompanion_id] = useState(0)
+    const [change, setChange] = useState(false)
+    const [botonValorarVisible, setBotonValorarVisible] = useState(false)
+    const [contratoActivo, setContratoActivo] = useState(null)
 
     //Obtiene un anuncio a través del id
     useEffect(() => {
@@ -46,20 +50,8 @@ export const BloqueAnuncio = ({ }) => {
         return <p>Cargando...</p>;
     }
 
-    /**
-     * Función para crear una postulación/inscripción a un ad
-     * @param userComId: buscar en el store el id del usuario logueado
-     * @param adId busca el Id del anuncio. 
-     * @param patients: obtenemos la lista de pacientes. 
-     * @param companions: obtenemos la lista de companions del storage
-     * @param companionsParsed: obtiene la lista anterior en un formato JSON
-     * Ponemos el botón "Postularse" en visible para que se pueda pulsar. 
-     * -forEach: recorre la lista companionParsed y se valida si el usuario del acompañanante (compain.user.id) es el mismo
-     * que el usuario logueado(user.id), nos aseguramos acceder a  los datos del usuario logueado. 
-     * Si coincide se crea inscripcionExiste, para verificar si un mismo acompañante ya está inscrito a un mismo ad.
-     * if (paciente.id === store.singleAd.patient_id)  --> de la lista de pacientes, buscamos que el paciente coincida con el del anuncio. 
-     * Si no está inscrito se llama a la función para inscribirse.
-     */
+
+    // FUNCIONA //  
     const handlePostularseClick = async () => {
         const userCompId = store.userData.userId;
         const adId = store.singleAd.id;
@@ -87,8 +79,33 @@ export const BloqueAnuncio = ({ }) => {
         }
     };
 
+    // FUNCIONA //  Obtiene todas las inscripciones y cambiar el botón de Postularse
+    useEffect(() => {
+        actions.obtenerinscripciones();
+        const userCompId = store.userData.userId;
+        const adId = localStorage.getItem('singleAd');
+        const adIdParsed = JSON.parse(adId)
+        const companions = localStorage.getItem('companions');
+        const companionsParsed = JSON.parse(companions)
 
+        if (companionsParsed) {
+            companionsParsed.forEach((companion) => {
+                if (companion.user.id === userCompId) {
+                    const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.ad_id === adIdParsed.id
+                        && inscripcion.companion_id === companion.id);
 
+                    if (!inscripcionExistente) {
+                        // Después de inscribirse con éxito, ocultar el botón "POSTULARSE"
+                        setPostularseVisible(true);
+                    } else {
+                        setPostularseVisible(false); // Oculta "CANCELAR POSTULACIÓN"
+                    }
+                }
+            });
+        } else {
+            setPostularseVisible(true);
+        }
+    }, []);
 
 
 
@@ -152,29 +169,25 @@ export const BloqueAnuncio = ({ }) => {
     };
 
 
-
-    /**
-     * Para eliminar un anuncio 
-     */
+    //Para eliminar un anuncio   
     const handleDelete = (id) => {
         actions.deleteAd(id);
         navigate('/mis-anuncios')
     }
 
-    /**
-   * Para editar un anuncio 
-   */
+
+    //Para editar un anuncio 
     const handleEditAd = (id) => {
         console.log("Editing ad with ID:", id);
         actions.getSingleAd(id);
         navigate(`/edit-ad/${id}`);
     };
 
-    /**
-* Para obtener la lista de pacientes
-*/
+
+    //Para obtener la lista de pacientes
     useEffect(() => {
         actions.getPatients();
+        actions.getCompanions();
     }, []);
 
 
@@ -184,7 +197,7 @@ export const BloqueAnuncio = ({ }) => {
     // Función para calcular la edad a partir de la fecha de nacimiento
     const getAge = (birthdate) => {
         const today = new Date();
-        const birthDate = new Date(birthdate);
+        const birthDate = new Date(birthdate);///
         let age = today.getFullYear() - birthDate.getFullYear();
         const monthDifference = today.getMonth() - birthDate.getMonth();
 
@@ -241,9 +254,7 @@ export const BloqueAnuncio = ({ }) => {
         return edadCalculada
     }
 
-    /*
-   * Para añadir un favorito 
-   */
+    //Añade un favorito a la lista    
     const handleAddFav = async (ad_id) => {
         console.log('Data de favAd: ', store.favDataAds)
         await actions.addFavAd(ad_id);
@@ -252,9 +263,8 @@ export const BloqueAnuncio = ({ }) => {
     };
 
 
-    /**
-   * Para eliminar un favorito 
-   */
+
+    //Elimina un favorito de la lista
     const handleDeleteFav = async (favId) => {
         console.log('Data de favAd: ', store.favDataAds)
         await actions.deleteFavAd(favId);
@@ -263,6 +273,11 @@ export const BloqueAnuncio = ({ }) => {
     };
 
     const isFavorited = Array.isArray(store.favDataAds) && store.favDataAds.some(fav => fav.ad_id === store.singleAd.id);
+
+    //Calcula la nota media de las evaluaciones
+    const averageRate = store.rateData.length > 0
+        ? store.rateData.reduce((acc, rate) => acc + rate.rate, 0) / store.rateData.length
+        : 0;
 
 
     const [contractedCompanions, setContractedCompanions] = useState(() => {
@@ -276,16 +291,52 @@ export const BloqueAnuncio = ({ }) => {
         return initialContracted;
     });
 
-    // Función para manejar el contrato
-    const handleContract = (companion_id) => {
+
+    // Función para manejar el contrato.
+    const handleContract = async (companion_id, inscripcion_id) => {
         localStorage.setItem(`contracted_${companion_id}`, true);
         setContractedCompanions([...contractedCompanions, companion_id]);
+        setContratoActivo(companion_id)
+
+        try {
+            await actions.editAd(id, store.singleAd.type, store.singleAd.startDate, store.singleAd.endDate, store.singleAd.price, store.singleAd.title, store.singleAd.description, store.singleAd.patient_id, companion_id);
+
+            const inscripciones = store.inscripciones;
+            for (const inscripcion of inscripciones) {
+                if (inscripcion.id === inscripcion_id) {
+                    await actions.editarInscripcion(inscripcion.id, 'OK');
+                } else {
+                    // Para el resto de las inscripciones, actualízalas a 'rejected'
+                    await actions.editarInscripcion(inscripcion.id, 'REJECTED');
+                }
+            }
+        } catch (error) {
+            console.error("Error al contratar anuncio:", error);
+        }
+
     };
 
-    // Función para manejar la cancelación
-    const handleCancel = (companion_id) => {
+    // Función para manejar la cancelación de la contratación
+    const handleCancel = async (companion_id, inscripcion_id) => {
         localStorage.removeItem(`contracted_${companion_id}`);
         setContractedCompanions(contractedCompanions.filter(id => id !== companion_id));
+        setContratoActivo(null)
+        try {
+            await actions.editAd(
+                id,
+                store.singleAd.type,
+                store.singleAd.startDate,
+                store.singleAd.endDate,
+                store.singleAd.price,
+                store.singleAd.title,
+                store.singleAd.description,
+                store.singleAd.patient_id,
+                null // --> con esto eliminamos el id del companion que se había asociado al anuncio
+            );
+            await actions.editarInscripcion(inscripcion_id, 'REJECTED');
+        } catch (error) {
+            console.error("Error al cancelar el contrato del anuncio:", error);
+        }
     };
 
 
@@ -362,6 +413,7 @@ export const BloqueAnuncio = ({ }) => {
                         >
                             POSTULARSE
                         </button>
+
                     ) : store.userData.role == "companion" ? (
                         <button
                             className={`btn ${styles.btn_cancel_postularse} fs-4 fw-bold`}
@@ -445,6 +497,7 @@ export const BloqueAnuncio = ({ }) => {
                         </p>
                     </div>
                 </div>
+
                 {store.singleAd.user_id === store.userData.userId ?
                     <>
                         <p className="fs-4 fw-bold">Solicitudes</p>
@@ -455,7 +508,9 @@ export const BloqueAnuncio = ({ }) => {
                                         <th scope="col">#</th>
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Edad</th>
+                                        <th scope="col">Experiencia</th>
                                         <th scope="col">Costo (hora)</th>
+                                        <th scope="col">Valoración</th>
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
@@ -476,13 +531,29 @@ export const BloqueAnuncio = ({ }) => {
                                                 <tr key={inscripcion.id}>
                                                     <th scope="row">{index + 1}</th>
                                                     <td>{companion?.user?.name}</td>
-                                                    <td>{calcularEdad(companion?.birthdate)} años</td>
-                                                    <td>{companion?.service_cost} €</td>
+                                                    <td>{calcularEdad(companion?.birthdate)}</td>
+                                                    <td>{companion?.experience}</td>
+                                                    <td>{companion?.service_cost}</td>
+                                                    <td>{valoracion}</td>
                                                     <td className="text-end">
                                                         <Link to={`/perfil-profesional/${companion_id}`}>
                                                             <span className="fa-solid fa-eye pe-3 text-dark"></span>
                                                         </Link>
-
+                                                        {/* Papelera para eliminar la postulación */}
+                                                        <span className="fa-regular fa-trash-can" type="button" data-bs-toggle="modal" data-bs-target="#eliminarPostulacion"></span>
+                                                        <div className={`modal fade ${styles.modal_edit}`} data-bs-backdrop="false" id="eliminarPostulacion" tabIndex="-1" aria-labelledby="eliminarPostulacionLabel" aria-hidden="true">
+                                                            <div className="modal-dialog modal-dialog-centered">
+                                                                <div className="modal-content">
+                                                                    <div className="modal-body fw-bold fs-4 text-start">
+                                                                        ¿Desea eliminar esta postulación?
+                                                                    </div>
+                                                                    <div className="modal-footer">
+                                                                        <button type="button" className="btn btn-secondary fs-5" data-bs-dismiss="modal">Volver</button>
+                                                                        <button type="button" className="btn btn-danger fs-5" data-bs-dismiss="modal" onClick={() => handleCancelarClick()}>Eliminar</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             );
@@ -604,17 +675,17 @@ export const BloqueAnuncio = ({ }) => {
                                         year: 'numeric'
                                     })}</span></p>
                                     <p className="ps-4 ms-3">Finalización:
-                                    {store.singleAd.end_date && new Date(store.singleAd.end_date).toISOString().split('T')[0] !== "4000-01-01" ? (
-                                        <span className="text-secondary ps-2">
-                                            {new Date(store.singleAd.end_date).toLocaleDateString('es-ES', {
-                                                day: '2-digit',
-                                                month: '2-digit',
-                                                year: 'numeric'
-                                            })}
-                                        </span>
-                                    ) : (
-                                        <span className="text-secondary ps-2">sin fecha de fin</span>
-                                    )}</p>
+                                        {store.singleAd.end_date && new Date(store.singleAd.end_date).toISOString().split('T')[0] !== "4000-01-01" ? (
+                                            <span className="text-secondary ps-2">
+                                                {new Date(store.singleAd.end_date).toLocaleDateString('es-ES', {
+                                                    day: '2-digit',
+                                                    month: '2-digit',
+                                                    year: 'numeric'
+                                                })}
+                                            </span>
+                                        ) : (
+                                            <span className="text-secondary ps-2">sin fecha de fin</span>
+                                        )}</p>
                                 </div>
                             </div>
                         </div>
@@ -659,7 +730,9 @@ export const BloqueAnuncio = ({ }) => {
                                             <th scope="col">#</th>
                                             <th scope="col">Nombre</th>
                                             <th scope="col">Edad</th>
+                                            <th scope="col">Experiencia</th>
                                             <th scope="col">Costo (hora)</th>
+                                            <th scope="col">Valoración</th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
@@ -675,36 +748,40 @@ export const BloqueAnuncio = ({ }) => {
 
                                                 const { id: companion_id, user, birthdate, experiencia, precio, valoracion } = companion;
 
-                                                const isContracted = localStorage.getItem(`contracted_${companion_id}`);
-
+                                                const isContracted = localStorage.getItem(`contracted_${companion_id}`) || contractedCompanions.includes(companion_id);
+                                                const isActiveContract = contratoActivo === companion_id // --> esto verifica si la fila está contratada o no. 
 
 
                                                 return (
-                                                    <tr key={inscripcion.id}>
-                                                        <th scope="row">{index + 1}</th>
-                                                        <td>{companion?.user?.name} {companion?.user?.lastname}</td>
-                                                        <td>{calcularEdad(companion?.birthdate)} años</td>
-                                                        <td>{companion?.service_cost} €</td>
+                                                    <tr key={inscripcion.id}
+                                                        style={{ //-->estilo para poner el resto de columnas casi invisibles
+                                                            opacity: contratoActivo && contratoActivo !== companion_id ? 0.5 : 1,
+                                                            pointerEvents: contratoActivo && contratoActivo !== companion_id ? 'none' : 'auto',
+                                                        }}
+                                                    >
+                                                        <th scope="row">{index + 1}1</th>
+                                                        <td>{companion?.user?.name}</td>
+                                                        <td>{calcularEdad(companion?.birthdate)}</td>
+                                                        <td>{companion?.experience}</td>
+                                                        <td>{companion?.service_cost}</td>
+                                                        <td><span className="ps-2 fa-solid fa-star pe-1"></span> {store.rateData.length > 0 ? averageRate.toFixed(2) + " / 5" : "Sin valoraciones"}</td>
                                                         <td className="text-end">
                                                             {isContracted ? (
                                                                 <>
-                                                                    <button className="btn btn-danger me-3" onClick={() => handleCancel(companion_id)}>CANCELAR</button>
+                                                                    <button className="btn btn-danger me-3" onClick={() => handleCancel(companion_id, inscripcion.id)}>CANCELAR</button>
                                                                     <Link to={`/rating/${companion_id}`}><button onClick={valorar} className="btn btn-warning me-3">VALORAR</button></Link>
                                                                 </>
                                                             ) : (
-                                                                <button className="btn btn-success me-3" onClick={() => handleContract(companion_id)}>CONTRATAR</button>
+                                                                <button className="btn btn-success me-3" onClick={() => handleContract(companion_id, inscripcion.id)}>CONTRATAR</button>
                                                             )}
                                                             <Link to={`/perfil-profesional/${companion_id}`}>
                                                                 <span className="fa-solid fa-eye pe-3 text-dark"></span>
                                                             </Link>
-
                                                         </td>
                                                     </tr>
                                                 );
                                             })}
                                     </tbody>
-
-
                                 </table>
                             </div>
                         </> : ""
@@ -712,3 +789,6 @@ export const BloqueAnuncio = ({ }) => {
                 </div>) : ""
     )
 }
+
+
+
