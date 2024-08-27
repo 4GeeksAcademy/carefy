@@ -224,7 +224,7 @@ export const BloqueAnuncio = ({ }) => {
 
     }, []);
 
-    useEffect(() => {  
+    useEffect(() => {
         actions.getCompanions();
     }, []);
 
@@ -393,18 +393,26 @@ export const BloqueAnuncio = ({ }) => {
                     <div className="col-12 col-sm-7">
                         <p className="fs-4 fw-bold"><span className="fa-solid fa-calendar-days pe-3"></span>Disponibilidad</p>
                         <div className="d-flex fs-5 gap-5 align-items-baseline">
-                            <div className="d-flex gap-4 flex-wrap">
+                            <div className="d-flex flex-column flex-wrap">
                                 <p className="ps-4 ms-3">Tipo de servicio: <span className="text-secondary">{store.singleAd.type}</span></p>
-                                <p>Inicio: <span className="text-secondary">{new Date(store.singleAd.start_date).toLocaleDateString('es-ES', {
+                                <p className="ps-4 ms-3">Inicio: <span className="text-secondary">{new Date(store.singleAd.start_date).toLocaleDateString('es-ES', {
                                     day: '2-digit',
                                     month: '2-digit',
                                     year: 'numeric'
                                 })}</span></p>
-                                <p>Finalización: <span className="text-secondary">{new Date(store.singleAd.end_date).toLocaleDateString('es-ES', {
-                                    day: '2-digit',
-                                    month: '2-digit',
-                                    year: 'numeric'
-                                })}</span></p>
+                                <p className="ps-4 ms-3">Finalización:
+                                    {store.singleAd.end_date && new Date(store.singleAd.end_date).toISOString().split('T')[0] !== "4000-01-01" ? (
+                                        <span className="text-secondary ps-2">
+                                            {new Date(store.singleAd.end_date).toLocaleDateString('es-ES', {
+                                                day: '2-digit',
+                                                month: '2-digit',
+                                                year: 'numeric'
+                                            })}
+                                        </span>
+                                    ) : (
+                                        <span className="text-secondary ps-2">sin fecha de fin</span>
+                                    )}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -662,7 +670,7 @@ export const BloqueAnuncio = ({ }) => {
 
                                                 const isContracted = localStorage.getItem(`contracted_${companion_id}`);
 
-                                    
+
 
                                                 return (
                                                     <tr key={inscripcion.id}>

@@ -52,16 +52,18 @@ const DataAds = () => {
 
 
   const createAd = async () => {
-    if (!title || !description || !selectedPatient) {
-      setError("Por favor, seleccione una persona, complete el título y la descripción.");
+    if (!title || !description || !selectedPatient || !startDate) {
+      setError("Por favor, seleccione una persona, complete la fecha de inicio, título y descripción.");
       return;
     }
-    if (startDate > endDate) {
+    if (endDate && startDate > endDate) {
       setError("La fecha de fin no puede ser menor a la de inicio.");
       return;
     }
 
-    await actions.createAd(type, startDate, endDate, price, title, description, selectedPatient);
+    const finalEndDate = endDate || "4000-01-01";
+
+    await actions.createAd(type, startDate, finalEndDate, price, title, description, selectedPatient);
     navigate(`/mis-anuncios`)
 
   }
