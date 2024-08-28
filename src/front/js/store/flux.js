@@ -643,7 +643,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 
-
+			////////AÑADIR POSTULACION / INSCRIPCIÓN ///////////////////////////////
 			add_inscription: async (companion_id, ad_id, user_id) => {
 				const store = getStore();
 				try {
@@ -669,7 +669,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 						setStore({
 							...store,
-							inscriptions: updatedInscriptions
+							inscripciones: updatedInscriptions
 						});
 
 						console.log("Dato ok", data);

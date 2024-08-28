@@ -16,7 +16,8 @@ export const BloqueAnuncio = ({ }) => {
     const [companion_id, setCompanion_id] = useState(0)
     const [change, setChange] = useState(false)
     const [botonValorarVisible, setBotonValorarVisible] = useState(false)
-    const [contratoActivo, setContratoActivo] = useState(null)
+    // const [contractedCompanions, setContractedCompanions] = useState([]);
+    const [contratoActivo, setContratoActivo] = useState(null);
 
     //Obtiene un anuncio a través del id
     useEffect(() => {
@@ -65,7 +66,6 @@ export const BloqueAnuncio = ({ }) => {
             companion.user_id === userCompId
         )
         const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.user_id === userCompId && inscripcion.ad_id === adId);
-        const pacienteExistente = store.patients.find(patient => patient.id === store.singleAd?.patient_id)
 
         if (companionExistente && !inscripcionExistente) {
             try {
@@ -74,39 +74,10 @@ export const BloqueAnuncio = ({ }) => {
             } catch (error) {
                 console.error('Error al añadir la inscripcion', error)
             } finally {
-                window.location.reload()
+                // window.location.reload()
             }
         }
     };
-
-    // FUNCIONA //  Obtiene todas las inscripciones y cambiar el botón de Postularse
-    useEffect(() => {
-        actions.obtenerinscripciones();
-        const userCompId = store.userData.userId;
-        const adId = localStorage.getItem('singleAd');
-        const adIdParsed = JSON.parse(adId)
-        const companions = localStorage.getItem('companions');
-        const companionsParsed = JSON.parse(companions)
-
-        if (companionsParsed) {
-            companionsParsed.forEach((companion) => {
-                if (companion.user.id === userCompId) {
-                    const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.ad_id === adIdParsed.id
-                        && inscripcion.companion_id === companion.id);
-
-                    if (!inscripcionExistente) {
-                        // Después de inscribirse con éxito, ocultar el botón "POSTULARSE"
-                        setPostularseVisible(true);
-                    } else {
-                        setPostularseVisible(false); // Oculta "CANCELAR POSTULACIÓN"
-                    }
-                }
-            });
-        } else {
-            setPostularseVisible(true);
-        }
-    }, []);
-
 
 
     /**
@@ -122,20 +93,10 @@ export const BloqueAnuncio = ({ }) => {
     const handleCancelarClick = async () => {
         const adId = store.singleAd.id;
         const userCompId = store.userData.userId;
-        const inscriptionId = localStorage.getItem('inscripciones_lista');
-        if (!inscriptionId) {
-            console.error('No hay datos en localStorage para "inscripciones_lista".');
-            return;
-        }
 
-        const lista_inscripciones = JSON.parse(inscriptionId);
-        if (!Array.isArray(lista_inscripciones)) {
-            console.error('El formato de "inscripciones_lista" no es válido.');
-            return;
-        }
 
         // Buscar la inscripción que corresponda al usuario y al anuncio actual
-        const inscripcionAEliminar = lista_inscripciones.find(inscripcion =>
+        const inscripcionAEliminar = store.inscripciones.find(inscripcion =>
             inscripcion.user_id === userCompId && inscripcion.ad_id === adId
         );
 
@@ -144,7 +105,7 @@ export const BloqueAnuncio = ({ }) => {
 
                 await actions.deleteinscription(inscripcionAEliminar.id);
 
-                const updatedInscriptions = lista_inscripciones.filter(inscripcion =>
+                const updatedInscriptions = store.inscripciones.filter(inscripcion =>
                     inscripcion.id !== inscripcionAEliminar.id
                 );
                 localStorage.setItem('inscripciones_lista', JSON.stringify(updatedInscriptions));
@@ -152,7 +113,7 @@ export const BloqueAnuncio = ({ }) => {
                 // Actualizar el estado de la tienda
                 setStore({
                     ...store,
-                    inscriptions: updatedInscriptions
+                    inscripciones: updatedInscriptions
                 });
 
                 // Opcionalmente, puedes mostrar una notificación de éxito aquí
@@ -161,7 +122,7 @@ export const BloqueAnuncio = ({ }) => {
                 console.error("Error al eliminar la inscripción:", error);
             } finally {
                 // Recargar la página solo después de que la acción se haya completado
-                window.location.reload();
+                // window.location.reload();
             }
         } else {
             console.warn('No se encontró una inscripción que corresponda a este usuario y anuncio.');
@@ -208,6 +169,13 @@ export const BloqueAnuncio = ({ }) => {
     };
 
     // Obtiene todas las inscripciones y cambiar el botón de Postularse
+    // 0 comprobar si esta logueado
+    // 1 buscar el ad por el id
+    // 2 buscas las postulaciones a ese ad.id --> devuelve lista de postulaciones
+    // 3 buscar si mi user.id esta dentro de esas postulaciones. 
+    //      si está: debe aparecer "CANCELAR POSTULACION" -- delete
+    //      si no está: debe aparecer "postular " -- post
+
     useEffect(() => {
         actions.obtenerinscripciones();
         const userCompId = store.userData.userId;
@@ -216,29 +184,44 @@ export const BloqueAnuncio = ({ }) => {
         const companions = localStorage.getItem('companions');
         const companionsParsed = JSON.parse(companions)
 
-        if (companionsParsed) {
-            companionsParsed.forEach((companion) => {
-                if (companion.user?.id === userCompId) {
-                    const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.ad_id === adIdParsed?.id
-                        && inscripcion.companion_id === companion.id);
 
-                    if (!inscripcionExistente) {
-                        // Después de inscribirse con éxito, ocultar el botón "POSTULARSE"
-                        setPostularseVisible(true);
-                    } else {
-                        setPostularseVisible(false); // Oculta "CANCELAR POSTULACIÓN"
-                    }
-                }
-            });
-        } else {
+        // const companion = store.companions.find(companion => companion.user_id === userCompId);
+        const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.ad_id === adIdParsed.id
+            && inscripcion.user_id === userCompId);
+
+        if (!inscripcionExistente) {
+            // Después de inscribirse con éxito, ocultar el botón "POSTULARSE"
             setPostularseVisible(true);
+        } else {
+            setPostularseVisible(false); // Oculta "CANCELAR POSTULACIÓN"
         }
 
 
-    }, []);
+
+        // if (companionsParsed) {
+        //     companionsParsed.forEach((companion) => {
+        //         if (companion.user.id === userCompId) {
+        //             const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.ad_id === adIdParsed.id
+        //                 && inscripcion.companion_id === companion.id);
+
+        //             if (!inscripcionExistente) {
+        //                 // Después de inscribirse con éxito, ocultar el botón "POSTULARSE"
+        //                 setPostularseVisible(true);
+        //             } else {
+        //                 setPostularseVisible(false); // Oculta "CANCELAR POSTULACIÓN"
+        //             }
+        //         }
+        //     });
+        // } else {
+        //     setPostularseVisible(true);
+        // }
+
+
+    }, [store.inscripciones, store.singleAd.id]);
 
     useEffect(() => {
         actions.getCompanions();
+
     }, []);
 
     // Función para calcular la edad a partir de la fecha de nacimiento
@@ -294,11 +277,15 @@ export const BloqueAnuncio = ({ }) => {
 
     // Función para manejar el contrato.
     const handleContract = async (companion_id, inscripcion_id) => {
+        // Actualiza localStorage y estado
+        const updatedContractedCompanions = [...contractedCompanions, companion_id];
+        localStorage.setItem('contractedCompanions', JSON.stringify(updatedContractedCompanions));
         localStorage.setItem(`contracted_${companion_id}`, true);
-        setContractedCompanions([...contractedCompanions, companion_id]);
-        setContratoActivo(companion_id)
+        setContractedCompanions(updatedContractedCompanions);
+        setContratoActivo(companion_id);
 
         try {
+            // Actualiza la base de datos
             await actions.editAd(id, store.singleAd.type, store.singleAd.startDate, store.singleAd.endDate, store.singleAd.price, store.singleAd.title, store.singleAd.description, store.singleAd.patient_id, companion_id);
 
             const inscripciones = store.inscripciones;
@@ -306,22 +293,26 @@ export const BloqueAnuncio = ({ }) => {
                 if (inscripcion.id === inscripcion_id) {
                     await actions.editarInscripcion(inscripcion.id, 'OK');
                 } else {
-                    // Para el resto de las inscripciones, actualízalas a 'rejected'
                     await actions.editarInscripcion(inscripcion.id, 'REJECTED');
                 }
             }
         } catch (error) {
             console.error("Error al contratar anuncio:", error);
         }
-
     };
+
 
     // Función para manejar la cancelación de la contratación
     const handleCancel = async (companion_id, inscripcion_id) => {
+        // Elimina el contrato del localStorage y actualiza el estado
         localStorage.removeItem(`contracted_${companion_id}`);
-        setContractedCompanions(contractedCompanions.filter(id => id !== companion_id));
-        setContratoActivo(null)
+        const updatedContractedCompanions = contractedCompanions.filter(id => id !== companion_id);
+        localStorage.setItem('contractedCompanions', JSON.stringify(updatedContractedCompanions));
+        setContractedCompanions(updatedContractedCompanions);
+        setContratoActivo(null);
+
         try {
+            // Actualiza el anuncio para eliminar el compañero
             await actions.editAd(
                 id,
                 store.singleAd.type,
@@ -331,7 +322,7 @@ export const BloqueAnuncio = ({ }) => {
                 store.singleAd.title,
                 store.singleAd.description,
                 store.singleAd.patient_id,
-                null // --> con esto eliminamos el id del companion que se había asociado al anuncio
+                null // Elimina el ID del compañero del anuncio
             );
             await actions.editarInscripcion(inscripcion_id, 'REJECTED');
         } catch (error) {
@@ -339,6 +330,15 @@ export const BloqueAnuncio = ({ }) => {
         }
     };
 
+    useEffect(() => {
+        // Cargar compañeros contratados desde localStorage
+        const storedContractedCompanions = JSON.parse(localStorage.getItem('contractedCompanions')) || [];
+        setContractedCompanions(storedContractedCompanions);
+
+        // Cargar contrato activo desde localStorage (si aplica)
+        const activeContract = storedContractedCompanions.find(id => localStorage.getItem(`contracted_${id}`));
+        setContratoActivo(activeContract || null);
+    }, []);
 
     const valorar = () => {
         window.scrollTo(0, 0)

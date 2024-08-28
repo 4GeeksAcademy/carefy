@@ -7,6 +7,7 @@ export const Postulaciones = ({ }) => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
     const [inscripcionesMias, setInscripcionesMias] = useState([]);
+    const [contractStatus, setContractStatus] = useState({});
 
     useEffect(() => {
         actions.getAdFavs();
@@ -22,6 +23,23 @@ export const Postulaciones = ({ }) => {
     const verAnuncio = () => {
         window.scrollTo(0, 0);
     };
+
+    useEffect(() => {
+        const adId = localStorage.getItem('singleAd');
+        const adIdParsed = JSON.parse(adId);
+        
+        if (adIdParsed && adIdParsed.id) {
+            const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.user_id === store.userData.userId && inscripcion.ad_id === adIdParsed.id);
+
+            if (inscripcionExistente) {
+                setContractStatus(prevStatus => ({
+                    ...prevStatus,
+                    [inscripcionExistente.id]: inscripcionExistente.statusContract
+                }));
+            }
+        }
+    }, [store.inscripciones, store.userData.userId]);
+
 
     /**
      * Función para cambiar el botón según el estado de la contratación que reciba. 
