@@ -12,6 +12,7 @@ from api.admin import setup_admin
 from api.commands import setup_commands
 from flask_jwt_extended import JWTManager
 import cloudinary
+from api.mail.mail_config import mail
 
 # from models import Person
 
@@ -29,6 +30,14 @@ cloudinary.config(
     api_key=os.getenv('CLOUDINARY_API_KEY'),
     api_secret=os.getenv('CLOUDINARY_API_SECRET')
 )
+
+app.config['MAIL_SERVER']= 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = os.getenv("EMAIL_USERNAME")
+app.config['MAIL_PASSWORD'] = os.getenv("EMAIL_PASSWORD")
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_DEFAULT_SENDER'] = ('Carefy', 'wecarefy@gmail.com')
+mail.init_app(app)
 
 # database condiguration
 db_url = os.getenv("DATABASE_URL")

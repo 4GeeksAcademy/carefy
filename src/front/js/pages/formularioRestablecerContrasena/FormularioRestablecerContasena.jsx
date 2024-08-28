@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 
-import { Context } from "../../store/appContext";
+import { Context } from "../../store/appContext.js";
 import styles from "./formularioRestablecerContrasena.module.css"
 
 export const FormularioRestablecerContrasena = () => {
@@ -14,15 +14,11 @@ export const FormularioRestablecerContrasena = () => {
         actions.getUsers(); 
     }, []);
 
-    const enviarEmail = async (email) => {
-        const user = store.users.find(user => user.email === email);
+    const enviarEmail = async () => {
 
-        if (!email || !user) {
-            setError("Por favor, introduce un email válido.");
-            return;
-        }
-
-        const result = await actions.handlePasswordResetRequest(email);
+        console.log(email)
+        const result = await actions.sendResetEmail(email);
+        console.log(result)
         if (result) {
             setMessage("Se ha enviado un enlace para restablecer tu contraseña. Por favor, revisa tu correo.");
             setError(null); // Limpiar el mensaje de error si la solicitud fue exitosa
@@ -49,7 +45,7 @@ export const FormularioRestablecerContrasena = () => {
                             value={email} />
                     </div>
                     <div className="">
-                        <button onClick={() => enviarEmail(email)} className={`${styles.botonInicio} fs-5 submit btn btn-primary mb-3`}>
+                        <button onClick={enviarEmail} className={`${styles.botonInicio} fs-5 submit btn btn-primary mb-3`}>
                             Enviar enlace
                         </button>
                     </div>

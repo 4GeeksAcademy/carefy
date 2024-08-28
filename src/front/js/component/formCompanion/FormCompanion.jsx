@@ -197,7 +197,7 @@ console.log(`---------------------estoyaquíestoyaqui---------------------------
     } catch (error) {
       console.error('There was an error submitting the data:', error);
     }
-
+    if(store.nuevoCompanion?.id)
     navigate(`/perfil-profesional/${store.nuevoCompanion?.id}`);
   };
 

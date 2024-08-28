@@ -71,7 +71,7 @@ const Layout = () => {
                         <Route element={<PrivacyPolitics />} path="/politicas-privacidad" />
                         <Route element={<Rate />} path="/rating/:id" />
                         <Route element={<FormularioRestablecerContrasena />} path="/restablecer-contrasena" />
-                        <Route element={<FormularioEnviarNuevaContrasena />} path="/reset-password/:token" />
+                        <Route element={<FormularioEnviarNuevaContrasena />} path="/reset-password" />
                         
                         <Route element={<h1>Not found!</h1>} path="*"/>
 

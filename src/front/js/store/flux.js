@@ -66,6 +66,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 						// Guardar el objeto en localStorage
 						localStorage.setItem('userData', JSON.stringify(userData));
+						
+						
 
 						// Actualizar el store con los datos del usuario
 						setStore({
@@ -74,6 +76,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 							adData: [],
 							nuevoCompanion: data.companion
 						});
+						
 
 						console.log("Success:", data);
 					} else {
@@ -1160,27 +1163,66 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('There was an error fetching the rating details!', error);
 				}
 			},
-
-			handlePasswordResetRequest: async (email) => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/request-password-reset`, {
-						method: "POST",
-						body: JSON.stringify({email}),
+			sendResetEmail: async (email) => {
+				try{
+					// fetching data from the backend
+					const resp = await fetch(process.env.BACKEND_URL + "/api/check_mail", {
+						method: 'POST',
 						headers: {
-							"Content-Type": "application/json"
-						}
-					});
-					if (response.ok){
-						return console.log('Se ha enviado un enlace para restablecer la contraseña del usuario');
-					}
-					else {
-						console.error('Error al enviar mensaje de restablecer contraseña');
-					}
-				} catch (error) {
-					console.error('Error en reseteo contraseña: ', error)
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({email})
+					})
+					if (resp.status!=200) return false
+					const data = await resp.json()
+					console.log(data)
+					return data;
+				}catch(error){
+					console.log("Error loading message from backend", error)
 				}
-
 			},
+
+			updatePassword: async (password, token) => {
+				try{
+					// fetching data from the backend
+					const resp = await fetch(process.env.BACKEND_URL + "/api/password_update", {
+						method: 'PUT',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': `Bearer ${token}`
+						},
+						body: JSON.stringify({password})
+					})
+					if (resp.status!=200) return false
+					const data = await resp.json()
+					console.log(data)
+					return data;
+				}catch(error){
+					console.log("Error loading message from backend", error)
+				}
+			},
+
+			checkAuth: async(token) => {
+				try{
+					// fetching data from the backend
+					const resp = await fetch(process.env.BACKEND_URL + "/api/token", {
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': `Bearer ${token}`
+						},
+						method: 'GET',
+					})
+					if (resp.status!=200) return false
+					const data = await resp.json()
+					console.log(data)
+					return data;
+				}catch(error){
+					console.log("Error loading message from backend", error)
+				}
+			},
+
+
+		
 			
 
 

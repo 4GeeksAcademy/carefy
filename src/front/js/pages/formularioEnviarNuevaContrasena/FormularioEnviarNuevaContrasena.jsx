@@ -1,35 +1,46 @@
-import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./formularioEnviarNuevaContrasena.module.css"
+import { Context } from "../../store/appContext.js";
 
 export const FormularioEnviarNuevaContrasena = () => {
-    const { token } = useParams(); // Obtiene el token de la URL
-    const navigate = useNavigate(); // Usamos `useNavigate` para redirigir al usuario
+    const { store, actions } = useContext(Context);
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+	const token = queryParams.get('token');
     const [password, setPassword] = useState(''); // Estado para la nueva contraseña
+    const navigate = useNavigate(); // Usamos `useNavigate` para redirigir al usuario
     const [error, setError] = useState(''); // Estado para manejar errores
+    const [user, setUser] = useState()
+
+    useEffect(() => {
+		if (token) {
+			//creamos funcion async para que el correcto uso del useEffect 
+			const fetchData = async () => {
+
+				//verificamos que el token sea correcto y podemos saber que usuario es el que esta accediendo con la identidad del token
+				const resp = await actions.checkAuth(token);
+				setUser(prev => prev = resp.user)
+			}
+			fetchData()
+		}
+		else {
+			alert('Link expiró, intentelo de nuevo')
+		}
+	}, [token]);
 
     const handlePasswordReset = async () => {
-        try {
-            const response = await fetch(`${process.env.BACKEND_URL}/api/reset-password/${token}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ password }),
-            });
-
-            if (response.ok) {
-                alert('Contraseña restablecida con éxito.');
-                navigate('/'); // Redirige al usuario a la página de inicio
+        const resp = await actions.updatePassword(password, token)
+		if (resp.success) {
+			alert('vamos a logearnos ahora!')
+			navigate('/')
+       
             } else {
                 // Manejo de errores si la respuesta no es OK
                 const errorData = await response.json();
                 setError(errorData.message || 'Hubo un error al restablecer la contraseña.');
             }
-        } catch (error) {
-            // Manejo de errores en caso de fallo en la solicitud
-            setError('Hubo un error en la solicitud.');
-        }
+       
     };
 
     return (

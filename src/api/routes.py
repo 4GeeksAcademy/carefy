@@ -9,12 +9,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, decode_token
 import cloudinary
 import cloudinary.uploader
-
-
-from sendgrid import SendGridAPIClient  # Importamos el cliente de SendGrid para enviar correos electrónicos
-from sendgrid.helpers.mail import Mail  # Importamos la clase Mail para construir el correo
-import os  # Importamos os para acceder a variables de entorno
-
+from flask_mail import Message
+from api.mail.mailer import send_email
 
 
 api = Blueprint('api', __name__)
@@ -111,11 +107,11 @@ def create_token():
     
     if users is None:
         # el usuario no se encontró en la base de datos
-        return jsonify({"msg": "Bad username or password"}), 401
+        return jsonify({"msg": "Bad username or password"}), 404
 
     if not check_password_hash(users.password, password):
         # Incorrect password
-        return jsonify({"msg": "Bad username or password"}), 401
+        return jsonify({"msg": "Bad username or password"}), 403
     
     # Crea un nuevo token con el id de usuario dentro
     access_token = create_access_token(identity=users.id)
@@ -683,6 +679,14 @@ def get_companion_rates(companion_id):
     rates_serialized = [rate.serialize() for rate in rates]
     return jsonify(rates_serialized)
 
+@api.route('/token', methods=['GET'])
+@jwt_required()
+def check_jwt():
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    if user:
+        return jsonify({'success': True, 'user': user.serialize()}), 200
+    return jsonify({'success': False, 'msg': 'Bad token'}), 401
 
 
 
@@ -704,58 +708,41 @@ def get_companion_rates(companion_id):
     
 
  #### RECUPERAR CONTRASENA ###
-# Obtenemos la API Key de SendGrid desde las variables de entorno
-SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
 
-## Ruta para manejar las solicitudes de restablecimiento de contraseña
-@api.route('/request-password-reset', methods=['POST'])
-def request_password_reset():
-    data = request.json # Obtenemos los datos del cuerpo de la solicitud, que deberían incluir el email
-    user = User.query.filter_by(email=data['email']).first()  # Buscamos al usuario en la base de datos por su email
-    if user:  # Si encontramos un usuario con ese email
-        token = create_access_token(identity=user.email, expires_delta=3600) # Generamos el token con el email del usuario
-        reset_url = f"https://fuzzy-waddle-pjv76xj46r375vj-3000.app.github.dev/reset-password/{token}"  # Construimos la URL de restablecimiento usando el token
 
-        # Enviamos el correo electrónico con SendGrid
-        sg = SendGridAPIClient(SENDGRID_API_KEY)  # Inicializamos el cliente de SendGrid con la API Key
-        message = Mail(
-            from_email='wecarefy@gmail.com',  # Dirección de correo desde la cual se envía el mensaje
-            to_emails=user.email,  # Dirección de correo del usuario que solicitó el restablecimiento
-            subject='Carefy: Restablece tu contraseña',  # Asunto del correo
-            html_content=f'<p>Para restablecer tu contraseña, haz clic en el siguiente enlace:</p><p><a href="{reset_url}">Restablecer Contraseña</a></p>'  # Contenido HTML del correo
-        )
-        sg.send(message)  # Enviamos el correo
 
-    # Devolvemos una respuesta genérica para evitar que se pueda determinar si el email existe o no
-    return jsonify({'message': 'Si el correo existe en nuestra base de datos, recibirás un enlace para restablecer tu contraseña.'}), 200
-
-## Ruta que se envía por email
-
-@api.route('/reset-password/<token>', methods=['POST'])
-def reset_password(token):
+## Enviar email para resetear contraseña
+@api.route("/check_mail", methods=['POST'])
+def check_mail():
     try:
-        # Decodificamos el token JWT para obtener el email del usuario
-        decoded_token = decode_token(token)
-        email = decoded_token['identity']
+        data = request.json
+        print(data)
+        user = User.query.filter_by(email=data['email']).first()
+        print(user)
+        if not user:
+            return jsonify({'success': False, 'msg': 'email not found'}),404
+        token = create_access_token(identity=user.id)
+        result = send_email(data['email'], token)
+        print(result)
+        return jsonify({'success': True, 'token': token, 'email': data['email']}), 200
     except Exception as e:
-        # En caso de error durante la decodificación del token, devolvemos un error
-        return jsonify({'message': 'El enlace es inválido o ha expirado'}), 400
+        print('error: '+ e)
+        return jsonify({'success': False, 'msg': 'something went wrong'})
+    
+## Resetear contraseña
 
-    # Buscamos al usuario en la base de datos por su email
-    user = User.query.filter_by(email=email).first()
-    if not user:
-        # Si el usuario no se encuentra, devolvemos un error
-        return jsonify({'message': 'Usuario no encontrado'}), 404
-
-    data = request.json
-    if 'password' not in data:
-        # Si no se proporciona una nueva contraseña, devolvemos un error
-        return jsonify({'message': 'No se proporcionó una nueva contraseña'}), 400
-
-    # Generamos el hash de la nueva contraseña
-    hashed_password = generate_password_hash(data['password'])
-    user.password = hashed_password  # Actualizamos la contraseña del usuario
-    db.session.commit()  # Guardamos los cambios en la base de datos
-
-    # Devolvemos una respuesta indicando que el restablecimiento fue exitoso
-    return jsonify({'message': 'Contraseña restablecida con éxito'}), 200
+@api.route('/password_update', methods=['PUT'])
+@jwt_required()
+def password_update():
+    try:
+        data = request.json
+        id = get_jwt_identity()
+        user = User.query.get(id)
+        hashed_password = generate_password_hash(data['password'])  # Hash the password
+        user.password = hashed_password
+        db.session.commit()
+        return jsonify({'success': True, 'msg': 'Contraseña actualizada exitosamente, intente iniciar sesion'}), 200
+    except Exception as e:
+        db.session.rollback()
+        print('error: '+ e)
+        return jsonify({'success': False, 'msg': 'something went wrong'})
