@@ -66,8 +66,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 						// Guardar el objeto en localStorage
 						localStorage.setItem('userData', JSON.stringify(userData));
-						localStorage.setItem('nuevoCompanion', JSON.stringify(data.companion));
-
+						
 						// Actualizar el store con los datos del usuario
 						setStore({
 							...store,
@@ -75,7 +74,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 							adData: [],
 							nuevoCompanion: data.companion
 						});
-						
+
 						console.log("Success:", data);
 					} else {
 						console.error("Token no recibido:", data);
@@ -441,6 +440,41 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('There was an error updating the ad:', error);
 				}
 			},
+
+			editAdStatus: async (id, status) => {
+				const store = getStore();
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/ad/edit/status/${id}`, {
+						method: "PUT",
+						body: JSON.stringify({
+							status: status
+						}),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					});
+			
+					if (!response.ok) {
+						throw new Error(`HTTP error! status: ${response.status}`);
+					}
+			
+					const data = await response.json();
+					console.log("Response data:", data); // <-- Agregar este log para ver la respuesta
+			
+					const updatedAd = data.ad; // Asegurarte que "ad" existe
+					console.log("Updated Ad:", updatedAd); // <-- Verificar que "updatedAd" no sea undefined
+			
+					setStore({
+						...store,
+						ads: store.ads.map(ad => ad.id === id ? updatedAd : ad)
+					});
+					
+				} catch (error) {
+					console.error('There was an error updating the ad:', error);
+				}
+			},
+			
+			
 
 			selectedAd: (id) => {
 				const store = getStore();

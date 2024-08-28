@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import style from "../AgregarFamiliar/agregarfamiliar.module.css"
-import { GrAction } from "react-icons/gr";
 import { Context } from "../../store/appContext";
 
 

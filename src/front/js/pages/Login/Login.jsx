@@ -18,6 +18,9 @@ export const Login = () => {
         else if (store.userData.token && store.userData.role == "user") {
             navigate('/perfil-usuario');
         }
+        else if (store.userData.token && store.userData.role == "admin") {
+            navigate('/moderar-anuncios');
+        }
         else {
             navigate('/login');
         }

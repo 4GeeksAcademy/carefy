@@ -30,16 +30,16 @@ export const BloqueAnuncio = ({ }) => {
     //Si existe un anuncio y su estado es "pendiente", "rechazado" o "finalizado" y además el id del anuncio no es igual
     // que el usuario logueado --> redirige a listado-anuncios.
     // De lo contrario accede al anuncio. 
-    useEffect(() => {
-        // Redirigir al home si el anuncio es "pending" o "rejected" y el usuario no es el creador
-        if (
-            store.singleAd &&
-            (store.singleAd.status === "pending" || store.singleAd.status === "rejected" || store.singleAd.status === "finish") &&
-            store.singleAd.user_id !== store.userData.userId
-        ) {
-            navigate('/listado-anuncios');
-        }
-    }, [store.singleAd, store.userData.userId, navigate]);
+    // useEffect(() => {
+    //     // Redirigir al home si el anuncio es "pending" o "rejected" y el usuario no es el creador
+    //     if (
+    //         store.singleAd &&
+    //         (store.singleAd.status === "pending" || store.singleAd.status === "rejected" || store.singleAd.status === "finish") &&
+    //         store.singleAd.user_id !== store.userData.userId
+    //     ) {
+    //         navigate('/listado-anuncios');
+    //     }
+    // }, [store.singleAd, store.userData.userId, navigate]);
 
 
 
@@ -172,7 +172,9 @@ export const BloqueAnuncio = ({ }) => {
     //Para eliminar un anuncio   
     const handleDelete = (id) => {
         actions.deleteAd(id);
+
         navigate('/mis-anuncios')
+
     }
 
 
@@ -346,7 +348,9 @@ export const BloqueAnuncio = ({ }) => {
 
     return (
 
-        (store.singleAd.status === "pending" || store.singleAd.status === "rejected" || store.singleAd.status === "finish") && store.singleAd.user_id === store.userData.userId ? (
+        (store.userData.role === "admin") ||
+            ((store.singleAd.status === "pending" || store.singleAd.status === "rejected" || store.singleAd.status === "finish") &&
+                (store.singleAd.user_id === store.userData.userId)) ? (
             <div className={`container bg-light p-4 my-5 rounded position-relative ${styles.block_anuncio}`}>
                 {/* ICONO PARA EL ACOMPAÑANTE */}
                 {store.userData.role === "companion" && (
@@ -400,9 +404,9 @@ export const BloqueAnuncio = ({ }) => {
                                 <img src={profileImg} className={`img-fluid`} />}
                         </div>
                         <div className="ms-3 fs-4 mt-3">
-                            <p className="fs-4"><span className="fa-solid fa-user pe-2"></span><span className="pe-2">{patientData.name}</span>{patientData.lastname}</p>
-                            <p className="fs-4"><span className="fa-solid fa-id-card pe-2"></span>{getAge(patientData.birthdate)} años</p>
-                            <p className="fs-4"><span className="fa-solid fa-location-dot pe-2"></span>{patientData.location}, {patientData.province}</p>
+                            <p className="fs-4"><span className="fa-solid fa-user pe-2"></span><span className="pe-2">{patientData?.name}</span>{patientData?.lastname}</p>
+                            <p className="fs-4"><span className="fa-solid fa-id-card pe-2"></span>{getAge(patientData?.birthdate)} años</p>
+                            <p className="fs-4"><span className="fa-solid fa-location-dot pe-2"></span>{patientData?.location}, {patientData?.province}</p>
                         </div>
                     </div>
                     {/* BOTON POSTULARSE/CANCELAR POSTULACION PARA ACOMPAÑANTES */}
@@ -421,7 +425,7 @@ export const BloqueAnuncio = ({ }) => {
                         >
                             CANCELAR POSTULACIÓN
                         </button>
-                    ) : store.singleAd.user_id === store.userData.userId ? (
+                    ) : store.singleAd.user_id === store.userData.userId || store.userData.role === "admin" ? (
                         <p className="fs-4 fw-bold">
                             Estado:{" "}
                             {store.singleAd.status === "pending" ? (
@@ -478,19 +482,19 @@ export const BloqueAnuncio = ({ }) => {
                         <p className="fs-4 fw-bold"><span className="fa-solid fa-person-circle-exclamation pe-3"></span>Observaciones</p>
                         <div className="d-flex fs-5">
                             <div className="pb-3">
-                                <p className="ps-4 ms-3">{patientData.description}</p>
+                                <p className="ps-4 ms-3">{patientData?.description}</p>
                             </div>
                         </div>
                     </div>
                     <div className="col-12 col-sm-5">
                         <p className="fs-4 fw-bold"><span className="fa-solid fa-wheelchair pe-3"></span>Nivel de dependencia</p>
-                        <p className="fs-4 ps-4 ms-3">{patientData.dependency}</p>
+                        <p className="fs-4 ps-4 ms-3">{patientData?.dependency}</p>
                         <p className="text-secondary ps-4 ms-3 fst-italic">
-                            {patientData.dependency === "Nivel 1" ? "Acompañamiento. Es independiente en tareas diarias y personales"
+                            {patientData?.dependency === "Nivel 1" ? "Acompañamiento. Es independiente en tareas diarias y personales"
                                 :
-                                patientData.dependency === "Nivel 2" ? "Dependencia leve. Requiere ayuda para cosas puntuales en algún momento del día para la rutina o autonomía personal"
+                                patientData?.dependency === "Nivel 2" ? "Dependencia leve. Requiere ayuda para cosas puntuales en algún momento del día para la rutina o autonomía personal"
                                     :
-                                    patientData.dependency === "Nivel 3" ? "Dependencia moderada. Requiere ayuda para actividades básicas, dos o tres veces al día"
+                                    patientData?.dependency === "Nivel 3" ? "Dependencia moderada. Requiere ayuda para actividades básicas, dos o tres veces al día"
                                         :
                                         "Dependencia severa. Necesita el apoyo indispensable de otra persona por pérdida de autonómia física, mental o intelectual"
                             }
@@ -521,6 +525,7 @@ export const BloqueAnuncio = ({ }) => {
 
                                             // Si no se encuentra el companion, se omite el rendering de esa fila
                                             if (!companion) return null;
+                                            const isContracted = localStorage.getItem(`contracted_${companion_id}`) || contractedCompanions.includes(companion_id);
 
                                             // Asegúrate de obtener estos datos de la manera correcta
                                             const { id: companion_id, user, birthdate, experiencia, precio, valoracion } = companion;
@@ -612,9 +617,9 @@ export const BloqueAnuncio = ({ }) => {
                                     <img src={profileImg} className={`img-fluid`} />}
                             </div>
                             <div className="ms-3 fs-4 mt-3">
-                                <p className="fs-4"><span className="fa-solid fa-user pe-2"></span><span className="pe-2">{patientData.name}</span>{patientData.lastname}</p>
-                                <p className="fs-4"><span className="fa-solid fa-id-card pe-2"></span>{getAge(patientData.birthdate)} años</p>
-                                <p className="fs-4"><span className="fa-solid fa-location-dot pe-2"></span>{patientData.location}, {patientData.province}</p>
+                                <p className="fs-4"><span className="fa-solid fa-user pe-2"></span><span className="pe-2">{patientData?.name}</span>{patientData?.lastname}</p>
+                                <p className="fs-4"><span className="fa-solid fa-id-card pe-2"></span>{getAge(patientData?.birthdate)} años</p>
+                                <p className="fs-4"><span className="fa-solid fa-location-dot pe-2"></span>{patientData?.location}, {patientData?.province}</p>
                             </div>
                         </div>
                         {/* BOTON POSTULARSE/CANCELAR POSTULACION PARA ACOMPAÑANTES */}
@@ -632,7 +637,7 @@ export const BloqueAnuncio = ({ }) => {
                             >
                                 CANCELAR POSTULACIÓN
                             </button>
-                        ) : store.singleAd.user_id === store.userData.userId ? (
+                        ) : store.singleAd.user_id === store.userData.userId || store.userData.role === "admin" ? (
                             <p className="fs-4 fw-bold">
                                 Estado:{" "}
                                 {store.singleAd.status === "pending" ? (
@@ -688,19 +693,19 @@ export const BloqueAnuncio = ({ }) => {
                             <p className="fs-4 fw-bold"><span className="fa-solid fa-person-circle-exclamation pe-3"></span>Observaciones</p>
                             <div className="d-flex fs-5">
                                 <div className="pb-3">
-                                    <p className="fs-5 ps-4 ms-3">{patientData.description}</p>
+                                    <p className="fs-5 ps-4 ms-3">{patientData?.description}</p>
                                 </div>
                             </div>
                         </div>
                         <div className="col-12 col-sm-5">
                             <p className="fs-4 fw-bold"><span className="fa-solid fa-wheelchair pe-3"></span>Nivel de dependencia</p>
-                            <p className="fs-4 ps-4 ms-3">{patientData.dependency}</p>
+                            <p className="fs-4 ps-4 ms-3">{patientData?.dependency}</p>
                             <p className="text-secondary ps-4 ms-3 fst-italic">
-                                {patientData.dependency === "Nivel 1" ? "Acompañamiento. Es independiente en tareas diarias y personales"
+                                {patientData?.dependency === "Nivel 1" ? "Acompañamiento. Es independiente en tareas diarias y personales"
                                     :
-                                    patientData.dependency === "Nivel 2" ? "Dependencia leve. Requiere ayuda para cosas puntuales en algún momento del día para la rutina o autonomía personal"
+                                    patientData?.dependency === "Nivel 2" ? "Dependencia leve. Requiere ayuda para cosas puntuales en algún momento del día para la rutina o autonomía personal"
                                         :
-                                        patientData.dependency === "Nivel 3" ? "Dependencia moderada. Requiere ayuda para actividades básicas, dos o tres veces al día"
+                                        patientData?.dependency === "Nivel 3" ? "Dependencia moderada. Requiere ayuda para actividades básicas, dos o tres veces al día"
                                             :
                                             "Dependencia severa. Necesita el apoyo indispensable de otra persona por pérdida de autonómia física, mental o intelectual"
                                 }
