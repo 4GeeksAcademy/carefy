@@ -53,7 +53,7 @@ export const SliderAds = () => {
 
     return (
         <div className="container-fluid">
-            <p className="text-center display-4">Postulate como cuidador</p>
+            <p className="text-center display-4">Postúlate como cuidador</p>
             <div className={`mt-4 ${styles.bloque_card_mobile} fade-in`}>
 
                 <div className={`${styles.swiper_container_paginas}`}>

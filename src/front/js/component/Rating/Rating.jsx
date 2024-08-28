@@ -10,6 +10,7 @@ export const Rating = () => {
     const [puntuacion, setPuntuacion] = useState(0);
     const [review, setReview] = useState('');
     const [indexAnterior, setIndexAnterior] = useState(null);
+    const { id } = useParams();
 
     const navigate = useNavigate();
     const [error, setError] = useState(null);
@@ -39,6 +40,7 @@ export const Rating = () => {
     };
 
     const addRate = async (companion_id, user_id, rate, review) => {
+        console.log('ID companion:', store.nuevoCompanion.id);
         
 
         if (!review) {
@@ -46,7 +48,7 @@ export const Rating = () => {
             return;
         }
         await actions.addRate(companion_id, user_id, rate, review);
-        navigate(`/perfil-profesional/${store.oneCompanion.id}`)
+        navigate(`/perfil-profesional/${id}`)
         window.scrollTo(0, 0);
     }
 
@@ -71,7 +73,7 @@ export const Rating = () => {
                 <textarea value={review} onChange={(e) => setReview(e.target.value)} type="text" cols={30} rows={5} className="form-control fs-5" id="mensaje" placeholder="Cuentános cómo valoras la experiencia con el profesional" />
             </div>
             <div className="text-center">
-                <button onClick={() => addRate(store.oneCompanion.id, store.userData.userId, puntuacion, review)} type="button" className={`${style.botonEnviar} btn fs-5`} >Publicar reseña</button>
+                <button onClick={() => addRate(id, store.userData.userId, puntuacion, review)} type="button" className={`${style.botonEnviar} btn fs-5`} >Publicar reseña</button>
             </div>
         </div>
     );

@@ -38,14 +38,17 @@ export const Anuncios = ({ countFav, companionName }) => {
     return (
         <>
             <div className={`container bg-light p-4 my-5 rounded ${styles.block_anuncios}`}>
-                <ul className={`nav nav-pills ${styles.nav_pills_edit} mb-3`} id="pills-tab" role="tablist">
-                    <li className="nav-item" role="presentation">
-                        <button className={`btn active fs-5 ${styles.button_tab}`} id="pills-postulaciones-tab" data-bs-toggle="pill" data-bs-target="#pills-postulaciones" type="button" role="tab" aria-controls="pills-postulaciones" aria-selected="true" >Mis anuncios</button>
-                    </li>
-                    <li className="nav-item" role="presentation">
-                        <button className={`btn fs-5 ${styles.button_tab}`} id="pills-fav-tab" data-bs-toggle="pill" data-bs-target="#pills-fav" type="button" role="tab" aria-controls="pills-fav" aria-selected="false">Favoritos</button>
-                    </li>
-                </ul>
+                <div className="d-flex justify-content-between align-items-start">
+                    <ul className={`nav nav-pills ${styles.nav_pills_edit} mb-3`} id="pills-tab" role="tablist">
+                        <li className="nav-item" role="presentation">
+                            <button className={`btn active fs-5 ${styles.button_tab}`} id="pills-postulaciones-tab" data-bs-toggle="pill" data-bs-target="#pills-postulaciones" type="button" role="tab" aria-controls="pills-postulaciones" aria-selected="true" >Mis anuncios</button>
+                        </li>
+                        <li className="nav-item" role="presentation">
+                            <button className={`btn fs-5 ${styles.button_tab}`} id="pills-fav-tab" data-bs-toggle="pill" data-bs-target="#pills-fav" type="button" role="tab" aria-controls="pills-fav" aria-selected="false">Favoritos</button>
+                        </li>
+                    </ul>
+                    <Link to="/crear-anuncio"><button className={`${styles.post_ad} btn btn-success`}>Publicar anuncio</button></Link>
+                </div>
                 <div className="tab-content" id="pills-tabContent">
                     <div className="tab-pane fade show active table-responsive" id="pills-postulaciones" role="tabpanel" aria-labelledby="pills-postulaciones-tab" tabIndex="0">
 
@@ -54,7 +57,6 @@ export const Anuncios = ({ countFav, companionName }) => {
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Anuncio</th>
-                                    <th scope="col">Solicitudes</th>
                                     <th scope="col">Fecha</th>
                                     <th scope="col">Estado</th>
                                     <th scope="col"></th>
@@ -67,7 +69,6 @@ export const Anuncios = ({ countFav, companionName }) => {
                                         <tr key={ad.id}>
                                             <th scope="row">{index + 1}</th>
                                             <td>{ad.title}</td>
-                                            <td>{ad.id}</td>
                                             <td>{new Date(ad.created_at).toLocaleDateString('es-ES', {
                                                 day: '2-digit',
                                                 month: '2-digit',
@@ -76,10 +77,11 @@ export const Anuncios = ({ countFav, companionName }) => {
                                             <td>{ad.status === "pending" ? <span className={styles.pendiente}>Pendiente</span> : ad.status === "ok" ? <span className="text-success">Publicado</span> : ad.status === "rejected" ? <span className="text-danger">Rechazado</span> : <span className="text-secondary">Finalizado</span>}</td>
                                             <td className="text-end">
                                                 <span onClick={() => verAnuncio(ad.id)} className={`fa-solid fa-eye pe-3 ${styles.ad_icons}`}></span>
-                                                {/* <span onClick={() => handleEditAd(ad.id)} className={`fa-solid fa-pencil pe-3 ${styles.ad_icons}`}></span> */}
-                                                <span className={`fa-solid fa-trash-can pb-2 ${styles.ad_icons}`} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"></span>
 
-                                                <div className={`modal fade ${styles.modal_edit}`} data-bs-backdrop="false" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <span className={`fa-solid fa-trash-can pb-2 ${styles.ad_icons}`} type="button" data-bs-toggle="modal" data-bs-target={`#deleteModal-${ad.id}`}></span>
+
+                                                
+                                                <div className={`modal fade ${styles.modal_edit}`} data-bs-backdrop="false" id={`deleteModal-${ad.id}`} tabIndex="-1" aria-labelledby={`deleteModalLabel-${ad.id}`} aria-hidden="true">
                                                     <div className="modal-dialog">
                                                         <div className="modal-content">
                                                             <div className="text-start modal-body fw-bold fs-4">

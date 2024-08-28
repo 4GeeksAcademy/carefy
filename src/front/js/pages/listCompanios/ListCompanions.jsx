@@ -91,8 +91,8 @@ const ListCompanions = () => {
           filtroPerfiles.map((element, index) => (
             <div className='col-12 col-sm-3 mt-3' key={index}>
               <CardsCompanions
-                    name={element?.user?.name || "Nombre no especificado"}
-                  last_name={element?.user?.last_name || ""}
+                  name={element?.user?.name || "Nombre no especificado"}
+                  last_name={element?.user?.lastname || ""}
                   location={element?.user?.location || "Ubicación no especificada"}
                   province={element.province || "Ubicación no especificada"}
                   photo={store.userData.token && element.photo ? element.photo : profileImg}

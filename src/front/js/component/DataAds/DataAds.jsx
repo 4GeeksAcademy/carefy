@@ -52,12 +52,18 @@ const DataAds = () => {
 
 
   const createAd = async () => {
-    if (!title || !description || !selectedPatient) {
-      setError("Por favor, complete título y descripción.");
+    if (!title || !description || !selectedPatient || !startDate) {
+      setError("Por favor, seleccione una persona, complete la fecha de inicio, título y descripción.");
+      return;
+    }
+    if (endDate && startDate > endDate) {
+      setError("La fecha de fin no puede ser menor a la de inicio.");
       return;
     }
 
-    await actions.createAd(type, startDate, endDate, price, title, description, selectedPatient);
+    const finalEndDate = endDate || "4000-01-01";
+
+    await actions.createAd(type, startDate, finalEndDate, price, title, description, selectedPatient);
     navigate(`/mis-anuncios`)
 
   }
@@ -206,7 +212,8 @@ const DataAds = () => {
         </div>
       </div>
 
-      <div className="d-flex justify-content-end mt-4">
+      <div className="d-flex justify-content-end align-items-start mt-4 gap-5">
+      {error && <div className="alert alert-danger" role="alert">{error}</div>}
         <button onClick={createAd} className={`me-2 fs-5 btn ${styles.btn_send}`}>Publicar</button>
       </div>
     </div>

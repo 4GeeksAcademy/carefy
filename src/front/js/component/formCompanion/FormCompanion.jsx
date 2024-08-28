@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./formCompanion.module.css";
 import { Context } from "../../store/appContext";
 import { useNavigate } from "react-router-dom";
+import { BsWindowSidebar } from "react-icons/bs";
 
 const CompanionForm = () => {
   const { store, actions } = useContext(Context);
@@ -9,7 +10,7 @@ const CompanionForm = () => {
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
 
-console.log(`---------------------estoyaquíestoyaqui----------------------------------${store.nuevoCompanion?.id}`)
+  console.log(`---------------------estoyaquíestoyaqui----------------------------------${store.nuevoCompanion?.id}`)
   const [companion, setCompanion] = useState({
     description: "",
     photo: "",
@@ -21,7 +22,7 @@ console.log(`---------------------estoyaquíestoyaqui---------------------------
     availability_live_in: false,
     experience: "",
     service_cost: "",
-    facebook: "", 
+    facebook: "",
     instagram: "",
     twitter: "",
     linkedin: "",
@@ -40,7 +41,7 @@ console.log(`---------------------estoyaquíestoyaqui---------------------------
   const [photo, setPhoto] = useState('')
 
   useEffect(() => {
-    
+
     if (store.userData) {
       setUser({
         name: store.userData?.name || "",
@@ -51,18 +52,18 @@ console.log(`---------------------estoyaquíestoyaqui---------------------------
       });
     }
   }, [store.userData]);
-  
+
   useEffect(() => {
     if (store.userData?.userId) {
-        actions.getUserDetails(); // Fetch user details when userId is available
+      actions.getUserDetails(); // Fetch user details when userId is available
     }
-}, [store.userData?.userId, store.userData?.token]);
+  }, [store.userData?.userId, store.userData?.token]);
 
 
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
-  
+
     if (name === 'photo') {
       setPhoto(files[0]); // Configura el archivo en el estado `photo`
     } else if (name in companion) {
@@ -98,7 +99,7 @@ console.log(`---------------------estoyaquíestoyaqui---------------------------
       }
     }
   };
- 
+
 
   useEffect(() => {
     if (store.userData) {
@@ -114,7 +115,7 @@ console.log(`---------------------estoyaquíestoyaqui---------------------------
 
   useEffect(() => {
     if (store.userData) {
-      actions.getUserDetails(); 
+      actions.getUserDetails();
     }
   }, [store.userData.userId, store.userData.token]);
 
@@ -134,7 +135,7 @@ console.log(`---------------------estoyaquíestoyaqui---------------------------
       availability_days: store.oneCompanion?.availability_days || false,
       availability_weeks: store.oneCompanion?.availability_weeks || false,
       availability_live_in: store.oneCompanion?.availability_live_in || false,
-      experience: store.oneCompanion?.experience || '', 
+      experience: store.oneCompanion?.experience || '',
       service_cost: store.oneCompanion?.service_cost || '',
       facebook: store.oneCompanion?.facebook || '',
       instagram: store.oneCompanion?.instagram || '',
@@ -161,37 +162,37 @@ console.log(`---------------------estoyaquíestoyaqui---------------------------
       setError("Por favor, complete todos los campos.");
       return;
     }
-   
+
 
     console.log(companion);
 
-    
-    
+
+
     try {
       // Primero, actualizar la información del usuario
       await actions.editUser(user.name, user.lastname, user.email, user.phone, user.location);
 
       // Luego, añadir o actualizar el acompañante
-       
-        await actions.updateCompanion(
-          companion.description,
-          companion.photo,
-          companion.province,
-          companion.birthdate,
-          companion.availability_hours,
-          companion.availability_days,
-          companion.availability_weeks,
-          companion.availability_live_in,
-          companion.experience,
-          companion.service_cost,
-          companion.facebook,
-          companion.instagram,
-          companion.twitter,
-          companion.linkedin,
-        );
-      
-      
-      
+
+      await actions.updateCompanion(
+        companion.description,
+        companion.photo,
+        companion.province,
+        companion.birthdate,
+        companion.availability_hours,
+        companion.availability_days,
+        companion.availability_weeks,
+        companion.availability_live_in,
+        companion.experience,
+        companion.service_cost,
+        companion.facebook,
+        companion.instagram,
+        companion.twitter,
+        companion.linkedin,
+      );
+
+
+
       // Mostrar un mensaje de éxito o realizar alguna otra acción
       console.log('User and companion data submitted successfully.');
     } catch (error) {
@@ -207,7 +208,7 @@ console.log(`---------------------estoyaquíestoyaqui---------------------------
         {error && <div className="alert alert-danger" role="alert">{error}</div>}
         <div className={`container-fluid p-4 ${styles.form_companion}`}>
           {/* Fila 1: foto y campos básicos */}
-          
+
           <div className="row">
 
             <div className="col-12 col-sm-6">
@@ -219,17 +220,17 @@ console.log(`---------------------estoyaquíestoyaqui---------------------------
                   id="inputGroupFile01"
                   name="photo"
                   onChange={handleFileChange}
-                
+
                 />
               </div>
             </div>
             <div className="col-12 col-sm-6 text-start">
-            {companion.photo && (
+              {companion.photo && (
                 <img
                   src={companion.photo}
                   alt="Profile"
                   className={`${styles.img_perfil}`}
-                
+
                 />
               )}
 
@@ -302,66 +303,66 @@ console.log(`---------------------estoyaquíestoyaqui---------------------------
             <div className="col-md-3">
               <label htmlFor="province" className="form-label fs-5">Provincia</label>
               <select
-    className="form-control"
-    name="province"
-    id="province"
-    value={companion.province}
-    onChange={handleChange}
-    required
-  >
-    <option value="">Selecciona una provincia</option>
-    <option value="Álava">Álava</option>
-    <option value="Albacete">Albacete</option>
-    <option value="Alicante">Alicante</option>
-    <option value="Almería">Almería</option>
-    <option value="Asturias">Asturias</option>
-    <option value="Ávila">Ávila</option>
-    <option value="Badajoz">Badajoz</option>
-    <option value="Barcelona">Barcelona</option>
-    <option value="Burgos">Burgos</option>
-    <option value="Cáceres">Cáceres</option>
-    <option value="Cádiz">Cádiz</option>
-    <option value="Cantabria">Cantabria</option>
-    <option value="Castellón">Castellón</option>
-    <option value="Ciudad Real">Ciudad Real</option>
-    <option value="Córdoba">Córdoba</option>
-    <option value="Cuenca">Cuenca</option>
-    <option value="Girona">Girona</option>
-    <option value="Granada">Granada</option>
-    <option value="Guadalajara">Guadalajara</option>
-    <option value="Gipuzkoa">Gipuzkoa</option>
-    <option value="Huelva">Huelva</option>
-    <option value="Huesca">Huesca</option>
-    <option value="Illes Balears">Illes Balears</option>
-    <option value="Jaén">Jaén</option>
-    <option value="La Rioja">La Rioja</option>
-    <option value="Las Palmas">Las Palmas</option>
-    <option value="León">León</option>
-    <option value="Lleida">Lleida</option>
-    <option value="Lugo">Lugo</option>
-    <option value="Madrid">Madrid</option>
-    <option value="Málaga">Málaga</option>
-    <option value="Murcia">Murcia</option>
-    <option value="Navarra">Navarra</option>
-    <option value="Ourense">Ourense</option>
-    <option value="Palencia">Palencia</option>
-    <option value="Pontevedra">Pontevedra</option>
-    <option value="Salamanca">Salamanca</option>
-    <option value="Santa Cruz de Tenerife">Santa Cruz de Tenerife</option>
-    <option value="Segovia">Segovia</option>
-    <option value="Sevilla">Sevilla</option>
-    <option value="Soria">Soria</option>
-    <option value="Tarragona">Tarragona</option>
-    <option value="Teruel">Teruel</option>
-    <option value="Toledo">Toledo</option>
-    <option value="Valencia">Valencia</option>
-    <option value="Valladolid">Valladolid</option>
-    <option value="Bizkaia">Bizkaia</option>
-    <option value="Zamora">Zamora</option>
-    <option value="Zaragoza">Zaragoza</option>
-    <option value="Ceuta">Ceuta</option>
-    <option value="Melilla">Melilla</option>
-  </select>
+                className="form-control"
+                name="province"
+                id="province"
+                value={companion.province}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Selecciona una provincia</option>
+                <option value="Álava">Álava</option>
+                <option value="Albacete">Albacete</option>
+                <option value="Alicante">Alicante</option>
+                <option value="Almería">Almería</option>
+                <option value="Asturias">Asturias</option>
+                <option value="Ávila">Ávila</option>
+                <option value="Badajoz">Badajoz</option>
+                <option value="Barcelona">Barcelona</option>
+                <option value="Burgos">Burgos</option>
+                <option value="Cáceres">Cáceres</option>
+                <option value="Cádiz">Cádiz</option>
+                <option value="Cantabria">Cantabria</option>
+                <option value="Castellón">Castellón</option>
+                <option value="Ciudad Real">Ciudad Real</option>
+                <option value="Córdoba">Córdoba</option>
+                <option value="Cuenca">Cuenca</option>
+                <option value="Girona">Girona</option>
+                <option value="Granada">Granada</option>
+                <option value="Guadalajara">Guadalajara</option>
+                <option value="Gipuzkoa">Gipuzkoa</option>
+                <option value="Huelva">Huelva</option>
+                <option value="Huesca">Huesca</option>
+                <option value="Illes Balears">Illes Balears</option>
+                <option value="Jaén">Jaén</option>
+                <option value="La Rioja">La Rioja</option>
+                <option value="Las Palmas">Las Palmas</option>
+                <option value="León">León</option>
+                <option value="Lleida">Lleida</option>
+                <option value="Lugo">Lugo</option>
+                <option value="Madrid">Madrid</option>
+                <option value="Málaga">Málaga</option>
+                <option value="Murcia">Murcia</option>
+                <option value="Navarra">Navarra</option>
+                <option value="Ourense">Ourense</option>
+                <option value="Palencia">Palencia</option>
+                <option value="Pontevedra">Pontevedra</option>
+                <option value="Salamanca">Salamanca</option>
+                <option value="Santa Cruz de Tenerife">Santa Cruz de Tenerife</option>
+                <option value="Segovia">Segovia</option>
+                <option value="Sevilla">Sevilla</option>
+                <option value="Soria">Soria</option>
+                <option value="Tarragona">Tarragona</option>
+                <option value="Teruel">Teruel</option>
+                <option value="Toledo">Toledo</option>
+                <option value="Valencia">Valencia</option>
+                <option value="Valladolid">Valladolid</option>
+                <option value="Bizkaia">Bizkaia</option>
+                <option value="Zamora">Zamora</option>
+                <option value="Zaragoza">Zaragoza</option>
+                <option value="Ceuta">Ceuta</option>
+                <option value="Melilla">Melilla</option>
+              </select>
             </div>
             <div className="col-md-3">
               <label htmlFor="location" className="form-label fs-5">Localidad</label>

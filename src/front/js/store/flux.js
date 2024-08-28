@@ -66,8 +66,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 						// Guardar el objeto en localStorage
 						localStorage.setItem('userData', JSON.stringify(userData));
-						
-						
+						localStorage.setItem('nuevoCompanion', JSON.stringify(data.companion));
 
 						// Actualizar el store con los datos del usuario
 						setStore({
@@ -77,7 +76,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 							nuevoCompanion: data.companion
 						});
 						
-
 						console.log("Success:", data);
 					} else {
 						console.error("Token no recibido:", data);
@@ -391,7 +389,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			editAd: async (id, type, startDate, endDate, price, title, description, patient_id) => {
+			editAd: async (id, type, startDate, endDate, price, title, description, patient_id, companion_id) => {
 				const store = getStore();
 				const actions = getActions();
 
@@ -405,7 +403,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 							max_cost: price,
 							title: title,
 							description: description,
-							patient_id: patient_id
+							patient_id: patient_id,
+							hired: companion_id
 						}),
 						headers: {
 							"Content-Type": "application/json"
@@ -637,7 +636,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			// Crea una inscripción
+
+
 			add_inscription: async (companion_id, ad_id, user_id) => {
 				const store = getStore();
 				try {
@@ -782,7 +782,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			) => {
 				const store = getStore();
 				const actions = getActions();
-				const companionId = store.nuevoCompanion.id; // Asegúrate de tener el ID correcto
+				const companionId = store.nuevoCompanion.id;
 
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/actualizar_companion/${companionId}`, {
@@ -1029,6 +1029,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 		
+			
+
 			obtenerinscripciones: async () => {
 				try {
 					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/obtenerinscripciones`, {
@@ -1049,6 +1051,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 
 			},
+
 
 			deleteinscription: async (id) => {
 				const store = getStore();
@@ -1163,6 +1166,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('There was an error fetching the rating details!', error);
 				}
 			},
+
+			
 			sendResetEmail: async (email) => {
 				try{
 					// fetching data from the backend
@@ -1219,13 +1224,39 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}catch(error){
 					console.log("Error loading message from backend", error)
 				}
+
+				},		
+
+			editarInscripcion: async (inscription_id, statusContract) => {
+				const store = getStore();
+
+				console.log('Estado', statusContract);
+				
+				try {
+					const respuesta = await fetch(`${process.env.BACKEND_URL}/api/inscripcion/edit/${inscription_id}`,{
+						method: "PUT",
+						body: JSON.stringify({
+							statusContract
+						}),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					});
+					if (!respuesta.ok) {
+						throw new Error(`HTTP error! status: ${respuesta.status}`);
+					}
+					const data = await respuesta.json();
+					setStore({
+						...store,
+						inscriptions: store.inscriptions.map(inscripcion =>
+							inscripcion.id === inscription_id ? data.inscripcion : inscripcion
+						)
+					});
+					console.log('Inscription updated successfully:', data);
+				} catch (error) {
+					console.error('There was an error updating the inscription:', error);
+				}
 			},
-
-
-		
-			
-
-
 			
 
 

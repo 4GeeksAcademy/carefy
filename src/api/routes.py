@@ -234,6 +234,8 @@ def edit_ad(ad_id):
             ad.max_cost = data['max_cost']
         if 'patient_id' in data:
             ad.patient_id = data['patient_id']
+        if 'hired' in data:
+            ad.hired = data['hired']
 
         db.session.commit()  # Guarda los cambios en la base de datos
 
@@ -598,44 +600,7 @@ def subirfoto():
 
 
 
-# Nuevo crear inscripción desde acompañante botón POSTULARSE
-@api.route("/inscripcion/add/<int:companion_id>/<int:ad_id>/<int:user_id>", methods=['POST'])
-def add_inscription(companion_id, ad_id, user_id):
 
-    new_inscription = Inscription(
-        companion_id = companion_id,
-        ad_id = ad_id,
-        user_id = user_id,
-        is_active = True
-    )
-
-    db.session.add(new_inscription)
-    db.session.commit()
-
-    return jsonify({
-        "msg": "inscripcion creada correctamente",
-        **new_inscription.serialize()}), 201
-
-# Nuevo borrar inscripcion
-@api.route('inscripcion/delete/<int:inscription_id>', methods=['DELETE'])
-def delete_inscription(inscription_id):
-    inscription = Inscription.query.get(inscription_id)
-
-    if inscription is None:
-        return jsonify ({'message': 'Inscripción no encontrada'}), 400
-    
-    try:     
-        db.session.delete(inscription)
-        db.session.commit()
-        return jsonify({"message":"Inscripcion borrada correctamente"}), 200
-    except Exception as e:
-        db.session.rollback()
-        return jsonify({'error': str(e)}), 500
-
-@api.route('/obtenerinscripciones', methods=['GET'])
-def obtenerinscripciones():
-    postulantes = Inscription.query.all()
-    return jsonify([postulante.serialize() for postulante in postulantes])
 
 
 #VALORACIONES Y RESEÑAS
@@ -691,21 +656,7 @@ def check_jwt():
 
 
 
-# #Para borrar una postulación (Cuando se pulsa "Cancelar postulación")
-# @api.route('/cancelarinscripcion/<int:id>', methods=['DELETE'])
-# def borrarinscripcion(id):
-#     inscripcion=Inscription.query.filter_by(id=id).first()
-#     if inscripcion is None:
-#         return jsonify({'Error': 'inscripción no encontrada'}), 404
-    
-#     try: 
-#         db.session.delete(inscripcion)
-#         db.session.commit()
-#         return jsonify ({'mensaje': 'inscripción borrada correctamente'}), 200
-#     except Exception as e:
-#         db.session.rollback()
-#         return jsonify({"error": str(e)}), 500
-    
+######### INSCRIPCIONES ##########
 
  #### RECUPERAR CONTRASENA ###
 
@@ -746,3 +697,66 @@ def password_update():
         db.session.rollback()
         print('error: '+ e)
         return jsonify({'success': False, 'msg': 'something went wrong'})
+# Nuevo crear inscripción desde acompañante botón POSTULARSE
+@api.route("/inscripcion/add/<int:companion_id>/<int:ad_id>/<int:user_id>", methods=['POST'])
+def add_inscription(companion_id, ad_id, user_id):
+
+    new_inscription = Inscription(
+        companion_id = companion_id,
+        ad_id = ad_id,
+        user_id = user_id,
+        statusContract = 'PENDING',
+        is_active = True
+    )
+    db.session.add(new_inscription)
+    db.session.commit()
+
+    return jsonify({
+        "msg": "inscripcion creada correctamente",
+        **new_inscription.serialize()}), 201
+
+# Nuevo borrar inscripcion
+@api.route('inscripcion/delete/<int:inscription_id>', methods=['DELETE'])
+def delete_inscription(inscription_id):
+    inscription = Inscription.query.get(inscription_id)
+
+    if inscription is None:
+        return jsonify ({'message': 'Inscripción no encontrada'}), 400
+    
+    try:     
+        db.session.delete(inscription)
+        db.session.commit()
+        return jsonify({"message":"Inscripcion borrada correctamente"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+
+@api.route('/obtenerinscripciones', methods=['GET'])
+def obtenerinscripciones():
+    postulantes = Inscription.query.all()
+    return jsonify([postulante.serialize() for postulante in postulantes])
+
+
+# Para modificar el estado de la contratación de la inscripción 
+@api.route('/inscripcion/edit/<int:inscription_id>', methods=['PUT'])
+def editar_inscripcion(inscription_id):
+    data=request.json
+    inscripcion = Inscription.query.get(inscription_id)
+    if not inscripcion:
+        return jsonify({"Error":"La inscripción no existe"}),404
+     
+    inscripcion.statusContract = data.get('statusContract', inscripcion.statusContract)
+
+    try:
+        db.session.commit()
+        return jsonify({
+            "msg": "Inscripción actualizado exitosamente",
+            "Inscripción": inscripcion.serialize()
+        }), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"ERROR": f"Ocurrió un error al actualizar la Inscripción: {str(e)}"}), 500
+        
+    
+
+ 

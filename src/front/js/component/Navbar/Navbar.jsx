@@ -29,7 +29,7 @@ export const Navbar = () => {
                                     <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/listado-anuncios">Anuncios</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/listado-profesionales">Acompañantes</Link>
+                                    <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/listado-profesionales">Profesionales</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/nosotros">Nosotros</Link>
@@ -108,7 +108,7 @@ export const Navbar = () => {
                                     <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/listado-anuncios">Anuncios</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/listado-profesionales">Acompañantes</Link>
+                                    <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/listado-profesionales">Profesionales</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/nosotros">Nosotros</Link>
@@ -140,7 +140,7 @@ export const Navbar = () => {
 
                                     <ul className="dropdown-menu">
                                         {store.userData.role == "companion" ?
-                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to={`/perfil-profesional/${store.nuevoCompanion?.id}`}>Mi perfil</Link></li>
+                                            <li><button className={`dropdown-item ${styles.dropdown_item_edit}`} onClick={() => navigate(`/perfil-profesional/${store.nuevoCompanion?.id}`)}>Mi perfil</button></li>
                                             :
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-usuario">Mi perfil</Link></li>
                                         }
