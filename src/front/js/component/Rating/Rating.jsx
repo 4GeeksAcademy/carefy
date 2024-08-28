@@ -48,7 +48,7 @@ export const Rating = () => {
             return;
         }
         await actions.addRate(companion_id, user_id, rate, review);
-        navigate(`/`)
+        navigate(`/perfil-profesional/${id}`)
         window.scrollTo(0, 0);
     }
 
