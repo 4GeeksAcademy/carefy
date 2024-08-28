@@ -16,7 +16,6 @@ export const BloqueAnuncio = ({ }) => {
     const [companion_id, setCompanion_id] = useState(0)
     const [change, setChange] = useState(false)
     const [botonValorarVisible, setBotonValorarVisible] = useState(false)
-    // const [contractedCompanions, setContractedCompanions] = useState([]);
     const [contratoActivo, setContratoActivo] = useState(null);
 
     //Obtiene un anuncio a través del id
@@ -177,7 +176,7 @@ export const BloqueAnuncio = ({ }) => {
     //      si no está: debe aparecer "postular " -- post
 
     useEffect(() => {
-        actions.obtenerinscripciones();
+
         const userCompId = store.userData.userId;
         const adId = localStorage.getItem('singleAd');
         const adIdParsed = JSON.parse(adId)
@@ -186,7 +185,7 @@ export const BloqueAnuncio = ({ }) => {
 
 
         // const companion = store.companions.find(companion => companion.user_id === userCompId);
-        const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.ad_id === adIdParsed.id
+        const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.ad_id === adIdParsed?.id
             && inscripcion.user_id === userCompId);
 
         if (!inscripcionExistente) {
@@ -197,31 +196,11 @@ export const BloqueAnuncio = ({ }) => {
         }
 
 
-
-        // if (companionsParsed) {
-        //     companionsParsed.forEach((companion) => {
-        //         if (companion.user.id === userCompId) {
-        //             const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.ad_id === adIdParsed.id
-        //                 && inscripcion.companion_id === companion.id);
-
-        //             if (!inscripcionExistente) {
-        //                 // Después de inscribirse con éxito, ocultar el botón "POSTULARSE"
-        //                 setPostularseVisible(true);
-        //             } else {
-        //                 setPostularseVisible(false); // Oculta "CANCELAR POSTULACIÓN"
-        //             }
-        //         }
-        //     });
-        // } else {
-        //     setPostularseVisible(true);
-        // }
-
-
-    }, [store.inscripciones, store.singleAd.id]);
+    }, [store.inscripciones, store.singleAd.id]); //store.inscripciones, 
 
     useEffect(() => {
         actions.getCompanions();
-
+        actions.obtenerinscripciones();
     }, []);
 
     // Función para calcular la edad a partir de la fecha de nacimiento
@@ -286,7 +265,8 @@ export const BloqueAnuncio = ({ }) => {
 
         try {
             // Actualiza la base de datos
-            await actions.editAd(id, store.singleAd.type, store.singleAd.startDate, store.singleAd.endDate, store.singleAd.price, store.singleAd.title, store.singleAd.description, store.singleAd.patient_id, companion_id);
+            await actions.editAd(id, store.singleAd?.type, store.singleAd?.startDate, store.singleAd?.endDate,
+                store.singleAd?.price, store.singleAd?.title, store.singleAd?.description, store.singleAd?.patient_id, companion_id);
 
             const inscripciones = store.inscripciones;
             for (const inscripcion of inscripciones) {
@@ -315,16 +295,23 @@ export const BloqueAnuncio = ({ }) => {
             // Actualiza el anuncio para eliminar el compañero
             await actions.editAd(
                 id,
-                store.singleAd.type,
-                store.singleAd.startDate,
-                store.singleAd.endDate,
-                store.singleAd.price,
-                store.singleAd.title,
-                store.singleAd.description,
-                store.singleAd.patient_id,
+                store.singleAd?.type,
+                store.singleAd?.startDate,
+                store.singleAd?.endDate,
+                store.singleAd?.price,
+                store.singleAd?.title,
+                store.singleAd?.description,
+                store.singleAd?.patient_id,
                 null // Elimina el ID del compañero del anuncio
             );
-            await actions.editarInscripcion(inscripcion_id, 'REJECTED');
+            const inscripciones = store.inscripciones;
+            for (const inscripcion of inscripciones) {
+                if (inscripcion.id === inscripcion_id) {
+                    await actions.editarInscripcion(inscripcion.id, 'REJECTED');
+                } else {
+                    await actions.editarInscripcion(inscripcion.id, 'PENDING');
+                }
+            }
         } catch (error) {
             console.error("Error al cancelar el contrato del anuncio:", error);
         }
@@ -737,51 +724,61 @@ export const BloqueAnuncio = ({ }) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {store.inscripciones
-                                            .filter(inscripcion => inscripcion.ad_id === store.singleAd.id)
-                                            .map((inscripcion, index) => {
-                                                // Encuentra el companion correspondiente al companion_id de la inscripción
-                                                const companion = store.companions.find(comp => comp.id === inscripcion.companion_id);
+                                        {store.inscripciones.length > 0 ? (
+                                            store.inscripciones
+                                                .filter(inscripcion => inscripcion.ad_id === store.singleAd?.id)
+                                                .map((inscripcion, index) => {
+                                                    const companion = store.companions.find(comp => comp.id === inscripcion.companion_id);
+                                                    if (!companion) return null;
 
-                                                // Si no se encuentra el companion, se omite el rendering de esa fila
-                                                if (!companion) return null;
+                                                    const { id: companion_id } = companion;
+                                                    const isContracted = localStorage.getItem(`contracted_${companion_id}`) || contractedCompanions.includes(companion_id);
+                                                    const isActiveContract = contratoActivo === companion_id;
 
-                                                const { id: companion_id, user, birthdate, experiencia, precio, valoracion } = companion;
+                                                    return (
+                                                        <tr key={inscripcion.id}
+                                                            style={{
+                                                                opacity: contratoActivo && contratoActivo !== companion_id ? 0.5 : 1,
+                                                                pointerEvents: contratoActivo && contratoActivo !== companion_id ? 'none' : 'auto',
+                                                            }}>
+                                                            <th scope="row">{index + 1}</th>
+                                                            <td>{companion?.user?.name}</td>
+                                                            <td>{calcularEdad(companion?.birthdate)}</td>
+                                                            <td>{companion?.experience}</td>
+                                                            <td>{companion?.service_cost}</td>
+                                                            <td>
+                                                                <span className="ps-2 fa-solid fa-star pe-1"></span>
+                                                                {store.rateData.length > 0 ? `${averageRate.toFixed(2)} / 5` : "Sin valoraciones"}
+                                                            </td>
 
-                                                const isContracted = localStorage.getItem(`contracted_${companion_id}`) || contractedCompanions.includes(companion_id);
-                                                const isActiveContract = contratoActivo === companion_id // --> esto verifica si la fila está contratada o no. 
+                                                            <td className="text-end">
+                                                                <Link to={`/perfil-profesional/${companion_id}`}>
+                                                                    <span className="fa-solid fa-eye pe-3 text-dark"></span>
+                                                                </Link>
+                                                                {contratoActivo && contratoActivo !== companion_id ? (
+                                                                    <button className="btn btn-light me-3">RECHAZADO</button>
+                                                                ) : isContracted ? (
+                                                                    <>
+                                                                        <button className="btn btn-danger me-3" onClick={() => handleCancel(companion_id, inscripcion.id)}>CANCELAR CONTRATO</button>
+                                                                        <Link to={`/rating/${companion_id}`}>
+                                                                            <button onClick={valorar} className="btn btn-warning me-3">VALORAR</button>
+                                                                        </Link>
+                                                                    </>
+                                                                ) : (
+                                                                    <button className="btn btn-success me-3" onClick={() => handleContract(companion_id, inscripcion.id)}>CONTRATAR</button>
+                                                                )}
 
-
-                                                return (
-                                                    <tr key={inscripcion.id}
-                                                        style={{ //-->estilo para poner el resto de columnas casi invisibles
-                                                            opacity: contratoActivo && contratoActivo !== companion_id ? 0.5 : 1,
-                                                            pointerEvents: contratoActivo && contratoActivo !== companion_id ? 'none' : 'auto',
-                                                        }}
-                                                    >
-                                                        <th scope="row">{index + 1}1</th>
-                                                        <td>{companion?.user?.name}</td>
-                                                        <td>{calcularEdad(companion?.birthdate)}</td>
-                                                        <td>{companion?.experience}</td>
-                                                        <td>{companion?.service_cost}</td>
-                                                        <td><span className="ps-2 fa-solid fa-star pe-1"></span> {store.rateData.length > 0 ? averageRate.toFixed(2) + " / 5" : "Sin valoraciones"}</td>
-                                                        <td className="text-end">
-                                                            {isContracted ? (
-                                                                <>
-                                                                    <button className="btn btn-danger me-3" onClick={() => handleCancel(companion_id, inscripcion.id)}>CANCELAR</button>
-                                                                    <Link to={`/rating/${companion_id}`}><button onClick={valorar} className="btn btn-warning me-3">VALORAR</button></Link>
-                                                                </>
-                                                            ) : (
-                                                                <button className="btn btn-success me-3" onClick={() => handleContract(companion_id, inscripcion.id)}>CONTRATAR</button>
-                                                            )}
-                                                            <Link to={`/perfil-profesional/${companion_id}`}>
-                                                                <span className="fa-solid fa-eye pe-3 text-dark"></span>
-                                                            </Link>
-                                                        </td>
-                                                    </tr>
-                                                );
-                                            })}
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })
+                                        ) : (
+                                            <tr>
+                                                <td colSpan="7" className="text-center">Cargando datos...</td>
+                                            </tr>
+                                        )}
                                     </tbody>
+
                                 </table>
                             </div>
                         </> : ""

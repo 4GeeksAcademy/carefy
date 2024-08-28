@@ -14,38 +14,22 @@ export const Postulaciones = ({ }) => {
         actions.obtenerinscripciones();
     }, []);
 
-    useEffect(() => {
-        // Filtra las inscripciones que corresponden al usuario
-        const filteredInscripciones = store.inscripciones.filter(misinscripciones => misinscripciones.user_id === store.userData.userId);
-        setInscripcionesMias(filteredInscripciones);
-    }, [store.inscripciones, store.userData.userId]);
 
     const verAnuncio = () => {
         window.scrollTo(0, 0);
     };
 
     useEffect(() => {
-        const adId = localStorage.getItem('singleAd');
-        const adIdParsed = JSON.parse(adId);
-        
-        if (adIdParsed && adIdParsed.id) {
-            const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.user_id === store.userData.userId && inscripcion.ad_id === adIdParsed.id);
-
-            if (inscripcionExistente) {
-                setContractStatus(prevStatus => ({
-                    ...prevStatus,
-                    [inscripcionExistente.id]: inscripcionExistente.statusContract
-                }));
-            }
-        }
+        // Filtra las inscripciones que corresponden al usuario
+        const filteredInscripciones = store.inscripciones.filter(misinscripciones => misinscripciones.user_id === store.userData.userId);
+        setInscripcionesMias(filteredInscripciones);
     }, [store.inscripciones, store.userData.userId]);
-
 
     /**
      * Función para cambiar el botón según el estado de la contratación que reciba. 
      * Se llama a esta función en el <td> para que vaya pintando el estado en cada fila 
      * @param {statusContract}
-     * @returns "botón segun estado"
+     * @returns "botón según estado"
      */
     const getStatusButton = (statusContract) => {
         switch (statusContract) {
@@ -60,7 +44,6 @@ export const Postulaciones = ({ }) => {
         }
     };
 
-    
     return (
         <>
             <div className={`container bg-light p-4 my-5 rounded ${styles.block_postulaciones}`}>
