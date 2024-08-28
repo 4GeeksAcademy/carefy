@@ -694,7 +694,7 @@ def add_inscription(companion_id, ad_id, user_id):
         "msg": "inscripcion creada correctamente",
         **new_inscription.serialize()}), 201
 
-# Nuevo borrar inscripcion
+#  borrar inscripcion
 @api.route('inscripcion/delete/<int:inscription_id>', methods=['DELETE'])
 def delete_inscription(inscription_id):
     inscription = Inscription.query.get(inscription_id)

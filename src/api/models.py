@@ -134,6 +134,7 @@ class Companion(db.Model):
 class StatusContract(Enum):
     PENDING = "pending"
     REJECTED = "rejected"
+    PAUSED = "paused"
     OK = "ok"
 
 

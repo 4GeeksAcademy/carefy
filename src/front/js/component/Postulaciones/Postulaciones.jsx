@@ -7,11 +7,17 @@ export const Postulaciones = ({ }) => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
     const [inscripcionesMias, setInscripcionesMias] = useState([]);
+    const [contractStatus, setContractStatus] = useState({});
 
     useEffect(() => {
         actions.getAdFavs();
         actions.obtenerinscripciones();
     }, []);
+
+
+    const verAnuncio = () => {
+        window.scrollTo(0, 0);
+    };
 
     useEffect(() => {
         // Filtra las inscripciones que corresponden al usuario
@@ -19,15 +25,11 @@ export const Postulaciones = ({ }) => {
         setInscripcionesMias(filteredInscripciones);
     }, [store.inscripciones, store.userData.userId]);
 
-    const verAnuncio = () => {
-        window.scrollTo(0, 0);
-    };
-
     /**
      * Función para cambiar el botón según el estado de la contratación que reciba. 
      * Se llama a esta función en el <td> para que vaya pintando el estado en cada fila 
      * @param {statusContract}
-     * @returns "botón segun estado"
+     * @returns "botón según estado"
      */
     const getStatusButton = (statusContract) => {
         switch (statusContract) {
@@ -42,7 +44,6 @@ export const Postulaciones = ({ }) => {
         }
     };
 
-    
     return (
         <>
             <div className={`container bg-light p-4 my-5 rounded ${styles.block_postulaciones}`}>
