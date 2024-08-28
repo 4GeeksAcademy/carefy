@@ -62,20 +62,21 @@ export const Navbar = () => {
                                     <ul className="dropdown-menu dropdown-menu-end">
                                         {store.userData.role == "companion" ?
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to={`/perfil-profesional/${store.nuevoCompanion?.id}`}>Mi perfil</Link></li>
-                                            :
-                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-usuario">Mi perfil</Link></li>
+                                            : store.userData.role == "user" ?
+                                                <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-usuario">Mi perfil</Link></li>
+                                                : <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/moderar-anuncios">Administrar</Link></li>
                                         }
 
 
                                         {/* MENU QUE SE VE SI EL USUARIO ES ACOMPAÑANTE o USER */}
                                         {store.userData.role == "companion" ?
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-postulaciones">Mis postulaciones</Link></li>
-                                            :
-                                            <>
-                                                <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-anuncios">Mis anuncios</Link></li>
-                                                <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/crear-anuncio">Publicar anuncio</Link></li>
+                                            : store.userData.role == "user" ?
+                                                <>
+                                                    <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-anuncios">Mis anuncios</Link></li>
+                                                    <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/crear-anuncio">Publicar anuncio</Link></li>
 
-                                            </>
+                                                </> : ""
                                         }
 
                                         <li><hr className="dropdown-divider" /></li>
@@ -141,9 +142,11 @@ export const Navbar = () => {
                                     <ul className="dropdown-menu">
                                         {store.userData.role == "companion" ?
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to={`/perfil-profesional/${store.nuevoCompanion?.id}`}>Mi perfil</Link></li>
-                                            :
-                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-usuario">Mi perfil</Link></li>
+                                            : store.userData.role == "user" ?
+                                                <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-usuario">Mi perfil</Link></li>
+                                                : <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/moderar-anuncios">Administrar</Link></li>
                                         }
+
 
 
                                         {/* MENU QUE SE VE SI EL USUARIO ES ACOMPAÑANTE o USER */}

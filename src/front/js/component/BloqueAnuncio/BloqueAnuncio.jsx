@@ -30,16 +30,16 @@ export const BloqueAnuncio = ({ }) => {
     //Si existe un anuncio y su estado es "pendiente", "rechazado" o "finalizado" y además el id del anuncio no es igual
     // que el usuario logueado --> redirige a listado-anuncios.
     // De lo contrario accede al anuncio. 
-    useEffect(() => {
-        // Redirigir al home si el anuncio es "pending" o "rejected" y el usuario no es el creador
-        if (
-            store.singleAd &&
-            (store.singleAd.status === "pending" || store.singleAd.status === "rejected" || store.singleAd.status === "finish") &&
-            store.singleAd.user_id !== store.userData.userId
-        ) {
-            navigate('/listado-anuncios');
-        }
-    }, [store.singleAd, store.userData.userId, navigate]);
+    // useEffect(() => {
+    //     // Redirigir al home si el anuncio es "pending" o "rejected" y el usuario no es el creador
+    //     if (
+    //         store.singleAd &&
+    //         (store.singleAd.status === "pending" || store.singleAd.status === "rejected" || store.singleAd.status === "finish") &&
+    //         store.singleAd.user_id !== store.userData.userId
+    //     ) {
+    //         navigate('/listado-anuncios');
+    //     }
+    // }, [store.singleAd, store.userData.userId, navigate]);
 
 
 
@@ -132,7 +132,9 @@ export const BloqueAnuncio = ({ }) => {
     //Para eliminar un anuncio   
     const handleDelete = (id) => {
         actions.deleteAd(id);
+
         navigate('/mis-anuncios')
+
     }
 
 
@@ -333,7 +335,9 @@ export const BloqueAnuncio = ({ }) => {
 
     return (
 
-        (store.singleAd.status === "pending" || store.singleAd.status === "rejected" || store.singleAd.status === "finish") && store.singleAd.user_id === store.userData.userId ? (
+        (store.userData.role === "admin") ||
+            ((store.singleAd.status === "pending" || store.singleAd.status === "rejected" || store.singleAd.status === "finish") &&
+                (store.singleAd.user_id === store.userData.userId)) ? (
             <div className={`container bg-light p-4 my-5 rounded position-relative ${styles.block_anuncio}`}>
                 {/* ICONO PARA EL ACOMPAÑANTE */}
                 {store.userData.role === "companion" && (
@@ -387,9 +391,9 @@ export const BloqueAnuncio = ({ }) => {
                                 <img src={profileImg} className={`img-fluid`} />}
                         </div>
                         <div className="ms-3 fs-4 mt-3">
-                            <p className="fs-4"><span className="fa-solid fa-user pe-2"></span><span className="pe-2">{patientData.name}</span>{patientData.lastname}</p>
-                            <p className="fs-4"><span className="fa-solid fa-id-card pe-2"></span>{getAge(patientData.birthdate)} años</p>
-                            <p className="fs-4"><span className="fa-solid fa-location-dot pe-2"></span>{patientData.location}, {patientData.province}</p>
+                            <p className="fs-4"><span className="fa-solid fa-user pe-2"></span><span className="pe-2">{patientData?.name}</span>{patientData?.lastname}</p>
+                            <p className="fs-4"><span className="fa-solid fa-id-card pe-2"></span>{getAge(patientData?.birthdate)} años</p>
+                            <p className="fs-4"><span className="fa-solid fa-location-dot pe-2"></span>{patientData?.location}, {patientData?.province}</p>
                         </div>
                     </div>
                     {/* BOTON POSTULARSE/CANCELAR POSTULACION PARA ACOMPAÑANTES */}
@@ -408,7 +412,7 @@ export const BloqueAnuncio = ({ }) => {
                         >
                             CANCELAR POSTULACIÓN
                         </button>
-                    ) : store.singleAd.user_id === store.userData.userId ? (
+                    ) : store.singleAd.user_id === store.userData.userId || store.userData.role === "admin" ? (
                         <p className="fs-4 fw-bold">
                             Estado:{" "}
                             {store.singleAd.status === "pending" ? (
@@ -465,19 +469,19 @@ export const BloqueAnuncio = ({ }) => {
                         <p className="fs-4 fw-bold"><span className="fa-solid fa-person-circle-exclamation pe-3"></span>Observaciones</p>
                         <div className="d-flex fs-5">
                             <div className="pb-3">
-                                <p className="ps-4 ms-3">{patientData.description}</p>
+                                <p className="ps-4 ms-3">{patientData?.description}</p>
                             </div>
                         </div>
                     </div>
                     <div className="col-12 col-sm-5">
                         <p className="fs-4 fw-bold"><span className="fa-solid fa-wheelchair pe-3"></span>Nivel de dependencia</p>
-                        <p className="fs-4 ps-4 ms-3">{patientData.dependency}</p>
+                        <p className="fs-4 ps-4 ms-3">{patientData?.dependency}</p>
                         <p className="text-secondary ps-4 ms-3 fst-italic">
-                            {patientData.dependency === "Nivel 1" ? "Acompañamiento. Es independiente en tareas diarias y personales"
+                            {patientData?.dependency === "Nivel 1" ? "Acompañamiento. Es independiente en tareas diarias y personales"
                                 :
-                                patientData.dependency === "Nivel 2" ? "Dependencia leve. Requiere ayuda para cosas puntuales en algún momento del día para la rutina o autonomía personal"
+                                patientData?.dependency === "Nivel 2" ? "Dependencia leve. Requiere ayuda para cosas puntuales en algún momento del día para la rutina o autonomía personal"
                                     :
-                                    patientData.dependency === "Nivel 3" ? "Dependencia moderada. Requiere ayuda para actividades básicas, dos o tres veces al día"
+                                    patientData?.dependency === "Nivel 3" ? "Dependencia moderada. Requiere ayuda para actividades básicas, dos o tres veces al día"
                                         :
                                         "Dependencia severa. Necesita el apoyo indispensable de otra persona por pérdida de autonómia física, mental o intelectual"
                             }
@@ -495,9 +499,7 @@ export const BloqueAnuncio = ({ }) => {
                                         <th scope="col">#</th>
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Edad</th>
-                                        <th scope="col">Experiencia</th>
                                         <th scope="col">Costo (hora)</th>
-                                        <th scope="col">Valoración</th>
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
@@ -510,6 +512,7 @@ export const BloqueAnuncio = ({ }) => {
 
                                             // Si no se encuentra el companion, se omite el rendering de esa fila
                                             if (!companion) return null;
+                                            const isContracted = localStorage.getItem(`contracted_${companion_id}`) || contractedCompanions.includes(companion_id);
 
                                             // Asegúrate de obtener estos datos de la manera correcta
                                             const { id: companion_id, user, birthdate, experiencia, precio, valoracion } = companion;
@@ -517,30 +520,21 @@ export const BloqueAnuncio = ({ }) => {
                                             return (
                                                 <tr key={inscripcion.id}>
                                                     <th scope="row">{index + 1}</th>
-                                                    <td>{companion?.user?.name}</td>
-                                                    <td>{calcularEdad(companion?.birthdate)}</td>
-                                                    <td>{companion?.experience}</td>
-                                                    <td>{companion?.service_cost}</td>
-                                                    <td>{valoracion}</td>
+                                                    <td>{companion?.user?.name} {companion?.user?.lastname}</td>
+                                                    <td>{calcularEdad(companion?.birthdate)} años</td>
+                                                    <td>{companion?.service_cost} €</td>
                                                     <td className="text-end">
+                                                        {isContracted ? (
+                                                            <>
+                                                                <button className="btn btn-danger me-3" onClick={() => handleCancel(companion_id, inscripcion.id)}>CANCELAR</button>
+                                                                <Link to={`/rating/${companion_id}`}><button onClick={valorar} className="btn btn-warning me-3">VALORAR</button></Link>
+                                                            </>
+                                                        ) : (
+                                                            <button className="btn btn-success me-3" onClick={() => handleContract(companion_id, inscripcion.id)}>CONTRATAR</button>
+                                                        )}
                                                         <Link to={`/perfil-profesional/${companion_id}`}>
                                                             <span className="fa-solid fa-eye pe-3 text-dark"></span>
                                                         </Link>
-                                                        {/* Papelera para eliminar la postulación */}
-                                                        <span className="fa-regular fa-trash-can" type="button" data-bs-toggle="modal" data-bs-target="#eliminarPostulacion"></span>
-                                                        <div className={`modal fade ${styles.modal_edit}`} data-bs-backdrop="false" id="eliminarPostulacion" tabIndex="-1" aria-labelledby="eliminarPostulacionLabel" aria-hidden="true">
-                                                            <div className="modal-dialog modal-dialog-centered">
-                                                                <div className="modal-content">
-                                                                    <div className="modal-body fw-bold fs-4 text-start">
-                                                                        ¿Desea eliminar esta postulación?
-                                                                    </div>
-                                                                    <div className="modal-footer">
-                                                                        <button type="button" className="btn btn-secondary fs-5" data-bs-dismiss="modal">Volver</button>
-                                                                        <button type="button" className="btn btn-danger fs-5" data-bs-dismiss="modal" onClick={() => handleCancelarClick()}>Eliminar</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                     </td>
                                                 </tr>
                                             );
@@ -610,9 +604,9 @@ export const BloqueAnuncio = ({ }) => {
                                     <img src={profileImg} className={`img-fluid`} />}
                             </div>
                             <div className="ms-3 fs-4 mt-3">
-                                <p className="fs-4"><span className="fa-solid fa-user pe-2"></span><span className="pe-2">{patientData.name}</span>{patientData.lastname}</p>
-                                <p className="fs-4"><span className="fa-solid fa-id-card pe-2"></span>{getAge(patientData.birthdate)} años</p>
-                                <p className="fs-4"><span className="fa-solid fa-location-dot pe-2"></span>{patientData.location}, {patientData.province}</p>
+                                <p className="fs-4"><span className="fa-solid fa-user pe-2"></span><span className="pe-2">{patientData?.name}</span>{patientData?.lastname}</p>
+                                <p className="fs-4"><span className="fa-solid fa-id-card pe-2"></span>{getAge(patientData?.birthdate)} años</p>
+                                <p className="fs-4"><span className="fa-solid fa-location-dot pe-2"></span>{patientData?.location}, {patientData?.province}</p>
                             </div>
                         </div>
                         {/* BOTON POSTULARSE/CANCELAR POSTULACION PARA ACOMPAÑANTES */}
@@ -630,7 +624,7 @@ export const BloqueAnuncio = ({ }) => {
                             >
                                 CANCELAR POSTULACIÓN
                             </button>
-                        ) : store.singleAd.user_id === store.userData.userId ? (
+                        ) : store.singleAd.user_id === store.userData.userId || store.userData.role === "admin" ? (
                             <p className="fs-4 fw-bold">
                                 Estado:{" "}
                                 {store.singleAd.status === "pending" ? (
@@ -686,19 +680,19 @@ export const BloqueAnuncio = ({ }) => {
                             <p className="fs-4 fw-bold"><span className="fa-solid fa-person-circle-exclamation pe-3"></span>Observaciones</p>
                             <div className="d-flex fs-5">
                                 <div className="pb-3">
-                                    <p className="fs-5 ps-4 ms-3">{patientData.description}</p>
+                                    <p className="fs-5 ps-4 ms-3">{patientData?.description}</p>
                                 </div>
                             </div>
                         </div>
                         <div className="col-12 col-sm-5">
                             <p className="fs-4 fw-bold"><span className="fa-solid fa-wheelchair pe-3"></span>Nivel de dependencia</p>
-                            <p className="fs-4 ps-4 ms-3">{patientData.dependency}</p>
+                            <p className="fs-4 ps-4 ms-3">{patientData?.dependency}</p>
                             <p className="text-secondary ps-4 ms-3 fst-italic">
-                                {patientData.dependency === "Nivel 1" ? "Acompañamiento. Es independiente en tareas diarias y personales"
+                                {patientData?.dependency === "Nivel 1" ? "Acompañamiento. Es independiente en tareas diarias y personales"
                                     :
-                                    patientData.dependency === "Nivel 2" ? "Dependencia leve. Requiere ayuda para cosas puntuales en algún momento del día para la rutina o autonomía personal"
+                                    patientData?.dependency === "Nivel 2" ? "Dependencia leve. Requiere ayuda para cosas puntuales en algún momento del día para la rutina o autonomía personal"
                                         :
-                                        patientData.dependency === "Nivel 3" ? "Dependencia moderada. Requiere ayuda para actividades básicas, dos o tres veces al día"
+                                        patientData?.dependency === "Nivel 3" ? "Dependencia moderada. Requiere ayuda para actividades básicas, dos o tres veces al día"
                                             :
                                             "Dependencia severa. Necesita el apoyo indispensable de otra persona por pérdida de autonómia física, mental o intelectual"
                                 }
@@ -717,9 +711,7 @@ export const BloqueAnuncio = ({ }) => {
                                             <th scope="col">#</th>
                                             <th scope="col">Nombre</th>
                                             <th scope="col">Edad</th>
-                                            <th scope="col">Experiencia</th>
                                             <th scope="col">Costo (hora)</th>
-                                            <th scope="col">Valoración</th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
