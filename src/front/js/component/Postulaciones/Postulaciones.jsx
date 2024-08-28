@@ -32,11 +32,11 @@ export const Postulaciones = ({ }) => {
     const getStatusButton = (statusContract) => {
         switch (statusContract) {
             case 'pending':
-                return <div className={`${styles.btn} btn btn-warning`} >PENDIENTE</div>;
+                return <span className={`text-warning ps-4`} >Pendiente</span>;
             case 'rejected':
-                return <button className={`${styles.btn} btn btn-danger`} >RECHAZADO</button>;
+                return <span className={`text-danger ps-4`} >Rechazado</span>;
             case 'ok':
-                return <button className={`${styles.btn} btn btn-success`}>CONTRATADO</button>;
+                return <span className={`text-success ps-4`}>Contratado</span>;
             default:
                 return '';
         }
@@ -63,12 +63,11 @@ export const Postulaciones = ({ }) => {
                         {/* Tabla Mis Postulaciones */}
                         <table className="table table-light table-hover">
                             <thead>
-                                <tr className="text-center">
+                                <tr className="">
                                     <th scope="col">#</th>
                                     <th scope="col">Anuncio</th>
                                     <th scope="col">Ubicación</th>
                                     <th scope="col">Fecha</th>
-                                    <th scope="col">Ver anuncio</th>
                                     <th scope="col">Estado postulacion</th>
                                     <th scope="col"></th>
                                 </tr>
@@ -81,7 +80,7 @@ export const Postulaciones = ({ }) => {
                                     if (!anuncio || !paciente) return null;
 
                                     return (
-                                        <tr key={misinscripciones.id} className="text-center">
+                                        <tr key={misinscripciones.id}>
                                             <th scope="row">{index + 1}</th>
                                             <td>{anuncio.title}</td>
                                             <td>{paciente.province}</td>
@@ -90,12 +89,13 @@ export const Postulaciones = ({ }) => {
                                                 month: '2-digit',
                                                 year: 'numeric'
                                             })}</td>
-                                            <td className="text-center">
-                                                <Link to={`/anuncio/${anuncio.id}`}><span className="fa-solid fa-eye pe-3 text-dark text-end"></span></Link>
-                                            </td>
-                                            <td>
+                                                 <td>
                                                 {getStatusButton(misinscripciones.statusContract)}
                                             </td>
+                                            <td className="text-end">
+                                                <Link to={`/anuncio/${anuncio.id}`}><span className="fa-solid fa-eye text-dark text-end"></span></Link>
+                                            </td>
+                                       
                                         </tr>
                                     );
                                 })}
