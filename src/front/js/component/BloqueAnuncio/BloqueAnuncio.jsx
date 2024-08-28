@@ -508,9 +508,7 @@ export const BloqueAnuncio = ({ }) => {
                                         <th scope="col">#</th>
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Edad</th>
-                                        <th scope="col">Experiencia</th>
                                         <th scope="col">Costo (hora)</th>
-                                        <th scope="col">Valoración</th>
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
@@ -530,30 +528,21 @@ export const BloqueAnuncio = ({ }) => {
                                             return (
                                                 <tr key={inscripcion.id}>
                                                     <th scope="row">{index + 1}</th>
-                                                    <td>{companion?.user?.name}</td>
-                                                    <td>{calcularEdad(companion?.birthdate)}</td>
-                                                    <td>{companion?.experience}</td>
-                                                    <td>{companion?.service_cost}</td>
-                                                    <td>{valoracion}</td>
+                                                    <td>{companion?.user?.name} {companion?.user?.lastname}</td>
+                                                    <td>{calcularEdad(companion?.birthdate)} años</td>
+                                                    <td>{companion?.service_cost} €</td>
                                                     <td className="text-end">
+                                                        {isContracted ? (
+                                                            <>
+                                                                <button className="btn btn-danger me-3" onClick={() => handleCancel(companion_id, inscripcion.id)}>CANCELAR</button>
+                                                                <Link to={`/rating/${companion_id}`}><button onClick={valorar} className="btn btn-warning me-3">VALORAR</button></Link>
+                                                            </>
+                                                        ) : (
+                                                            <button className="btn btn-success me-3" onClick={() => handleContract(companion_id, inscripcion.id)}>CONTRATAR</button>
+                                                        )}
                                                         <Link to={`/perfil-profesional/${companion_id}`}>
                                                             <span className="fa-solid fa-eye pe-3 text-dark"></span>
                                                         </Link>
-                                                        {/* Papelera para eliminar la postulación */}
-                                                        <span className="fa-regular fa-trash-can" type="button" data-bs-toggle="modal" data-bs-target="#eliminarPostulacion"></span>
-                                                        <div className={`modal fade ${styles.modal_edit}`} data-bs-backdrop="false" id="eliminarPostulacion" tabIndex="-1" aria-labelledby="eliminarPostulacionLabel" aria-hidden="true">
-                                                            <div className="modal-dialog modal-dialog-centered">
-                                                                <div className="modal-content">
-                                                                    <div className="modal-body fw-bold fs-4 text-start">
-                                                                        ¿Desea eliminar esta postulación?
-                                                                    </div>
-                                                                    <div className="modal-footer">
-                                                                        <button type="button" className="btn btn-secondary fs-5" data-bs-dismiss="modal">Volver</button>
-                                                                        <button type="button" className="btn btn-danger fs-5" data-bs-dismiss="modal" onClick={() => handleCancelarClick()}>Eliminar</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                     </td>
                                                 </tr>
                                             );
@@ -730,9 +719,7 @@ export const BloqueAnuncio = ({ }) => {
                                             <th scope="col">#</th>
                                             <th scope="col">Nombre</th>
                                             <th scope="col">Edad</th>
-                                            <th scope="col">Experiencia</th>
                                             <th scope="col">Costo (hora)</th>
-                                            <th scope="col">Valoración</th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
@@ -759,12 +746,10 @@ export const BloqueAnuncio = ({ }) => {
                                                             pointerEvents: contratoActivo && contratoActivo !== companion_id ? 'none' : 'auto',
                                                         }}
                                                     >
-                                                        <th scope="row">{index + 1}1</th>
-                                                        <td>{companion?.user?.name}</td>
-                                                        <td>{calcularEdad(companion?.birthdate)}</td>
-                                                        <td>{companion?.experience}</td>
-                                                        <td>{companion?.service_cost}</td>
-                                                        <td><span className="ps-2 fa-solid fa-star pe-1"></span> {store.rateData.length > 0 ? averageRate.toFixed(2) + " / 5" : "Sin valoraciones"}</td>
+                                                        <th scope="row">{index + 1}</th>
+                                                        <td>{companion?.user?.name} {companion?.user?.lastname}</td>
+                                                        <td>{calcularEdad(companion?.birthdate)} años</td>
+                                                        <td>{companion?.service_cost} €</td>
                                                         <td className="text-end">
                                                             {isContracted ? (
                                                                 <>

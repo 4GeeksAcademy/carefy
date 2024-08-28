@@ -66,6 +66,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 						// Guardar el objeto en localStorage
 						localStorage.setItem('userData', JSON.stringify(userData));
+						localStorage.setItem('nuevoCompanion', JSON.stringify(data.companion));
 
 						// Actualizar el store con los datos del usuario
 						setStore({
@@ -74,7 +75,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 							adData: [],
 							nuevoCompanion: data.companion
 						});
-
+						
 						console.log("Success:", data);
 					} else {
 						console.error("Token no recibido:", data);
