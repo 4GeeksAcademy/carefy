@@ -81,6 +81,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 							nuevoCompanion: data.companion
 						});
 
+						 // Obtener las inscripciones después de iniciar sesión
+						 const inscripcionesResp = await fetch(`${process.env.BACKEND_URL}/api/obtenerinscripciones`, {
+							headers: { Authorization: `Bearer ${data.token}` } // Si necesitas autenticación
+						});
+						const inscripciones = await inscripcionesResp.json();
+			
+						// Guardar las inscripciones en el store
+						setStore({
+							...store,
+							userData: userData,
+							adData: [],
+							nuevoCompanion: data.companion,
+							inscripciones: inscripciones // Actualizar el store con las inscripciones obtenidas
+						});
+
 						console.log("Success:", data);
 					} else {
 						console.error("Token no recibido:", data);
