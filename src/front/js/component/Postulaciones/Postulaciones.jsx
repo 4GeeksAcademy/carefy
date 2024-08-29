@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import styles from "./Postulaciones.module.css";
 import { Context } from "../../store/appContext";
+
 export const Postulaciones = ({ }) => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
@@ -28,11 +29,11 @@ export const Postulaciones = ({ }) => {
     const getStatusButton = (statusContract) => {
         switch (statusContract) {
             case 'pending':
-                return <span className={`text-warning ps-4`} >Pendiente</span>;
+                return <span className={`${styles.pendiente} ps-4 fw-bold`} >Pendiente</span>;
             case 'rejected':
-                return <span className={`text-danger ps-4`} >Rechazado</span>;
+                return <span className={`text-danger ps-4 fw-bold`} >Rechazado</span>;
             case 'ok':
-                return <span className={`text-success ps-4`}>Contratado</span>;
+                return <span className={`text-success ps-4 fw-bold`}>Contratado</span>;
             default:
                 return '';
         }
@@ -82,7 +83,7 @@ export const Postulaciones = ({ }) => {
                                                 month: '2-digit',
                                                 year: 'numeric'
                                             })}</td>
-                                                 <td>
+                                            <td>
                                                 {getStatusButton(misinscripciones.statusContract)}
                                             </td>
                                             <td className="text-end">
