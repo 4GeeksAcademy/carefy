@@ -61,7 +61,7 @@ export const Navbar = () => {
 
                                     <ul className="dropdown-menu dropdown-menu-end">
                                         {store.userData.role == "companion" ?
-                                            <li><button className={`dropdown-item ${styles.dropdown_item_edit}`} onClick={()=> navigate(`/perfil-profesional/${store.nuevoCompanion?.id}`)}>Mi perfil</button></li>
+                                            <li><button className={`dropdown-item ${styles.dropdown_item_edit}`} onClick={() => store.oneCompanion.id && navigate(`/perfil-profesional/${store.nuevoCompanion?.id}`)}>Mi perfil</button></li>
                                             :
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-usuario">Mi perfil</Link></li>
                                         }
