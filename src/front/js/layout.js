@@ -43,43 +43,43 @@ const Layout = () => {
     if (!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL />;
 
     return (
-        <div>
-            <BrowserRouter basename={basename}>
-                    <Navbar />
-                    <Routes>
-                        <Route element={<Home />} path="/" />
-                        <Route element={<Blog />} path="/blog" />
-                        <Route element={<Post />} path="/post-blog/:id" />
-                        <Route element={<Anuncio />} path="/anuncio/:id" />
-                        <Route element={<MisAnuncios />} path="/mis-anuncios" />
-                        <Route element={<MisPostulaciones />} path="/mis-postulaciones" />
-                        <Route element={<Login />} path="/login" />
-                        <Route element={<Faqs />} path="/faq" />
-                        <Route element={<Registro />} path="/registro" />
-                        <Route element={<PerfilUsuario />} path="/perfil-usuario" />
-                        <Route element={<Contacto />} path="/contacto" />
-                        <Route element={<PublicarResena />} path="/publicar-resena" />
-                        <Route element={<CreateAds />} path="/crear-anuncio" />
-                        <Route element={<AboutUs />} path="/nosotros" />
-                        <Route element={<ListModerate />} path="/moderar-anuncios" />
-                        <Route element={<RegisterAndEditCompanion />} path="/formulario-profesional" />
-                        <Route element={<ProfileCompanion />} path="/perfil-profesional/:id" />
-                        <Route element={<ListCompanions />} path="/listado-profesionales" />
-                        <Route element={<ListAds />} path="/listado-anuncios" />
-                        <Route element={<EditAd />} path="/edit-ad/:id" />
-                        <Route element={<TermsAndConditions />} path="/terminos-condiciones" />
-                        <Route element={<PrivacyPolitics />} path="/politicas-privacidad" />
-                        <Route element={<Rate />} path="/rating/:id" />
-                        <Route element={<FormularioRestablecerContrasena />} path="/restablecer-contrasena" />
-                        <Route element={<FormularioEnviarNuevaContrasena />} path="/reset-password" />
-                        
-                        <Route element={<h1>Not found!</h1>} path="*"/>
-
-                    </Routes>
-                    <Footer />
-            </BrowserRouter>
+        <div className="app-container">
+          <BrowserRouter basename={basename}>
+            <Navbar />
+            <div className="content">
+              <Routes>
+                <Route element={<Home />} path="/" />
+                <Route element={<Blog />} path="/blog" />
+                <Route element={<Post />} path="/post-blog/:id" />
+                <Route element={<Anuncio />} path="/anuncio/:id" />
+                <Route element={<MisAnuncios />} path="/mis-anuncios" />
+                <Route element={<MisPostulaciones />} path="/mis-postulaciones" />
+                <Route element={<Login />} path="/login" />
+                <Route element={<Faqs />} path="/faq" />
+                <Route element={<Registro />} path="/registro" />
+                <Route element={<PerfilUsuario />} path="/perfil-usuario" />
+                <Route element={<Contacto />} path="/contacto" />
+                <Route element={<PublicarResena />} path="/publicar-resena" />
+                <Route element={<CreateAds />} path="/crear-anuncio" />
+                <Route element={<AboutUs />} path="/nosotros" />
+                <Route element={<ListModerate />} path="/moderar-anuncios" />
+                <Route element={<RegisterAndEditCompanion />} path="/formulario-profesional" />
+                <Route element={<ProfileCompanion />} path="/perfil-profesional/:id" />
+                <Route element={<ListCompanions />} path="/listado-profesionales" />
+                <Route element={<ListAds />} path="/listado-anuncios" />
+                <Route element={<EditAd />} path="/edit-ad/:id" />
+                <Route element={<TermsAndConditions />} path="/terminos-condiciones" />
+                <Route element={<PrivacyPolitics />} path="/politicas-privacidad" />
+                <Route element={<Rate />} path="/rating/:id" />
+                <Route element={<FormularioRestablecerContrasena />} path="/restablecer-contrasena" />
+                <Route element={<FormularioEnviarNuevaContrasena />} path="/reset-password" />
+                <Route element={<h1>Not found!</h1>} path="*" />
+              </Routes>
+            </div>
+            <Footer />
+          </BrowserRouter>
         </div>
-    );
-};
-
-export default injectContext(Layout);
+      );
+    };
+    
+    export default injectContext(Layout);
