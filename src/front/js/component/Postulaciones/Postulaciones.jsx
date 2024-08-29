@@ -77,8 +77,19 @@ export const Postulaciones = ({ }) => {
                                 {inscripcionesMias.map((misinscripciones, index) => {
                                     const anuncio = store.ads.find(ad => ad.id === misinscripciones.ad_id);
                                     const paciente = store.patients.find(patient => patient.id === anuncio?.patient_id);
+                                    const companionHired = store.companions.find(companion => companion.id === anuncio?.hired); // Buscar el acompañante contratado
 
                                     if (!anuncio || !paciente) return null;
+
+                                    // Lógica para determinar el estado del contrato
+                                    let contratoEstado = 'Pendiente';
+                                    if (companionHired) {
+                                        if (companionHired.user_id === store.userData.userId) {
+                                            contratoEstado = 'Contratado';
+                                        } else {
+                                            contratoEstado = 'Rechazado';
+                                        }
+                                    }
 
                                     return (
                                         <tr key={misinscripciones.id}>
@@ -90,17 +101,23 @@ export const Postulaciones = ({ }) => {
                                                 month: '2-digit',
                                                 year: 'numeric'
                                             })}</td>
-                                                 <td>
-                                                {getStatusButton(misinscripciones.statusContract)}
+                                            <td>
+                                                {contratoEstado === "Pendiente" ?
+                                                <span className={styles.pendiente}>Pendiente</span>
+                                            : contratoEstado === "Contratado" ?
+                                            <span className="text-success fw-bold">Contratado</span>
+                                            :
+                                            <span className="text-danger fw-bold">Rechazado</span>
+                                            }
                                             </td>
                                             <td className="text-end">
                                                 <Link to={`/anuncio/${anuncio.id}`}><span className="fa-solid fa-eye text-dark text-end"></span></Link>
                                             </td>
-                                       
                                         </tr>
                                     );
                                 })}
                             </tbody>
+
                         </table>
                     </div>
                     <div className="tab-pane fade table-responsive" id="pills-fav" role="tabpanel" aria-labelledby="pills-fav-tab" tabIndex="0">
