@@ -66,7 +66,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 						// Guardar el objeto en localStorage
 						localStorage.setItem('userData', JSON.stringify(userData));
+						if(data.companion){
+							localStorage.setItem('nuevoCompanion', JSON.stringify(data.companion));
+						}
 						
+						
+						
+
 						// Actualizar el store con los datos del usuario
 						setStore({
 							...store,
@@ -143,17 +149,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			logOut: () => {
 				const store = getStore();
 
-				// Elimina el objeto completo de userData del localStorage
-				localStorage.removeItem("userData");
-				localStorage.removeItem("adData");
-				localStorage.removeItem("oneCompanion");
-				localStorage.removeItem("nuevoCompanion")
-
-				localStorage.removeItem("favData");
-				localStorage.removeItem("favDataAds");
-				localStorage.removeItem("inscripciones");
-				localStorage.removeItem("postulantes");
-
+				// Elimina todo el localStorage
+				localStorage.clear();
+				
+				// Restablece el estado de la aplicación a valores predeterminados
 				setStore({
 					...store,
 					userData: {
@@ -1208,6 +1207,66 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+
+			sendResetEmail: async (email) => {
+				try{
+					// fetching data from the backend
+					const resp = await fetch(process.env.BACKEND_URL + "/api/check_mail", {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({email})
+					})
+					if (resp.status!=200) return false
+					const data = await resp.json()
+					console.log(data)
+					return data;
+				}catch(error){
+					console.log("Error loading message from backend", error)
+				}
+			},
+
+			updatePassword: async (password, token) => {
+				try{
+					// fetching data from the backend
+					const resp = await fetch(process.env.BACKEND_URL + "/api/password_update", {
+						method: 'PUT',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': `Bearer ${token}`
+						},
+						body: JSON.stringify({password})
+					})
+					if (resp.status!=200) return false
+					const data = await resp.json()
+					console.log(data)
+					return data;
+				}catch(error){
+					console.log("Error loading message from backend", error)
+				}
+			},
+
+			checkAuth: async(token) => {
+				try{
+					// fetching data from the backend
+					const resp = await fetch(process.env.BACKEND_URL + "/api/token", {
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': `Bearer ${token}`
+						},
+						method: 'GET',
+					})
+					if (resp.status!=200) return false
+					const data = await resp.json()
+					console.log(data)
+					return data;
+				}catch(error){
+					console.log("Error loading message from backend", error)
+				}
+
+				},		
+
 			editarInscripcion: async (inscription_id, statusContract) => {
 				const store = getStore();
 
@@ -1239,6 +1298,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('There was an error updating the inscription:', error);
 				}
 			},
+
+
+			
+
+
 		}
 	};
 

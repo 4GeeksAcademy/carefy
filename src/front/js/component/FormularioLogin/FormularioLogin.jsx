@@ -51,7 +51,7 @@ export const FormularioLogin = () => {
 
 
             <div className="mb-3">
-                <p className="text-secondary fst-italic">¿Has olvidado la contraseña? <button className="btn text-primary fw-bold">Restaurar</button></p>
+                <p className="text-secondary fst-italic">¿Has olvidado la contraseña?<Link to="/restablecer-contrasena"><button className="btn text-primary fw-bold">Restaurar</button></Link></p>
             </div>
 
 

@@ -23,9 +23,10 @@ const ListCompanions = () => {
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const province = queryParams.get("province") || "";
+    const availability = queryParams.get("availability") || "";
     const type = queryParams.get("type") || "";
 
-    setFiltros({ province, type });
+    setFiltros({ province, type, availability });
   }, [location.search]);
 
   useEffect(() => {

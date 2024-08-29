@@ -6,9 +6,12 @@ from api.models import db, User, Patient, Ad, Status, Type, Companion, Favorite_
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, decode_token
 import cloudinary
 import cloudinary.uploader
+from flask_mail import Message
+from api.mail.mailer import send_email
+
 
 api = Blueprint('api', __name__)
 
@@ -104,11 +107,11 @@ def create_token():
     
     if users is None:
         # el usuario no se encontró en la base de datos
-        return jsonify({"msg": "Bad username or password"}), 401
+        return jsonify({"msg": "Bad username or password"}), 404
 
     if not check_password_hash(users.password, password):
         # Incorrect password
-        return jsonify({"msg": "Bad username or password"}), 401
+        return jsonify({"msg": "Bad username or password"}), 403
     
     # Crea un nuevo token con el id de usuario dentro
     access_token = create_access_token(identity=users.id)
@@ -669,13 +672,59 @@ def get_companion_rates(companion_id):
     rates_serialized = [rate.serialize() for rate in rates]
     return jsonify(rates_serialized)
 
+@api.route('/token', methods=['GET'])
+@jwt_required()
+def check_jwt():
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    if user:
+        return jsonify({'success': True, 'user': user.serialize()}), 200
+    return jsonify({'success': False, 'msg': 'Bad token'}), 401
 
 
 
 
 ######### INSCRIPCIONES ##########
 
+ #### RECUPERAR CONTRASENA ###
 
+
+
+## Enviar email para resetear contraseña
+@api.route("/check_mail", methods=['POST'])
+def check_mail():
+    try:
+        data = request.json
+        print(data)
+        user = User.query.filter_by(email=data['email']).first()
+        print(user)
+        if not user:
+            return jsonify({'success': False, 'msg': 'email not found'}),404
+        token = create_access_token(identity=user.id)
+        result = send_email(data['email'], token)
+        print(result)
+        return jsonify({'success': True, 'token': token, 'email': data['email']}), 200
+    except Exception as e:
+        print('error: '+ e)
+        return jsonify({'success': False, 'msg': 'something went wrong'})
+    
+## Resetear contraseña
+
+@api.route('/password_update', methods=['PUT'])
+@jwt_required()
+def password_update():
+    try:
+        data = request.json
+        id = get_jwt_identity()
+        user = User.query.get(id)
+        hashed_password = generate_password_hash(data['password'])  # Hash the password
+        user.password = hashed_password
+        db.session.commit()
+        return jsonify({'success': True, 'msg': 'Contraseña actualizada exitosamente, intente iniciar sesion'}), 200
+    except Exception as e:
+        db.session.rollback()
+        print('error: '+ e)
+        return jsonify({'success': False, 'msg': 'something went wrong'})
 # Nuevo crear inscripción desde acompañante botón POSTULARSE
 @api.route("/inscripcion/add/<int:companion_id>/<int:ad_id>/<int:user_id>", methods=['POST'])
 def add_inscription(companion_id, ad_id, user_id):
