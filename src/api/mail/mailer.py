@@ -16,7 +16,7 @@ def send_email(address, token):
         <p>Hola,</p>
         <p>Hemos recibido una solicitud para restablecer tu contraseña. Puedes hacerlo pulsando en el botón de abajo:</p>
         <p style="text-align: center;">
-            <a href="https://refactored-guide-r59r5wr9j6fxrx6-3000.app.github.dev/reset-password?token={token}" 
+            <a href="https://refactored-enigma-ggg44vjr66j3wvxq-3000.app.github.dev//reset-password?token={token}" 
             style="background-color: #FFC9B3; color: #9a593c; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
                 Restablecer Contraseña
             </a>
