@@ -17,13 +17,19 @@ export const BloqueAnuncio = ({ }) => {
     const [change, setChange] = useState(false)
     const [botonValorarVisible, setBotonValorarVisible] = useState(false)
     const [contratoActivo, setContratoActivo] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    //Obtiene un anuncio a través del id
+
+
     useEffect(() => {
-        if (id) {
-            actions.getSingleAd(id);
-        }
-    }, [id]);
+        const fetchData = async () => {
+          setLoading(true);
+            await actions.getSingleAd(id);
+          setLoading(false); // Datos cargados, detener la carga
+        };
+    
+        fetchData();
+      }, [id]);
 
 
 
@@ -346,6 +352,11 @@ export const BloqueAnuncio = ({ }) => {
     const valorar = () => {
         window.scrollTo(0, 0)
     }
+
+    if (loading) {
+        return <div className="d-flex justify-content-center mt-5 mb-5 fs-1 text-dark">Cargando...<span className={`${styles.loader}`}></span></div>;
+    
+      }
 
     return (
 
