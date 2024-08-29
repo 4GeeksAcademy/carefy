@@ -146,7 +146,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			logOut: () => {
+			t: () => {
 				const store = getStore();
 
 				// Elimina todo el localStorage
