@@ -23,13 +23,13 @@ export const BloqueAnuncio = ({ }) => {
 
     useEffect(() => {
         const fetchData = async () => {
-          setLoading(true);
+            setLoading(true);
             await actions.getSingleAd(id);
-          setLoading(false); // Datos cargados, detener la carga
+            setLoading(false); // Datos cargados, detener la carga
         };
-    
+
         fetchData();
-      }, [id]);
+    }, [id]);
 
 
 
@@ -250,112 +250,118 @@ export const BloqueAnuncio = ({ }) => {
         : 0;
 
 
-    const [contractedCompanions, setContractedCompanions] = useState(() => {
-        // Inicializamos el estado con los companions ya contratados desde localStorage
-        const initialContracted = [];
-        store.companions.forEach(companion => {
-            if (localStorage.getItem(`contracted_${companion.id}`)) {
-                initialContracted.push(companion.id);
-            }
-        });
-        return initialContracted;
-    });
+    const [inscripciones, setInscripciones] = useState(store.inscripciones);
+
+    useEffect(() => {
+        const activeContract = store.companions.find(companion =>
+            localStorage.getItem(`contracted_${store.singleAd?.id}_${companion.id}`) === 'true'
+        );
+        setContratoActivo(activeContract?.id || null);
+    }, [store.companions, store.singleAd]);
 
     const handleContract = async (companion_id, inscripcion_id) => {
-        // Guardar el estado de contratación específico para el anuncio y acompañante en el localStorage
         localStorage.setItem(`contracted_${store.singleAd?.id}_${companion_id}`, 'true');
 
-        // Marcar los otros compañeros como rechazados
         store.inscripciones
             .filter(inscripcion => inscripcion.companion_id !== companion_id)
             .forEach(inscripcion => {
                 localStorage.setItem(`rejected_${store.singleAd?.id}_${inscripcion.companion_id}`, 'true');
             });
 
-        // Establecer el contrato activo para el anuncio actual
         setContratoActivo(companion_id);
 
         try {
-            await actions.editAd(id, store.singleAd?.type, store.singleAd?.startDate, store.singleAd?.endDate,
-                store.singleAd?.price, store.singleAd?.title, store.singleAd?.description, store.singleAd?.patient_id, companion_id);
+            await actions.editAd(
+                store.singleAd.id,
+                store.singleAd.type,
+                store.singleAd.startDate,
+                store.singleAd.endDate,
+                store.singleAd.price,
+                store.singleAd.title,
+                store.singleAd.description,
+                store.singleAd.patient_id,
+                companion_id
+            );
 
-            const inscripciones = store.inscripciones;
-            for (const inscripcion of inscripciones) {
+            const updatedInscripciones = await Promise.all(store.inscripciones.map(async (inscripcion) => {
                 if (inscripcion.ad_id === store.singleAd?.id) {
                     if (inscripcion.companion_id === companion_id) {
-                        // Si es el acompañante seleccionado, marcar la inscripción como "OK"
                         await actions.editarInscripcion(inscripcion.id, 'OK');
+                        return { ...inscripcion, statusContract: 'ok' };
                     } else {
-                        // Si es otro acompañante, marcar la inscripción como "REJECTED"
                         await actions.editarInscripcion(inscripcion.id, 'REJECTED');
+                        return { ...inscripcion, statusContract: 'rejected' };
                     }
                 }
-            }
+                return inscripcion;
+            }));
+
+            setInscripciones(updatedInscripciones);
         } catch (error) {
-            console.error("Error al cancelar el contrato del anuncio:", error);
+            console.error("Error al contratar el acompañante:", error);
         }
     };
 
     const handleCancel = async (companion_id, inscripcion_id) => {
-        // Eliminar el estado de contratación específico del anuncio y acompañante del localStorage
         localStorage.removeItem(`contracted_${store.singleAd?.id}_${companion_id}`);
-
-        // Restablecer el contrato activo
         setContratoActivo(null);
 
-        // Limpiar el estado de rechazado en caso de cancelar la contratación
         store.inscripciones.forEach(inscripcion => {
             localStorage.removeItem(`rejected_${store.singleAd?.id}_${inscripcion.companion_id}`);
         });
 
         try {
             await actions.editAd(
-                id,
-                store.singleAd?.type,
-                store.singleAd?.startDate,
-                store.singleAd?.endDate,
-                store.singleAd?.price,
-                store.singleAd?.title,
-                store.singleAd?.description,
-                store.singleAd?.patient_id,
+                store.singleAd.id,
+                store.singleAd.type,
+                store.singleAd.startDate,
+                store.singleAd.endDate,
+                store.singleAd.price,
+                store.singleAd.title,
+                store.singleAd.description,
+                store.singleAd.patient_id,
                 null
             );
 
-            const inscripciones = store.inscripciones;
-            for (const inscripcion of inscripciones) {
+            const updatedInscripciones = await Promise.all(store.inscripciones.map(async (inscripcion) => {
                 if (inscripcion.ad_id === store.singleAd?.id) {
                     if (inscripcion.companion_id === companion_id) {
-                        // Si es el acompañante seleccionado, marcar la inscripción como "OK"
                         await actions.editarInscripcion(inscripcion.id, 'REJECTED');
+                        return { ...inscripcion, statusContract: 'rejected' };
                     } else {
-                        // Si es otro acompañante, marcar la inscripción como "REJECTED"
                         await actions.editarInscripcion(inscripcion.id, 'PENDING');
+                        return { ...inscripcion, statusContract: 'pending' };
                     }
                 }
-            }
+                return inscripcion;
+            }));
+
+            setInscripciones(updatedInscripciones);
         } catch (error) {
-            console.error("Error al cancelar el contrato del anuncio:", error);
+            console.error("Error al cancelar el contrato:", error);
         }
     };
-
-    useEffect(() => {
-        // Obtener el estado de contratación específico para el anuncio actual
-        const activeContract = store.companions.find(companion =>
-            localStorage.getItem(`contracted_${store.singleAd?.id}_${companion.id}`) === 'true'
-        );
-
-        // Establecer el contrato activo si existe
-        setContratoActivo(activeContract?.id || null);
-    }, []);
 
     const valorar = () => {
         window.scrollTo(0, 0)
     }
 
+    const [loadingInscripciones, setLoadingInscripciones] = useState(true);
+
+    useEffect(() => {
+        const fetchInscripciones = async () => {
+            setLoadingInscripciones(true);
+            await actions.obtenerinscripciones(); // Asegúrate de que este método actualice el estado de inscripciones
+            setLoadingInscripciones(false);
+        };
+
+        fetchInscripciones();
+    }, []);
+
     if (loading) {
         return <div className="d-flex justify-content-center mt-5 mb-5 fs-1 text-dark">Cargando...<span className={`${styles.loader}`}></span></div>;
-    
-      }
+
+    }
 
     return (
 
@@ -739,9 +745,16 @@ export const BloqueAnuncio = ({ }) => {
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
+
                                     <tbody>
-                                        {store.inscripciones.length > 0 ? (
-                                            store.inscripciones
+                                        {loadingInscripciones ? (
+                                            <tr>
+                                                <td colSpan="7" className="text-center">
+                                                    <div className="d-flex justify-content-center mt-5 mb-5 fs-1 text-dark">Cargando...<span className={`${styles.loader}`}></span></div>
+                                                </td>
+                                            </tr>
+                                        ) : inscripciones.length > 0 ? (
+                                            inscripciones
                                                 .filter(inscripcion => inscripcion.ad_id === store.singleAd?.id)
                                                 .map((inscripcion, index) => {
                                                     const companion = store.companions.find(comp => comp.id === inscripcion.companion_id);
@@ -749,10 +762,8 @@ export const BloqueAnuncio = ({ }) => {
 
                                                     const { id: companion_id } = companion;
 
-                                                    // Verificar si el acompañante está contratado o rechazado para el anuncio actual
-                                                    const isContracted = localStorage.getItem(`contracted_${store.singleAd?.id}_${companion_id}`) === 'true';
-                                                    const isRejected = localStorage.getItem(`rejected_${store.singleAd?.id}_${companion_id}`) === 'true';
-                                                    const isActiveContract = contratoActivo === companion_id;
+                                                    const isContracted = inscripcion.statusContract === 'ok';
+                                                    const isRejected = inscripcion.statusContract === 'rejected';
 
                                                     return (
                                                         <tr key={inscripcion.id}
@@ -774,7 +785,7 @@ export const BloqueAnuncio = ({ }) => {
                                                                     <>
                                                                         <button className="btn btn-danger me-3" onClick={() => handleCancel(companion_id, inscripcion.id)}>CANCELAR CONTRATO</button>
                                                                         <Link to={`/rating/${companion_id}`}>
-                                                                            <button onClick={valorar} className="btn btn-warning me-3">VALORAR</button>
+                                                                            <button className="btn btn-warning me-3">VALORAR</button>
                                                                         </Link>
                                                                     </>
                                                                 ) : (
@@ -793,6 +804,7 @@ export const BloqueAnuncio = ({ }) => {
                                             </tr>
                                         )}
                                     </tbody>
+
 
                                 </table>
                             </div>
