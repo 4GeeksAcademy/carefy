@@ -48,7 +48,7 @@ export const Postulaciones = ({ }) => {
                     </li>
                     {/* Mis favoritos */}
                     <li className="nav-item" role="presentation">
-                        <button className={`btn fs-5 ${styles.button_tab}`} id="pills-fav-tab" data-bs-toggle="pill" data-bs-target="#pills-fav" type="button" role="tab" aria-controls="pills-fav" aria-selected="false">Favoritos</button>
+                        <button className={`btn fs-5 ${styles.button_tab}`} id="pills-fav-tab" data-bs-toggle="pill" data-bs-target="#pills-fav" type="button" role="tab" aria-controls="pills-fav" aria-selected="false">Anuncios favoritos</button>
                     </li>
                 </ul>
                 {/* Inicio Tabla */}

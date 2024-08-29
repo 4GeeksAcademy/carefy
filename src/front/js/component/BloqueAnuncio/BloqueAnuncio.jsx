@@ -708,13 +708,13 @@ export const BloqueAnuncio = ({ }) => {
                                                                  
                                                                 ) : inscripcion.statusContract === "ok" ? (
                                                                     <>
-                                                                        <button className="btn btn-danger me-3" onClick={() => handleCancel(companion_id, inscripcion.id)}>CANCELAR CONTRATO</button>
+                                                                        <button className={`btn ${styles.cancel} me-3`} onClick={() => handleCancel(companion_id, inscripcion.id)}>CANCELAR CONTRATO</button>
                                                                         <Link to={`/rating/${companion_id}`}>
                                                                             <button onClick={valorar} className="btn btn-warning me-3">VALORAR</button>
                                                                         </Link>
                                                                     </>
                                                                 ) : (
-                                                                    <button className="btn btn-success me-3" onClick={() => handleContract(companion_id, inscripcion.id)}>CONTRATAR</button>
+                                                                    <button className={`btn ${styles.contract} me-3`} onClick={() => handleContract(companion_id, inscripcion.id)}>CONTRATAR</button>
                                                                 )}
                                                                 <Link to={`/perfil-profesional/${companion_id}`}>
                                                                     <span className="fa-solid fa-eye pe-3 text-dark"></span>
