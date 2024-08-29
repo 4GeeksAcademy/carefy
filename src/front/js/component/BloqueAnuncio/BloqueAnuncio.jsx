@@ -259,6 +259,7 @@ export const BloqueAnuncio = ({ }) => {
     // Función para manejar el contrato.
     const handleContract = async (companion_id, inscripcion_id) => {
         // Actualiza localStorage y estado
+        if(store.inscripcion.ad_id == store.singleAd.id){
         const updatedContractedCompanions = [...contractedCompanions, companion_id];
         localStorage.setItem('contractedCompanions', JSON.stringify(updatedContractedCompanions));
         localStorage.setItem(`contracted_${companion_id}`, true);
@@ -281,17 +282,22 @@ export const BloqueAnuncio = ({ }) => {
         } catch (error) {
             console.error("Error al contratar anuncio:", error);
         }
+    }
     };
 
 
     // Función para manejar la cancelación de la contratación
     const handleCancel = async (companion_id, inscripcion_id) => {
         // Elimina el contrato del localStorage y actualiza el estado
+        if(store.inscripcion.ad_id == store.singleAd.id){
         localStorage.removeItem(`contracted_${companion_id}`);
         const updatedContractedCompanions = contractedCompanions.filter(id => id !== companion_id);
         localStorage.setItem('contractedCompanions', JSON.stringify(updatedContractedCompanions));
-        setContractedCompanions(updatedContractedCompanions);
-        setContratoActivo(null);
+        
+            setContractedCompanions(updatedContractedCompanions);
+            setContratoActivo(null);
+        }
+        
 
         try {
             // Actualiza el anuncio para eliminar el compañero
