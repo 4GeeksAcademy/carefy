@@ -17,13 +17,19 @@ export const BloqueAnuncio = ({ }) => {
     const [change, setChange] = useState(false)
     const [botonValorarVisible, setBotonValorarVisible] = useState(false)
     const [contratoActivo, setContratoActivo] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    //Obtiene un anuncio a través del id
+
+
     useEffect(() => {
-        if (id) {
-            actions.getSingleAd(id);
-        }
-    }, [id]);
+        const fetchData = async () => {
+          setLoading(true);
+            await actions.getSingleAd(id);
+          setLoading(false); // Datos cargados, detener la carga
+        };
+    
+        fetchData();
+      }, [id]);
 
 
 
@@ -255,52 +261,54 @@ export const BloqueAnuncio = ({ }) => {
         return initialContracted;
     });
 
-
-    // Función para manejar el contrato.
     const handleContract = async (companion_id, inscripcion_id) => {
-        // Actualiza localStorage y estado
-        if(store.inscripcion.ad_id == store.singleAd.id){
-        const updatedContractedCompanions = [...contractedCompanions, companion_id];
-        localStorage.setItem('contractedCompanions', JSON.stringify(updatedContractedCompanions));
-        localStorage.setItem(`contracted_${companion_id}`, true);
-        setContractedCompanions(updatedContractedCompanions);
+        // Guardar el estado de contratación específico para el anuncio y acompañante en el localStorage
+        localStorage.setItem(`contracted_${store.singleAd?.id}_${companion_id}`, 'true');
+
+        // Marcar los otros compañeros como rechazados
+        store.inscripciones
+            .filter(inscripcion => inscripcion.companion_id !== companion_id)
+            .forEach(inscripcion => {
+                localStorage.setItem(`rejected_${store.singleAd?.id}_${inscripcion.companion_id}`, 'true');
+            });
+
+        // Establecer el contrato activo para el anuncio actual
         setContratoActivo(companion_id);
 
         try {
-            // Actualiza la base de datos
             await actions.editAd(id, store.singleAd?.type, store.singleAd?.startDate, store.singleAd?.endDate,
                 store.singleAd?.price, store.singleAd?.title, store.singleAd?.description, store.singleAd?.patient_id, companion_id);
 
             const inscripciones = store.inscripciones;
             for (const inscripcion of inscripciones) {
-                if (inscripcion.id === inscripcion_id) {
-                    await actions.editarInscripcion(inscripcion.id, 'OK');
-                } else {
-                    await actions.editarInscripcion(inscripcion.id, 'REJECTED');
+                if (inscripcion.ad_id === store.singleAd?.id) {
+                    if (inscripcion.companion_id === companion_id) {
+                        // Si es el acompañante seleccionado, marcar la inscripción como "OK"
+                        await actions.editarInscripcion(inscripcion.id, 'OK');
+                    } else {
+                        // Si es otro acompañante, marcar la inscripción como "REJECTED"
+                        await actions.editarInscripcion(inscripcion.id, 'REJECTED');
+                    }
                 }
             }
         } catch (error) {
-            console.error("Error al contratar anuncio:", error);
+            console.error("Error al cancelar el contrato del anuncio:", error);
         }
-    }
     };
 
-
-    // Función para manejar la cancelación de la contratación
     const handleCancel = async (companion_id, inscripcion_id) => {
-        // Elimina el contrato del localStorage y actualiza el estado
-        if(store.inscripcion.ad_id == store.singleAd.id){
-        localStorage.removeItem(`contracted_${companion_id}`);
-        const updatedContractedCompanions = contractedCompanions.filter(id => id !== companion_id);
-        localStorage.setItem('contractedCompanions', JSON.stringify(updatedContractedCompanions));
-        
-            setContractedCompanions(updatedContractedCompanions);
-            setContratoActivo(null);
-        }
-        
+        // Eliminar el estado de contratación específico del anuncio y acompañante del localStorage
+        localStorage.removeItem(`contracted_${store.singleAd?.id}_${companion_id}`);
+
+        // Restablecer el contrato activo
+        setContratoActivo(null);
+
+        // Limpiar el estado de rechazado en caso de cancelar la contratación
+        store.inscripciones.forEach(inscripcion => {
+            localStorage.removeItem(`rejected_${store.singleAd?.id}_${inscripcion.companion_id}`);
+        });
 
         try {
-            // Actualiza el anuncio para eliminar el compañero
             await actions.editAd(
                 id,
                 store.singleAd?.type,
@@ -310,14 +318,19 @@ export const BloqueAnuncio = ({ }) => {
                 store.singleAd?.title,
                 store.singleAd?.description,
                 store.singleAd?.patient_id,
-                null // Elimina el ID del compañero del anuncio
+                null
             );
+
             const inscripciones = store.inscripciones;
             for (const inscripcion of inscripciones) {
-                if (inscripcion.id === inscripcion_id) {
-                    await actions.editarInscripcion(inscripcion.id, 'REJECTED');
-                } else {
-                    await actions.editarInscripcion(inscripcion.id, 'PENDING');
+                if (inscripcion.ad_id === store.singleAd?.id) {
+                    if (inscripcion.companion_id === companion_id) {
+                        // Si es el acompañante seleccionado, marcar la inscripción como "OK"
+                        await actions.editarInscripcion(inscripcion.id, 'REJECTED');
+                    } else {
+                        // Si es otro acompañante, marcar la inscripción como "REJECTED"
+                        await actions.editarInscripcion(inscripcion.id, 'PENDING');
+                    }
                 }
             }
         } catch (error) {
@@ -326,18 +339,23 @@ export const BloqueAnuncio = ({ }) => {
     };
 
     useEffect(() => {
-        // Cargar compañeros contratados desde localStorage
-        const storedContractedCompanions = JSON.parse(localStorage.getItem('contractedCompanions')) || [];
-        setContractedCompanions(storedContractedCompanions);
+        // Obtener el estado de contratación específico para el anuncio actual
+        const activeContract = store.companions.find(companion =>
+            localStorage.getItem(`contracted_${store.singleAd?.id}_${companion.id}`) === 'true'
+        );
 
-        // Cargar contrato activo desde localStorage (si aplica)
-        const activeContract = storedContractedCompanions.find(id => localStorage.getItem(`contracted_${id}`));
-        setContratoActivo(activeContract || null);
+        // Establecer el contrato activo si existe
+        setContratoActivo(activeContract?.id || null);
     }, []);
 
     const valorar = () => {
         window.scrollTo(0, 0)
     }
+
+    if (loading) {
+        return <div className="d-flex justify-content-center mt-5 mb-5 fs-1 text-dark">Cargando...<span className={`${styles.loader}`}></span></div>;
+    
+      }
 
     return (
 
@@ -730,7 +748,10 @@ export const BloqueAnuncio = ({ }) => {
                                                     if (!companion) return null;
 
                                                     const { id: companion_id } = companion;
-                                                    const isContracted = localStorage.getItem(`contracted_${companion_id}`) || contractedCompanions.includes(companion_id);
+
+                                                    // Verificar si el acompañante está contratado o rechazado para el anuncio actual
+                                                    const isContracted = localStorage.getItem(`contracted_${store.singleAd?.id}_${companion_id}`) === 'true';
+                                                    const isRejected = localStorage.getItem(`rejected_${store.singleAd?.id}_${companion_id}`) === 'true';
                                                     const isActiveContract = contratoActivo === companion_id;
 
                                                     return (
@@ -740,21 +761,15 @@ export const BloqueAnuncio = ({ }) => {
                                                                 pointerEvents: contratoActivo && contratoActivo !== companion_id ? 'none' : 'auto',
                                                             }}>
                                                             <th scope="row">{index + 1}</th>
-                                                            <td>{companion?.user?.name}</td>
-                                                            <td>{calcularEdad(companion?.birthdate)}</td>
-                                                            <td>{companion?.experience}</td>
-                                                            <td>{companion?.service_cost}</td>
-                                                            <td>
-                                                                <span className="ps-2 fa-solid fa-star pe-1"></span>
-                                                                {store.rateData.length > 0 ? `${averageRate.toFixed(2)} / 5` : "Sin valoraciones"}
-                                                            </td>
+                                                            <td>{companion?.user?.name} {companion?.user?.lastname}</td>
+                                                            <td>{calcularEdad(companion?.birthdate)} años</td>
+                                                            <td>{companion?.service_cost} €</td>
 
                                                             <td className="text-end">
-                                                                <Link to={`/perfil-profesional/${companion_id}`}>
-                                                                    <span className="fa-solid fa-eye pe-3 text-dark"></span>
-                                                                </Link>
                                                                 {contratoActivo && contratoActivo !== companion_id ? (
-                                                                    <button className="btn btn-light me-3">RECHAZADO</button>
+                                                                    isRejected ? (
+                                                                        <button className="btn btn-light me-3">RECHAZADO</button>
+                                                                    ) : null
                                                                 ) : isContracted ? (
                                                                     <>
                                                                         <button className="btn btn-danger me-3" onClick={() => handleCancel(companion_id, inscripcion.id)}>CANCELAR CONTRATO</button>
@@ -765,14 +780,16 @@ export const BloqueAnuncio = ({ }) => {
                                                                 ) : (
                                                                     <button className="btn btn-success me-3" onClick={() => handleContract(companion_id, inscripcion.id)}>CONTRATAR</button>
                                                                 )}
-
+                                                                <Link to={`/perfil-profesional/${companion_id}`}>
+                                                                    <span className="fa-solid fa-eye pe-3 text-dark"></span>
+                                                                </Link>
                                                             </td>
                                                         </tr>
                                                     );
                                                 })
                                         ) : (
                                             <tr>
-                                                <td colSpan="7" className="text-center">Cargando datos...</td>
+                                                <td colSpan="7" className="text-center">No hay datos de postulaciones</td>
                                             </tr>
                                         )}
                                     </tbody>
