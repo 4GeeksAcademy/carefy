@@ -66,6 +66,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 						// Guardar el objeto en localStorage
 						localStorage.setItem('userData', JSON.stringify(userData));
+						if(data.companion){
+							localStorage.setItem('nuevoCompanion', JSON.stringify(data.companion));
+						}
+						
+						
 						
 
 						// Actualizar el store con los datos del usuario
