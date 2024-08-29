@@ -275,15 +275,20 @@ export const BloqueAnuncio = ({ }) => {
 
             const inscripciones = store.inscripciones;
             for (const inscripcion of inscripciones) {
-                if (inscripcion.id === inscripcion_id) {
-                    await actions.editarInscripcion(inscripcion.id, 'OK');
-                } else {
-                    await actions.editarInscripcion(inscripcion.id, 'REJECTED');
+                if (inscripcion.ad_id === store.singleAd?.id) {
+                    if (inscripcion.companion_id === companion_id) {
+                        // Si es el acompañante seleccionado, marcar la inscripción como "OK"
+                        await actions.editarInscripcion(inscripcion.id, 'OK');
+                    } else {
+                        // Si es otro acompañante, marcar la inscripción como "REJECTED"
+                        await actions.editarInscripcion(inscripcion.id, 'REJECTED');
+                    }
                 }
             }
         } catch (error) {
-            console.error("Error al contratar anuncio:", error);
+            console.error("Error al cancelar el contrato del anuncio:", error);
         }
+
     };
 
     const handleCancel = async (companion_id, inscripcion_id) => {
@@ -313,10 +318,14 @@ export const BloqueAnuncio = ({ }) => {
 
             const inscripciones = store.inscripciones;
             for (const inscripcion of inscripciones) {
-                if (inscripcion.id === inscripcion_id) {
-                    await actions.editarInscripcion(inscripcion.id, 'REJECTED');
-                } else {
-                    await actions.editarInscripcion(inscripcion.id, 'PENDING');
+                if (inscripcion.ad_id === store.singleAd?.id) {
+                    if (inscripcion.companion_id === companion_id) {
+                        // Si es el acompañante seleccionado, marcar la inscripción como "OK"
+                        await actions.editarInscripcion(inscripcion.id, 'REJECTED');
+                    } else {
+                        // Si es otro acompañante, marcar la inscripción como "REJECTED"
+                        await actions.editarInscripcion(inscripcion.id, 'PENDING');
+                    }
                 }
             }
         } catch (error) {
@@ -770,7 +779,7 @@ export const BloqueAnuncio = ({ }) => {
                                                 })
                                         ) : (
                                             <tr>
-                                                <td colSpan="7" className="text-center">Cargando datos...</td>
+                                                <td colSpan="7" className="text-center">No hay datos de postulaciones</td>
                                             </tr>
                                         )}
                                     </tbody>
