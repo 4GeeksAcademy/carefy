@@ -244,6 +244,34 @@ def edit_ad(ad_id):
     except Exception as e:
         db.session.rollback()  # Revierte los cambios en caso de error
         return jsonify({"error": str(e)}), 500
+    
+    
+ #Editar estado de anuncio
+@api.route('/ad/edit/status/<int:ad_id>', methods=['PUT'])
+def edit_ad_status(ad_id):
+    ad = Ad.query.filter_by(id=ad_id).first()
+    # Verificar si el anuncio existe
+    if ad is None:
+        return jsonify({"message": "Ad not found"}), 404
+
+    data = request.json
+
+    # Verificar si se enviaron datos
+    if not data:
+        return jsonify({"message": "No data provided"}), 400
+
+ # Actualizar el Anuncio con los nuevos datos
+    try:
+        if 'status' in data:
+            ad.status = Status[data['status'].upper()]
+    
+        db.session.commit()  # Guarda los cambios en la base de datos
+
+        return jsonify({"message": "Ad actualizado correctamente", "ad": ad.serialize()}), 200
+
+    except Exception as e:
+        db.session.rollback()  # Revierte los cambios en caso de error
+        return jsonify({"error": str(e)}), 500
 
 #Página privada/protegida, solo accesible con token
 @api.route("/protected", methods=["GET"])
@@ -715,7 +743,7 @@ def add_inscription(companion_id, ad_id, user_id):
         "msg": "inscripcion creada correctamente",
         **new_inscription.serialize()}), 201
 
-# Nuevo borrar inscripcion
+#  borrar inscripcion
 @api.route('inscripcion/delete/<int:inscription_id>', methods=['DELETE'])
 def delete_inscription(inscription_id):
     inscription = Inscription.query.get(inscription_id)

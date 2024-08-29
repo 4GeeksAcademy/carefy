@@ -18,7 +18,7 @@ export const EditarAnuncio = () => {
   const [description, setDescription] = useState('');
   const [adId, setAdId] = useState(null);
   const [selectedPatient, setSelectedPatient] = useState('');
-  
+
   const hoy = new Date().toISOString().split('T')[0];
 
   const navigate = useNavigate();
@@ -71,7 +71,9 @@ export const EditarAnuncio = () => {
     const finalEndDate = endDate || "4000-01-01";
 
     await actions.editAd(adId, type, startDate, finalEndDate, price, title, description, selectedPatient);
-    navigate(`/mis-anuncios`)
+      navigate('/mis-anuncios')
+    
+
 
   }
 
@@ -95,7 +97,7 @@ export const EditarAnuncio = () => {
   function capitalizeFirstLetter(string) {
     if (string.length === 0) return '';
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-}
+  }
 
   return (
     <div className={`container p-4 rounded`}>
@@ -207,7 +209,7 @@ export const EditarAnuncio = () => {
         </div>
       </div>
       <div className="d-flex justify-content-end align-items-start mt-4 gap-5">
-      {error && <div className="alert alert-danger" role="alert">{error}</div>}
+        {error && <div className="alert alert-danger" role="alert">{error}</div>}
         <button onClick={() => handleEdit(adId, type, startDate, endDate, price, title, description)} className={`${styles.btn_publicar} me-2 fs-5 btn`}>Publicar</button>
       </div>
     </div>
