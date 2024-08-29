@@ -766,7 +766,7 @@ export const BloqueAnuncio = ({ }) => {
                                                 })
                                         ) : (
                                             <tr>
-                                                <td colSpan="7" className="text-center">Cargando datos...</td>
+                                                <td colSpan="7" className="text-center">No hay postulaciones a este anuncio</td>
                                             </tr>
                                         )}
                                     </tbody>
