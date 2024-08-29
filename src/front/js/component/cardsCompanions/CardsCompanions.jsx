@@ -1,11 +1,14 @@
 import React from 'react'
 import styles from "./cardCompanions.module.css"
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const CardsCompanions = ({ name, last_name, description, photo, location, province, link }) => {
+  const navigate= useNavigate();
 
   const verMas = () => {
+    navigate(link)
     window.scrollTo(0, 0);
+    
   }
 
   
@@ -35,9 +38,9 @@ const CardsCompanions = ({ name, last_name, description, photo, location, provin
         </div>
         <p className={`card-text ${styles.card_description}`}>{description}</p>
         <div className={`d-flex justify-content-center ${styles.card_buttons}`}>
-          <Link onClick={verMas} to={link} className={`btn ${styles.boton_ver_mas}`}>
+          <button onClick={verMas} className={`btn ${styles.boton_ver_mas}`}>
             VER MÁS
-          </Link>
+          </button>
         </div>
       </div>
     </div>

@@ -36,6 +36,10 @@ export const CompanionProfile = ({ }) => {
     fetchData();
   }, [id]);
 
+  useEffect(()=>{
+    
+  })
+
 
   // Función para calcular la edad
   const calculateAge = (birthdateString) => {

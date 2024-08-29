@@ -120,7 +120,7 @@ const CompanionForm = () => {
   }, [store.userData.userId, store.userData.token]);
 
   useEffect(() => {
-    if (store.nuevoCompanion?.user_id === store.userData?.userId) {
+    if (store.oneCompanion?.user_id === store.userData?.userId) {
       actions.companion(store.nuevoCompanion?.id)
     }
   }, [store.userData?.userId, store.nuevoCompanion?.user_id]);
@@ -198,15 +198,8 @@ const CompanionForm = () => {
     } catch (error) {
       console.error('There was an error submitting the data:', error);
     }
-    if (store.oneCompanion?.id) {
-      navigate(`/perfil-profesional/${store.oneCompanion?.id}`);
-      window.scrollTo(0, 0);
-    }
-    else {
-      navigate(`/perfil-profesional/${store.nuevoCompanion?.id}`);
-      window.scrollTo(0, 0);
-    }
-    window.scrollTo(0, 0);
+    if(store.nuevoCompanion?.id)
+    navigate(`/perfil-profesional/${store.nuevoCompanion?.id}`);
   };
 
   return (
