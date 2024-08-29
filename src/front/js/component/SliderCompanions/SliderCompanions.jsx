@@ -16,9 +16,12 @@ export const SliderCompanions = () => {
     }, []);
 
     useEffect(() => {
+        console.log('store.ads:', store.ads);
+        console.log('store.patients:', store.patients);
+
         if (store.ads && store.patients) {
             const adsPatientData = store.ads
-                .filter(ad => ad.status === "ok")
+                .filter(ad => ad && ad.status === "ok")
                 .map(ad => {
                     const patient = store.patients.find(patient => patient.id === ad.patient_id);
                     return {
@@ -41,6 +44,7 @@ export const SliderCompanions = () => {
             setFilteredAds(filtered);
         }
     }, [store.ads, store.patients, filters]);
+
 
 
     useEffect(() => {

@@ -16,31 +16,35 @@ export const SliderAds = () => {
       }, []);
     
       useEffect(() => {
-        if (store.ads && store.patients) {
-          const adsPatientData = store.ads
-            .filter(ad => ad.status === "ok")
-            .map(ad => {
-              const patient = store.patients.find(patient => patient.id === ad.patient_id);
-              return {
-                ...ad,
-                province: patient ? patient.province : 'Desconocida',
-                photo: patient ? patient.photo : '',
-                location: patient ? patient.location : ''
-              };
-            });
+        console.log('store.ads:', store.ads);
+        console.log('store.patients:', store.patients);
+    
+        if (Array.isArray(store.ads) && Array.isArray(store.patients)) {
+            const adsPatientData = store.ads
+                .filter(ad => ad && ad.status === "ok") // Verificar que `ad` no sea `undefined`
+                .map(ad => {
+                    const patient = store.patients.find(patient => patient.id === ad.patient_id);
+                    return {
+                        ...ad,
+                        province: patient ? patient.province : 'Desconocida',
+                        photo: patient ? patient.photo : '',
+                        location: patient ? patient.location : ''
+                    };
+                });
     
             const filtered = adsPatientData.filter(ad => {
-              const matchesProvince = filters.province ? ad.province === filters.province : true;
-              const matchesStartDate = filters.startDate
-                ? new Date(ad.start_date).setHours(0, 0, 0, 0) >= new Date(filters.startDate).setHours(0, 0, 0, 0)
-                : true;
+                const matchesProvince = filters.province ? ad.province === filters.province : true;
+                const matchesStartDate = filters.startDate
+                    ? new Date(ad.start_date).setHours(0, 0, 0, 0) >= new Date(filters.startDate).setHours(0, 0, 0, 0)
+                    : true;
     
-            return matchesProvince && matchesStartDate;
-          });
+                return matchesProvince && matchesStartDate;
+            });
     
-          setFilteredAds(filtered);
+            setFilteredAds(filtered);
         }
-      }, [store.ads, store.patients, filters]);
+    }, [store.ads, store.patients, filters]);
+    
     
 
     useEffect(() => {
