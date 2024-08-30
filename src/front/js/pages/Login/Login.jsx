@@ -12,13 +12,14 @@ export const Login = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (store.userData.token && store.userData.role == "companion") {
-            navigate(`/perfil-profesional/${store.nuevoCompanion?.id}`);;
+        if (store.userData.token && store.userData.role === "companion") {
+            navigate(`/perfil-profesional/${store.nuevoCompanion?.id}`);
         }
-        else if (store.userData.token && store.userData.role == "user") {
+        else if (store.userData.token && store.userData.role === "user") {
             navigate('/perfil-usuario');
+            window.location.reload();
         }
-        else if (store.userData.token && store.userData.role == "admin") {
+        else if (store.userData.token && store.userData.role === "admin") {
             navigate('/moderar-anuncios');
         }
         else {
