@@ -3,14 +3,11 @@ import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
 import styles from "./BloqueAnuncio.module.css"
 import { Context } from "../../store/appContext";
 import profileImg from "../../../img/profileImg.png"
-
 export const BloqueAnuncio = ({ }) => {
-
     const { store, actions } = useContext(Context);
     const { id } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
-
     const [PostularseVisible, setPostularseVisible] = useState(true);
     const [listaInscripciones, setListaInscripciones] = useState([])
     const [companion_id, setCompanion_id] = useState(0)
@@ -19,17 +16,15 @@ export const BloqueAnuncio = ({ }) => {
     const [contratoActivo, setContratoActivo] = useState(null);
     const [loading, setLoading] = useState(true);
 
-
-
     useEffect(() => {
         const fetchData = async () => {
-            setLoading(true);
+          setLoading(true);
             await actions.getSingleAd(id);
-            setLoading(false); // Datos cargados, detener la carga
+          setLoading(false); // Datos cargados, detener la carga
         };
-
+    
         fetchData();
-    }, [id]);
+      }, [id]);
 
 
 
@@ -46,17 +41,11 @@ export const BloqueAnuncio = ({ }) => {
     //         navigate('/listado-anuncios');
     //     }
     // }, [store.singleAd, store.userData.userId, navigate]);
-
-
-
     // Obtener los datos del anuncio del store
     const ad = store.singleAd;
-
     if (!ad) {
         return <p>Cargando...</p>;
     }
-
-
     // FUNCIONA //  
     const handlePostularseClick = async () => {
         const userCompId = store.userData.userId;
@@ -65,17 +54,14 @@ export const BloqueAnuncio = ({ }) => {
         const companions = localStorage.getItem('companions');
         const companionsParsed = JSON.parse(companions)
         setPostularseVisible(false)
-
         console.log(('patients...', patients));
         const companionExistente = companionsParsed.find(companion =>
             companion.user_id === userCompId
         )
         const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.user_id === userCompId && inscripcion.ad_id === adId);
-
         if (companionExistente && !inscripcionExistente) {
             try {
                 await actions.add_inscription(companionExistente.id, adId, userCompId)
-
             } catch (error) {
                 console.error('Error al añadir la inscripcion', error)
             } finally {
@@ -83,8 +69,6 @@ export const BloqueAnuncio = ({ }) => {
             }
         }
     };
-
-
     /**
      * 
      * @param adId: obtiene el id del anuncio
@@ -98,31 +82,23 @@ export const BloqueAnuncio = ({ }) => {
     const handleCancelarClick = async () => {
         const adId = store.singleAd.id;
         const userCompId = store.userData.userId;
-
-
         // Buscar la inscripción que corresponda al usuario y al anuncio actual
         const inscripcionAEliminar = store.inscripciones.find(inscripcion =>
             inscripcion.user_id === userCompId && inscripcion.ad_id === adId
         );
-
         if (inscripcionAEliminar) {
             try {
-
                 await actions.deleteinscription(inscripcionAEliminar.id);
-
                 const updatedInscriptions = store.inscripciones.filter(inscripcion =>
                     inscripcion.id !== inscripcionAEliminar.id
                 );
                 localStorage.setItem('inscripciones_lista', JSON.stringify(updatedInscriptions));
-
                 // Actualizar el estado de la tienda
                 setStore({
                     ...store,
                     inscripciones: updatedInscriptions
                 });
-
                 // Opcionalmente, puedes mostrar una notificación de éxito aquí
-
             } catch (error) {
                 console.error("Error al eliminar la inscripción:", error);
             } finally {
@@ -133,48 +109,34 @@ export const BloqueAnuncio = ({ }) => {
             console.warn('No se encontró una inscripción que corresponda a este usuario y anuncio.');
         }
     };
-
-
     //Para eliminar un anuncio   
     const handleDelete = (id) => {
         actions.deleteAd(id);
-
         navigate('/mis-anuncios')
-
     }
-
-
     //Para editar un anuncio 
     const handleEditAd = (id) => {
         console.log("Editing ad with ID:", id);
         actions.getSingleAd(id);
         navigate(`/edit-ad/${id}`);
     };
-
-
     //Para obtener la lista de pacientes
     useEffect(() => {
         actions.getPatients();
         actions.getCompanions();
     }, []);
-
-
-
     const patientData = store.patients.find(patient => patient.id === store.singleAd.patient_id);
-
     // Función para calcular la edad a partir de la fecha de nacimiento
     const getAge = (birthdate) => {
         const today = new Date();
         const birthDate = new Date(birthdate);///
         let age = today.getFullYear() - birthDate.getFullYear();
         const monthDifference = today.getMonth() - birthDate.getMonth();
-
         if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
             age--;
         }
         return age;
     };
-
     // Obtiene todas las inscripciones y cambiar el botón de Postularse
     // 0 comprobar si esta logueado
     // 1 buscar el ad por el id
@@ -182,48 +144,37 @@ export const BloqueAnuncio = ({ }) => {
     // 3 buscar si mi user.id esta dentro de esas postulaciones. 
     //      si está: debe aparecer "CANCELAR POSTULACION" -- delete
     //      si no está: debe aparecer "postular " -- post
-
     useEffect(() => {
-
         const userCompId = store.userData.userId;
         const adId = localStorage.getItem('singleAd');
         const adIdParsed = JSON.parse(adId)
         const companions = localStorage.getItem('companions');
         const companionsParsed = JSON.parse(companions)
-
-
         // const companion = store.companions.find(companion => companion.user_id === userCompId);
         const inscripcionExistente = store.inscripciones.find(inscripcion => inscripcion.ad_id === adIdParsed?.id
             && inscripcion.user_id === userCompId);
-
         if (!inscripcionExistente) {
             // Después de inscribirse con éxito, ocultar el botón "POSTULARSE"
             setPostularseVisible(true);
         } else {
             setPostularseVisible(false); // Oculta "CANCELAR POSTULACIÓN"
         }
-
-
     }, [store.inscripciones, store.singleAd.id]); //store.inscripciones, 
-
     useEffect(() => {
         actions.getCompanions();
         actions.obtenerinscripciones();
     }, []);
-
     // Función para calcular la edad a partir de la fecha de nacimiento
     const calcularEdad = (fechaNacimiento) => {
         const hoy = new Date()
         const fechaNac = new Date(fechaNacimiento);
         let edadCalculada = hoy.getFullYear() - fechaNac.getFullYear();
         const mes = hoy.getMonth() - fechaNac.getMonth()
-
         if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNac.getDate())) {
             edadCalculada--;
         }
         return edadCalculada
     }
-
     //Añade un favorito a la lista    
     const handleAddFav = async (ad_id) => {
         console.log('Data de favAd: ', store.favDataAds)
@@ -231,9 +182,6 @@ export const BloqueAnuncio = ({ }) => {
         const updatedFavData = await actions.getAdFavs();
         const isFavorited = Array.isArray(updatedFavData) && updatedFavData.some(fav => fav.ad_id === store.singleAd.id);
     };
-
-
-
     //Elimina un favorito de la lista
     const handleDeleteFav = async (favId) => {
         console.log('Data de favAd: ', store.favDataAds)
@@ -241,127 +189,122 @@ export const BloqueAnuncio = ({ }) => {
         const updatedFavData = await actions.getAdFavs();
         const isFavorited = Array.isArray(updatedFavData) && updatedFavData.some(fav => fav.ad_id === store.singleAd.id);
     };
-
     const isFavorited = Array.isArray(store.favDataAds) && store.favDataAds.some(fav => fav.ad_id === store.singleAd.id);
-
     //Calcula la nota media de las evaluaciones
     const averageRate = store.rateData.length > 0
         ? store.rateData.reduce((acc, rate) => acc + rate.rate, 0) / store.rateData.length
         : 0;
 
 
-    const [inscripciones, setInscripciones] = useState(store.inscripciones);
-
-    useEffect(() => {
-        const activeContract = store.companions.find(companion =>
-            localStorage.getItem(`contracted_${store.singleAd?.id}_${companion.id}`) === 'true'
-        );
-        setContratoActivo(activeContract?.id || null);
-    }, [store.companions, store.singleAd]);
+    const [contractedCompanions, setContractedCompanions] = useState(() => {
+        // Inicializamos el estado con los companions ya contratados desde localStorage
+        const initialContracted = [];
+        store.companions.forEach(companion => {
+            if (localStorage.getItem(`contracted_${companion.id}`)) {
+                initialContracted.push(companion.id);
+            }
+        });
+        return initialContracted;
+    });
 
     const handleContract = async (companion_id, inscripcion_id) => {
+        // Guardar el estado de contratación específico para el anuncio y acompañante en el localStorage
         localStorage.setItem(`contracted_${store.singleAd?.id}_${companion_id}`, 'true');
 
+        // Marcar los otros compañeros como rechazados
         store.inscripciones
             .filter(inscripcion => inscripcion.companion_id !== companion_id)
             .forEach(inscripcion => {
                 localStorage.setItem(`rejected_${store.singleAd?.id}_${inscripcion.companion_id}`, 'true');
             });
 
+        // Establecer el contrato activo para el anuncio actual
         setContratoActivo(companion_id);
 
         try {
-            await actions.editAd(
-                store.singleAd.id,
-                store.singleAd.type,
-                store.singleAd.startDate,
-                store.singleAd.endDate,
-                store.singleAd.price,
-                store.singleAd.title,
-                store.singleAd.description,
-                store.singleAd.patient_id,
-                companion_id
-            );
+            await actions.editAd(id, store.singleAd?.type, store.singleAd?.startDate, store.singleAd?.endDate,
+                store.singleAd?.price, store.singleAd?.title, store.singleAd?.description, store.singleAd?.patient_id, companion_id);
 
-            const updatedInscripciones = await Promise.all(store.inscripciones.map(async (inscripcion) => {
+            const inscripciones = store.inscripciones;
+            for (const inscripcion of inscripciones) {
                 if (inscripcion.ad_id === store.singleAd?.id) {
                     if (inscripcion.companion_id === companion_id) {
+                        // Si es el acompañante seleccionado, marcar la inscripción como "OK"
                         await actions.editarInscripcion(inscripcion.id, 'OK');
-                        return { ...inscripcion, statusContract: 'ok' };
                     } else {
+                        // Si es otro acompañante, marcar la inscripción como "REJECTED"
                         await actions.editarInscripcion(inscripcion.id, 'REJECTED');
-                        return { ...inscripcion, statusContract: 'rejected' };
                     }
                 }
-                return inscripcion;
-            }));
-
-            setInscripciones(updatedInscripciones);
+            }
+            window.location.reload();
         } catch (error) {
-            console.error("Error al contratar el acompañante:", error);
+            console.error("Error al cancelar el contrato del anuncio:", error);
         }
+
     };
 
     const handleCancel = async (companion_id, inscripcion_id) => {
+        // Eliminar el estado de contratación específico del anuncio y acompañante del localStorage
         localStorage.removeItem(`contracted_${store.singleAd?.id}_${companion_id}`);
+
+        // Restablecer el contrato activo
         setContratoActivo(null);
 
+        // Limpiar el estado de rechazado en caso de cancelar la contratación
         store.inscripciones.forEach(inscripcion => {
             localStorage.removeItem(`rejected_${store.singleAd?.id}_${inscripcion.companion_id}`);
         });
 
         try {
             await actions.editAd(
-                store.singleAd.id,
-                store.singleAd.type,
-                store.singleAd.startDate,
-                store.singleAd.endDate,
-                store.singleAd.price,
-                store.singleAd.title,
-                store.singleAd.description,
-                store.singleAd.patient_id,
+                id,
+                store.singleAd?.type,
+                store.singleAd?.startDate,
+                store.singleAd?.endDate,
+                store.singleAd?.price,
+                store.singleAd?.title,
+                store.singleAd?.description,
+                store.singleAd?.patient_id,
                 null
             );
 
-            const updatedInscripciones = await Promise.all(store.inscripciones.map(async (inscripcion) => {
+            const inscripciones = store.inscripciones;
+            for (const inscripcion of inscripciones) {
                 if (inscripcion.ad_id === store.singleAd?.id) {
                     if (inscripcion.companion_id === companion_id) {
-                        await actions.editarInscripcion(inscripcion.id, 'REJECTED');
-                        return { ...inscripcion, statusContract: 'rejected' };
-                    } else {
+                        // Si es el acompañante seleccionado, marcar la inscripción como "OK"
                         await actions.editarInscripcion(inscripcion.id, 'PENDING');
-                        return { ...inscripcion, statusContract: 'pending' };
+                    } else {
+                        // Si es otro acompañante, marcar la inscripción como "REJECTED"
+                        await actions.editarInscripcion(inscripcion.id, 'PENDING');
                     }
                 }
-                return inscripcion;
-            }));
-
-            setInscripciones(updatedInscripciones);
+            }
+            window.location.reload();
         } catch (error) {
-            console.error("Error al cancelar el contrato:", error);
+            console.error("Error al cancelar el contrato del anuncio:", error);
         }
     };
+
+    useEffect(() => {
+        // Obtener el estado de contratación específico para el anuncio actual
+        const activeContract = store.companions.find(companion =>
+            localStorage.getItem(`contracted_${store.singleAd?.id}_${companion.id}`) === 'true'
+        );
+
+        // Establecer el contrato activo si existe
+        setContratoActivo(activeContract?.id || null);
+    }, []);
 
     const valorar = () => {
         window.scrollTo(0, 0)
     }
 
-    const [loadingInscripciones, setLoadingInscripciones] = useState(true);
-
-    useEffect(() => {
-        const fetchInscripciones = async () => {
-            setLoadingInscripciones(true);
-            await actions.obtenerinscripciones(); // Asegúrate de que este método actualice el estado de inscripciones
-            setLoadingInscripciones(false);
-        };
-
-        fetchInscripciones();
-    }, []);
-
     if (loading) {
         return <div className="d-flex justify-content-center mt-5 mb-5 fs-1 text-dark">Cargando...<span className={`${styles.loader}`}></span></div>;
-
-    }
+    
+      }
 
     return (
 
@@ -388,13 +331,11 @@ export const BloqueAnuncio = ({ }) => {
                         ></span>
                     )
                 )}
-
                 {/* ICONOS PARA EL USUARIO (FAMILIAR) */}
                 {store.singleAd.user_id === store.userData.userId ?
                     <div className={`position-absolute ${styles.fav_icon}`}>
                         <span onClick={() => handleEditAd(store.singleAd.id)} className="fa-solid fa-pencil pe-3"></span>
                         <span className="fa-regular fa-trash-can" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"></span>
-
                         <div className={`modal fade ${styles.modal_edit}`} data-bs-backdrop="false" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div className="modal-dialog">
                                 <div className="modal-content">
@@ -408,7 +349,6 @@ export const BloqueAnuncio = ({ }) => {
                                 </div>
                             </div>
                         </div>
-
                     </div> : ""
                 }
                 <h1 className="mb-5 pe-5 me-5 text-dark">{store.singleAd.title}</h1>
@@ -434,7 +374,6 @@ export const BloqueAnuncio = ({ }) => {
                         >
                             POSTULARSE
                         </button>
-
                     ) : store.userData.role == "companion" ? (
                         <button
                             className={`btn ${styles.btn_cancel_postularse} fs-4 fw-bold`}
@@ -518,7 +457,6 @@ export const BloqueAnuncio = ({ }) => {
                         </p>
                     </div>
                 </div>
-
                 {store.singleAd.user_id === store.userData.userId ?
                     <>
                         <p className="fs-4 fw-bold">Solicitudes</p>
@@ -539,14 +477,11 @@ export const BloqueAnuncio = ({ }) => {
                                         .map((inscripcion, index) => {
                                             // Encuentra el companion correspondiente al companion_id de la inscripción
                                             const companion = store.companions.find(comp => comp.id === inscripcion.companion_id);
-
                                             // Si no se encuentra el companion, se omite el rendering de esa fila
                                             if (!companion) return null;
                                             const isContracted = localStorage.getItem(`contracted_${companion_id}`) || contractedCompanions.includes(companion_id);
-
                                             // Asegúrate de obtener estos datos de la manera correcta
                                             const { id: companion_id, user, birthdate, experiencia, precio, valoracion } = companion;
-
                                             return (
                                                 <tr key={inscripcion.id}>
                                                     <th scope="row">{index + 1}</th>
@@ -601,13 +536,11 @@ export const BloqueAnuncio = ({ }) => {
                             ></span>
                         )
                     )}
-
                     {/* ICONOS PARA EL USUARIO (FAMILIAR) */}
                     {store.singleAd.user_id === store.userData.userId ?
                         <div className={`position-absolute ${styles.fav_icon}`}>
                             <span onClick={() => handleEditAd(store.singleAd.id)} className="fa-solid fa-pencil pe-3"></span>
                             <span className="fa-regular fa-trash-can" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"></span>
-
                             <div className={`modal fade ${styles.modal_edit}`} data-bs-backdrop="false" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div className="modal-dialog">
                                     <div className="modal-content">
@@ -621,7 +554,6 @@ export const BloqueAnuncio = ({ }) => {
                                     </div>
                                 </div>
                             </div>
-
                         </div> : ""
                     }
                     <h1 className="mb-5 pe-5 me-5 text-dark">{store.singleAd.title}</h1>
@@ -731,7 +663,6 @@ export const BloqueAnuncio = ({ }) => {
                     </div>
                     {store.singleAd.user_id === store.userData.userId ?
                         <>
-
                             {/* Tabla de solicitudes de acompañantes con respecto al anuncio */}
                             <p className="fs-4 fw-bold">Solicitudes</p>
                             <div className="table-responsive">
@@ -745,16 +676,9 @@ export const BloqueAnuncio = ({ }) => {
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
-
                                     <tbody>
-                                        {loadingInscripciones ? (
-                                            <tr>
-                                                <td colSpan="7" className="text-center">
-                                                    <div className="d-flex justify-content-center mt-5 mb-5 fs-1 text-dark">Cargando...<span className={`${styles.loader}`}></span></div>
-                                                </td>
-                                            </tr>
-                                        ) : inscripciones.length > 0 ? (
-                                            inscripciones
+                                        {store.inscripciones.length > 0 ? (
+                                            store.inscripciones
                                                 .filter(inscripcion => inscripcion.ad_id === store.singleAd?.id)
                                                 .map((inscripcion, index) => {
                                                     const companion = store.companions.find(comp => comp.id === inscripcion.companion_id);
@@ -762,34 +686,35 @@ export const BloqueAnuncio = ({ }) => {
 
                                                     const { id: companion_id } = companion;
 
-                                                    const isContracted = inscripcion.statusContract === 'ok';
-                                                    const isRejected = inscripcion.statusContract === 'rejected';
+                                                    // Verificar si el acompañante está contratado o rechazado para el anuncio actual
+                                                    const isContracted = localStorage.getItem(`contracted_${store.singleAd?.id}_${companion_id}`) === 'true';
+                                                    const isRejected = localStorage.getItem(`rejected_${store.singleAd?.id}_${companion_id}`) === 'true';
+                                                    const isActiveContract = contratoActivo === companion_id;
 
                                                     return (
                                                         <tr key={inscripcion.id}
                                                             style={{
-                                                                opacity: contratoActivo && contratoActivo !== companion_id ? 0.5 : 1,
-                                                                pointerEvents: contratoActivo && contratoActivo !== companion_id ? 'none' : 'auto',
+                                                                opacity: inscripcion.statusContract === "rejected" ? 0.5 : 1,
+                                                                pointerEvents: inscripcion.statusContract === "rejected" ? 'none' : 'auto',
                                                             }}>
                                                             <th scope="row">{index + 1}</th>
                                                             <td>{companion?.user?.name} {companion?.user?.lastname}</td>
                                                             <td>{calcularEdad(companion?.birthdate)} años</td>
                                                             <td>{companion?.service_cost} €</td>
-
                                                             <td className="text-end">
-                                                                {contratoActivo && contratoActivo !== companion_id ? (
-                                                                    isRejected ? (
+                                                                {inscripcion.statusContract === "rejected" ? (
+                                                                  
                                                                         <button className="btn btn-light me-3">RECHAZADO</button>
-                                                                    ) : null
-                                                                ) : isContracted ? (
+                                                                 
+                                                                ) : inscripcion.statusContract === "ok" ? (
                                                                     <>
-                                                                        <button className="btn btn-danger me-3" onClick={() => handleCancel(companion_id, inscripcion.id)}>CANCELAR CONTRATO</button>
+                                                                        <button className={`btn ${styles.cancel} me-3`} onClick={() => handleCancel(companion_id, inscripcion.id)}>CANCELAR CONTRATO</button>
                                                                         <Link to={`/rating/${companion_id}`}>
-                                                                            <button className="btn btn-warning me-3">VALORAR</button>
+                                                                            <button onClick={valorar} className="btn btn-warning me-3">VALORAR</button>
                                                                         </Link>
                                                                     </>
                                                                 ) : (
-                                                                    <button className="btn btn-success me-3" onClick={() => handleContract(companion_id, inscripcion.id)}>CONTRATAR</button>
+                                                                    <button className={`btn ${styles.contract} me-3`} onClick={() => handleContract(companion_id, inscripcion.id)}>CONTRATAR</button>
                                                                 )}
                                                                 <Link to={`/perfil-profesional/${companion_id}`}>
                                                                     <span className="fa-solid fa-eye pe-3 text-dark"></span>
@@ -805,7 +730,6 @@ export const BloqueAnuncio = ({ }) => {
                                         )}
                                     </tbody>
 
-
                                 </table>
                             </div>
                         </> : ""
@@ -813,6 +737,3 @@ export const BloqueAnuncio = ({ }) => {
                 </div>) : ""
     )
 }
-
-
-
