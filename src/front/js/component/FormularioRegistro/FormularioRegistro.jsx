@@ -10,7 +10,7 @@ export const FormularioRegistro = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
-    const [role, setRole] = useState('user');
+    const [role, setRole] = useState('');
     const navigate = useNavigate();
 
     const [error, setError] = useState(null);
@@ -24,11 +24,12 @@ export const FormularioRegistro = () => {
         }
 
         await actions.signUp(email, password, username, role);
-        if (role == "companion") {
-            navigate('/mis-postulaciones')
+        console.log("Rol del usuario:", store.userData.role);
+        if (store.userData.role === "user") {
+            navigate('/perfil-usuario')
         }
         else {
-            navigate('/perfilusuario')
+            navigate('/formulario-profesional')
         }
     }
 
@@ -51,9 +52,9 @@ export const FormularioRegistro = () => {
             <div className="mb-3">
                 <label htmlFor="disabledSelect" className="form-label fs-5 pb-2">Seleccione como quiere registrarse</label>
                 <select id="disabledSelect" className="form-select" onChange={(e) => setRole(e.target.value)} value={role}>
-                    <option value="">Seleccione una opción</option>
-                    <option value="user">Busco Acompañante</option>
-                    <option value="companion">Soy Acompañante</option>
+                    <option value="" disabled hidden>Seleccione una opción</option>
+                    <option value="user">Busco un profesional</option>
+                    <option value="companion">Quiero ofrecer mis servicios</option>
                 </select>
             </div>
             <div className="pt-3">

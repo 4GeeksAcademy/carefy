@@ -5,3 +5,35 @@
 .button_tab{
     color: #B76C49;
 }
+
+.ad_icons{
+    cursor: pointer;
+}
+
+.pendiente{
+    color: rgb(207, 145, 1)
+}
+
+.modal_edit{
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538));
+}
+
+.post_ad{
+    background-color: #B76C49;
+    border: none;
+}
+
+.post_ad:hover{
+    background-color: #a26041;
+    border: none;
+}
+
+.post_ad:focus{
+    background-color: #B76C49 !important;
+    border: none;
+}
+
+.post_ad:active{
+    background-color: #B76C49;
+    border: none;
+}

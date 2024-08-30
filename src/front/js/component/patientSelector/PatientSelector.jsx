@@ -1,11 +1,12 @@
 import React from "react";
 import styles from './patientSelector.module.css';
+import profileImg from "../../../img/profileImg.png"
 
 const PatientSelector = ({ patients, selectedPatient, onSelect }) => {
     return (
         <>
             {/* Radio buttons para seleccionar el paciente */}
-            <div className="mb-3">
+            <div className="mb-3 d-flex gap-5 fs-5">
                 {/* Mapeamos los pacientes que el familiar tiene añadidos para generar los inputs tipo radio */}
                 {patients.map((patient, index) => {
                     //si el usuario introduce el alias con espacios los vamos a reemplazar por guiones
@@ -42,7 +43,7 @@ const PatientSelector = ({ patients, selectedPatient, onSelect }) => {
                         onChange={() => onSelect("all")}
                         className="form-check-input"
                     />
-                    <label htmlFor="patient-all" className="form-check-label">
+                    <label htmlFor="patient-all" className="form-check-label fs-5">
                         Todos
                     </label>
                 </div>
@@ -86,7 +87,7 @@ const PatientSelector = ({ patients, selectedPatient, onSelect }) => {
                                                     />
                                                 ) : (
                                                     <img
-                                                        src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"
+                                                        src={profileImg}
                                                         alt={`Foto de ${patient.alias}`}
                                                         className={`img-fluid mb-3 ${styles.image}`}
                                                     />

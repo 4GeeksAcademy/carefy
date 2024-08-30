@@ -19,9 +19,10 @@ class User(db.Model):
     
     patients = db.relationship('Patient', backref='user')
     companions = db.relationship('Companion', backref='user')
+    ads = db.relationship('Ad', backref='user')
 
     def __repr__(self):
-        return f'<User {self.username}>'
+        return f'{self.id}'
 
     def serialize(self):
         return {
@@ -31,38 +32,41 @@ class User(db.Model):
             "is_active": self.is_active,
             "name": self.name,
             "lastname": self.lastname,
-            "phone": self.phone
+            "phone": self.phone,
+            "location": self.location,
+            "role": self.role
         }
     
 class Patient(db.Model):
     __tablename__ = 'patients'
     id = db.Column(db.Integer, primary_key=True)
+    alias = db.Column(db.String(50), nullable=False)
     name =  db.Column(db.String(250), nullable=False)
     lastname = db.Column(db.String(250), nullable=False)
     phone = db.Column(db.String(250), nullable=False)
-    photo = db.Column(db.String(250), nullable=False)
-    description =db.Column(db.String(250), nullable=False)
+    photo = db.Column(db.String(250))
+    description = db.Column(db.Text)
     birthdate = db.Column(db.String(250), nullable=False)
     dependency = db.Column(db.String(250), nullable=False)
     location =  db.Column(db.String(250), nullable=False)
-    province = db.Column(db.String(250), nullable=False)
-    availability = db.Column(db.String(250), nullable=False) 
-    tags = db.Column(db.String(250), nullable=False)
+    province = db.Column(db.String(250))
+    availability = db.Column(db.String(250)) 
+    tags = db.Column(db.String(250))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
     def __repr__(self):
-        return f'<Patient {self.name} {self.lastname}>'
+        return f'{self.id}'
 
     def serialize(self):
         return {
             "id": self.id,
-            "email": self.email,
             "name": self.name,
+            "alias": self.alias,
             "lastname": self.lastname,
             "phone": self.phone,
             "photo": self.photo,
             "description": self.description,
-            "age": self.age,
+            "birthdate": self.birthdate,
             "dependency": self.dependency,
             "location": self.location,
             "province": self.province,
@@ -73,80 +77,165 @@ class Patient(db.Model):
 class Companion(db.Model):
     __tablename__ ='companions'
     id = db.Column(db.Integer, primary_key=True)
-    description = db.Column(db.String(250), nullable=False)
-    photo = db.Column(db.String(250), nullable=False)
-    location =  db.Column(db.String(250), nullable=False)
-    province = db.Column(db.String(250), nullable=False)
-    availability_hours = db.Column(db.Boolean, default=False)
-    availability_days = db.Column(db.Boolean, default=False)
-    availability_weeks = db.Column(db.Boolean, default=False)
-    availability_live_in = db.Column(db.Boolean, default=False)
-    experience = db.Column(db.String(250), nullable=False)
-    service_cost = db.Column(db.Integer, nullable=False)
+    description = db.Column(db.Text)
+    photo = db.Column(db.String(250))
+    rating = db.Column(db.Integer)
+    province = db.Column(db.String(250))
+    birthdate = db.Column(db.String(250))
+    availability_hours = db.Column(db.Boolean)
+    availability_days = db.Column(db.Boolean)
+    availability_weeks = db.Column(db.Boolean)
+    availability_live_in = db.Column(db.Boolean)
+    experience = db.Column(db.Text)
+    service_cost = db.Column(db.Integer)
     facebook = db.Column(db.String(250))
     instagram = db.Column(db.String(250))
     twitter = db.Column(db.String(250)) 
     linkedin = db.Column(db.String(250))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    hired = db.relationship('Ad', backref='hired_companion')
+
+
+    def __repr__(self):
+        return f'{self.id}'
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "photo": self.photo,
+            "description": self.description,
+            "rating": self.rating,
+            "birthdate": self.birthdate,
+            "province": self.province,
+            "availability_hours": self.availability_hours,
+            "availability_days": self.availability_days,
+            "availability_weeks": self.availability_weeks,
+            "availability_live_in": self.availability_live_in,
+            "experience": self.experience,
+            "service_cost": self.service_cost,
+            "facebook": self.facebook,
+            "instagram": self.instagram,
+            "twitter": self.twitter,
+            "linkedin": self.linkedin,
+            "user_id":self.user_id,
+            "hired": [ad.serialize() for ad in self.hired],
+            "user": {
+                "id": self.user.id,
+                "name": self.user.name,
+                "lastname": self.user.lastname,
+                "email": self.user.email,
+                "phone": self.user.phone,
+                "location": self.user.location,
+            } if self.user else None,  #así se asegura que el usuario existe
+        }
+
+
+
+class StatusContract(Enum):
+    PENDING = "pending"
+    REJECTED = "rejected"
+    PAUSED = "paused"
+    OK = "ok"
 
 
 class Inscription(db.Model): 
     __tablename__ ="inscriptions"
     id = db.Column(db.Integer, primary_key=True)
-    patient_id =db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
+    user_id =db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     companion_id =db.Column(db.Integer, db.ForeignKey('companions.id'), nullable=False)
     ad_id =db.Column(db.Integer,  db.ForeignKey('ads.id'), nullable=False)
+    statusContract = db.Column(db.Enum(StatusContract))
     is_active =db.Column(db.Boolean(), nullable=False) 
 
     companions = db.relationship("Companion", backref = "inscriptions")
-    patients = db.relationship ("Patient",  backref = "inscriptions")
+    users = db.relationship ("User",  backref = "inscriptions")
     ad = db.relationship ("Ad", backref = "inscriptions")
 
     def serialize(self):
         return {
             "id": self.id,
-            "patient_id": self.patient_id,
+            "user_id": self.user_id,
             "companion_id": self.companion_id,
             "ad_id": self.ad_id,
+            "statusContract": self.statusContract.value if self.statusContract else None,
             "is_active": self.is_active
         }
     
 
-class Favourite_companion(db.Model):
-    __tablename__ ="favourite_companions"
+class Favorite_companion(db.Model):
+    __tablename__ ="favorite_companions"
     id = db.Column(db.Integer, primary_key=True)
-    patient_id =db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
+    user_id =db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     companion_id =db.Column(db.Integer, db.ForeignKey('companions.id'), nullable=False)
 
-    patient = db.relationship ("Patient", backref="favourite_companions")
-    companion = db.relationship ("Companion", backref = "favourite_companions")
+    user = db.relationship ("User", backref="favorite_companions")
+    companion = db.relationship ("Companion", backref = "favorite_companions")
+    
+    def __repr__(self):
+        return f'{self.id}'
 
     def serialize(self):
         return{
             "id": self.id,
-            "patient_id": self.patient_id,
-            "companion_id": self.companion_id
+            "user_id": self.user_id,
+            "companion_id": self.companion_id,
+            "companion": self.companion.serialize() if self.companion else None,
+            "user": self.user.serialize() if self.user else None
         }
+        
+class Favorite_ad(db.Model):
+    __tablename__ ="favorite_ads"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    ad_id = db.Column(db.Integer, db.ForeignKey('ads.id'), nullable=False)
+
+    user = db.relationship ("User", backref="favorite_ads")
+    ad = db.relationship ("Ad", backref = "favorite_ads")
+    
+    def __repr__(self):
+        return f'{self.id}'
+
+    def serialize(self):
+        return{
+            "id": self.id,
+            "user_id": self.user_id,
+            "ad_id": self.ad_id,
+            "ad": self.ad.serialize() if self.ad else None,
+            "user": self.user.serialize() if self.user else None
+        }
+        
         
 class Status(Enum):
     PENDING = "pending"
     REJECTED = "rejected"
     OK = "ok"
+    FINISH = "finish"
+    
+class Type(Enum):
+    OUT = "externo"
+    IN = "interno"
     
 
 class Ad (db.Model):
     __tablename__ ="ads"
     id = db.Column(db.Integer, primary_key=True)
-    patient_id =db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
-    title = db.Column(db.String(120), nullable=False)
-    description = db.Column(db.Text, nullable=False)
-    active =db.Column(db.Boolean(), nullable=False) 
-    created_at = db.Column(db.Date, nullable=False)
-    start_date = db.Column(db.Date, nullable=False)
-    end_date =  db.Column(db.Date, nullable=False)
-    max_cost =db.Column(db.Integer, nullable=False)
-    status = db.Column(db.Enum(Status), nullable=False)
-
+    patient_id =db.Column(db.Integer, db.ForeignKey('patients.id'))
+    title = db.Column(db.String(120),)
+    description = db.Column(db.Text)
+    active =db.Column(db.Boolean(), default=True) 
+    created_at = db.Column(db.Date)
+    type=db.Column(db.Enum(Type))
+    start_date = db.Column(db.Date)
+    end_date =  db.Column(db.Date)
+    max_cost =db.Column(db.Integer)
+    status = db.Column(db.Enum(Status))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    hired = db.Column(db.Integer, db.ForeignKey('companions.id'))
+    
+    patients = db.relationship('Patient', backref='ad')
+    
+    def __repr__(self):
+        return f'{self.id}'
 
     def serialize(self):
         return {
@@ -159,5 +248,36 @@ class Ad (db.Model):
             "start_date": self.start_date,
             "end_date": self.end_date,
             "max_cost": self.max_cost,
-            "status": self.status
+            "status": self.status.value if self.status else None,
+            "type": self.type.value if self.type else None,
+            "user_id": self.user_id,
+            "hired": self.hired 
         }
+        
+class Rating(db.Model): 
+    __tablename__ ="ratings"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id =db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
+    companion_id =db.Column(db.Integer, db.ForeignKey('companions.id'), nullable=False)
+    rate = db.Column(db.Integer, nullable=False)
+    review = db.Column(db.Text)
+
+    companion = db.relationship("Companion", backref = "ratings")
+    user = db.relationship ("User",  backref = "ratings")
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user": {
+                "id": self.user.id,
+                "name": self.user.name,
+                "lastname": self.user.lastname,
+                "email": self.user.email,
+                "phone": self.user.phone,
+                "location": self.user.location,
+            } if self.user else None,
+            "companion_id": self.companion_id,
+            "rate": self.rate,
+            "review": self.review
+        }
+    

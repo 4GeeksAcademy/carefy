@@ -1,0 +1,15 @@
+.list_moderate{
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538));  
+}
+
+.ad_icons{
+    cursor: pointer;
+}
+
+.pendiente{
+    color: rgb(207, 145, 1)
+}
+
+.button_tab{
+    color: #B76C49;
+}

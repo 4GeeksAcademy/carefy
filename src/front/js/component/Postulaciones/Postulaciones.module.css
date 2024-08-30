@@ -5,3 +5,13 @@
 .button_tab{
     color: #B76C49;
 }
+
+.btn{
+    cursor: default;
+    pointer-events: none;
+}
+
+.pendiente{
+    color: rgb(207, 145, 1);
+    font-weight: bold;
+}

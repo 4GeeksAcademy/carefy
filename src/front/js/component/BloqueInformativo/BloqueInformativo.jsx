@@ -4,6 +4,10 @@ import detailed from "../../../img/detailed.jpeg"
 import { Link } from "react-router-dom";
 
 export const BloqueInformativo = () => {
+
+    const registrarse = () => {
+        window.scrollTo(0,0);
+    }
     return (
         <div className={styles.bloque_informativo}>
             <div className="p-5 text-center container">
@@ -14,7 +18,7 @@ export const BloqueInformativo = () => {
                             Somos una plataforma que tiene como objetivo unir a acompañantes con adultos mayores que necesitan de cuidado y compañía.
                         </p>
                         <div className="text-start">
-                        <Link to="/signup"><button className={`btn ${styles.btn_signup} fs-5`}>Registrarse</button></Link>
+                        <Link to="/registro"><button onClick={registrarse} className={`btn ${styles.btn_signup} fs-5`}>Registrarse</button></Link>
                         </div>
                     </div>
                     

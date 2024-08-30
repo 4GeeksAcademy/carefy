@@ -14,6 +14,11 @@
     color: white;
 }
 
+.botonGuardar:active{
+  background-color: #9a593c !important;
+  color: white !important;
+}
+
 /* Animación de entrada */
 .alert_enter {
     opacity: 0;

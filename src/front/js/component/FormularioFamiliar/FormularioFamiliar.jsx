@@ -26,22 +26,20 @@ export const FormularioFamiliar = () => {
     const handleChangeLocation = (e) => setFormLocation(e.target.value);
 
     useEffect(() => {
-        if (store.userId) {
-            setFormName(store.name || '');
-            setFormLastName(store.lastname || '');
-            setFormEmail(store.email || '');
-            setFormPhone(store.phone || '');
-            setFormLocation(store.location || '');
+        if (store.userData.userId) {
+            setFormName(store.userData.name || '');
+            setFormLastName(store.userData.lastname || '');
+            setFormEmail(store.userData.email || '');
+            setFormPhone(store.userData.phone || '');
+            setFormLocation(store.userData.location || '');
         }
-    }, [store.name, store.lastname, store.email, store.phone, store.location]);
+    }, [store.userData]);
 
     useEffect(() => {
-        if (store.token && store.userId) {
-            actions.getUserDetails();
-        } else {
-            navigate('/home');
+        if (store.userData.userId) {
+            actions.getUserDetails(); // Fetch user details when userId is available
         }
-    }, [store.token, store.userId, navigate]);
+    }, [store.userData.userId, store.userData.token]);
 
 
     const handleEdit = async (e) => {
@@ -52,7 +50,7 @@ export const FormularioFamiliar = () => {
             return;
         }
 
-        if (store.userId && store.token) {
+        if (store.userData.userId && store.userData.token) {
             await actions.editUser(formName, formLastName, formEmail, formPhone, formLocation);
             setSuccessMessage('Datos actualizados correctamente');
             setError(null);
@@ -68,7 +66,7 @@ export const FormularioFamiliar = () => {
 
             setTimeout(() => {
                 setSuccessMessage(null);
-                navigate("/perfilusuario");
+                navigate("/perfil-usuario");
             }, 3500);
 
         } else {
@@ -89,28 +87,28 @@ export const FormularioFamiliar = () => {
             <p className="fs-4 fw-bold">Completa tus datos como responsable del mayor que será acompañado</p>
             <div className="row">
                 <div className="col">
-                    <div class="mb-3">
+                    <div className="mb-3">
                         <label htmlFor="nombre" className="form-label fs-5">Nombre</label>
                         <input type="text" className="form-control" id="nombre" placeholder="Escribe tu nombre" onChange={handleChangeName} value={formName} />
                     </div>
                 </div>
                 <div className="col">
-                    <div class="mb-3">
+                    <div className="mb-3">
                         <label htmlFor="apellidos" className="form-label fs-5">Apellidos</label>
-                        <input type="text" className="form-control" id="apellidos" aria-describedby="lastnameHElp" onChange={handleChangeLastName} placeholder="Escribe tu apellido" value={formLastName} />
+                        <input type="text" className="form-control" id="apellidos" aria-describedby="lastnameHelp" onChange={handleChangeLastName} placeholder="Escribe tu apellido" value={formLastName} />
                     </div>
                 </div>
             </div>
 
             <div className="row">
                 <div className="col">
-                    <div class="mb-3">
+                    <div className="mb-3">
                         <label htmlFor="email" className="form-label fs-5">Email</label>
                         <input type="email" className="form-control" id="email" placeholder="nombre@email.com" onChange={handleChangeEmail} value={formEmail} />
                     </div>
                 </div>
                 <div className="col">
-                    <div class="mb-3">
+                    <div className="mb-3">
                         <label htmlFor="telefono" className="form-label fs-5">Teléfono de contacto</label>
                         <input type="tel" className="form-control" id="telefono" placeholder="+34 6 123 456 78" onChange={handleChangePhone} value={formPhone} />
                     </div>
@@ -123,7 +121,7 @@ export const FormularioFamiliar = () => {
                 <div className="col">
                     <label htmlFor="provincia" className="form-label fs-5">Provincia</label>
                     <select className="form-select" id="provincia" aria-label="Selecciona la provincia" onChange={handleChangeLocation} value={formLocation}>
-                        <option selected>Selecciona la provincia</option>
+                        <option value="" hidden disabled>Selecciona la provincia</option>
                         <option value="A Coruna">A Coruña</option>
                         <option value="Alava">Álava</option>
                         <option value="Albacete">Albacete</option>

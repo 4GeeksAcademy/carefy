@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import styles from "./Navbar.module.css"
 import { Link, useNavigate } from "react-router-dom";
 import logo from '../../../img/logo.png'
 import { Context } from "../../store/appContext";
 
-export const Navbar = ({ username }) => {
+export const Navbar = () => {
 
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
@@ -13,6 +13,10 @@ export const Navbar = ({ username }) => {
         actions.logOut();
         navigate('/')
     }
+
+    useEffect(()=>{
+        actions.companion(store.nuevoCompanion.id)
+    },[])
 
     return (
         <>
@@ -26,13 +30,16 @@ export const Navbar = ({ username }) => {
                                     <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/">Inicio</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/aboutus">Nosotros</Link>
+                                    <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/listado-anuncios">Anuncios</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/listado-profesionales">Profesionales</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/nosotros">Nosotros</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/faq">FAQ</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/blog">Blog</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className={`text-dark nav-link ${styles.nav_link_edit}`} aria-current="page" to="/contacto">Contacto</Link>
@@ -44,8 +51,8 @@ export const Navbar = ({ username }) => {
 
                                 <div className="btn-group">
                                     {/* BOTONES QUE SE VEN SI EL USUARIO ESTÁ LOGUEADO */}
-                                    {store.token ? <button type="button" className={`btn text-light ${styles.login_button} dropdown-toggle fs-5`} data-bs-toggle="dropdown" aria-expanded="false">
-                                        <span className="fa-solid fa-user pe-2"></span>{store.username}
+                                    {store.userData.token ? <button type="button" className={`btn text-light ${styles.login_button} dropdown-toggle fs-5`} data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span className="fa-solid fa-user pe-2"></span>{store.userData.username}
                                     </button> :
                                         <>
                                             <Link to="/login">
@@ -57,21 +64,24 @@ export const Navbar = ({ username }) => {
                                     }
 
                                     <ul className="dropdown-menu dropdown-menu-end">
-                                        {store.role == "companion" ?
-                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-acompanante">Mi perfil</Link></li>
+                                        {store.userData.role == "companion" ?
+                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to={`/perfil-profesional/${store.nuevoCompanion?.id}`}>Mi perfil</Link></li>
+                                            : store.userData.role == "user" ?
+                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-usuario">Mi perfil</Link></li>
                                             :
-                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfilusuario">Mi perfil</Link></li>
+                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/moderar-anuncios">Administrar</Link></li>
                                         }
 
 
                                         {/* MENU QUE SE VE SI EL USUARIO ES ACOMPAÑANTE o USER */}
-                                        {store.role == "companion" ?
+                                        {store.userData.role == "companion" ?
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-postulaciones">Mis postulaciones</Link></li>
-                                            :
-                                            <>
-                                                <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/publicar-anuncios">Publicar anuncio</Link></li>
-                                                <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-anuncios">Mis anuncios</Link></li>
-                                            </>
+                                            : store.userData.role == "user" ?
+                                                <>
+                                                    <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-anuncios">Mis anuncios</Link></li>
+                                                    <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/crear-anuncio">Publicar anuncio</Link></li>
+
+                                                </> : ""
                                         }
 
                                         <li><hr className="dropdown-divider" /></li>
@@ -101,13 +111,16 @@ export const Navbar = ({ username }) => {
                                     <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/">Inicio</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link text-dark fs-3 fw-bold" aria-current="page" href="#">Nosotros</a>
+                                    <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/listado-anuncios">Anuncios</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link text-dark fs-3 fw-bold" aria-current="page" href="#">FAQ</a>
+                                    <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/listado-profesionales">Profesionales</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/blog">Blog</Link>
+                                    <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/nosotros">Nosotros</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/faq">FAQ</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link text-dark fs-3 fw-bold" aria-current="page" to="/contacto">Contacto</Link>
@@ -119,8 +132,8 @@ export const Navbar = ({ username }) => {
                                 {/* BOTONES QUE SE VEN SI EL USUARIO NO ESTÁ LOGUEADO */}
                                 <div className="btn-group">
                                     {/* BOTONES QUE SE VEN SI EL USUARIO ESTÁ LOGUEADO */}
-                                    {store.token ? <button type="button" className={`btn text-light ${styles.login_button} dropdown-toggle fs-5`} data-bs-toggle="dropdown" aria-expanded="false">
-                                        <span className="fa-solid fa-user pe-2"></span>{store.username}
+                                    {store.userData.token ? <button type="button" className={`btn text-light ${styles.login_button} dropdown-toggle fs-5`} data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span className="fa-solid fa-user pe-2"></span>{store.userData.username}
                                     </button> :
                                         <>
                                             <Link to="/login">
@@ -132,20 +145,23 @@ export const Navbar = ({ username }) => {
                                     }
 
                                     <ul className="dropdown-menu">
-                                        {store.role == "companion" ?
-                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-acompanante">Mi perfil</Link></li>
-                                            :
-                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfilusuario">Mi perfil</Link></li>
+                                        {store.userData.role == "companion" ?
+                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to={`/perfil-profesional/${store.nuevoCompanion?.id}`}>Mi perfil</Link></li>
+                                            : store.userData.role == "user" ?
+                                                <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-usuario">Mi perfil</Link></li>
+                                                : <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/moderar-anuncios">Administrar</Link></li>
                                         }
 
 
+
                                         {/* MENU QUE SE VE SI EL USUARIO ES ACOMPAÑANTE o USER */}
-                                        {store.role == "companion" ?
+                                        {store.userData.role == "companion" ?
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-postulaciones">Mis postulaciones</Link></li>
                                             :
                                             <>
-                                                <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/publicar-anuncios">Publicar anuncio</Link></li>
                                                 <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/mis-anuncios">Mis anuncios</Link></li>
+                                                <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/crear-anuncio">Publicar anuncio</Link></li>
+
                                             </>
                                         }
 

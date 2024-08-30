@@ -1,11 +1,34 @@
-body,html{
+body,
+html {
     background-color: #FFC9B3;
     box-sizing: border-box;
     overflow-x: hidden;
     margin: 0;
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-.btn{
+.btn {
     outline: none !important;
     box-shadow: none !important;
 }
+
+/* Asegura que el contenedor principal tome toda la altura de la ventana */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  /* El contenido toma todo el espacio disponible */
+  .content {
+    flex: 1;
+  }
+  
+  /* El footer se coloca al final del contenedor */
+  footer {
+    margin-top: auto;
+  }
+  

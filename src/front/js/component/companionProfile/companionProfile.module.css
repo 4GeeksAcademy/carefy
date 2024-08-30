@@ -1,0 +1,105 @@
+.container_profile {
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.538));
+}
+
+.avatar {
+  width: 200px;
+  border: 1px solid grey;
+  height: 200px;
+  overflow: hidden;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.fav_icon {
+  top: 35px;
+  right: 25px;
+  cursor: pointer;
+}
+
+.fav_icon_red {
+  top: 35px;
+  right: 25px;
+  cursor: pointer;
+  background-color: red;
+}
+
+.btn_contact {
+  background-color: #5c7728;
+  border-color: #5c7728;
+  color: white;
+}
+
+.btn_contact:hover {
+  background-color: #3d4f1b;
+  border-color: #3d4f1b;
+  color: white;
+}
+
+.available {
+  color: rgb(7, 173, 7);
+  font-size: 1.2em;
+  margin-right: 10px;
+}
+
+.not_available {
+  color: rgb(223, 13, 13);
+  font-size: 1.2em;
+  margin-right: 10px;
+}
+
+.social_icons {
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+}
+
+.social_icons:hover {
+  cursor: pointer;
+  color: #5c7728;
+}
+
+.hiddenButSpace {
+  width: 0; 
+  height: 0; 
+  visibility: hidden; /* Oculta el elemento visualmente pero mantiene el espacio que ocupa */
+}
+
+
+.fs-5 {
+  white-space: pre-wrap; /* Mantiene los saltos de línea y ajusta el texto */
+  word-wrap: break-word; /* Corta palabras largas en el ancho disponible */
+}
+.fs-5 {
+  white-space: pre-wrap; /* Mantiene los saltos de línea y ajusta el texto */
+  word-wrap: break-word; /* Corta palabras largas en el ancho disponible */
+}
+.text-description,
+.text-experience {
+  white-space: pre-wrap; /* Respeta los saltos de línea */
+  word-wrap: break-word; /* Corta palabras largas para que no se desborden */
+}
+
+.loader {
+  width: 58px;
+  height: 58px;
+  margin-left: 25px;
+  border: 5px solid #FFF;
+  border-bottom-color: #FF3D00;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  }
+
+  @keyframes rotation {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+  } 

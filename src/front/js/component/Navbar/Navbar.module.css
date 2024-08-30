@@ -13,26 +13,25 @@
 
 .login_button{
     background-color: #5C7728;
-    border-color: #5C7728;
+    border:none;
     color: white;
 }
 
 .login_button:hover{
     background-color: #3d4f1b;
-    border-color: #3d4f1b;
+    border:none;
     color: white;
 }
 
 .login_button:focus{
-    background-color: #3d4f1b;
-    border-color: #3d4f1b;
+    background-color: #3d4f1b !important;
+    border:none;
     color: white;
 }
 
 .login_button:active{
-    background-color: #3d4f1b;
-    border-color: #3d4f1b;
-    color: white;
+    background-color: #3d4f1b !important;
+    color: white !important;
 }
 
 .nav_link_edit:hover {
@@ -41,6 +40,7 @@
 
 .btn_signup{
     background-color: #B76C49;
+    border: none;
     color: white;
 }
 
@@ -49,6 +49,15 @@
     color: white;
 }
 
+.btn_signup:active{
+    background-color: #9a593c !important;
+    color: white !important;
+}
+
+.btn_signup:focus{
+    background-color: #9a593c !important;
+    color: white !important;
+}
 
 .custom_toggler_edit .navbar_toggler_icon {
     filter: brightness(1) invert(0);

@@ -69,14 +69,14 @@ export const Faqs = () => {
                             </div>
                         </div>
 
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                            <button className={`accordion-button collapsed fs-5 ${style.propAcordeon}`} type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseThree">
+                        <div className="accordion-item">
+                            <h2 className="accordion-header">
+                                <button className={`accordion-button collapsed fs-5 ${style.propAcordeon}`} type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseThree">
                                     ¿Qué nos hace diferentes?
                                 </button>
                             </h2>
-                            <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
+                            <div id="collapseFive" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                <div className="accordion-body">
                                     <strong>Las experiencias</strong> <br></br>
                                     Las reseñas de nuestros Acompañantes están verificadas y son reales. Nadie puede dejar una reseña sin que se
                                     haya verificado la existencia de una relación entre usuario y acompañante.
@@ -84,16 +84,16 @@ export const Faqs = () => {
                             </div>
                         </div>
 
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                            <button className={`accordion-button collapsed fs-5 ${style.propAcordeon}`} type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseThree">
+                        <div className="accordion-item">
+                            <h2 className="accordion-header">
+                                <button className={`accordion-button collapsed fs-5 ${style.propAcordeon}`} type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseThree">
                                     ¿Cómo es el proceso de registro?
                                 </button>
                             </h2>
-                            <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
+                            <div id="collapseSix" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                <div className="accordion-body">
                                     <strong>Intuitivo y sencillo</strong> <br></br>
-                                    A través de nuestro <Link to="/registro">formulario de registro</Link> podrás entrar a la Carefy de forma
+                                    A través de nuestro <Link to="/registro">formulario de registro</Link> podrás entrar a Carefy de forma
                                     rápida y sencilla. Sólo debes tener un correo electrónico, pensar en un nombre de usuario,
                                     y una contraseña segura. Debes elegir si deseas registrarte como acompañante o como familiar de la persona
                                     que necesita este servicio.
@@ -102,14 +102,14 @@ export const Faqs = () => {
                             </div>
                         </div>
 
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                            <button className={`accordion-button collapsed fs-5 ${style.propAcordeon}`} type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseThree">
+                        <div className="accordion-item">
+                            <h2 className="accordion-header">
+                                <button className={`accordion-button collapsed fs-5 ${style.propAcordeon}`} type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseThree">
                                     ¿Cómo puedo recibir ayuda o notificar algún problema?
                                 </button>
                             </h2>
-                            <div id="collapseSeven" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
+                            <div id="collapseSeven" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                <div className="accordion-body">
                                     <strong>A través de nuestro formulario</strong> <br></br>
                                     Sólo tienes que hacer click en este <Link to="/contacto">enlace</Link> y rellenar los datos necesarios.
                                     ¡Estamos aquí para ayudarte!

@@ -1,0 +1,34 @@
+.aboutus_container{
+  filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538));
+}
+
+.image_lady_armchair,
+ .image_girl_lady {
+   filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538));
+ }
+
+ .image_girl_lady {
+  width: 400px;
+   filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538));
+ }
+
+ .paragraphs {
+   text-align: justify;
+ }
+
+ .text_who {
+   background-color: #E4E8F4;
+   ;
+   color: rgb(58, 58, 58);
+ }
+
+ .text_what {
+   background-color: #E4E8F4;
+   ;
+   color: rgb(58, 58, 58);
+ }
+
+ .text_why {
+   background-color: #E4E8F4;
+   color: rgb(58, 58, 58);
+ }

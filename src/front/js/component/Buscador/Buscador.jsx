@@ -1,19 +1,44 @@
-import React from "react";
+import React, {useState} from "react";
 import styles from "./Buscador.module.css"
+import { useNavigate } from "react-router-dom";
 
-export const Buscador = ({ location, availability, serviceType }) => {
+export const Buscador = () => {
+  const navigate = useNavigate();
+  const [filters, setFilters] = useState({
+    province: "",
+    type: ""
+  });
+
+  const handleSearch = () => {
+    const queryParams = new URLSearchParams(filters).toString();
+    if(filters.type === "ad"){
+    navigate(`/listado-anuncios?${queryParams}`);
+    }
+    else{
+      navigate(`/listado-profesionales?${queryParams}`);
+    }
+  };
+
+  const handleFilterChange = (e) => {
+    setFilters({
+      ...filters,
+      [e.target.id]: e.target.value
+    });
+  };
+
+
   return (
     <div className={`p-5 bg-body-tertiary text-center ${styles.jumbotron}`}>
       <div className={styles.jumbotron_content_edit}>
         <div className="container py-5">
           <h1 className="display-5 fw-bold">Nos preocupamos de verdad por el cuidado de tu familia</h1>
-          <p className="col fs-4 text-center">¿Buscas acompañante? ¿Buscas cuidar a alguien? En Carefy podrás encontrar la mejor opción.</p>
+          <p className="col fs-4 text-center">¿Buscas cuidador? ¿Buscas cuidar a alguien? En Carefy podrás encontrar la mejor opción.</p>
         </div>
         <div className="pb-5">
           <div className={`${styles.buscador} container rounded p-2 d-flex gap-2 align-items-center flex-wrap`}>
             <div className="btn-group">
-              <select className={`btn ${styles.btn_buscador} ${styles.custom_select} btn-lg form-select`} id="provincia" aria-label="Selecciona la provincia">
-                <option className="text-dark bg-light" selected disabled hidden>Ubicación</option>
+              <select onChange={handleFilterChange} className={`btn ${styles.btn_buscador} ${styles.custom_select} btn-lg form-select`} id="province" defaultValue={"Ubicación"} aria-label="Selecciona la provincia">
+                <option className="text-dark bg-light" disabled hidden>Ubicación</option>
                 <option className="text-dark bg-light" value="A Coruna">A Coruña</option>
                 <option className="text-dark bg-light" value="Alava">Álava</option>
                 <option className="text-dark bg-light" value="Albacete">Albacete</option>
@@ -69,29 +94,21 @@ export const Buscador = ({ location, availability, serviceType }) => {
               </select>
             </div>
             <div className="btn-group">
-              <select className={`btn ${styles.btn_buscador} ${styles.btn_buscador_availability}  ${styles.custom_select} btn-lg form-select`} id="provincia" aria-label="Selecciona la provincia">
-                <option className="text-dark bg-light" selected disabled hidden>Disponibilidad</option>
-                <option className="text-dark bg-light" value="hours">Por horas</option>
-                <option className="text-dark bg-light" value="intern">Interno</option>
-                <option className="text-dark bg-light" value="day">Por día</option>
-                </select>
-            </div>
-            <div className="btn-group">
-              <select className={`btn ${styles.btn_buscador} ${styles.btn_buscador_companion} ${styles.custom_select} btn-lg form-select`} id="provincia" aria-label="Selecciona la provincia">
-                <option className="text-dark bg-light" selected disabled hidden>¿Qué buscas?</option>
-                <option className="text-dark bg-light" value="user">Busco acompañante</option>
-                <option className="text-dark bg-light pe-4" value="companion">Busco acompañar a alguien</option>
+              <select onChange={handleFilterChange} className={`btn ${styles.btn_buscador} ${styles.btn_buscador_companion} ${styles.custom_select} btn-lg form-select`} defaultValue={"¿Qué buscas?"} id="type" aria-label="Selecciona tipo de servicio">
+                <option className="text-dark bg-light" disabled hidden>¿Qué buscas?</option>
+                <option className="text-dark bg-light" value="companion">Busco un profesional</option>
+                <option className="text-dark bg-light pe-4" value="ad">Busco trabajar como cuidador</option>
                 </select>
             </div>
             <div>
-              <button className="btn">
-                <span className={`fa-solid fa-magnifying-glass fs-2 text-dark ${styles.lupa_buscador}`}></span>
-                <button className={`btn ${styles.btn_buscar}`}>BUSCAR</button>
-              </button>
+              <span className="btn">
+                <span className={`fa-solid fa-magnifying-glass fs-2 text-dark ${styles.lupa_buscador}`} onClick={handleSearch}></span>
+                <button className={`btn ${styles.btn_buscar}`} onClick={handleSearch}>BUSCAR</button>
+              </span>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
