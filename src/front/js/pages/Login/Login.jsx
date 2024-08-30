@@ -13,10 +13,10 @@ export const Login = () => {
 
     useEffect(() => {
         if (store.userData.token && store.userData.role === "companion") {
-            navigate(`/perfil-profesional/${store.nuevoCompanion?.id}`);
+            navigate(`/mis-postulaciones`);
         }
         else if (store.userData.token && store.userData.role === "user") {
-            navigate('/perfil-usuario');
+            navigate('/mis-anuncios');
             window.location.reload();
         }
         else if (store.userData.token && store.userData.role === "admin") {
