@@ -8,23 +8,18 @@ export const Postulaciones = ({ }) => {
     const navigate = useNavigate();
     const [inscripcionesMias, setInscripcionesMias] = useState([]);
     const [contractStatus, setContractStatus] = useState({});
-
     useEffect(() => {
         actions.getAdFavs();
         actions.obtenerinscripciones();
     }, []);
-
-
     const verAnuncio = () => {
         window.scrollTo(0, 0);
     };
-
     useEffect(() => {
         // Filtra las inscripciones que corresponden al usuario
         const filteredInscripciones = store.inscripciones.filter(misinscripciones => misinscripciones.user_id === store.userData.userId);
         setInscripcionesMias(filteredInscripciones);
     }, [store.inscripciones, store.userData.userId]);
-
     /**
      * Función para cambiar el botón según el estado de la contratación que reciba. 
      * Se llama a esta función en el <td> para que vaya pintando el estado en cada fila 
@@ -34,16 +29,15 @@ export const Postulaciones = ({ }) => {
     const getStatusButton = (statusContract) => {
         switch (statusContract) {
             case 'pending':
-                return <span className={`text-warning ps-4`} >Pendiente</span>;
+                return <span className={`${styles.pendiente} ps-4 fw-bold`} >Pendiente</span>;
             case 'rejected':
-                return <span className={`text-danger ps-4`} >Rechazado</span>;
+                return <span className={`text-danger ps-4 fw-bold`} >Rechazado</span>;
             case 'ok':
-                return <span className={`text-success ps-4`}>Contratado</span>;
+                return <span className={`text-success ps-4 fw-bold`}>Contratado</span>;
             default:
                 return '';
         }
     };
-
     return (
         <>
             <div className={`container bg-light p-4 my-5 rounded ${styles.block_postulaciones}`}>
@@ -54,10 +48,9 @@ export const Postulaciones = ({ }) => {
                     </li>
                     {/* Mis favoritos */}
                     <li className="nav-item" role="presentation">
-                        <button className={`btn fs-5 ${styles.button_tab}`} id="pills-fav-tab" data-bs-toggle="pill" data-bs-target="#pills-fav" type="button" role="tab" aria-controls="pills-fav" aria-selected="false">Favoritos</button>
+                        <button className={`btn fs-5 ${styles.button_tab}`} id="pills-fav-tab" data-bs-toggle="pill" data-bs-target="#pills-fav" type="button" role="tab" aria-controls="pills-fav" aria-selected="false">Anuncios favoritos</button>
                     </li>
                 </ul>
-
                 {/* Inicio Tabla */}
                 <div className="tab-content" id="pills-tabContent">
                     <div className="tab-pane fade show active table-responsive" id="pills-postulaciones" role="tabpanel" aria-labelledby="pills-postulaciones-tab" tabIndex="0">
@@ -77,19 +70,8 @@ export const Postulaciones = ({ }) => {
                                 {inscripcionesMias.map((misinscripciones, index) => {
                                     const anuncio = store.ads.find(ad => ad.id === misinscripciones.ad_id);
                                     const paciente = store.patients.find(patient => patient.id === anuncio?.patient_id);
-                                    const companionHired = store.companions.find(companion => companion.id === anuncio?.hired); // Buscar el acompañante contratado
 
                                     if (!anuncio || !paciente) return null;
-
-                                    // Lógica para determinar el estado del contrato
-                                    let contratoEstado = 'Pendiente';
-                                    if (companionHired) {
-                                        if (companionHired.user_id === store.userData.userId) {
-                                            contratoEstado = 'Contratado';
-                                        } else {
-                                            contratoEstado = 'Rechazado';
-                                        }
-                                    }
 
                                     return (
                                         <tr key={misinscripciones.id}>
@@ -102,22 +84,16 @@ export const Postulaciones = ({ }) => {
                                                 year: 'numeric'
                                             })}</td>
                                             <td>
-                                                {contratoEstado === "Pendiente" ?
-                                                <span className={styles.pendiente}>Pendiente</span>
-                                            : contratoEstado === "Contratado" ?
-                                            <span className="text-success fw-bold">Contratado</span>
-                                            :
-                                            <span className="text-danger fw-bold">Rechazado</span>
-                                            }
+                                                {getStatusButton(misinscripciones.statusContract)}
                                             </td>
                                             <td className="text-end">
                                                 <Link to={`/anuncio/${anuncio.id}`}><span className="fa-solid fa-eye text-dark text-end"></span></Link>
                                             </td>
+
                                         </tr>
                                     );
                                 })}
                             </tbody>
-
                         </table>
                     </div>
                     <div className="tab-pane fade table-responsive" id="pills-fav" role="tabpanel" aria-labelledby="pills-fav-tab" tabIndex="0">

@@ -62,6 +62,48 @@
     background-color: #B76C49;
 }
 
+.cancel{
+    background-color: #B76C49;
+    color: #fff; 
+}
+
+.cancel:hover{
+    background-color: #905439  !important;
+    color: #fff  !important; 
+}
+
+
+.cancel:active{
+    background-color: #B76C49  !important;
+    color: #fff  !important; 
+}
+
+
+.cancel:focus{
+    background-color: #B76C49  !important;
+    color: #fff !important; 
+}
+
+
+.contract{
+    background-color: #5C7728;
+    color: #fff;  
+}
+
+.contract:hover{
+    background-color: #3b4d1a !important;
+    color: #fff  !important;  
+}
+
+.contract:focus{
+    background-color: #5C7728 !important;
+    color: #fff !important;  
+}
+
+.contract:active{
+    background-color: #5C7728 !important;
+    color: #fff !important;  
+}
 
 
 .loader {

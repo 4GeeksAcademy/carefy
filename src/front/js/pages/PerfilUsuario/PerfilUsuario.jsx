@@ -42,15 +42,21 @@ export const PerfilUsuario = () => {
         }
     }, [store.userData.token, navigate])
 
+    useEffect(() => {
+        if (store.userData.token && store.userData.role === "admin") {
+            navigate('/moderar-anuncios');
+        }
+    }, [store.userData.token, navigate])
 
-   const handleCreateAd = () => {
+
+    const handleCreateAd = () => {
         navigate('/crear-anuncio')
         window.scrollTo(0, 0);
 
     }
 
 
-    
+
 
     return (
         <>
@@ -102,14 +108,14 @@ export const PerfilUsuario = () => {
                         {familiares && familiares.length > 0 ? (
                             familiares.map((familiar, index) => (
                                 <div className="col col-sm-3" key={index}>
-                                    <TarjetaFamiliar  familiar={familiar} index={index}/>
+                                    <TarjetaFamiliar familiar={familiar} index={index} />
                                 </div>
                             ))
                         ) : (<p>No has agregado aún ningún familiar.</p>)}
                     </div>
                 </div>
             </div>
-      
+
             <div className={`${style.bg_publicar_anuncio} mt-5`}>
                 <div className="py-5 container">
                     <p className="fs-1 text-light">¿Ya creaste a la persona que necesita acompañamiento?<button className={`btn btn-primary fs-3 ms-3 text-dark ${style.btn_publicar_anuncio}`} onClick={handleCreateAd}>Publica un anuncio</button></p>

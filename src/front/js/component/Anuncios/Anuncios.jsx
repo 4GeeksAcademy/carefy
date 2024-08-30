@@ -3,7 +3,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext";
 import styles from "./Anuncios.module.css"
 
-export const Anuncios = ({ countFav, companionName }) => {
+export const Anuncios = () => {
 
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
@@ -31,9 +31,6 @@ export const Anuncios = ({ countFav, companionName }) => {
         window.scrollTo(0, 0);
     }
 
-    const averageRate = store.rateData.length > 0
-        ? store.rateData.reduce((acc, rate) => acc + rate.rate, 0) / store.rateData.length
-        : 0;
 
     return (
         <>
@@ -44,7 +41,7 @@ export const Anuncios = ({ countFav, companionName }) => {
                             <button className={`btn active fs-5 ${styles.button_tab}`} id="pills-postulaciones-tab" data-bs-toggle="pill" data-bs-target="#pills-postulaciones" type="button" role="tab" aria-controls="pills-postulaciones" aria-selected="true" >Mis anuncios</button>
                         </li>
                         <li className="nav-item" role="presentation">
-                            <button className={`btn fs-5 ${styles.button_tab}`} id="pills-fav-tab" data-bs-toggle="pill" data-bs-target="#pills-fav" type="button" role="tab" aria-controls="pills-fav" aria-selected="false">Favoritos</button>
+                            <button className={`btn fs-5 ${styles.button_tab}`} id="pills-fav-tab" data-bs-toggle="pill" data-bs-target="#pills-fav" type="button" role="tab" aria-controls="pills-fav" aria-selected="false">Perfiles favoritos</button>
                         </li>
                     </ul>
                     <Link to="/crear-anuncio"><button className={`${styles.post_ad} btn btn-success`}>Publicar anuncio</button></Link>
@@ -112,6 +109,7 @@ export const Anuncios = ({ countFav, companionName }) => {
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Nombre</th>
+                                    <th scope="col">Ubicación</th>
                                     <th scope="col">Email</th>
                                     <th scope="col"></th>
                                 </tr>
@@ -122,7 +120,9 @@ export const Anuncios = ({ countFav, companionName }) => {
                                         <tr key={fav.id}>
                                             <th scope="row">{index + 1}</th>
                                             <td>{fav.companion?.user?.name} {fav.companion?.user?.lastname}</td>
+                                            <td>{fav.companion?.user?.location}, {fav.companion?.province}</td>
                                             <td>{fav.companion?.user?.email}</td>
+                                            
                                             <td className="text-end">
                                                 <Link onClick={verPerfil} to={`/perfil-profesional/${fav.companion_id}`}>
                                                     <span className="fa-solid fa-eye pe-3 text-dark"></span>
