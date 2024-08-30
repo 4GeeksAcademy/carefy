@@ -1,3 +1,5 @@
+<img src="https://res.cloudinary.com/proyectocarefy/image/upload/v1725058006/logo.png" alt="FormUser1" width="50" />  
+
 # CAREFY
 
 
@@ -27,6 +29,12 @@
 
 ### **INSTALACIÓN**
 Carefy no requiere de ningún tipo de instalación. Se puede acceder a través de URL y registrarse con el perfil que corresponda.
+
+
+### **TECNOLOGÍAS UTILIZADAS**
+* Cloudinary
+* Flask mail
+
 
 ### **USO**
 #### Uso Familiar 
@@ -66,55 +74,58 @@ Tras crear el Anuncio, se hará en estado Pendiente hasta que un Administrador l
 
 Dentro de los Anuncios podremos hacer una gestión de las solicitudes que los cuidadores van haciendo, aparte de que también tendremos la posibilidad de editarlo y eliminarlo.
 
-IMAGEN ANUNCIO
 
 En el menú “Mis anuncios” tendremos una tabla con todos los anuncios que hemos creado a lo largo del tiempo, con el estado en que se encuentra cada uno. También podremos acceder a nuestro listado de “Perfiles favoritos” para ver los que más nos gustaron.
 
-IMAGEN MIS ANUNCIOS
+<img src="https://res.cloudinary.com/proyectocarefy/image/upload/v1725054916/listaanuncios1.png" alt="AddAnuncio" width="200" />
 
 Para contratar un cuidador, simplemente le tendremos que dar al botón Contratar en nuestra tabla de Solicitudes. El resto quedará como “Rechazado”. El hecho de contratar un profesional nos dará la posibilidad de valorar su servicio con el botón “Valorar”. También podremos echar atrás la contratación con el botón de “Cancelar contrato”, lo que hará que todas las solicitudes vuelvan a mostrar el botón de “Contratar”.
 
-IMAGEN DE SOLICITUDES Y BOTONES
+<img src="https://res.cloudinary.com/proyectocarefy/image/upload/v1725055093/contratar.png" alt="AddAnuncio" width="200" /> <img src="https://res.cloudinary.com/proyectocarefy/image/upload/v1725055211/BotonValorar.png" alt="AddAnuncio" width="200" />
 
 Para valorar un cuidador, primero tendremos que contratarlo. El botón de “Valorar” se hará visible y al darle nos llevará a la vista de reseñas para que le demos una puntuación del 1 a 5 y podamos también contar cómo fue nuestra experiencia con esa persona.
 
-IMAGEN DE RESEÑAS
+<img src="https://res.cloudinary.com/proyectocarefy/image/upload/v1725055334/Valoracion.png" alt="AddAnuncio" width="200" />
 
 #### USUARIO CUIDADOR
 El “Cuidador” deberá ir al formulario de registro, completar email, nombre de usuario, contraseña y seleccionar “Quiero ofrecer mi servicio”. De esta forma, se registrará con todas las funcionalidades de un usuario de tipo “Cuidador” que quiere crear un perfil público para ofrecer sus servicios y poder postularse a Anuncios.
 
-IMAGEN FORM REGISTRO
+<img src="https://res.cloudinary.com/proyectocarefy/image/upload/v1725055678/RegistroAcom.png" alt="AddAnuncio" width="200" />
 
 En primer lugar tendrá que completar sus datos personales para crear el perfil. Entre estos podrá encontrar: foto, nombre, localidad, fecha de nacimiento, descripción, experiencia, redes sociales, etc.
 
 Es crucial que se rellenen todos los datos porque esta es la información que el resto de usuarios podrá ver en su perfil.
 
-IMAGEN DEL FORMULARIO PERFIL Y PERFIL PUBLICADO
+<img src="https://res.cloudinary.com/proyectocarefy/image/upload/v1725055843/FormAcomp.png" alt="AddAnuncio" width="200" /> <img src="https://res.cloudinary.com/proyectocarefy/image/upload/v1725056087/PerfilCuidador.png" alt="AddAnuncio" width="200" />
+
 
 En el perfil, además de toda la información personal, también se hará visible la valoración que los usuarios le han dejado y la reseña que acompaña esa valoración. En la parte superior, se podrá ver el promedio de todas ellas.
 
 Para poder postularse a un Anuncio tendrá que acceder a él y darle al botón “Postularse”. Si quiere cancelar la postulación, le tendrá que dar al botón “Cancelar postulación”. Al mismo tiempo, con el icono del corazón, podrá guardar Anuncios como favorito.
 
-IMAGEN ANUNCIO
+<img src="https://res.cloudinary.com/proyectocarefy/image/upload/v1725056499/postularse.png" alt="AddAnuncio" width="200" /> <img src="https://res.cloudinary.com/proyectocarefy/image/upload/v1725056527/cancelarpostulacion.png" alt="AddAnuncio" width="200" /> <img src="https://res.cloudinary.com/proyectocarefy/image/upload/v1725056553/favPost.png" alt="AddAnuncio" width="200" />
 
 En el menú “Mis postulaciones” podrá hacer un seguimiento de todas las postulaciones realizadas y ver el estado que se encuentra cada una.
 
-Pendiente: aún el anunciante no seleccionó ningún cuidador
-Contratado: el anunciante decidió contratarlo
-Rechazado: el anunciante contrató a otro cuidador
+* Pendiente: aún el anunciante no seleccionó ningún cuidador
+* Contratado: el anunciante decidió contratarlo
+* Rechazado: el anunciante contrató a otro cuidador
 
 Desde aquí también podrá ver los Anuncios guardados como favoritos y acceder a ellos.
 
-IMAGEN MIS POSTULACIONES
+<img src="https://res.cloudinary.com/proyectocarefy/image/upload/v1725056827/estadopost.png" alt="AddAnuncio" width="200" />
 
 
-Usos generales para todos los tipos de usuarios
+#### Usos generales para todos los tipos de usuarios
 
 Todos los usuarios podrán ver en el Inicio un buscador para buscar perfiles de cuidadores o anuncios por Ubicación.
-
 Se podrá acceder a todos los Anuncios publicados y a todos los perfiles de cuidadores. Cada una de estas páginas tiene su buscador correspondiente.
+<img src="https://res.cloudinary.com/proyectocarefy/image/upload/v1725057113/buscador.png" alt="AddAnuncio" width="200" />
+
 
 Los usuarios también podrán conocernos a través de la página Nosotros, resolver sus dudas con el FAQ y contactarnos a través del formulario de Contacto.
+
+<img src="https://res.cloudinary.com/proyectocarefy/image/upload/v1725057287/nosotros.png" alt="AddAnuncio" width="200" /> <img src="https://res.cloudinary.com/proyectocarefy/image/upload/v1725057314/faq.png" alt="AddAnuncio" width="200" /> <img src="https://res.cloudinary.com/proyectocarefy/image/upload/v1725057328/contacto.png" alt="AddAnuncio" width="200" />
 
 
 
@@ -134,98 +145,32 @@ GNU Affero General Public License v3.0
 <img src="https://carnejovenmadrid.com/sites/default/files/2023-05/4geeks.jpg" alt="Logo de 4Geeks" width="150" /> <img src="https://res.cloudinary.com/proyectocarefy/image/upload/v1725023254/mejorServicio.png" alt="Logo de 4Geeks" width="150" />
 
 ### **FUNCIONES**
+* Creación de varios tipos de perfiles (administrador, usuario y cuidador)
+* Login/SignUp - SignOut
+* Formularios de registro editables.
+* CRUD Familiares
+* CRUD Anuncios
+* Posibilidad de postularse a un anuncio y cancelar postulación
+* Posibilidad de contratación de un acompañanate y cancelar contratación
+* Posibilidad de valorar mediante una reseña la valoración al acompañante.
+* Moderación de anuncios desde perfil administrador.
 
 
 ### **CONTRIBUCIONES**
+Hay muchas maneras en las que usted puede participar en este proyecto:
+
+* Contribuyendo a traducir el site.
+* Información sobre errores y fallos de la página.
+* Soporte para corrección de errores.
+* Pautas de codificación.
 
 ### **PRUEBAS**
+La aplicación se ha probado de diversas formas, con la finalidad de llegar a hacerla lo más óptima posible:
 
+* Registros de usuarios en sus diferentes perfiles.
+* Creacion, edición y eliminación de familiares.
+* Creación, edición y eliminación de anuncios.
+* Postulaciones y cancelación de postulaciones de un acompañante hacia un anuncio.
+* Contratación y descontratación de perfiles de acompañantes.
+* Pruebas para valorar al acompañanate, obteniendo la media de sus notas.
 
-
-
-________________________________________________________________________________________________________________________________________________________________
-
-
-
-
-
-
-Build web applications using React.js for the front end and python/flask for your backend API.
-
-- Documentation can be found here: https://start.4geeksacademy.com/starters/react-flask
-- Here is a video on [how to use this template](https://www.loom.com/share/f37c6838b3f1496c95111e515e83dd9b)
-- Integrated with Pipenv for package managing.
-- Fast deployment to heroku [in just a few steps here](https://start.4geeksacademy.com/backend/deploy-heroku-posgres).
-- Use of .env file.
-- SQLAlchemy integration for database abstraction.
-
-### 1) Installation:
-
-> If you use Github Codespaces (recommended) or Gitpod this template will already come with Python, Node and the Posgres Database installed. If you are working locally make sure to install Python 3.10, Node 
-
-It is recomended to install the backend first, make sure you have Python 3.8, Pipenv and a database engine (Posgress recomended)
-
-1. Install the python packages: `$ pipenv install`
-2. Create a .env file based on the .env.example: `$ cp .env.example .env`
-3. Install your database engine and create your database, depending on your database you have to create a DATABASE_URL variable with one of the possible values, make sure you replace the valudes with your database information:
-
-| Engine    | DATABASE_URL                                        |
-| --------- | --------------------------------------------------- |
-| SQLite    | sqlite:////test.db                                  |
-| MySQL     | mysql://username:password@localhost:port/example    |
-| Postgress | postgres://username:password@localhost:5432/example |
-
-4. Migrate the migrations: `$ pipenv run migrate` (skip if you have not made changes to the models on the `./src/api/models.py`)
-5. Run the migrations: `$ pipenv run upgrade`
-6. Run the application: `$ pipenv run start`
-
-> Note: Codespaces users can connect to psql by typing: `psql -h localhost -U gitpod example`
-
-### Undo a migration
-
-You are also able to undo a migration by running
-
-```sh
-$ pipenv run downgrade
-```
-
-### Backend Populate Table Users
-
-To insert test users in the database execute the following command:
-
-```sh
-$ flask insert-test-users 5
-```
-
-And you will see the following message:
-
-```
-  Creating test users
-  test_user1@test.com created.
-  test_user2@test.com created.
-  test_user3@test.com created.
-  test_user4@test.com created.
-  test_user5@test.com created.
-  Users created successfully!
-```
-
-### **Important note for the database and the data inside it**
-
-Every Github codespace environment will have **its own database**, so if you're working with more people eveyone will have a different database and different records inside it. This data **will be lost**, so don't spend too much time manually creating records for testing, instead, you can automate adding records to your database by editing ```commands.py``` file inside ```/src/api``` folder. Edit line 32 function ```insert_test_data``` to insert the data according to your model (use the function ```insert_test_users``` above as an example). Then, all you need to do is run ```pipenv run insert-test-data```.
-
-### Front-End Manual Installation:
-
--   Make sure you are using node version 14+ and that you have already successfully installed and runned the backend.
-
-1. Install the packages: `$ npm install`
-2. Start coding! start the webpack dev server `$ npm run start`
-
-## Publish your website!
-
-This boilerplate it's 100% read to deploy with Render.com and Heroku in a matter of minutes. Please read the [official documentation about it](https://start.4geeksacademy.com/deploy).
-
-### Contributors
-
-This template was built as part of the 4Geeks Academy [Coding Bootcamp](https://4geeksacademy.com/us/coding-bootcamp) by [Alejandro Sanchez](https://twitter.com/alesanchezr) and many other contributors. Find out more about our [Full Stack Developer Course](https://4geeksacademy.com/us/coding-bootcamps/part-time-full-stack-developer), and [Data Science Bootcamp](https://4geeksacademy.com/us/coding-bootcamps/datascience-machine-learning).
-
-You can find other templates and resources like this at the [school github page](https://github.com/4geeksacademy/).
