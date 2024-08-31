@@ -783,7 +783,29 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			},
 
+			deleteCompanion: async (companion_id) => {
+				const store = getStore();
+				const actions = getActions();
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/companion/delete/${companion_id}`, {
+						method: 'DELETE',
+					});
 
+					if (response.ok) {
+						console.log('Profesional eliminado con éxito');
+						const updatedCompanions = store.oneCompanion.filter(com => com.id !== companion_id);
+						setStore({
+							...store,
+							oneCompanion: updatedCompanions
+						})
+						localStorage.setItem('oneCompanion', JSON.stringify(updatedCompanions));
+					} else {
+						console.error('Error al eliminar el profesional');
+					}
+				} catch (error) {
+					console.error('Error en la solicitud de eliminación:', error);
+				}
+			},
 
 			//publicar perfil acompanante
 			anadir_companion: async (user_id) => {

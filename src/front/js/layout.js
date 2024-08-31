@@ -32,6 +32,7 @@ import { PrivacyPolitics } from "./pages/PrivacyPolitics/PrivacyPolitics.jsx";
 import { Rate } from "./pages/Rate/Rate.jsx";
 import { FormularioRestablecerContrasena } from "./pages/formularioRestablecerContrasena/FormularioRestablecerContasena.jsx";
 import { FormularioEnviarNuevaContrasena } from "./pages/formularioEnviarNuevaContrasena/FormularioEnviarNuevaContrasena.jsx";
+import ModerateCompanions from "./pages/ModerateCompanions/ModerateCompanions.jsx";
 
 
 //create your first component
@@ -73,6 +74,7 @@ const Layout = () => {
                 <Route element={<Rate />} path="/rating/:id" />
                 <Route element={<FormularioRestablecerContrasena />} path="/restablecer-contrasena" />
                 <Route element={<FormularioEnviarNuevaContrasena />} path="/reset-password" />
+                <Route element={<ModerateCompanions />} path="/moderar-profesionales" />
                 <Route element={<h1>Not found!</h1>} path="*" />
               </Routes>
             </div>

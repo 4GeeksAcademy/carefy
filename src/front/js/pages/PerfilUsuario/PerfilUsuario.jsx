@@ -60,7 +60,7 @@ export const PerfilUsuario = () => {
 
     return (
         <>
-            <Jumbotron bgImg={{ backgroundImage: "url('https://images.pexels.com/photos/3791664/pexels-photo-3791664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')" }} title={"Este es tu perfil de usuario"} subtitle={"Aquí puedes modificar tus datos y los de tus familiares que requieren acompañamiento."} />
+            <Jumbotron bgImg={{ backgroundImage: "url('https://images.pexels.com/photos/3791664/pexels-photo-3791664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')" }} title={`Bienvenido/a ${store.userData.name ? store.userData.name : store.userData.username}`} subtitle={"Aquí puedes modificar tus datos y los de tus familiares que requieren acompañamiento."} />
 
             <div className={`${style.bg_publicar_anuncio}`}>
                 <div className="py-3 container">

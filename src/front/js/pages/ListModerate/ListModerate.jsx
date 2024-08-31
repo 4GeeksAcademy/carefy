@@ -8,6 +8,12 @@ const ListModerate = ({ }) => {
   const navigate = useNavigate();
   const { store, actions } = useContext(Context);
 
+  useEffect(() => {
+    if (!store.userData.token) {
+      navigate('/login');
+    }
+  }, [store.userData.token, navigate])
+
 
   useEffect(() => {
     actions.getAds();
