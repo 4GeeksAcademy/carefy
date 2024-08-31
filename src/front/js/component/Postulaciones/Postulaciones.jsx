@@ -61,8 +61,8 @@ export const Postulaciones = ({ }) => {
                                     <th scope="col">#</th>
                                     <th scope="col">Anuncio</th>
                                     <th scope="col">Ubicación</th>
-                                    <th scope="col">Fecha</th>
-                                    <th scope="col">Estado postulacion</th>
+                                    <th scope="col">Fecha de inicio</th>
+                                    <th scope="col">Estado postulación</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
@@ -77,7 +77,7 @@ export const Postulaciones = ({ }) => {
                                         <tr key={misinscripciones.id}>
                                             <th scope="row">{index + 1}</th>
                                             <td>{anuncio.title}</td>
-                                            <td>{paciente.province}</td>
+                                            <td>{paciente.location}, {paciente.province}</td>
                                             <td>{new Date(anuncio.start_date).toLocaleDateString('es-ES', {
                                                 day: '2-digit',
                                                 month: '2-digit',
