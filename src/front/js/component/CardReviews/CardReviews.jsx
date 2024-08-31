@@ -16,7 +16,7 @@ export const CardReviews = () => {
         : [];
 
     return (
-        <div className="d-flex gap-2">
+        <div className="d-flex gap-2 flex-wrap">
             {filteredReviews.length > 0 ? (
                 filteredReviews.map((rate, index) => (
                     <div key={index} className={`${styles.card_edit} card my-5 py-2`} style={{ width: "25rem" }}>
