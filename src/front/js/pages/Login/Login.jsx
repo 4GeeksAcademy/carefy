@@ -11,21 +11,20 @@ export const Login = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (store.userData.token && store.userData.role === "companion") {
-            navigate(`/mis-postulaciones`);
-        }
-        else if (store.userData.token && store.userData.role === "user") {
-            navigate('/mis-anuncios');
-            window.location.reload();
-        }
-        else if (store.userData.token && store.userData.role === "admin") {
-            navigate('/moderar-anuncios');
-        }
-        else {
-            navigate('/login');
-        }
-    }, [store.userData.token, navigate])
+    // useEffect(() => {
+    //     if (store.userData.token && store.userData.role === "companion") {
+    //         navigate(`/mis-postulaciones`);
+    //     }
+    //     else if (store.userData.token && store.userData.role === "user") {
+    //         navigate('/mis-anuncios');
+    //     }
+    //     else if (store.userData.token && store.userData.role === "admin") {
+    //         navigate('/moderar-anuncios');
+    //     }
+    //     else {
+    //         navigate('/login');
+    //     }
+    // }, [store.userData.token, navigate])
 
     return (
         <>

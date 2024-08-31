@@ -69,7 +69,10 @@ export const Navbar = () => {
                                             : store.userData.role == "user" ?
                                             <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/perfil-usuario">Mi perfil</Link></li>
                                             :
-                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/moderar-anuncios">Administrar</Link></li>
+                                            <>
+                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/moderar-anuncios">Anuncios</Link></li>
+                                            <li><Link className={`dropdown-item ${styles.dropdown_item_edit}`} to="/moderar-profesionales">Profesionales</Link></li>
+                                            </>
                                         }
 
 

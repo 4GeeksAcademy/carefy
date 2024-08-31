@@ -21,10 +21,17 @@ export const FormularioLogin = () => {
         try {
             await actions.logIn(email, password);
             if (store.userData && store.userData.role) {
-                if (store.userData.role === "companion") {
-                    navigate('/mis-postulaciones');
-                } else {
-                    navigate('/perfil-usuario');
+                if (store.userData.token && store.userData.role === "companion") {
+                    navigate(`/mis-postulaciones`);
+                }
+                else if (store.userData.token && store.userData.role === "user") {
+                    navigate('/mis-anuncios');
+                }
+                else if (store.userData.token && store.userData.role === "admin") {
+                    navigate('/moderar-anuncios');
+                }
+                else {
+                    navigate('/login');
                 }
             } else {
                 setError("Los datos ingresado no coinciden con los de un usuario existente.");

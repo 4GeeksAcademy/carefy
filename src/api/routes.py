@@ -501,7 +501,22 @@ def actualizar_companion(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({"ERROR": f"Ocurrió un error al actualizar el companion: {str(e)}"}), 500
-    
+ 
+#Eliminar companion
+@api.route('/companion/delete/<int:companion_id>', methods=['DELETE'])
+def delete_companion(companion_id):
+    companion = Companion.query.get(companion_id)
+
+    if companion is None:
+        return jsonify({"message": "Companion not found"}), 400
+
+    try:
+        db.session.delete(companion)
+        db.session.commit()
+        return jsonify({"message": "Companion deleted successfully"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500   
 
 #FAVORITOS COMPANIONS
 
