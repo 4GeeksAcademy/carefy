@@ -47,7 +47,7 @@ export const ModalVerFamiliar = ({ familiar }) => {
                 <h1 className="modal-title fs-5" id="exampleModalLabel">{capitalizeFirstLetter(familiar.alias)}</h1>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div className="modal-body">
+            <div className="modal-body fs-5">
                 {/* Formulario */}
                 <form className="form">
                     {/* Foto, alias, nombre y apellidos */}
@@ -63,12 +63,12 @@ export const ModalVerFamiliar = ({ familiar }) => {
                         </div>
 
                         <div className="col-9 row">
-                            <div className="col-5">
+                            <div className="col-6">
                                 <p><span className="fa-solid fa-user pe-2"></span><span className="pe-2">{familiar.name}</span>{familiar.lastname}</p>
                                 <p><span className="fa-solid fa-id-card pe-2"></span>{getAge(familiar.birthdate)} años</p>
                                 <p><span className="fa-solid fa-location-dot pe-2"></span>{familiar.location}, {familiar.province}</p>
                             </div>
-                            <div className="col-7">
+                            <div className="col-6">
                                 <p><span className="fw-bold">Fecha de nacimiento: </span>{new Date(familiar.birthdate).toLocaleDateString('es-ES', {
                                     day: '2-digit',
                                     month: '2-digit',

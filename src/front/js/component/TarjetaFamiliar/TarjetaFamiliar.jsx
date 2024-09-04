@@ -33,12 +33,12 @@ export const TarjetaFamiliar = ({ familiar, index }) => {
                 <img src={profileImg} className={`${style.card_img_top }`} alt="..." />
             )}
 
-            <div className="card-body">
+            <div className="py-2">
                 <div className="row">
 
                     {/* Al pulsar este botón se abrirá la ventana modal del usuario con los campos bloqueados en sólo lectura */}
                     <div className="col">
-                        <button type="button" className="btn btn-light"
+                        <button type="button" className={`${style.btn_tarjeta} ms-3 btn`}
                             data-bs-toggle="modal" data-bs-target={`#${mostrarFamiliarId}`}>
                             <span className="fa-solid fa-eye fs-5"></span>
                         </button>
@@ -53,7 +53,7 @@ export const TarjetaFamiliar = ({ familiar, index }) => {
 
                     {/* Al pulsar en este campo se abrirá el modal del usuario con los campos editables */}
                     <div className="col">
-                        <button type="button" className="btn btn-light"
+                        <button type="button" className={`${style.btn_tarjeta} ms-2 btn`}
                         data-bs-toggle="modal" data-bs-target={`#${editarFamiliarId}`}>
                             <span className="fa-solid fa-pencil fs-5"></span>
                         </button>
@@ -66,7 +66,7 @@ export const TarjetaFamiliar = ({ familiar, index }) => {
 
                     {/* Al pulsar en este campo se abrirá un modal para confirmar la eliminación del familiar */}
                     <div className="col">
-                        <button type="button" className="btn btn-light"
+                        <button type="button" className={`${style.btn_tarjeta} btn`}
                         data-bs-toggle="modal" data-bs-target={`#${eliminarFamiliarId}`}>
                             <span className="fa-solid fa-trash-can fs-5"></span>
                         </button>
