@@ -1,9 +1,11 @@
-import React from "react";
+import React, {useContext} from "react";
 import styles from "./BloqueInformativo.module.css"
 import detailed from "../../../img/detailed.jpeg"
 import { Link } from "react-router-dom";
+import { Context } from "../../store/appContext";
 
 export const BloqueInformativo = () => {
+    const { store, actions } = useContext(Context);
 
     const registrarse = () => {
         window.scrollTo(0,0);
@@ -17,9 +19,12 @@ export const BloqueInformativo = () => {
                         <p className="col-lg-12 fs-4 text-start">
                             Somos una plataforma que tiene como objetivo unir a acompañantes con adultos mayores que necesitan de cuidado y compañía.
                         </p>
+                        {!store.userData.token ?
                         <div className="text-start">
                         <Link to="/registro"><button onClick={registrarse} className={`btn ${styles.btn_signup} fs-5`}>Registrarse</button></Link>
                         </div>
+                        :
+                        ""}
                     </div>
                     
                     <div className="col-12 col-sm-6">

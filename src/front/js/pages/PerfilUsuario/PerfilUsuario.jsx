@@ -103,7 +103,7 @@ export const PerfilUsuario = () => {
                         </div>
                     </div>
 
-                    <div className="row gap-3">
+                    <div className="row">
 
                         {familiares && familiares.length > 0 ? (
                             familiares.map((familiar, index) => (

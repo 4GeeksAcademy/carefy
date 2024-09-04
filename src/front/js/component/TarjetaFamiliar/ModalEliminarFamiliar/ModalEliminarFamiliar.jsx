@@ -32,11 +32,11 @@ export const ModalEliminarFamiliar = ({ familiar }) => {
     return (
         <div className="modal-content">
             <div className="modal-body fw-bold fs-4">
-                ¿Desea eliminar a este familiar?
+                ¿Desea retirar a este familiar?
             </div>
             <div className="modal-footer">
                 <button type="button" className="btn btn-secondary fs-5" data-bs-dismiss="modal">Volver</button>
-                <button type="button" className="btn btn-danger fs-5" data-bs-dismiss="modal" onClick={() => eliminar_familiar()}>Eliminar</button>
+                <button type="button" className="btn btn-danger fs-5" data-bs-dismiss="modal" onClick={() => eliminar_familiar()}>Retirar</button>
             </div>
         </div>
     )
