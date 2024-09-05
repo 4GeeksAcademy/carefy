@@ -15,16 +15,55 @@ export const BloqueAnuncio = ({ }) => {
     const [botonValorarVisible, setBotonValorarVisible] = useState(false)
     const [contratoActivo, setContratoActivo] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [inscripcionesMias, setInscripcionesMias] = useState([]);
+    const [unaInscripcion, setUnaInscripcion] = useState()
 
     useEffect(() => {
         const fetchData = async () => {
-          setLoading(true);
+            setLoading(true);
             await actions.getSingleAd(id);
-          setLoading(false); // Datos cargados, detener la carga
+            setLoading(false); // Datos cargados, detener la carga
         };
-    
+
         fetchData();
-      }, [id]);
+    }, [id]);
+
+    useEffect(() => {
+        actions.obtenerinscripciones();
+    }, []);
+
+    useEffect(() => {
+        // Filtra las inscripciones que corresponden al usuario
+        const filteredInscripciones = store.inscripciones.filter(misinscripciones => misinscripciones.user_id === store.userData.userId);
+        setInscripcionesMias(filteredInscripciones);
+        console.log(store.userData)
+        console.log(inscripcionesMias)
+        console.log(store.singleAd)
+        if (inscripcionesMias) {
+            const unaInscripcion = inscripcionesMias.find(datosUnaInscripcion => datosUnaInscripcion.ad_id === store.singleAd.id);
+            setUnaInscripcion(unaInscripcion);
+            console.log(unaInscripcion)
+
+        } else {
+            console.log("----------------------------------------------------------------------")
+        }
+
+
+    }, [store.inscripciones, store.userData.userId, store.singleAd.id]);
+
+    const getStatusButton = (statusContract) => {
+        switch (statusContract) {
+            case 'pending':
+                return <span className={`${styles.pendiente} ps-4 fw-bold`} >Pendiente</span>;
+            case 'rejected':
+                return <span className={`text-danger ps-4 fw-bold`} >Rechazado</span>;
+            case 'ok':
+                return <span className={`text-success ps-4 fw-bold`}>Contratado</span>;
+            default:
+                return '';
+        }
+    };
+
 
 
 
@@ -303,8 +342,8 @@ export const BloqueAnuncio = ({ }) => {
 
     if (loading) {
         return <div className="d-flex justify-content-center mt-5 mb-5 fs-1 text-dark">Cargando...<span className={`${styles.loader}`}></span></div>;
-    
-      }
+
+    }
 
     return (
 
@@ -572,14 +611,15 @@ export const BloqueAnuncio = ({ }) => {
                             </div>
                         </div>
                         {/* BOTON POSTULARSE/CANCELAR POSTULACION PARA ACOMPAÑANTES */}
-                        {store.userData.role == "companion" && PostularseVisible ? (
+
+                        {store.userData.role == "companion" && PostularseVisible && store.singleAd?.hired == null ? (
                             <button
                                 className={`btn ${styles.btn_postularse} fs-4 fw-bold`}
                                 onClick={handlePostularseClick}
                             >
                                 POSTULARSE
                             </button>
-                        ) : store.userData.role == "companion" ? (
+                        ) : store.userData.role == "companion" && store.singleAd?.hired == null ? (
                             <button
                                 className={`btn ${styles.btn_cancel_postularse} fs-4 fw-bold`}
                                 onClick={handleCancelarClick}
@@ -602,7 +642,16 @@ export const BloqueAnuncio = ({ }) => {
                                 )}
                             </p>
                         ) : null}
+
                     </div>
+                    {unaInscripcion?.companion_id === store.nuevoCompanion?.id && store.userData?.role == "companion" ? (
+                        <div className="d-flex justify-content-end align-items-end">
+                            <p>
+                                El estado de tu postulación es: {getStatusButton(unaInscripcion?.statusContract)}
+                            </p>
+                        </div>
+                    ) : null}
+
                     <div className="pt-4">
                         <p className="fs-5">{store.singleAd.description}</p>
                     </div>
@@ -703,9 +752,9 @@ export const BloqueAnuncio = ({ }) => {
                                                             <td>{companion?.service_cost} €</td>
                                                             <td className="text-end">
                                                                 {inscripcion.statusContract === "rejected" ? (
-                                                                  
-                                                                        <button className="btn btn-light me-3">RECHAZADO</button>
-                                                                 
+
+                                                                    <button className="btn btn-light me-3">RECHAZADO</button>
+
                                                                 ) : inscripcion.statusContract === "ok" ? (
                                                                     <>
                                                                         <button className={`btn ${styles.cancel} me-3`} onClick={() => handleCancel(companion_id, inscripcion.id)}>CANCELAR CONTRATO</button>
