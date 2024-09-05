@@ -2,10 +2,10 @@ import React, { useContext, useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import profileImg from "../../../img/profileImg.png"
 import style from "../TarjetaFamiliar/tarjetafamiliar.module.css"
-import {ModalVerFamiliar} from "./ModalVerFamiliar/ModalVerFamiliar.jsx"
-import {ModalEditarFamiliar} from "./ModalEditarFamiliar/ModalEditarFamiliar.jsx"
-import {ModalEliminarFamiliar} from "./ModalEliminarFamiliar/ModalEliminarFamiliar.jsx"
- 
+import { ModalVerFamiliar } from "./ModalVerFamiliar/ModalVerFamiliar.jsx"
+import { ModalEditarFamiliar } from "./ModalEditarFamiliar/ModalEditarFamiliar.jsx"
+import { ModalEliminarFamiliar } from "./ModalEliminarFamiliar/ModalEliminarFamiliar.jsx"
+
 // Recibe también index para que se pueda generar un id diferente en cada botón del modal
 export const TarjetaFamiliar = ({ familiar, index }) => {
 
@@ -28,9 +28,9 @@ export const TarjetaFamiliar = ({ familiar, index }) => {
 
             {/* Si el usuario ha subido una foto, se pinta la foto. Si no, se pinta el muñeco */}
             {familiar.photo ? (
-                <img src={familiar.photo} className={`${style.card_img_top }`} alt="..." />
+                <img src={familiar.photo} className={`${style.card_img_top}`} alt="..." />
             ) : (
-                <img src={profileImg} className={`${style.card_img_top }`} alt="..." />
+                <img src={profileImg} className={`${style.card_img_top}`} alt="..." />
             )}
 
             <div className="py-2">
@@ -45,7 +45,7 @@ export const TarjetaFamiliar = ({ familiar, index }) => {
                         {/* <!-- Modal --> */}
                         <div className={`modal fade`} id={mostrarFamiliarId} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
                             <div className="modal-dialog modal-dialog-scrollable modal-lg">
-                            <ModalVerFamiliar familiar={familiar}/>
+                                <ModalVerFamiliar familiar={familiar} />
                             </div>
                         </div>
                     </div>
@@ -54,25 +54,41 @@ export const TarjetaFamiliar = ({ familiar, index }) => {
                     {/* Al pulsar en este campo se abrirá el modal del usuario con los campos editables */}
                     <div className="col">
                         <button type="button" className={`${style.btn_tarjeta} ms-2 btn`}
-                        data-bs-toggle="modal" data-bs-target={`#${editarFamiliarId}`}>
+                            data-bs-toggle="modal" data-bs-target={`#${editarFamiliarId}`}>
                             <span className="fa-solid fa-pencil fs-5"></span>
                         </button>
+
                         <div className={`modal fade`} id={editarFamiliarId} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                            <div className="modal-dialog modal-dialog-scrollable modal-lg">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                        <h1 className="modal-title fs-5" id="exampleModalLabel">{familiar.alias}</h1>
+                                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div className="modal-body">
+                                        <ModalEditarFamiliar idModal ={editarFamiliarId} familiar={familiar} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        {/* <div className={`modal fade`} id={editarFamiliarId} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
                             <div className="modal-dialog modal-dialog-scrollable modal-lg">
                             <ModalEditarFamiliar familiar={familiar}/>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
 
                     {/* Al pulsar en este campo se abrirá un modal para confirmar la eliminación del familiar */}
                     <div className="col">
                         <button type="button" className={`${style.btn_tarjeta} btn`}
-                        data-bs-toggle="modal" data-bs-target={`#${eliminarFamiliarId}`}>
+                            data-bs-toggle="modal" data-bs-target={`#${eliminarFamiliarId}`}>
                             <span className="fa-solid fa-trash-can fs-5"></span>
                         </button>
                         <div className={`modal fade`} id={eliminarFamiliarId} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
                             <div className="modal-dialog modal-dialog-scrollable modal-lg">
-                            <ModalEliminarFamiliar familiar={familiar}/>
+                                <ModalEliminarFamiliar familiar={familiar} />
                             </div>
                         </div>
                     </div>

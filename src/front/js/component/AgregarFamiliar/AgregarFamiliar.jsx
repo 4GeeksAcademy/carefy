@@ -106,7 +106,6 @@ export const AgregarFamiliar = () => {
         setPhoto('');
         setEdad(0);
         setError('');
-        setSinDatos(false);
     };
 
 
@@ -196,7 +195,7 @@ export const AgregarFamiliar = () => {
                                         data-bs-toggle="tooltip"
                                         data-bs-placement="right"
                                         title="Acompañamiento. Es independiente en tareas diarias y personales">
-                                        Nivel 1 <span class="fa-solid fa-circle-info"></span>
+                                        Nivel 1 <span className="fa-solid fa-circle-info"></span>
                                     </label>
                                 </div>
                                 <div className="form-check pb-2">
@@ -207,7 +206,7 @@ export const AgregarFamiliar = () => {
                                         data-bs-toggle="tooltip"
                                         data-bs-placement="right"
                                         title="Dependencia leve. Requiere ayuda para cosas puntuales en algún momento del día para la rutina o autonomía personal">
-                                        Nivel 2 <span class="fa-solid fa-circle-info"></span>
+                                        Nivel 2 <span className="fa-solid fa-circle-info"></span>
                                     </label>
                                 </div>
                                 <div className="form-check pb-2">
@@ -218,7 +217,7 @@ export const AgregarFamiliar = () => {
                                         data-bs-toggle="tooltip"
                                         data-bs-placement="right"
                                         title="Dependencia moderada. Requiere ayuda para actividades básicas, dos o tres veces al día">
-                                        Nivel 3 <span class="fa-solid fa-circle-info"></span>
+                                        Nivel 3 <span className="fa-solid fa-circle-info"></span>
                                     </label>
                                 </div>
                                 <div className="form-check">
@@ -229,7 +228,7 @@ export const AgregarFamiliar = () => {
                                         data-bs-toggle="tooltip"
                                         data-bs-placement="right"
                                         title="Dependencia severa. Necesita el apoyo indispensable de otra persona por pérdida de autonómia física, mental o intelectual">
-                                        Nivel 4 <span class="fa-solid fa-circle-info"></span>
+                                        Nivel 4 <span className="fa-solid fa-circle-info"></span>
                                     </label>
                                 </div>
                             </div>
