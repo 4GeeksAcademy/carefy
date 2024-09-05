@@ -54,21 +54,17 @@ export const ModalEditarFamiliar = ({ familiar }) => {
 
 
     const editar_familiar = async (event) => {
+        event.preventDefault();
+        if (!name || !alias || !lastname || !phone || !description || !birthdate || !dependency || !province || !location) {
+            setError("Por favor, complete todos los campos.");
+            return;
+        }
         try {
-            event.preventDefault();
-
-            if (!name || !alias || !lastname || !phone || !description || !birthdate || !dependency || !province || !location) {
-                setError("Por favor, complete todos los campos.");
-                return;
-            }
-
             const result = await actions.editar_familiar(name, alias, lastname, phone, description, birthdate, dependency, province, location, photo, familiar.id);
 
-            if (result) {
-                // Maneja el éxito de la edición aquí
-                navigate('/perfilusuario');
-            } else {
-                setError("Ocurrió un error al editar los datos.");
+            const modalElement = document.querySelector('[data-bs-dismiss="modal"]');
+            if (modalElement) {
+                modalElement.click();  // Simula el clic en el botón de cierre de la modal
             }
 
         } catch (error) {
@@ -76,6 +72,14 @@ export const ModalEditarFamiliar = ({ familiar }) => {
             setError("Ocurrió un error inesperado.");
         }
     };
+
+
+
+
+
+
+
+
 
     // Este useEffect se ejecutará cada vez que imageUrl cambie
     useEffect(() => {
@@ -136,16 +140,18 @@ export const ModalEditarFamiliar = ({ familiar }) => {
                 <h1 className="modal-title fs-5" id="exampleModalLabel">{capitalizeFirstLetter(familiar.alias)}</h1>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
             <div className="modal-body">
                 <form className="form p-2" onSubmit={(event) => editar_familiar(event, name, alias, lastname, phone, description, birthdate, dependency, province, location, photo)}>
+                    <p>Todos los campos marcados con <strong> * </strong>son obligatorios</p>
                     <div className="mb-3">
-                        <label htmlFor="alias" className="form-label fs-5">Alias</label>
+                        <label htmlFor="alias" className="form-label fs-5">Alias *</label>
                         <input type="text" className="form-control" id="alias" placeholder="Ejemplo: mi padre" onChange={(e) => setAlias(e.target.value)} value={alias} />
 
                     </div>
 
                     <div className="mb-3">
-                        <label htmlFor="name" className="form-label fs-5">Nombre</label>
+                        <label htmlFor="name" className="form-label fs-5">Nombre *</label>
                         <input type="text" className="form-control" id="name" onChange={(e) => setName(e.target.value)} value={name} />
                     </div>
 
@@ -183,7 +189,7 @@ export const ModalEditarFamiliar = ({ familiar }) => {
                                 </h2>
                                 <div id="dependOne" className="accordion-collapse collapse" data-bs-parent="#dependencia">
                                     <div className="accordion-body">
-                                    <p className={`text-secondary ${style.title_grado_dep}`}>Deja el cursor sobre el nivel para obtener más información</p>
+                                        <p className={`text-secondary ${style.title_grado_dep}`}>Deja el cursor sobre el nivel para obtener más información</p>
 
                                         {/* Inicio checks */}
                                         <div className="form-check pb-2">
@@ -335,8 +341,10 @@ export const ModalEditarFamiliar = ({ familiar }) => {
                         <textarea className="form-control" rows={10} cols={40} id="description" placeholder="Puedes añadir cualquier información / necesidad relevante para el acompañante" onChange={(e) => setDescription(e.target.value)} value={description} />
                     </div>
 
+                    {error && <div className="alert alert-danger" role="alert">{error}</div>}
+
                     <div>
-                        <button type="submit" data-bs-dismiss="modal" className={`btn fs-5 ${style.botonGuardar}`} >Guardar nuevos datos</button>
+                        <button type="submit" className={`btn fs-5 ${style.botonGuardar}`} >Guardar nuevos datos</button>
                     </div>
                 </form >
             </div>
