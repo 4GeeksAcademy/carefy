@@ -153,9 +153,7 @@ export const AgregarFamiliar = () => {
                         <input onChange={handleBirthdayChange} type="date" id="birthdate" name="nacimiento" value={birthdate} />
                     </div>
                     <div className="col">
-                        <label htmlFor="birthdate" className="fs-5">Edad: </label><br></br>
-                        <label htmlFor="birthdate" className="fs-5">{edad} </label>
-
+                        <label htmlFor="birthdate" className="fs-5">Edad: {edad} años</label><br></br>
                     </div>
                 </div>
             </div>
@@ -172,50 +170,50 @@ export const AgregarFamiliar = () => {
                         </h2>
                         <div id="dependOne" className="accordion-collapse collapse" data-bs-parent="#dependencia">
                             <div className="accordion-body">
-                                <p className={`text-secondary ${style.title_grado_dep}`}>Deja el cursor sobre el nivel para obtener más información</p>
+                            <p className={`text-secondary ${style.title_grado_dep}`}>Deja el cursor sobre el nivel para obtener más información</p>
 
-                                <div className="form-check">
+                                <div className="form-check pb-2">
                                     <input className="form-check-input" type="radio" name="dependency" id="nivel" onChange={(e) => setDependency(e.target.value)} value="Nivel 1" />
                                     <label
-                                        className="form-check-label"
+                                        className="form-check-label fs-5"
                                         htmlFor="nivel"
                                         data-bs-toggle="tooltip"
                                         data-bs-placement="right"
                                         title="Acompañamiento. Es independiente en tareas diarias y personales">
-                                        Nivel 1
+                                        Nivel 1 <span class="fa-solid fa-circle-info"></span>
                                     </label>
                                 </div>
-                                <div className="form-check">
+                                <div className="form-check pb-2">
                                     <input className="form-check-input" type="radio" name="dependency" id="nivel2" onChange={(e) => setDependency(e.target.value)} value="Nivel 2" />
                                     <label
-                                        className="form-check-label"
+                                        className="form-check-label fs-5"
                                         htmlFor="nivel2"
                                         data-bs-toggle="tooltip"
                                         data-bs-placement="right"
                                         title="Dependencia leve. Requiere ayuda para cosas puntuales en algún momento del día para la rutina o autonomía personal">
-                                        Nivel 2
+                                        Nivel 2 <span class="fa-solid fa-circle-info"></span>
                                     </label>
                                 </div>
-                                <div className="form-check">
+                                <div className="form-check pb-2">
                                     <input className="form-check-input" type="radio" name="dependency" id="nivel3" onChange={(e) => setDependency(e.target.value)} value="Nivel 3" />
                                     <label
-                                        className="form-check-label"
+                                        className="form-check-label fs-5"
                                         htmlFor="nivel3"
                                         data-bs-toggle="tooltip"
                                         data-bs-placement="right"
                                         title="Dependencia moderada. Requiere ayuda para actividades básicas, dos o tres veces al día">
-                                        Nivel 3
+                                        Nivel 3 <span class="fa-solid fa-circle-info"></span>
                                     </label>
                                 </div>
                                 <div className="form-check">
                                     <input className="form-check-input" type="radio" name="dependency" id="nivel4" onChange={(e) => setDependency(e.target.value)} value="Nivel 4" />
                                     <label
-                                        className="form-check-label"
+                                        className="form-check-label fs-5"
                                         htmlFor="nivel4"
                                         data-bs-toggle="tooltip"
                                         data-bs-placement="right"
                                         title="Dependencia severa. Necesita el apoyo indispensable de otra persona por pérdida de autonómia física, mental o intelectual">
-                                        Nivel 4
+                                        Nivel 4 <span class="fa-solid fa-circle-info"></span>
                                     </label>
                                 </div>
                             </div>

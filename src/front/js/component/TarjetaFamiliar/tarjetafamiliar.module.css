@@ -4,3 +4,11 @@
     object-fit: cover; /* Recorta y ajusta la imagen para que cubra el área completamente */
     object-position: center; /* Centra la imagen dentro del contenedor */
 }
+
+.btn_tarjeta:active{
+    border: none;
+}
+
+.btn_tarjeta:focus{
+    border: none;
+}
