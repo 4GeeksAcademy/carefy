@@ -596,6 +596,13 @@ export const BloqueAnuncio = ({ }) => {
                         </div> : ""
                     }
                     <h1 className="mb-5 pe-5 me-5 text-dark">{store.singleAd.title}</h1>
+                    {unaInscripcion?.companion_id === store.nuevoCompanion?.id && store.userData?.role == "companion" ? (
+                        <div className="d-flex justify-content-end align-items-end">
+                            <p>
+                                El estado de tu postulación es: {getStatusButton(unaInscripcion?.statusContract)}
+                            </p>
+                        </div>
+                    ) : null}
                     <div className="d-flex align-items-start justify-content-between flex-wrap">
                         <div className="d-flex align-items-center flex-wrap">
                             <div className={`${styles.avatar} rounded`}>
@@ -644,13 +651,7 @@ export const BloqueAnuncio = ({ }) => {
                         ) : null}
 
                     </div>
-                    {unaInscripcion?.companion_id === store.nuevoCompanion?.id && store.userData?.role == "companion" ? (
-                        <div className="d-flex justify-content-end align-items-end">
-                            <p>
-                                El estado de tu postulación es: {getStatusButton(unaInscripcion?.statusContract)}
-                            </p>
-                        </div>
-                    ) : null}
+                   
 
                     <div className="pt-4">
                         <p className="fs-5">{store.singleAd.description}</p>
