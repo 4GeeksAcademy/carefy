@@ -57,6 +57,7 @@ const ModerateCompanions = () => {
                 <th scope="col">Nombre</th>
                 <th scope="col">Ubicación</th>
                 <th scope="col">Edad</th>
+                <th scope="col">Activo</th>
                 <th scope="col"></th>
               </tr>
             </thead>
@@ -73,6 +74,7 @@ const ModerateCompanions = () => {
                         <td>{profile.user?.name} {profile.user.lastname}</td>
                         <td>{profile.user?.location}, {profile.province}</td>
                         <td>{getAge(profile?.birthdate)} años</td>
+                        <td>{profile?.is_active}</td>
                  
                         <td className="text-end">
                           <span onClick={() => verPerfil(profile.id)} className={`fa-solid fa-eye pe-3 ${styles.ad_icons}`}></span>

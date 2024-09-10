@@ -92,6 +92,7 @@ class Companion(db.Model):
     instagram = db.Column(db.String(250))
     twitter = db.Column(db.String(250)) 
     linkedin = db.Column(db.String(250))
+    is_active = db.Column(db.Boolean(), default=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     hired = db.relationship('Ad', backref='hired_companion')
 

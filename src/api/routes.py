@@ -260,7 +260,7 @@ def edit_ad_status(ad_id):
     if not data:
         return jsonify({"message": "No data provided"}), 400
 
- # Actualizar el Anuncio con los nuevos datos
+ # Actualizar el Anuncio con el nuevo estado
     try:
         if 'status' in data:
             ad.status = Status[data['status'].upper()]
@@ -445,7 +445,10 @@ def anadir_companion():
         return jsonify({'ERROR': "Falta el campo requerido: user_id"}), 400
 
     # Creamos una nueva instancia de Companion solo con 'user_id'
-    nuevo_companion = Companion(user_id=data['user_id'])
+    nuevo_companion = Companion(
+        user_id=data['user_id'],
+        is_active = True
+        )
 
     # Guardamos el nuevo Companion en la base de datos
     try:
@@ -501,6 +504,35 @@ def actualizar_companion(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({"ERROR": f"Ocurrió un error al actualizar el companion: {str(e)}"}), 500
+ 
+#Editar is_activa de acompañante
+@api.route('/companion/edit/is_active/<int:companion_id>', methods=['PUT'])
+def edit_active_companion(companion_id):
+    companion = Companion.query.filter_by(id=companion_id).first()
+    # Verificar si el anuncio existe
+    if companion is None:
+        return jsonify({"message": "Companion not found"}), 404
+
+    data = request.json
+
+    # Verificar si se enviaron datos
+    if not data:
+        return jsonify({"message": "No data provided"}), 400
+
+ # Actualizar el Anuncio con los nuevos datos
+    try:
+        if 'is_active' in data:
+            companion.is_active = data['is_active'] 
+
+        db.session.commit()  # Guarda los cambios en la base de datos
+
+        return jsonify({"message": "Companion is_active actualizado correctamente", "companion": companion.serialize()}), 200
+
+    except Exception as e:
+        db.session.rollback()  # Revierte los cambios en caso de error
+        return jsonify({"error": str(e)}), 500 
+ 
+ 
  
 #Eliminar companion
 @api.route('/companion/delete/<int:companion_id>', methods=['DELETE'])
