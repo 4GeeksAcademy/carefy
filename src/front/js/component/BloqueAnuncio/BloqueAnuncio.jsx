@@ -54,11 +54,12 @@ export const BloqueAnuncio = ({ }) => {
     const getStatusButton = (statusContract) => {
         switch (statusContract) {
             case 'pending':
-                return <span className={`${styles.pendiente} ps-4 fw-bold`} >Pendiente</span>;
+                return <span className="bg-warning p-2 rounded">Pendiente</span>;
             case 'rejected':
-                return <span className={`text-danger ps-4 fw-bold`} >Rechazado</span>;
+                return  <span className={`${styles.status_rejected} p-2 rounded text-light`}>Rechazado</span>;
             case 'ok':
-                return <span className={`text-success ps-4 fw-bold`}>Contratado</span>;
+                return <span className={`${styles.status_ok} p-2 rounded text-light`}>Contratado</span>;
+
             default:
                 return '';
         }
@@ -104,7 +105,7 @@ export const BloqueAnuncio = ({ }) => {
             } catch (error) {
                 console.error('Error al añadir la inscripcion', error)
             } finally {
-                // window.location.reload()
+                 window.location.reload()
             }
         }
     };
@@ -142,7 +143,7 @@ export const BloqueAnuncio = ({ }) => {
                 console.error("Error al eliminar la inscripción:", error);
             } finally {
                 // Recargar la página solo después de que la acción se haya completado
-                // window.location.reload();
+                 window.location.reload();
             }
         } else {
             console.warn('No se encontró una inscripción que corresponda a este usuario y anuncio.');
@@ -598,8 +599,8 @@ export const BloqueAnuncio = ({ }) => {
                     <h1 className="mb-5 pe-5 me-5 text-dark">{store.singleAd.title}</h1>
                     {unaInscripcion?.companion_id === store.nuevoCompanion?.id && store.userData?.role == "companion" ? (
                         <div className="d-flex justify-content-end align-items-end">
-                            <p>
-                                El estado de tu postulación es: {getStatusButton(unaInscripcion?.statusContract)}
+                            <p className="fs-4 fw-bold">
+                                Estado postulación: {getStatusButton(unaInscripcion?.statusContract)}
                             </p>
                         </div>
                     ) : null}
