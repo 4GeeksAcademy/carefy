@@ -56,7 +56,7 @@ export const ModalEditarFamiliar = ({ idModal, familiar }) => {
     const editar_familiar = async (event) => {
         event.preventDefault();
         if (!name || !alias || !lastname || !phone || !description || !birthdate || !dependency || !province || !location) {
-            setError("Por favor, complete todos los campos.");
+            setError("Por favor, rellene todos los campos marcados con asterisco (*)");
             return;
         }
         try {
@@ -145,19 +145,19 @@ export const ModalEditarFamiliar = ({ idModal, familiar }) => {
             </div>
 
             <div className="mb-3">
-                <label htmlFor="lastname" className="form-label fs-5">Apellidos</label>
+                <label htmlFor="lastname" className="form-label fs-5">Apellidos *</label>
                 <input type="text" className="form-control" id="lastname" onChange={(e) => setLastname(e.target.value)} value={lastname} />
             </div>
 
             <div className="mb-3">
-                <label htmlFor="phone" className="form-label fs-5">Telefono</label>
+                <label htmlFor="phone" className="form-label fs-5">Telefono *</label>
                 <input type="tel" className="form-control" id="phone" onChange={(e) => setPhone(e.target.value)} value={phone} />
             </div>
 
             <div className="mb-3">
                 <div className="row">
                     <div className="col-8">
-                        <label htmlFor="birthdate" className="fs-5">Fecha de nacimiento</label><br></br>
+                        <label htmlFor="birthdate" className="fs-5">Fecha de nacimiento *</label><br></br>
                         <input onChange={handleBirthdayChange} type="date" id="birthdate" name="nacimiento" value={birthdate} />
                     </div>
                     <div className="col">
@@ -168,7 +168,7 @@ export const ModalEditarFamiliar = ({ idModal, familiar }) => {
 
             {/* Selección de grado de dependencia */}
             <div className="mb-3">
-                <label htmlFor="dependencia" className="form-label fs-5">Grado de dependencia </label>
+                <label htmlFor="dependencia" className="form-label fs-5">Grado de dependencia * </label>
                 <div className="accordion" id="dependencia">
                     <div className="accordion-item">
                         <h2 className="accordion-header">
@@ -254,7 +254,7 @@ export const ModalEditarFamiliar = ({ idModal, familiar }) => {
             {/* Select provincias */}
             <div className="row mb-3">
                 <div className="col">
-                    <label htmlFor="province" className="form-label fs-5">Provincia</label>
+                    <label htmlFor="province" className="form-label fs-5">Provincia *</label>
                     <select className="form-select" id="province" aria-label="Selecciona la provincia" onChange={(e) => setProvince(e.target.value)} value={province}>
                         <option value="" disabled>Selecciona la provincia</option>
                         <option value="A Coruna">A Coruña</option>
@@ -314,7 +314,7 @@ export const ModalEditarFamiliar = ({ idModal, familiar }) => {
             </div>
 
             <div className="mb-3">
-                <label htmlFor="location" className="form-label fs-5">Localidad</label>
+                <label htmlFor="location" className="form-label fs-5">Localidad *</label>
                 <input type="text" className="form-control" id="location" onChange={(e) => setLocation(e.target.value)} value={location} />
             </div>
 
@@ -326,7 +326,7 @@ export const ModalEditarFamiliar = ({ idModal, familiar }) => {
             </div>
 
             <div className="mb-3">
-                <label htmlFor="description" className="form-label fs-5">Otra información importante</label>
+                <label htmlFor="description" className="form-label fs-5">Otra información importante *</label>
                 <textarea className="form-control" rows={10} cols={40} id="description" placeholder="Puedes añadir cualquier información / necesidad relevante para el acompañante" onChange={(e) => setDescription(e.target.value)} value={description} />
             </div>
 

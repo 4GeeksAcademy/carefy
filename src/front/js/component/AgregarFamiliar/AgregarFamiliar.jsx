@@ -71,7 +71,7 @@ export const AgregarFamiliar = () => {
 
         // Validación de campos obligatorios
         if (!name || !alias || !lastname || !phone || !description || !birthdate || !dependency || !province || !location) {
-            setError("Por favor, complete todos los campos.");
+            setError("Por favor, rellene todos los campos marcados con asterisco (*)");
             return;
         }
 
