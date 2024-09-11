@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import styles from "./Navbar.module.css"
 import { Link, useNavigate } from "react-router-dom";
-import logo from '../../../img/logo.png'
+import logo from '../../../img/logo-carefy.png'
 import { Context } from "../../store/appContext";
 
 export const Navbar = () => {
