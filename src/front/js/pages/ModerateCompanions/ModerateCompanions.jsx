@@ -88,7 +88,11 @@ const ModerateCompanions = () => {
                                 </div>
                                 <div className="modal-footer">
                                   <button type="button" className="btn btn-secondary fs-5" data-bs-dismiss="modal">Volver</button>
+
+                                  
+
                                   <button type="button" className="btn btn-danger fs-5" data-bs-dismiss="modal" onClick={() => handleDelete(profile.id)}>Eliminar</button>
+
                                 </div>
                               </div>
                             </div>
