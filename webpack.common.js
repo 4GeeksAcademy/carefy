@@ -40,7 +40,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-        favicon: 'favicon.png',
+        favicon: 'logo-carefy.png',
         template: 'template.html'
     }),
     new Dotenv({ safe: true, systemvars: true })
