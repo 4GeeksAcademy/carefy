@@ -4,13 +4,13 @@
 
 
 ### **DESCRIPCION**
-  #### 1)MOTIVACIÓN: 
+  #### 1) MOTIVACIÓN: 
   >Debido al aumento de la población anciana, principalmente en Europa, vimos la necesidad de poder facilitar a las familias una herramienta para conectar con cuidadores de personas adultas y así poder delegar esta tarea a profesionales experimentados.
-  #### 2)¿POR QUÉ DESARROLLAR ESTE PROYECTO?: 
+  #### 2) ¿POR QUÉ DESARROLLAR ESTE PROYECTO?: 
   >La razón por la que desarrollamos este proyecto fue porque los adultos mayores se merecen que sean acompañados y cuidados hasta el final en mano de personas experimentadas.
-  #### 3)¿QUÉ PROBLEMA RESUELVE? 
+  #### 3) ¿QUÉ PROBLEMA RESUELVE? 
   >Carefy viene a ofrecer una solución para las familias que deben delegar el cuidado de sus seres queridos a otras personas, por falta de tiempo o experiencia. De esta forma, la plataforma logra conectar profesionales con familias para que así juntos puedan darle lo mejor al adulto que requiere un cuidado especial.
-  #### 4)¿QUÉ APRENDIÓ? 
+  #### 4) ¿QUÉ APRENDIÓ? 
   >El desarrollo del proyecto nos enseñó 2 cosas principales:
 
 > * Trabajar en equipo: desde plantear las ideas iniciales del proyecto tal como paleta de colores, vistas, imágenes, funcionalidades, hasta el control de versiones con Github. Estos fueron desafíos que fueron llenando de conocimientos al grupo y que fueron haciendo que el proyecto crezca día a día.
