@@ -128,7 +128,7 @@ export const Postulaciones = ({ }) => {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan="4">No tienes favoritos guardados</td>
+                                        <td colSpan="4">No tienes favoritos guardados </td>
                                     </tr>
                                 )}
                             </tbody>
