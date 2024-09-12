@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import style from "../AgregarFamiliar/agregarfamiliar.module.css"
 import { Context } from "../../store/appContext";
@@ -21,7 +21,6 @@ export const AgregarFamiliar = () => {
     const [error, setError] = useState('')
     const [familiares, setFamiliares] = useState([]);
     const [imageUrl, setImageUrl] = useState('');
-    const photoInputRef = useRef(null);
 
     // Cargar la lista de familiares cuando el componente se monta
     useEffect(() => {
@@ -58,6 +57,7 @@ export const AgregarFamiliar = () => {
             const response = await actions.subirfoto(formData);
             setPhoto(response.url)
             console.log('response', response);
+
         } catch (error) {
             console.error("Error al subir la imagen:", error);
             return null;
@@ -106,11 +106,6 @@ export const AgregarFamiliar = () => {
         setPhoto('');
         setEdad(0);
         setError('');
-
-        //limpia el input de archivo de la fotografía
-        if (photoInputRef.current) {
-            photoInputRef.current.value = '';
-        }
     };
 
 
@@ -322,7 +317,7 @@ export const AgregarFamiliar = () => {
             <div className="mb-3">
                 <label htmlFor="photo" className="form-label fs-5">Foto</label>
                 {/* Llamamos a la función de subirfoto para que vaya ejecutándose antes de que se termine de rellenar el formulario */}
-                <input className="form-control" type="file" id="photo" ref={photoInputRef} onChange={(e) => subirfoto(e.target.files[0])} />
+                <input className="form-control" type="file" id="photo" onChange={(e) => subirfoto(e.target.files[0])} />
             </div>
 
             <div className="mb-3">
